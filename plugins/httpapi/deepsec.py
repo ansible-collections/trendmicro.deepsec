@@ -52,7 +52,7 @@ class HttpApi(HttpApiBase):
         # instead of honoring the session Cookie
         if query_string_auth:
             self.connection._connect()
-            params['sID'] = self._auth_token
+            params["sID"] = self._auth_token
 
         if params:
             params_with_val = {}

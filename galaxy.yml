@@ -16,8 +16,7 @@ readme: README.md
 
 # A list of the collection's content authors. Can be just the name or in the format 'Full Name <email> (url)
 # @nicks:irc/im.site#channel'
-authors:
-- 'Ansible Security Automation Team (https://github.com/ansible-security)'
+authors: Ansible Security Team (https://github.com/ansible-security)'
 
 
 ### OPTIONAL but strongly recommended

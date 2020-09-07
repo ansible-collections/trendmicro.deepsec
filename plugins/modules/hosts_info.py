@@ -51,7 +51,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
 
 import copy
 import json
-import q
 
 
 def main():

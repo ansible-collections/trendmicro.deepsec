@@ -13,7 +13,6 @@ from ansible.module_utils.connection import ConnectionError
 from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.module_utils.connection import Connection
 from ansible.module_utils._text import to_text
-import q
 import json
 
 BASE_HEADERS = {
@@ -48,7 +47,6 @@ def check_if_config_exists(deepsec_request, config_name, api, searched_result):
     :rtype: A dict
     :returns: dict with search result value
     """
-    q("INSIDE check_if_config_exists!!")
     search_dict = {}
     search_dict["searchCriteria"] = []
     temp_criteria = {}
@@ -74,7 +72,6 @@ def delete_config_with_id(module, deepsec_request, api, config_id, api_var):
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
-    q("INSIDE delete_config_with_id!!")
     deepsec_request.delete("/api/{0}/{1}".format(api, config_id))
     module.exit_json(
         msg="{0} with id: {1} deleted successfully!".format(
@@ -87,9 +84,7 @@ def delete_config_with_id(module, deepsec_request, api, config_id, api_var):
 class DeepSecurityRequest(object):
     def __init__(self, module, headers=None, not_rest_data_keys=None):
         self.module = module
-        q("DeepSecurityRequest: ", self.module)
         self.connection = Connection(self.module._socket_path)
-        q(not_rest_data_keys)
         # This allows us to exclude specific argspec keys from being included by
         # the rest data that don't follow the deepsec_* naming convention
         if not_rest_data_keys:
@@ -166,7 +161,6 @@ class DeepSecurityRequest(object):
         return True
 
     def get(self, url, **kwargs):
-        # q(url, kwargs)
         return self._httpapi_error_handle("GET", url, **kwargs)
 
     def put(self, url, **kwargs):

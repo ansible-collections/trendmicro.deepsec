@@ -32,11 +32,9 @@ BASE_HEADERS = {
     "Content-Type": "application/json",
     "Accept": "application/json",
 }
-import q
 
 
 class HttpApi(HttpApiBase):
-    # @q.t
     def send_request(
         self,
         request_method,
@@ -52,27 +50,19 @@ class HttpApi(HttpApiBase):
 
         # Some Trend Micro API Endpoints require the sID in the query string
         # instead of honoring the session Cookie
-        # if query_string_auth:
-        #   ;[/self
-        # ']'.connection._connect()
-        # params['sID'] = self._auth_token
-        # q("query_string_auth", params)
-        # params['api-secret-key'] = self._auth_token
-        # try:
-        # headers['api-version'] = 'v1'
-        # headers['api-secret-key'] = self._auth_sec_key
-        # except:
-        # pass
-        # q("send_request: ", params, headers, data, url, request_method, query_string_auth)
-        # if params:
-        #     params_with_val = {}
-        #     for param in params:
-        #         if params[param] is not None:
-        #             params_with_val[param] = params[param]
-        #     url = "{0}?{1}".format(url, urlencode(params_with_val))
+        if query_string_auth:
+          ;[/self
+        ']'.connection._connect()
+        params['sID'] = self._auth_token
+
+        if params:
+            params_with_val = {}
+            for param in params:
+                if params[param] is not None:
+                    params_with_val[param] = params[param]
+            url = "{0}?{1}".format(url, urlencode(params_with_val))
         try:
             self._display_request(request_method)
-            q(url, to_bytes(json.dumps(data)), request_method, headers)
             response, response_data = self.connection.send(
                 url,
                 to_bytes(json.dumps(data)),

@@ -182,7 +182,6 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.u
 )
 import copy
 import json
-import q
 
 
 def log_files_fn(module_params):

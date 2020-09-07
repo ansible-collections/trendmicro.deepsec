@@ -61,7 +61,6 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.u
 )
 import copy
 import json
-import q
 
 
 def log_inspection_policy_assignment(
@@ -78,13 +77,11 @@ def log_inspection_policy_assignment(
         module.exit_json(policy_assignment=policy_assignment, changed=True)
     elif state == "absent":
         policy_assignment = []
-        q()
         for each in rule_id:
             request_api = "/api/policies/{0}/{1}/assignments/{2}".format(
                 policy_id, api, each
             )
             del_policy_assignment = deepsec_request.delete(request_api)
-            q(del_policy_assignment)
             policy_assignment.append(del_policy_assignment)
         if policy_assignment:
             module.exit_json(policy_assignment=policy_assignment, changed=True)

@@ -137,7 +137,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
     utils,
 )
-import q
 import copy
 import json
 
@@ -227,7 +226,6 @@ def main():
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
     api_object = "/rest/syslog-configurations"
-    q(module.params)
 
     check = DeepSecurityRequest(module).check_api_object_with_id(
         module, api_object
@@ -240,12 +238,9 @@ def main():
         syslog_body = {
             "CreateSyslogConfigurationRequest": {"syslogConfiguration": params}
         }
-        q(syslog_body)
-        q(json.dumps(syslog_body))
         result = DeepSecurityRequest(module).create_api_object(
             syslog_body, api_object
         )
-        q(result)
         module.exit_json(**result)
     else:
         result = module.params

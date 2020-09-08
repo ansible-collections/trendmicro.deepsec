@@ -45,6 +45,10 @@ def check_if_config_exists(
     """ The fn check if the config_name detect based on config
     :param deepsec_request: the objects from which the configuration should be read
     :param config_name: config_name rule with which config will be searched
+    :param api: REST API for which search POST call is made
+    :param api_search_result: Search result in to dict which need to be filtered
+    based on its api_search_result var
+    :param field_name: Search field name which by default is set to name
     in existing config configurations
     :rtype: A dict
     :returns: dict with search result value
@@ -123,51 +127,6 @@ class DeepSecurityRequest(object):
             self.module.fail_json(msg="certificate not found: {0}".format(e))
 
         return response
-
-    # def check_api_object_with_id(self, module, api_uri, **kwargs):
-    #     """ Get n Check the API based on the ID provided
-    #     :param api: the API against which ID need to be checked
-    #     :param id: ID against which entry needs to be checked
-    #     :rtype: A dicts
-    #     :returns: dict with the info related to already registered
-    #         API entry
-    #     """
-    #     method = "GET"
-    #     api_uri = api_uri + "/{0}".format(module.params["id"])
-    #     code, response = self.connection.send_request(
-    #         method, api_uri, **kwargs
-    #     )
-    #     if (
-    #         response.get("error")
-    #         and response.get("error").get("message") == "Object not found."
-    #     ):
-    #         return False
-    #     return True
-
-    # def create_api_object(self, payload_data, api_uri, **kwargs):
-    #     """ Get n Check the API based on the ID provided
-    #     :param api: the API against which ID need to be checked
-    #     :param id: ID against which entry needs to be checked
-    #     :rtype: A dicts
-    #     :returns: dict with the info related to already registered
-    #         API entry
-    #     """
-    #     method = "POST"
-    #     api_uri = api_uri + "/{0}".format(module.params["id"])
-    #     code, response = self.connection.send_request(
-    #         method, api_uri, None, payload_data
-    #     )
-    #     if code == 200:
-    #         response["changed"] = True
-    #         return response
-    #     elif code >= 400:
-    #         self.module.fail_json(msg=response.get("error").get("message"))
-    #     if (
-    #         response.get("error")
-    #         and response.get("error").get("message") == "Object not found."
-    #     ):
-    #         return False
-    #     return True
 
     def get(self, url, **kwargs):
         return self._httpapi_error_handle("GET", url, **kwargs)

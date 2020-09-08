@@ -127,12 +127,28 @@ state:
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
-
-# FIXME - provide correct example here
-RETURN = """
+EXAMPLES = """
+- name: Create/Config a new Syslog Config
+  trendmicro.deepsec.syslog_config:
+    state: present
+    name: TEST_SYSLOG
+    facility: local0
+    event_format: leef
+    direct: false
+    server: 192.0.2.1
+    port: 514
+    transport: udp
+    description: Syslog Api request from Ansible
+- name: Delete/Remove the existing Syslog Config
+  trendmicro.deepsec.syslog_config:
+    state: absent
+    name: TEST_SYSLOG
 """
 
-EXAMPLES = """
+RETURN = """
+updates:
+  description: The set of commands that will be pushed to the remote device
+  returned: always
 """
 
 from ansible.module_utils.basic import AnsibleModule

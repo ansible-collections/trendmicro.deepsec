@@ -31,12 +31,18 @@ options:
 author: Ansible Security Automation Team (@maxamillion) <https://github.com/ansible-security>"
 """
 
-
-# FIXME - provide correct example here
-RETURN = """
+EXAMPLES = """
+- name: Get the Host Info
+  trendmicro.deepsec.hosts_info:
+- name: Get the Host Info by ID
+  trendmicro.deepsec.hosts_info:
+    id: 1
 """
 
-EXAMPLES = """
+RETURN = """
+updates:
+  description: The set of commands that will be pushed to the remote device
+  returned: always
 """
 
 from ansible.module_utils.basic import AnsibleModule

@@ -304,20 +304,33 @@ state:
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
-
-# FIXME - provide correct example here
-RETURN = """
+EXAMPLES = """
+- name: Create/Config a new Firewall Rule Config
+  trendmicro.deepsec.firewallrules_config:
+    state: present
+    name: test_firewallrule config
+    description: test firewall description
+    action: deny
+    priority: 0
+    source_iptype: any
+    destination_iptype: any
+    direction: incoming
+    protocol: tcp
+    tcpflags:
+        - syn
+- name: Delete/Remove the existing Firewall rule Config
+  trendmicro.deepsec.firewallrules_config:
+    state: absent
+    name: test_firewallrule config
 """
 
-EXAMPLES = """
+RETURN = """
+updates:
+  description: The set of commands that will be pushed to the remote device
+  returned: always
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils._text import to_text
-
-from ansible.module_utils.urls import Request
-from ansible.module_utils.six.moves.urllib.parse import quote
-from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     check_if_config_exists,
@@ -326,8 +339,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
-import copy
-import json
 
 
 def map_params_to_obj(module_params):

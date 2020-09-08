@@ -71,7 +71,10 @@ def main():
     if "hosts" in hosts:
         module.exit_json(hosts=hosts["hosts"]["hosts"], changed=False)
     else:
-        module.fail_json(msg=hosts["message"])
+        if 'error' in hosts:
+            module.fail_json(msg=hosts['error']["message"])
+        else:
+            module.fail_json(msg=hosts["message"])
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-# (c) 2019, Sumit Jaiswal (sjaiswal@redhat.com)
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# Copyright 2020 Red Hat
+# GNU General Public License v3.0+
+# (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -323,8 +323,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     check_if_config_exists,
     delete_config_with_id,
 )
-
-# from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import check_if_config_exists
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
@@ -333,6 +331,7 @@ import json
 
 
 def map_params_to_obj(module_params):
+    # populate the firewall rules dict with actual api expected values
     obj = {}
     obj["name"] = module_params["name"]
     if module_params.get("description"):
@@ -603,12 +602,15 @@ def main():
         icmpnot=dict(type="bool", required=False),
     )
 
+    api_object = '/api/firewallrules'
+    api_return = 'firewallRules'
+
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
     deepsec_request = DeepSecurityRequest(module)
     want = map_params_to_obj(remove_empties(module.params))
 
     search_existing_firewallrules = check_if_config_exists(
-        deepsec_request, want["name"], "firewallrules", "firewallRules"
+        deepsec_request, want["name"], api_object.split('/')[2], api_return
     )
 
     if (
@@ -618,9 +620,9 @@ def main():
         delete_config_with_id(
             module,
             deepsec_request,
-            "firewallrules",
+            api_object.split('/')[2],
             search_existing_firewallrules["ID"],
-            "firewallRules",
+            api_return,
         )
     elif (
         "ID" not in search_existing_firewallrules
@@ -628,7 +630,7 @@ def main():
     ):
         module.exit_json(changed=False)
     else:
-        firewallrules = deepsec_request.post("/api/firewallrules", data=want)
+        firewallrules = deepsec_request.post('{0}'.format(api_object), data=want)
         if "ID" in search_existing_firewallrules:
             module.exit_json(
                 firewallrules=search_existing_firewallrules, changed=False

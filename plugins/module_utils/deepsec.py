@@ -39,7 +39,7 @@ def find_dict_in_list(some_list, key, value):
     return None
 
 
-def check_if_config_exists(deepsec_request, config_name, api, searched_result):
+def check_if_config_exists(deepsec_request, config_name, api, api_search_result, field_name="name"):
     """ The fn check if the config_name detect based on config
     :param deepsec_request: the objects from which the configuration should be read
     :param config_name: config_name rule with which config will be searched
@@ -50,7 +50,7 @@ def check_if_config_exists(deepsec_request, config_name, api, searched_result):
     search_dict = {}
     search_dict["searchCriteria"] = []
     temp_criteria = {}
-    temp_criteria["fieldName"] = "name"
+    temp_criteria["fieldName"] = field_name
     temp_criteria["stringTest"] = "equal"
     temp_criteria["stringValue"] = config_name
     search_dict["searchCriteria"].append(temp_criteria)
@@ -58,21 +58,26 @@ def check_if_config_exists(deepsec_request, config_name, api, searched_result):
     search_result = deepsec_request.post(
         "/api/{0}/search".format(api), data=search_dict
     )
-    if search_result.get(searched_result):
-        return search_result[searched_result][0]
+    if search_result.get(api_search_result):
+        return search_result[api_search_result][0]
     return search_result
 
 
-def delete_config_with_id(module, deepsec_request, api, config_id, api_var):
+def delete_config_with_id(module, deepsec_request, api, config_id, api_var, api_or_rest = True):
     """ The fn calls the delete API based on the config id
     :param module: ansible module object
     :param deepsec_request: connection obj for TM
     :param config_id: config id for the config that's supposed to be deleted
+    :param api_var: api_var for the response statement
+    :param api_or_rest: Fire request for legacy or latest API call
     value has dict as its value
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
-    deepsec_request.delete("/api/{0}/{1}".format(api, config_id))
+    if api_or_rest:
+        deepsec_request.delete("/api/{0}/{1}".format(api, config_id))
+    else:
+        deepsec_request.delete("/rest/{0}/{1}".format(api, config_id))
     module.exit_json(
         msg="{0} with id: {1} deleted successfully!".format(
             api_var, config_id
@@ -115,50 +120,50 @@ class DeepSecurityRequest(object):
 
         return response
 
-    def check_api_object_with_id(self, module, api_uri, **kwargs):
-        """ Get n Check the API based on the ID provided
-        :param api: the API against which ID need to be checked
-        :param id: ID against which entry needs to be checked
-        :rtype: A dicts
-        :returns: dict with the info related to already registered
-            API entry
-        """
-        method = "GET"
-        api_uri = api_uri + "/{0}".format(module.params["id"])
-        code, response = self.connection.send_request(
-            method, api_uri, **kwargs
-        )
-        if (
-            response.get("error")
-            and response.get("error").get("message") == "Object not found."
-        ):
-            return False
-        return True
+    # def check_api_object_with_id(self, module, api_uri, **kwargs):
+    #     """ Get n Check the API based on the ID provided
+    #     :param api: the API against which ID need to be checked
+    #     :param id: ID against which entry needs to be checked
+    #     :rtype: A dicts
+    #     :returns: dict with the info related to already registered
+    #         API entry
+    #     """
+    #     method = "GET"
+    #     api_uri = api_uri + "/{0}".format(module.params["id"])
+    #     code, response = self.connection.send_request(
+    #         method, api_uri, **kwargs
+    #     )
+    #     if (
+    #         response.get("error")
+    #         and response.get("error").get("message") == "Object not found."
+    #     ):
+    #         return False
+    #     return True
 
-    def create_api_object(self, payload_data, api_uri, **kwargs):
-        """ Get n Check the API based on the ID provided
-        :param api: the API against which ID need to be checked
-        :param id: ID against which entry needs to be checked
-        :rtype: A dicts
-        :returns: dict with the info related to already registered
-            API entry
-        """
-        method = "POST"
-        api_uri = api_uri + "/{0}".format(module.params["id"])
-        code, response = self.connection.send_request(
-            method, api_uri, None, payload_data
-        )
-        if code == 200:
-            response["changed"] = True
-            return response
-        elif code >= 400:
-            self.module.fail_json(msg=response.get("error").get("message"))
-        if (
-            response.get("error")
-            and response.get("error").get("message") == "Object not found."
-        ):
-            return False
-        return True
+    # def create_api_object(self, payload_data, api_uri, **kwargs):
+    #     """ Get n Check the API based on the ID provided
+    #     :param api: the API against which ID need to be checked
+    #     :param id: ID against which entry needs to be checked
+    #     :rtype: A dicts
+    #     :returns: dict with the info related to already registered
+    #         API entry
+    #     """
+    #     method = "POST"
+    #     api_uri = api_uri + "/{0}".format(module.params["id"])
+    #     code, response = self.connection.send_request(
+    #         method, api_uri, None, payload_data
+    #     )
+    #     if code == 200:
+    #         response["changed"] = True
+    #         return response
+    #     elif code >= 400:
+    #         self.module.fail_json(msg=response.get("error").get("message"))
+    #     if (
+    #         response.get("error")
+    #         and response.get("error").get("message") == "Object not found."
+    #     ):
+    #         return False
+    #     return True
 
     def get(self, url, **kwargs):
         return self._httpapi_error_handle("GET", url, **kwargs)

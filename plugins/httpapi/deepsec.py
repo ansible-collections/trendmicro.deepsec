@@ -92,36 +92,29 @@ class HttpApi(HttpApiBase):
         except ValueError:
             return response_text
 
-    def login(self, username="", password="", auth_sec_key=""):
-        if auth_sec_key:
-            self._auth_sec_key = auth_sec_key
-        else:
-            login_path = "/rest/authentication/login/primary"
-            data = {
-                "dsCredentials": {
-                    "password": to_text(password),
-                    "userName": to_text(username),
-                }
+    def login(self, username, password):
+        login_path = '/rest/authentication/login/primary'
+        data = {
+            "dsCredentials": {
+                "password": to_text(password),
+                "userName": to_text(username)
             }
+        }
 
-            code, auth_token = self.send_request("POST", login_path, data=data)
-            try:
-                # This is still sent as an HTTP header, so we can set our connection's _auth
-                # variable manually. If the token is returned to the device in another way,
-                # you will have to keep track of it another way and make sure that it is sent
-                # with the rest of the request from send_request()
-                self.connection._auth = {
-                    "Cookie": "sID={0}".format(auth_token)
-                }
+        code, auth_token = self.send_request('POST', login_path, data=data)
+        try:
+            # This is still sent as an HTTP header, so we can set our connection's _auth
+            # variable manually. If the token is returned to the device in another way,
+            # you will have to keep track of it another way and make sure that it is sent
+            # with the rest of the request from send_request()
+            self.connection._auth = {'Cookie': 'sID={0}'.format(auth_token)}
 
-                # Have to carry this around because variuous Trend Micro Deepsecurity REST
-                # API endpoints want the sID as a querystring parameter instead of honoring
-                # the session Cookie
-                self._auth_token = auth_token
-            except KeyError:
-                raise AnsibleAuthenticationFailure(
-                    message="Failed to acquire login token."
-                )
+            # Have to carry this around because variuous Trend Micro Deepsecurity REST
+            # API endpoints want the sID as a querystring parameter instead of honoring
+            # the session Cookie
+            self._auth_token = auth_token
+        except KeyError:
+            raise AnsibleAuthenticationFailure(message="Failed to acquire login token.")
 
     def logout(self):
         if self.connection._auth is not None:

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-# (c) 2019, Adam Miller (admiller@redhat.com)
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# Copyright 2020 Red Hat
+# GNU General Public License v3.0+
+# (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -14,6 +14,7 @@ ANSIBLE_METADATA = {
     "status": ["preview"],
     "supported_by": "community",
 }
+
 DOCUMENTATION = """
 ---
 module: syslog_config
@@ -114,6 +115,15 @@ options:
       - The "direct delivery from agent to syslog server" flag
     type: bool
     default: false
+state:
+  description:
+  - The state the configuration should be left in
+  type: str
+  choices:
+  - present
+  - absent
+  default: present
+
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
@@ -126,130 +136,103 @@ EXAMPLES = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils._text import to_text
-
-from ansible.module_utils.urls import Request
-from ansible.module_utils.six.moves.urllib.parse import quote, urlencode
-from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
+    delete_config_with_id
 )
-from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
-    utils,
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
+    remove_empties,
 )
-import copy
-import json
 
 
-def translate_syslog_dict_keys(
-    key_to_translate, to_camel_case=False, to_snake_case=False
-):
-    """
-  It is not idiomatic Ansible to use snake case so, we do bookkeeping here for that
-  """
-    snake_to_camel_case = {
-        "certificate_chain": "certificateChain",
-        "event_format": "eventFormat",
-        "private_key": "privateKey",
-        "id": "ID",
-    }
-    for each in key_to_translate:
-        if each in snake_to_camel_case:
-            key_to_translate[snake_to_camel_case[each]] = key_to_translate[
-                each
-            ]
-            del key_to_translate[each]
-    # return key_to_translate
+def check_if_syslog_config_exists(deepsec_request, config_name, api_object, api_return):
+    # parse syslog  get output and search for want syslog name
+    syslog_response = deepsec_request.get(api_object)
+    for k in syslog_response.values():
+        for each in k.get(api_return):
+            if each.get('name') == config_name:
+                return each
+    return {}
 
-    # if to_camel_case:
-    #     if key_to_translate in camel_case_to_snake_case:
-    #         return camel_case_to_snake_case[key_to_translate]
-    # if to_snake_case:
-    #     snake_case_to_camel_case = {}
+def map_params_to_obj(module_params):
+    # populate the syslog dict with actual api expected values
+    obj = {}
+    obj["name"] = module_params["name"]
+    if module_params.get("id"):
+        obj["ID"] = module_params.get("id")
+    if module_params.get("description"):
+        obj["description"] = module_params.get("description")
+    if module_params.get("server"):
+        obj["server"] = module_params.get("server")
+    if module_params.get("port"):
+        obj["port"] = module_params.get("port")
+    if module_params.get("transport"):
+        obj["transport"] = module_params.get("transport")
+    if module_params.get("event_format"):
+        obj["eventFormat"] = module_params.get("event_format")
+    if module_params.get("facility"):
+        obj["facility"] = module_params.get("facility")
+    if module_params.get("private_key"):
+        obj["privateKey"] = module_params.get("private_key")
+    if module_params.get("certificate_chain"):
+        obj["certificateChain"] = module_params.get("certificate_chain")
+    if module_params.get("direct"):
+        obj["direct"] = module_params.get("direct")
 
-    #     for key in camel_case_to_snake_case:
-    #         snake_case_to_camel_case[camel_case_to_snake_case[key]] = key
-
-    #     if key_to_translate in snake_case_to_camel_case:
-    #         return snake_case_to_camel_case[key_to_translate]
-
-    return key_to_translate
+    return obj
 
 
 def main():
     argspec = dict(
-        id=dict(required=True, type="int"),
+        state=dict(choices=["present", "absent"], required=True),
+        id=dict(type="int"),
         name=dict(required=True, type="str"),
         description=dict(type="str"),
         server=dict(type="str"),
         port=dict(type="int", default=514),
-        transport=dict(
-            type="str", choices=["udp", "tcp", "tls"], default="udp"
-        ),
-        event_format=dict(
-            type="str", choices=["standard", "cef", "leef"], default="cef"
-        ),
-        facility=dict(
-            type="str",
-            choices=[
-                "kernel",
-                "user",
-                "mail",
-                "daemon",
-                "authorization",
-                "syslog",
-                "printer",
-                "news",
-                "uucp",
-                "clock",
-                "authpriv",
-                "ftp",
-                "ntp",
-                "log-audit",
-                "log-alert",
-                "cron",
-                "local0",
-                "local1",
-                "local2",
-                "local3",
-                "local4",
-                "local5",
-                "local6",
-                "local7",
-            ],
-            default="local0",
-        ),
+        transport=dict(type="str", choices=['udp', 'tcp', 'tls'], default='udp'),
+        event_format=dict(type="str", choices=['standard', 'cef', 'leef'], default='cef'),
+        facility=dict(type="str",
+                    choices=[
+                        'kernel', 'user', 'mail', 'daemon', 'authorization', 'syslog',
+                        'printer', 'news', 'uucp', 'clock', 'authpriv', 'ftp', 'ntp',
+                        'log-audit', 'log-alert', 'cron', 'local0', 'local1', 'local2',
+                        'local3', 'local4', 'local5', 'local6', 'local7'
+                    ], default='local0'),
         certificate_chain=dict(type="list"),
         private_key=dict(type="str"),
         direct=dict(type="bool", default=False),
     )
+    api_object = '/rest/syslog-configurations'
+    api_return = 'syslogConfiguration'
+    api_get_return = 'syslogConfigurations'
+    api_create_obj = 'CreateSyslogConfigurationRequest'
 
-    module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
-    api_object = "/rest/syslog-configurations"
-
-    check = DeepSecurityRequest(module).check_api_object_with_id(
-        module, api_object
+    module = AnsibleModule(
+        argument_spec=argspec,
+        supports_check_mode=True,
     )
+    deepsec_request = DeepSecurityRequest(module)
+    want = map_params_to_obj(remove_empties(module.params))
+    # Search for existing syslog config via Get call
+    search_existing_syslog_config = check_if_syslog_config_exists(deepsec_request, want["name"], api_object, api_get_return)
 
-    if not check:
-        params = translate_syslog_dict_keys(
-            utils.remove_empties(module.params), True
-        )
-        syslog_body = {
-            "CreateSyslogConfigurationRequest": {"syslogConfiguration": params}
-        }
-        result = DeepSecurityRequest(module).create_api_object(
-            syslog_body, api_object
-        )
-        module.exit_json(**result)
+    if 'ID' in search_existing_syslog_config and module.params["state"] == "absent":
+        delete_config_with_id(module, deepsec_request, api_object.split('/')[2], search_existing_syslog_config["ID"], api_return, False)
+    elif "ID" not in search_existing_syslog_config and module.params["state"] == "absent":
+      module.exit_json(changed=False)
     else:
-        result = module.params
-        result["changed"] = False
-        module.exit_json(**result)
-    # if not result['changed']:
-    #   module.exit_json(**result)
-
-    # result = DeepSecurityRequest.create_api_object(module, api_object)
+        # create legacy API request body for creating Syslog-Configurations
+        want = {api_create_obj: {api_return: want}}
+        syslog_config = deepsec_request.post('{0}'.format(api_object), data=want)
+        if "ID" in search_existing_syslog_config:
+            module.exit_json(
+                syslog_config=search_existing_syslog_config, changed=False
+            )
+        elif syslog_config.get("message"):
+            module.fail_json(msg=syslog_config["message"])
+        else:
+            module.exit_json(syslog_config=syslog_config, changed=True)
 
 
 if __name__ == "__main__":

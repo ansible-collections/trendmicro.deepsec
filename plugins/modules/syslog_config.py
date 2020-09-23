@@ -258,6 +258,7 @@ def main():
     deepsec_request = DeepSecurityRequest(module)
     want = map_params_to_obj(remove_empties(module.params))
     # Search for existing syslog config via Get call
+    # Added for testing
     search_existing_syslog_config = check_if_syslog_config_exists(
         deepsec_request, want["name"], api_object, api_get_return
     )

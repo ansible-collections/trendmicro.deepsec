@@ -573,7 +573,7 @@ def main():
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
     deepsec_request = DeepSecurityRequest(module)
     want = map_params_to_obj(remove_empties(module.params))
-
+    # Search for existing firewall rules config via Get call
     search_existing_firewallrules = check_if_config_exists(
         deepsec_request, want["name"], api_object.split("/")[2], api_return
     )

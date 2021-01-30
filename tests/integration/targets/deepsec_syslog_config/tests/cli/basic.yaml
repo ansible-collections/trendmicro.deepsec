@@ -1,0 +1,70 @@
+---
+- debug: msg="START cli/basic.yaml"
+
+- name: Configure syslog config
+  register: result
+  #deepsec.syslog_config:
+  trendmicro.deepsec.deepsec_syslog_config:
+    state: present
+    name: TEST_SYSLOG_1
+    facility: local0
+    event_format: leef
+    direct: false
+    server: 192.0.2.0
+    port: 514
+    transport: udp
+    description: Syslog Api request from Ansible
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: Should not match for TEST_SYSLOG_2
+  register: result
+  trendmicro.deepsec.deepsec_syslog_config:
+    state: present
+    name: TEST_SYSLOG_2
+    facility: local0
+    event_format: leef
+    direct: false
+    server: 198.51.100.0
+    port: 514
+    transport: udp
+    description: Syslog Api request from Ansible
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: teardown
+  register: result
+  trendmicro.deepsec.deepsec_syslog_config:
+    state: absent
+    name: TEST_SYSLOG_1
+  
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: teardown
+  register: result
+  trendmicro.deepsec.deepsec_syslog_config:
+    state: absent
+    name: TEST_SYSLOG_2
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: teardown
+  register: result
+  trendmicro.deepsec.deepsec_syslog_config:
+    state: absent
+    name: TEST_SYSLOG_1
+
+- assert:
+    that:
+      - result.changed == false
+
+- debug: msg="END cli/basic.yaml"

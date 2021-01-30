@@ -1,0 +1,72 @@
+---
+- debug: msg="START cli/full_name_match.yaml"
+
+- name: Configure Firewall rules config
+  register: result
+  trendmicro.deepsec.deepsec_firewallrules_config:
+    state: present
+    name: TEST_FIREWALLRULES_1
+    description: test firewall description
+    action: deny
+    priority: 0
+    source_iptype: any
+    destination_iptype: any
+    direction: incoming
+    protocol: tcp
+    tcpflags:
+      - syn
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: Should not match for TEST_FIREWALLRULES_1
+  register: result
+  trendmicro.deepsec.deepsec_firewallrules_config:
+    state: present
+    name: TEST_FIREWALLRULES_2
+    description: test firewall description
+    action: deny
+    priority: 0
+    source_iptype: any
+    destination_iptype: any
+    direction: incoming
+    protocol: tcp
+    tcpflags:
+      - syn
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: teardown
+  register: result
+  trendmicro.deepsec.deepsec_firewallrules_config:
+    state: absent
+    name: TEST_FIREWALLRULES_1
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: teardown
+  register: results
+  trendmicro.deepsec.deepsec_firewallrules_config:
+    state: absent
+    name: TEST_FIREWALLRULES_1
+
+- assert:
+    that:
+      - result.changed == true
+
+- name: teardown
+  register: result
+  trendmicro.deepsec.deepsec_firewallrules_config:
+    state: absent
+    name: TEST_FIREWALLRULES_1
+
+- assert:
+    that:
+      - result.changed == false
+
+- debug: msg="END cli/full_name_match.yaml"

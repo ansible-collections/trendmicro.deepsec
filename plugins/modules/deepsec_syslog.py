@@ -9,19 +9,13 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = """
----
-module: syslog_config
+module: deepsec_syslog
 short_description: Configure or create a syslog configuration for TrendMicro Deep Security
 description:
   - Configure or create a syslog configuration for TrendMicro Deep Security
 version_added: 1.0.0
+author: "Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 options:
   name:
     description:
@@ -115,19 +109,17 @@ options:
     default: false
   state:
     description:
-      - The state the configuration should be left in
+    - The state the configuration should be left in
     type: str
     choices:
-      - present
-      - absent
+    - present
+    - absent
     default: present
-
-author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
 EXAMPLES = """
 - name: Create/Config a new Syslog Config
-  trendmicro.deepsec.syslog_config:
+  trendmicro.deepsec.deepsec_syslog:
     state: present
     name: TEST_SYSLOG
     facility: local0
@@ -138,7 +130,7 @@ EXAMPLES = """
     transport: udp
     description: Syslog Api request from Ansible
 - name: Delete/Remove the existing Syslog Config
-  trendmicro.deepsec.syslog_config:
+  trendmicro.deepsec.deepsec_syslog:
     state: absent
     name: TEST_SYSLOG
 """
@@ -206,7 +198,7 @@ def main():
         id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
-        server=dict(type="str"),
+        server=dict(type="str", required=True),
         port=dict(type="int", default=514),
         transport=dict(
             type="str", choices=["udp", "tcp", "tls"], default="udp"

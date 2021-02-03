@@ -224,7 +224,7 @@ def main():
         id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
-        server=dict(type="str", required=True),
+        server=dict(type="str"),
         port=dict(type="int", default=514),
         transport=dict(
             type="str", choices=["udp", "tcp", "tls"], default="udp"

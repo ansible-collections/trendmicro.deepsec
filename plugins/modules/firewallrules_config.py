@@ -18,7 +18,7 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = """
 ---
 module: firewallrules_config
-short_description: Create a new firewall rule. 
+short_description: Create a new firewall rule.
 description:
   - This module creates a new firewall rule under TrendMicro Deep Security.
 version_added: "1.0.0"
@@ -150,7 +150,7 @@ options:
     required: false
     type: list
     elements: str
-  source_port_list_id	
+  source_port_list_id:
     description: ID of source port list. Only applies to source type "port-list". Searchable as Numeric.
     required: false
     type: int
@@ -164,7 +164,7 @@ options:
     required: false
     choices: ["any", "masked-ip", "range", "ip-list", "single", "multiple"]
     type: str
-  destination_ipvalue:	
+  destination_ipvalue:
     description: Destination IP. Only applies to destination IP type "masked-ip" or "single".
     Searchable as String.
     required: false
@@ -184,7 +184,7 @@ options:
     type "range". Searchable as String.
     required: false
     type: str
-  destination_ipmultiple:	
+  destination_ipmultiple:
     description: List of comma-delimited destination IP addresses. Only applies to destination IP
     type "multiple". Searchable as String.
     required: false
@@ -200,7 +200,7 @@ options:
     Searchable as Boolean.
     required: false
     type: bool
-  destination_mactype:	
+  destination_mactype:
     description: Destination MAC type. Default is "any". Searchable as Choice.
     required: false
     choices: ["any", "single", "mac-list", "multiple"]

@@ -276,7 +276,7 @@ def main():
     # Get the configured Syslog config when state is gathered
     if module.params["state"] == "gathered":
         result = check_if_syslog_config_exists(
-            module, deepsec_request, None, api_object, api_get_return
+          module, deepsec_request, None, api_object, api_get_return
         )
         module.exit_json(gathered=result, changed=False)
     want = map_params_to_obj(remove_empties(module.params))

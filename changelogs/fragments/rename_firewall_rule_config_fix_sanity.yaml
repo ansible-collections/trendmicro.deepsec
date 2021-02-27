@@ -1,0 +1,3 @@
+---
+trivial:
+  - Update firewallrule_config name to deepsec_firewallrule and fix sanity issues.

@@ -449,17 +449,13 @@ def main():
         description=dict(type="str"),
         action=dict(
             type="str",
-            choices=["log-only", "allow", "deny", "force-allow", "bypass"]
+            choices=["log-only", "allow", "deny", "force-allow", "bypass"],
         ),
-        priority=dict(
-            type="str", choices=["0", "1", "2", "3", "4"]
-        ),
-        direction=dict(
-            type="str", choices=["incoming", "outgoing"]
-        ),
+        priority=dict(type="str", choices=["0", "1", "2", "3", "4"]),
+        direction=dict(type="str", choices=["incoming", "outgoing"]),
         frame_type=dict(
             type="str",
-            choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"]
+            choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"],
         ),
         frame_number=dict(type="int"),
         frame_not=dict(type="bool"),
@@ -479,7 +475,7 @@ def main():
                 "tcp-udp",
                 "icmpv6",
                 "other",
-            ]
+            ],
         ),
         protocol_number=dict(type="int"),
         protocol_not=dict(type="bool"),
@@ -492,7 +488,7 @@ def main():
                 "ip-list",
                 "single",
                 "multiple",
-            ]
+            ],
         ),
         source_ipvalue=dict(type="str"),
         source_ipmask=dict(type="str"),
@@ -502,16 +498,14 @@ def main():
         source_iplist_id=dict(type="int"),
         source_ipnot=dict(type="bool"),
         source_mactype=dict(
-            type="str",
-            choices=["any", "single", "mac-list", "multiple"]
+            type="str", choices=["any", "single", "mac-list", "multiple"]
         ),
         source_macvalue=dict(type="str"),
         source_macmultiple=dict(type="list", elements="str"),
         source_maclist_id=dict(type="int"),
         source_macnot=dict(type="bool"),
         source_port_type=dict(
-            type="str",
-            choices=["any", "multiple", "port-list"]
+            type="str", choices=["any", "multiple", "port-list"]
         ),
         source_port_multiple=dict(type="list", elements="str"),
         source_port_list_id=dict(type="int"),
@@ -525,34 +519,26 @@ def main():
                 "ip-list",
                 "single",
                 "multiple",
-            ]
+            ],
         ),
         destination_ipvalue=dict(type="str"),
         destination_ipmask=dict(type="str"),
         destination_iprange_from=dict(type="str"),
         destination_iprange_to=dict(type="str"),
-        destination_ipmultiple=dict(
-            type="list", elements="str"
-        ),
+        destination_ipmultiple=dict(type="list", elements="str"),
         destination_iplist_id=dict(type="int"),
         destination_ipnot=dict(type="bool"),
         destination_mactype=dict(
-            type="str",
-            choices=["any", "single", "mac-list", "multiple"]
+            type="str", choices=["any", "single", "mac-list", "multiple"]
         ),
         destination_macvalue=dict(type="str"),
-        destination_macmultiple=dict(
-            type="list", elements="str"
-        ),
+        destination_macmultiple=dict(type="list", elements="str"),
         destination_maclist_id=dict(type="int"),
         destination_macnot=dict(type="bool"),
         destination_port_type=dict(
-            type="str",
-            choices=["any", "multiple", "port-list"]
+            type="str", choices=["any", "multiple", "port-list"]
         ),
-        destination_port_multiple=dict(
-            type="list", elements="str"
-        ),
+        destination_port_multiple=dict(type="list", elements="str"),
         destination_port_list_id=dict(type="int"),
         destination_port_not=dict(type="bool"),
         any_flags=dict(type="bool"),
@@ -563,7 +549,7 @@ def main():
         tcpflags=dict(
             type="list",
             elements="str",
-            choices=["fin", "syn", "rst", "psh", "ack", "urg"]
+            choices=["fin", "syn", "rst", "psh", "ack", "urg"],
         ),
         tcpnot=dict(type="bool"),
         icmptype=dict(type="int"),

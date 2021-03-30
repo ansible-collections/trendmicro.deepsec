@@ -99,6 +99,12 @@ class HttpApi(HttpApiBase):
 
         code, auth_token = self.send_request("POST", login_path, data=data)
         try:
+            if auth_token.get("error") and code >= 400:
+                raise AnsibleAuthenticationFailure(
+                    message="{0} Failed to acquire login token.".format(
+                        auth_token["error"].get("message")
+                    )
+                )
             # This is still sent as an HTTP header, so we can set our connection's _auth
             # variable manually. If the token is returned to the device in another way,
             # you will have to keep track of it another way and make sure that it is sent

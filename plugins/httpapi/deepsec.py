@@ -99,7 +99,7 @@ class HttpApi(HttpApiBase):
 
         code, auth_token = self.send_request("POST", login_path, data=data)
         try:
-            if auth_token.get("error") and code >= 400:
+            if code >= 400 and isinstance(auth_token, dict):
                 raise AnsibleAuthenticationFailure(
                     message="{0} Failed to acquire login token.".format(
                         auth_token["error"].get("message")

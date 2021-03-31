@@ -246,7 +246,7 @@ def main():
             default="local0",
         ),
         certificate_chain=dict(type="list"),
-        private_key=dict(type="str"),
+        private_key=dict(type="str", no_log=True),
         direct=dict(type="bool", default=False),
     )
     api_object = "/rest/syslog-configurations"

@@ -313,235 +313,236 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.u
 )
 
 key_transform = {
-  "id": "ID",
-  "frame_type": "frameType",
-  "frame_number": "frameNumber",
-  "frame_not": "frameNot",
-  "protocol_number": "protocolNumber",
-  "protocol_not": "protocolNot",
-  "source_iptype": "sourceIPType",
-  "source_ipvalue": "sourceIPValue",
-  "source_ipmask": "sourceIPMask",
-  "source_iprange_from": "sourceIPRangeFrom",
-  "source_iprange_to": "sourceIPRangeTo",
-  "source_ipmultiple": "sourceIPMultiple",
-  "source_iplist_id": "sourceIPListID",
-  "source_ipnot": "sourceIPNot",
-  "source_mactype": "sourceMACType",
-  "source_macvalue": "sourceMACValue",
-  "source_macmultiple": "sourceMACMultiple",
-  "source_maclist_id": "sourceMACListID",
-  "source_macnot": "sourceMACNot",
-  "source_port_type": "sourcePortType",
-  "source_port_multiple": "sourcePortMultiple",
-  "source_port_list_id": "sourcePortListID",
-  "source_port_not": "sourcePortNot",
-  "destination_iptype": "destinationIPType",
-  "destination_ipvalue": "destinationIPValue",
-  "destination_ipmask": "destinationIPMask",
-  "destinationIPRangeFrom": "destination_iprange_from",
-  "destination_iprange_to": "destinationIPRangeTo",
-  "destination_ipmultiple": "destinationIPMultiple",
-  "destination_iplist_id": "destinationIPListID",
-  "destination_ipnot": "destinationIPNot",
-  "destination_mactype": "destinationMACType",
-  "destination_macvalue": "destinationMACValue",
-  "destination_macmultiple": "destinationMACMultiple",
-  "destination_maclist_id": "destinationMACListID",
-  "destination_macnot": "destinationMACNot",
-  "destination_port_type": "destinationPortType",
-  "destination_port_multiple": "destinationPortMultiple",
-  "destination_port_list_id": "destinationPortListID",
-  "destination_port_not": "destinationPortNot",
-  "any_flags": "anyFlags",
-  "log_disabled": "logDisabled",
-  "include_packet_data": "includePacketData",
-  "alert_enabled": "alertEnabled",
-  "schedule_id": "scheduleID",
-  "context_id": "contextID",
-  "tcpnot": "TCPNot",
-  "icmptype": "ICMPType",
-  "icmpcode": "ICMPCode",
-  "icmpnot": "ICMPNot",
-}	
+    "id": "ID",
+    "frame_type": "frameType",
+    "frame_number": "frameNumber",
+    "frame_not": "frameNot",
+    "protocol_number": "protocolNumber",
+    "protocol_not": "protocolNot",
+    "source_iptype": "sourceIPType",
+    "source_ipvalue": "sourceIPValue",
+    "source_ipmask": "sourceIPMask",
+    "source_iprange_from": "sourceIPRangeFrom",
+    "source_iprange_to": "sourceIPRangeTo",
+    "source_ipmultiple": "sourceIPMultiple",
+    "source_iplist_id": "sourceIPListID",
+    "source_ipnot": "sourceIPNot",
+    "source_mactype": "sourceMACType",
+    "source_macvalue": "sourceMACValue",
+    "source_macmultiple": "sourceMACMultiple",
+    "source_maclist_id": "sourceMACListID",
+    "source_macnot": "sourceMACNot",
+    "source_port_type": "sourcePortType",
+    "source_port_multiple": "sourcePortMultiple",
+    "source_port_list_id": "sourcePortListID",
+    "source_port_not": "sourcePortNot",
+    "destination_iptype": "destinationIPType",
+    "destination_ipvalue": "destinationIPValue",
+    "destination_ipmask": "destinationIPMask",
+    "destinationIPRangeFrom": "destination_iprange_from",
+    "destination_iprange_to": "destinationIPRangeTo",
+    "destination_ipmultiple": "destinationIPMultiple",
+    "destination_iplist_id": "destinationIPListID",
+    "destination_ipnot": "destinationIPNot",
+    "destination_mactype": "destinationMACType",
+    "destination_macvalue": "destinationMACValue",
+    "destination_macmultiple": "destinationMACMultiple",
+    "destination_maclist_id": "destinationMACListID",
+    "destination_macnot": "destinationMACNot",
+    "destination_port_type": "destinationPortType",
+    "destination_port_multiple": "destinationPortMultiple",
+    "destination_port_list_id": "destinationPortListID",
+    "destination_port_not": "destinationPortNot",
+    "any_flags": "anyFlags",
+    "log_disabled": "logDisabled",
+    "include_packet_data": "includePacketData",
+    "alert_enabled": "alertEnabled",
+    "schedule_id": "scheduleID",
+    "context_id": "contextID",
+    "tcpnot": "TCPNot",
+    "icmptype": "ICMPType",
+    "icmpcode": "ICMPCode",
+    "icmpnot": "ICMPNot",
+}
+
 
 def map_params_to_obj(module_params):
-    # populate the firewall rules dict with actual api expected values	
-  obj = {}	
-  obj["name"] = module_params["name"]	
-  if module_params.get("description"):
-    obj["description"] = module_params.get("description")	
-  if module_params.get("action"):
-    obj["action"] = module_params.get("action")	
-  if module_params.get("priority"):
-    obj["priority"] = module_params.get("priority")	
-  if module_params.get("direction"):
-    obj["direction"] = module_params.get("direction")
-  if module_params.get("protocol"):
-    obj["protocol"] = module_params.get("protocol")
-  if module_params.get("tcpflags"):
-    obj["tcpflags"] = module_params.get("tcpflags")	
-  for k, v in iteritems(key_transform):
-    if module_params.get(k):
-      obj[v] = module_params.get(k)
-  return obj
+    # populate the firewall rules dict with actual api expected values
+    obj = {}
+    obj["name"] = module_params["name"]
+    if module_params.get("description"):
+        obj["description"] = module_params.get("description")
+    if module_params.get("action"):
+        obj["action"] = module_params.get("action")
+    if module_params.get("priority"):
+        obj["priority"] = module_params.get("priority")
+    if module_params.get("direction"):
+        obj["direction"] = module_params.get("direction")
+    if module_params.get("protocol"):
+        obj["protocol"] = module_params.get("protocol")
+    if module_params.get("tcpflags"):
+        obj["tcpflags"] = module_params.get("tcpflags")
+    for k, v in iteritems(key_transform):
+        if module_params.get(k):
+            obj[v] = module_params.get(k)
+    return obj
 
 
 def main():
-  argspec = dict(
-      state=dict(choices=["present", "absent"], default="present"),
-      name=dict(required=True, type="str"),
-      description=dict(type="str"),
-      action=dict(
-          type="str",
-          choices=["log-only", "allow", "deny", "force-allow", "bypass"],
-      ),
-      priority=dict(type="str", choices=["0", "1", "2", "3", "4"]),
-      direction=dict(type="str", choices=["incoming", "outgoing"]),
-      frame_type=dict(
-          type="str",
-          choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"],
-      ),
-      frame_number=dict(type="int"),
-      frame_not=dict(type="bool"),
-      protocol=dict(
-          type="str",
-          choices=[
-              "any",
-              "icmp",
-              "igmp",
-              "ggp",
-              "tcp",
-              "pup",
-              "udp",
-              "idp",
-              "nd",
-              "raw",
-              "tcp-udp",
-              "icmpv6",
-              "other",
-          ],
-      ),
-      protocol_number=dict(type="int"),
-      protocol_not=dict(type="bool"),
-      source_iptype=dict(
-          type="str",
-          choices=[
-              "any",
-              "masked-ip",
-              "range",
-              "ip-list",
-              "single",
-              "multiple",
-          ],
-      ),
-      source_ipvalue=dict(type="str"),
-      source_ipmask=dict(type="str"),
-      source_iprange_from=dict(type="str"),
-      source_iprange_to=dict(type="str"),
-      source_ipmultiple=dict(type="list", elements="str"),
-      source_iplist_id=dict(type="int"),
-      source_ipnot=dict(type="bool"),
-      source_mactype=dict(
-          type="str", choices=["any", "single", "mac-list", "multiple"]
-      ),
-      source_macvalue=dict(type="str"),
-      source_macmultiple=dict(type="list", elements="str"),
-      source_maclist_id=dict(type="int"),
-      source_macnot=dict(type="bool"),
-      source_port_type=dict(
-          type="str", choices=["any", "multiple", "port-list"]
-      ),
-      source_port_multiple=dict(type="list", elements="str"),
-      source_port_list_id=dict(type="int"),
-      source_port_not=dict(type="bool"),
-      destination_iptype=dict(
-          type="str",
-          choices=[
-              "any",
-              "masked-ip",
-              "range",
-              "ip-list",
-              "single",
-              "multiple",
-          ],
-      ),
-      destination_ipvalue=dict(type="str"),
-      destination_ipmask=dict(type="str"),
-      destination_iprange_from=dict(type="str"),
-      destination_iprange_to=dict(type="str"),
-      destination_ipmultiple=dict(type="list", elements="str"),
-      destination_iplist_id=dict(type="int"),
-      destination_ipnot=dict(type="bool"),
-      destination_mactype=dict(
-          type="str", choices=["any", "single", "mac-list", "multiple"]
-      ),
-      destination_macvalue=dict(type="str"),
-      destination_macmultiple=dict(type="list", elements="str"),
-      destination_maclist_id=dict(type="int"),
-      destination_macnot=dict(type="bool"),
-      destination_port_type=dict(
-          type="str", choices=["any", "multiple", "port-list"]
-      ),
-      destination_port_multiple=dict(type="list", elements="str"),
-      destination_port_list_id=dict(type="int"),
-      destination_port_not=dict(type="bool"),
-      any_flags=dict(type="bool"),
-      log_disabled=dict(type="bool"),
-      include_packet_data=dict(type="bool"),
-      alert_enabled=dict(type="bool"),
-      context_id=dict(type="int"),
-      tcpflags=dict(
-          type="list",
-          elements="str",
-          choices=["fin", "syn", "rst", "psh", "ack", "urg"],
-      ),
-      tcpnot=dict(type="bool"),
-      icmptype=dict(type="int"),
-      icmpcode=dict(type="int"),
-      icmpnot=dict(type="bool"),
-  )
+    argspec = dict(
+        state=dict(choices=["present", "absent"], default="present"),
+        name=dict(required=True, type="str"),
+        description=dict(type="str"),
+        action=dict(
+            type="str",
+            choices=["log-only", "allow", "deny", "force-allow", "bypass"],
+        ),
+        priority=dict(type="str", choices=["0", "1", "2", "3", "4"]),
+        direction=dict(type="str", choices=["incoming", "outgoing"]),
+        frame_type=dict(
+            type="str",
+            choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"],
+        ),
+        frame_number=dict(type="int"),
+        frame_not=dict(type="bool"),
+        protocol=dict(
+            type="str",
+            choices=[
+                "any",
+                "icmp",
+                "igmp",
+                "ggp",
+                "tcp",
+                "pup",
+                "udp",
+                "idp",
+                "nd",
+                "raw",
+                "tcp-udp",
+                "icmpv6",
+                "other",
+            ],
+        ),
+        protocol_number=dict(type="int"),
+        protocol_not=dict(type="bool"),
+        source_iptype=dict(
+            type="str",
+            choices=[
+                "any",
+                "masked-ip",
+                "range",
+                "ip-list",
+                "single",
+                "multiple",
+            ],
+        ),
+        source_ipvalue=dict(type="str"),
+        source_ipmask=dict(type="str"),
+        source_iprange_from=dict(type="str"),
+        source_iprange_to=dict(type="str"),
+        source_ipmultiple=dict(type="list", elements="str"),
+        source_iplist_id=dict(type="int"),
+        source_ipnot=dict(type="bool"),
+        source_mactype=dict(
+            type="str", choices=["any", "single", "mac-list", "multiple"]
+        ),
+        source_macvalue=dict(type="str"),
+        source_macmultiple=dict(type="list", elements="str"),
+        source_maclist_id=dict(type="int"),
+        source_macnot=dict(type="bool"),
+        source_port_type=dict(
+            type="str", choices=["any", "multiple", "port-list"]
+        ),
+        source_port_multiple=dict(type="list", elements="str"),
+        source_port_list_id=dict(type="int"),
+        source_port_not=dict(type="bool"),
+        destination_iptype=dict(
+            type="str",
+            choices=[
+                "any",
+                "masked-ip",
+                "range",
+                "ip-list",
+                "single",
+                "multiple",
+            ],
+        ),
+        destination_ipvalue=dict(type="str"),
+        destination_ipmask=dict(type="str"),
+        destination_iprange_from=dict(type="str"),
+        destination_iprange_to=dict(type="str"),
+        destination_ipmultiple=dict(type="list", elements="str"),
+        destination_iplist_id=dict(type="int"),
+        destination_ipnot=dict(type="bool"),
+        destination_mactype=dict(
+            type="str", choices=["any", "single", "mac-list", "multiple"]
+        ),
+        destination_macvalue=dict(type="str"),
+        destination_macmultiple=dict(type="list", elements="str"),
+        destination_maclist_id=dict(type="int"),
+        destination_macnot=dict(type="bool"),
+        destination_port_type=dict(
+            type="str", choices=["any", "multiple", "port-list"]
+        ),
+        destination_port_multiple=dict(type="list", elements="str"),
+        destination_port_list_id=dict(type="int"),
+        destination_port_not=dict(type="bool"),
+        any_flags=dict(type="bool"),
+        log_disabled=dict(type="bool"),
+        include_packet_data=dict(type="bool"),
+        alert_enabled=dict(type="bool"),
+        context_id=dict(type="int"),
+        tcpflags=dict(
+            type="list",
+            elements="str",
+            choices=["fin", "syn", "rst", "psh", "ack", "urg"],
+        ),
+        tcpnot=dict(type="bool"),
+        icmptype=dict(type="int"),
+        icmpcode=dict(type="int"),
+        icmpnot=dict(type="bool"),
+    )
 
-  api_object = "/api/firewallrules"
-  api_return = "firewallRules"
+    api_object = "/api/firewallrules"
+    api_return = "firewallRules"
 
-  module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
-  deepsec_request = DeepSecurityRequest(module)
-  want = map_params_to_obj(remove_empties(module.params))
-  # Search for existing firewall rules config via Get call
-  search_existing_firewallrules = check_if_config_exists(
-      deepsec_request, want["name"], api_object.split("/")[2], api_return
-  )
+    module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
+    deepsec_request = DeepSecurityRequest(module)
+    want = map_params_to_obj(remove_empties(module.params))
+    # Search for existing firewall rules config via Get call
+    search_existing_firewallrules = check_if_config_exists(
+        deepsec_request, want["name"], api_object.split("/")[2], api_return
+    )
 
-  if (
-      "ID" in search_existing_firewallrules
-      and module.params["state"] == "absent"
-  ):
-      delete_config_with_id(
-          module,
-          deepsec_request,
-          api_object.split("/")[2],
-          search_existing_firewallrules["ID"],
-          api_return,
-      )
-  elif (
-      "ID" not in search_existing_firewallrules
-      and module.params["state"] == "absent"
-  ):
-      module.exit_json(changed=False)
-  else:
-      firewallrules = deepsec_request.post(
-          "{0}".format(api_object), data=want
-      )
-      if "ID" in search_existing_firewallrules:
-          module.exit_json(
-              firewallrules=search_existing_firewallrules, changed=False
-          )
-      elif firewallrules.get("message"):
-          module.fail_json(msg=firewallrules["message"])
-      else:
-          module.exit_json(firewallrules=firewallrules, changed=True)
-  module.exit_json(changed=False)
+    if (
+        "ID" in search_existing_firewallrules
+        and module.params["state"] == "absent"
+    ):
+        delete_config_with_id(
+            module,
+            deepsec_request,
+            api_object.split("/")[2],
+            search_existing_firewallrules["ID"],
+            api_return,
+        )
+    elif (
+        "ID" not in search_existing_firewallrules
+        and module.params["state"] == "absent"
+    ):
+        module.exit_json(changed=False)
+    else:
+        firewallrules = deepsec_request.post(
+            "{0}".format(api_object), data=want
+        )
+        if "ID" in search_existing_firewallrules:
+            module.exit_json(
+                firewallrules=search_existing_firewallrules, changed=False
+            )
+        elif firewallrules.get("message"):
+            module.fail_json(msg=firewallrules["message"])
+        else:
+            module.exit_json(firewallrules=firewallrules, changed=True)
+    module.exit_json(changed=False)
 
 
 if __name__ == "__main__":

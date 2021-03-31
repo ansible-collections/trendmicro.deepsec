@@ -158,164 +158,166 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.u
 
 
 def check_if_syslog_config_exists(
-  module, deepsec_request, config_name, api_object, api_return
+    module, deepsec_request, config_name, api_object, api_return
 ):
-  # parse syslog  get output and search for want syslog name
-  syslog_response = deepsec_request.get(api_object)
-  if syslog_response.get("error"):
-    module.fail_json(msg=syslog_response["error"]["message"])
-  if module.params["state"] == "gathered":
-    if syslog_response:
-        key_transform = {
-            "ID": "id",
-            "eventFormat": "event_format",
-            "privateKey": "private_key",
-            "certificateChain": "certificate_chain",
-        }
-        for each in syslog_response["ListSyslogConfigurationsResponse"][
+    # parse syslog  get output and search for want syslog name
+    syslog_response = deepsec_request.get(api_object)
+    if syslog_response.get("error"):
+        module.fail_json(msg=syslog_response["error"]["message"])
+    if module.params["state"] == "gathered":
+        if syslog_response:
+            key_transform = {
+                "ID": "id",
+                "eventFormat": "event_format",
+                "privateKey": "private_key",
+                "certificateChain": "certificate_chain",
+            }
+            for each in syslog_response["ListSyslogConfigurationsResponse"][
+                "syslogConfigurations"
+            ]:
+                sorted(each)
+                for k, v in iteritems(key_transform):
+                    if k in each:
+                        each[v] = each[k]
+                        each.pop(k)
+        return syslog_response["ListSyslogConfigurationsResponse"][
             "syslogConfigurations"
-        ]:
-            sorted(each)
-            for k, v in iteritems(key_transform):
-                if k in each:
-                    each[v] = each[k]
-                    each.pop(k)
-    return syslog_response["ListSyslogConfigurationsResponse"][
-        "syslogConfigurations"
-    ]
-  for k in syslog_response.values():
-    for each in k.get(api_return):
-      if each.get("name") == config_name:
-          return each
-  return {}
+        ]
+    for k in syslog_response.values():
+        for each in k.get(api_return):
+            if each.get("name") == config_name:
+                return each
+    return {}
 
 
 def map_params_to_obj(module_params):
     # populate the syslog dict with actual api expected values
-  obj = {}
-  obj["name"] = module_params["name"]
-  if module_params.get("id"):
-      obj["ID"] = module_params.get("id")
-  if module_params.get("description"):
-      obj["description"] = module_params.get("description")
-  if module_params.get("server"):
-      obj["server"] = module_params.get("server")
-  if module_params.get("port"):
-      obj["port"] = module_params.get("port")
-  if module_params.get("transport"):
-      obj["transport"] = module_params.get("transport")
-  if module_params.get("event_format"):
-      obj["eventFormat"] = module_params.get("event_format")
-  if module_params.get("facility"):
-      obj["facility"] = module_params.get("facility")
-  if module_params.get("private_key"):
-      obj["privateKey"] = module_params.get("private_key")
-  if module_params.get("certificate_chain"):
-      obj["certificateChain"] = module_params.get("certificate_chain")
-  if module_params.get("direct"):
-      obj["direct"] = module_params.get("direct")
+    obj = {}
+    obj["name"] = module_params["name"]
+    if module_params.get("id"):
+        obj["ID"] = module_params.get("id")
+    if module_params.get("description"):
+        obj["description"] = module_params.get("description")
+    if module_params.get("server"):
+        obj["server"] = module_params.get("server")
+    if module_params.get("port"):
+        obj["port"] = module_params.get("port")
+    if module_params.get("transport"):
+        obj["transport"] = module_params.get("transport")
+    if module_params.get("event_format"):
+        obj["eventFormat"] = module_params.get("event_format")
+    if module_params.get("facility"):
+        obj["facility"] = module_params.get("facility")
+    if module_params.get("private_key"):
+        obj["privateKey"] = module_params.get("private_key")
+    if module_params.get("certificate_chain"):
+        obj["certificateChain"] = module_params.get("certificate_chain")
+    if module_params.get("direct"):
+        obj["direct"] = module_params.get("direct")
 
-  return obj
+    return obj
 
 
 def main():
-  argspec = dict(
-      state=dict(choices=["present", "absent", "gathered"], default="present"),
-      id=dict(type="str"),
-      name=dict(type="str"),
-      description=dict(type="str"),
-      server=dict(type="str"),
-      port=dict(type="int", default=514),
-      transport=dict(
-        type="str", choices=["udp", "tcp", "tls"], default="udp"
-      ),
-      event_format=dict(
-        type="str", choices=["standard", "cef", "leef"], default="cef"
-      ),
-      facility=dict(
-        type="str",
-        choices=[
-            "kernel",
-            "user",
-            "mail",
-            "daemon",
-            "authorization",
-            "syslog",
-            "printer",
-            "news",
-            "uucp",
-            "clock",
-            "authpriv",
-            "ftp",
-            "ntp",
-            "log-audit",
-            "log-alert",
-            "cron",
-            "local0",
-            "local1",
-            "local2",
-            "local3",
-            "local4",
-            "local5",
-            "local6",
-            "local7",
-        ],
-        default="local0",
-      ),
-      certificate_chain=dict(type="list", elements="str"),
-      private_key=dict(type="str", no_log=True),
-      direct=dict(type="bool", default=False),
-  )
-  api_object = "/rest/syslog-configurations"
-  api_return = "syslogConfiguration"
-  api_get_return = "syslogConfigurations"
-  api_create_obj = "CreateSyslogConfigurationRequest"
+    argspec = dict(
+        state=dict(
+            choices=["present", "absent", "gathered"], default="present"
+        ),
+        id=dict(type="str"),
+        name=dict(type="str"),
+        description=dict(type="str"),
+        server=dict(type="str"),
+        port=dict(type="int", default=514),
+        transport=dict(
+            type="str", choices=["udp", "tcp", "tls"], default="udp"
+        ),
+        event_format=dict(
+            type="str", choices=["standard", "cef", "leef"], default="cef"
+        ),
+        facility=dict(
+            type="str",
+            choices=[
+                "kernel",
+                "user",
+                "mail",
+                "daemon",
+                "authorization",
+                "syslog",
+                "printer",
+                "news",
+                "uucp",
+                "clock",
+                "authpriv",
+                "ftp",
+                "ntp",
+                "log-audit",
+                "log-alert",
+                "cron",
+                "local0",
+                "local1",
+                "local2",
+                "local3",
+                "local4",
+                "local5",
+                "local6",
+                "local7",
+            ],
+            default="local0",
+        ),
+        certificate_chain=dict(type="list", elements="str"),
+        private_key=dict(type="str", no_log=True),
+        direct=dict(type="bool", default=False),
+    )
+    api_object = "/rest/syslog-configurations"
+    api_return = "syslogConfiguration"
+    api_get_return = "syslogConfigurations"
+    api_create_obj = "CreateSyslogConfigurationRequest"
 
-  module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
-  deepsec_request = DeepSecurityRequest(module)
-  # Get the configured Syslog config when state is gathered
-  if module.params["state"] == "gathered":
-    result = check_if_syslog_config_exists(
-      module, deepsec_request, None, api_object, api_get_return
-    )
-    module.exit_json(gathered=result, changed=False)
-  want = map_params_to_obj(remove_empties(module.params))
-  # Search for existing syslog config via Get call
-  search_existing_syslog_config = check_if_syslog_config_exists(
-    module, deepsec_request, want["name"], api_object, api_get_return
-  )
-
-  if (
-    "ID" in search_existing_syslog_config
-    and module.params["state"] == "absent"
-  ):
-    delete_config_with_id(
-        module,
-        deepsec_request,
-        api_object.split("/")[2],
-        search_existing_syslog_config["ID"],
-        api_return,
-        False,
-    )
-  elif (
-    "ID" not in search_existing_syslog_config
-    and module.params["state"] == "absent"
-  ):
-    module.exit_json(changed=False)
-  else:
-    # create legacy API request body for creating Syslog-Configurations
-    want = {api_create_obj: {api_return: want}}
-    syslog_config = deepsec_request.post(
-        "{0}".format(api_object), data=want
-    )
-    if "ID" in search_existing_syslog_config:
-        module.exit_json(
-            syslog_config=search_existing_syslog_config, changed=False
+    module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
+    deepsec_request = DeepSecurityRequest(module)
+    # Get the configured Syslog config when state is gathered
+    if module.params["state"] == "gathered":
+        result = check_if_syslog_config_exists(
+            module, deepsec_request, None, api_object, api_get_return
         )
-    elif syslog_config.get("message"):
-        module.fail_json(msg=syslog_config["message"])
+        module.exit_json(gathered=result, changed=False)
+    want = map_params_to_obj(remove_empties(module.params))
+    # Search for existing syslog config via Get call
+    search_existing_syslog_config = check_if_syslog_config_exists(
+        module, deepsec_request, want["name"], api_object, api_get_return
+    )
+
+    if (
+        "ID" in search_existing_syslog_config
+        and module.params["state"] == "absent"
+    ):
+        delete_config_with_id(
+            module,
+            deepsec_request,
+            api_object.split("/")[2],
+            search_existing_syslog_config["ID"],
+            api_return,
+            False,
+        )
+    elif (
+        "ID" not in search_existing_syslog_config
+        and module.params["state"] == "absent"
+    ):
+        module.exit_json(changed=False)
     else:
-        module.exit_json(syslog_config=syslog_config, changed=True)
+        # create legacy API request body for creating Syslog-Configurations
+        want = {api_create_obj: {api_return: want}}
+        syslog_config = deepsec_request.post(
+            "{0}".format(api_object), data=want
+        )
+        if "ID" in search_existing_syslog_config:
+            module.exit_json(
+                syslog_config=search_existing_syslog_config, changed=False
+            )
+        elif syslog_config.get("message"):
+            module.fail_json(msg=syslog_config["message"])
+        else:
+            module.exit_json(syslog_config=syslog_config, changed=True)
 
 
 if __name__ == "__main__":

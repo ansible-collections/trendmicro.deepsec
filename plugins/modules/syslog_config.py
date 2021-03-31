@@ -21,7 +21,7 @@ module: syslog_config
 short_description: Configure or create a syslog configuration for TrendMicro Deep Security
 description:
   - Configure or create a syslog configuration for TrendMicro Deep Security
-version_added: "2.9"
+version_added: 1.0.0
 options:
   name:
     description:

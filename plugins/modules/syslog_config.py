@@ -21,17 +21,15 @@ module: syslog_config
 short_description: Configure or create a syslog configuration for TrendMicro Deep Security
 description:
   - Configure or create a syslog configuration for TrendMicro Deep Security
-version_added: "2.9"
+version_added: 1.0.0
 options:
   name:
     description:
       - The name for this syslog configuration.
-    required: true
     type: str
   id:
     description:
       - The ID of the syslog configuration (when editing an existing configuration).
-    required: true
     type: str
   description:
     description:
@@ -40,7 +38,6 @@ options:
   server:
     description:
       - The destination server for syslog messages.
-    required: true
     type: str
   port:
     description:
@@ -110,19 +107,20 @@ options:
       - The root certificate authority's certificate does not need to be included.
       - Each element in the list will be an unencrypted PEM-encoded certificate.
     type: list
+    elements: str
   direct:
     description:
       - The "direct delivery from agent to syslog server" flag
     type: bool
     default: false
-state:
-  description:
-  - The state the configuration should be left in
-  type: str
-  choices:
-  - present
-  - absent
-  default: present
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+      - present
+      - absent
+    default: present
 
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
@@ -149,6 +147,7 @@ RETURN = """
 updates:
   description: The set of commands that will be pushed to the remote device
   returned: always
+  type: list
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -203,9 +202,9 @@ def map_params_to_obj(module_params):
 
 def main():
     argspec = dict(
-        state=dict(choices=["present", "absent"], required=True),
-        id=dict(type="int"),
-        name=dict(required=True, type="str"),
+        state=dict(choices=["present", "absent"], default="present"),
+        id=dict(type="str"),
+        name=dict(type="str"),
         description=dict(type="str"),
         server=dict(type="str"),
         port=dict(type="int", default=514),
@@ -245,8 +244,8 @@ def main():
             ],
             default="local0",
         ),
-        certificate_chain=dict(type="list"),
-        private_key=dict(type="str"),
+        certificate_chain=dict(type="list", elements="str"),
+        private_key=dict(type="str", no_log=True),
         direct=dict(type="bool", default=False),
     )
     api_object = "/rest/syslog-configurations"

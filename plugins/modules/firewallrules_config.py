@@ -18,290 +18,267 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = """
 ---
 module: firewallrules_config
-short_description: Create a new firewall rule. 
-description:
-  - This module creates a new firewall rule under TrendMicro Deep Security.
-version_added: "1.0.0"
+short_description: Create a new firewall rule.
+description: This module creates a new firewall rule under TrendMicro Deep Security.
+version_added: 1.0.0
+author: "Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 options:
   name:
-    description: Name of the firewall rule. Searchable as String.
+    description:
+      - Name of the firewall rule
+      - Searchable as String.
     required: true
     type: str
   description:
-    description: Description of the firewall rule. Searchable as String.
-    required: false
+    description:
+      - Description of the firewall rule
+      - Searchable as String.
     type: str
   action:
-    description: Action of the packet filter. Searchable as Choice.
-    required: false
-    choices: ["log-only", "allow", "deny", "force-allow", "bypass"]
+    description:
+      - Action of the packet filter. Searchable as Choice.
     type: str
+    choices:
+      - 'log-only'
+      - 'allow'
+      - 'deny'
+      - 'force-allow'
+      - 'bypass'
   priority:
     description: Priority of the packet filter. Searchable as Choice.
-    required: false
-    choices: ["0", "1", "2", "3", "4"]
+    choices: ['0', '1', '2', '3', '4']
     type: str
   direction:
     description: Packet direction. Searchable as Choice.
-    required: false
-    choices: ["incoming", "outgoing"]
+    choices: ['incoming', 'outgoing']
     type: str
   frame_type:
     description: Supported frame types. Searchable as Choice.
-    required: false
-    choices: ["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"]
+    choices: ['any', 'ip', 'arp', 'revarp', 'ipv4', 'ipv6', 'other']
     type: str
   frame_number:
-    description: Ethernet frame number. Only required for FrameType "other".
-    Searchable as Numeric.
-    required: false
+    description: Ethernet frame number. Only required for FrameType 'other'. Searchable as Numeric.
     type: int
   frame_not:
-    description: Controls if the frame setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+    description: Controls if the frame setting should be inverted. Set to true to invert. Searchable as Boolean.
     type: bool
   protocol:
     description: Protocol. Searchable as Choice.
-    required: false
-    choices: ["any", "icmp", "igmp", "ggp", "tcp", "pup", "udp", "idp", "nd", "raw", "tcp-udp", "icmpv6", "other"]
+    choices: ['any', 'icmp', 'igmp', 'ggp', 'tcp', 'pup', 'udp', 'idp', 'nd', 'raw', 'tcp-udp', 'icmpv6', 'other']
     type: str
   protocol_number:
     description: Two-byte protocol number. Searchable as Numeric.
-    Searchable as Numeric.
-    required: false
     type: int
   protocol_not:
-    description: Controls if the protocol setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+    description: Controls if the protocol setting should be inverted. Set to true to invert. Searchable as Boolean.
     type: bool
   source_iptype:
-    description: Source IP type. Default is "any". Searchable as Choice.
-    required: false
-    choices: ["any", "masked-ip", "range", "ip-list", "single", "multiple"]
+    description: Source IP type. Default is 'any'. Searchable as Choice.
+    choices: ['any', 'masked-ip', 'range', 'ip-list', 'single', 'multiple']
     type: str
   source_ipvalue:
-    description: Source IP. Only applies to source IP type "masked-ip" or "single".
-    Searchable as String.
-    required: false
+    description:
+      - Source IP.
+      - Only applies to source IP type 'masked-ip' or 'single'.
+      - Searchable as String.
     type: str
   source_ipmask:
-    description: Source IP mask. Only applies to source IP type "masked-ip". Searchable as String.
-    Searchable as String.
-    required: false
+    description:
+      - Source IP mask. Only applies to source IP type 'masked-ip'.
+      - Searchable as String.
     type: str
   source_iprange_from:
-    description: The first value for a range of source IP addresses. Only applies to source IP type "range".
-    Searchable as String.
-    required: false
+    description:
+      - The first value for a range of source IP addresses. Only applies to source IP type 'range'.
+      - Searchable as String.
     type: str
   source_iprange_to:
-    description: The last value for a range of source IP addresses. Only applies to source IP type "range".
-    Searchable as String.
-    required: false
+    description:
+      - The last value for a range of source IP addresses. Only applies to source IP type 'range'.
+      - Searchable as String.
     type: str
   source_ipmultiple:
-    description: List of source IP addresses. Only applies to source IP type "multiple". Searchable as String.
-    Searchable as String.
-    required: false
+    description:
+      - List of source IP addresses. Only applies to source IP type 'multiple'.
+      - Searchable as String.
     type: list
     elements: str
   source_iplist_id:
-    description: ID of source IP list. Only applies to source IP type "ip-list". Searchable as Numeric.
-    required: false
+    description:
+      - ID of source IP list. Only applies to source IP type 'ip-list'.
+      - Searchable as Numeric.
     type: int
   source_ipnot:
     description: Controls if the source IP setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+      Searchable as Boolean.
     type: bool
   source_mactype:
-    description: Source MAC type. Default is "any". Searchable as Choice.
-    required: false
-    choices: ["any", "single", "mac-list", "multiple"]
+    description:
+      - Source MAC type. Default is 'any'.
+      - Searchable as Choice.
+    choices: ['any', 'single', 'mac-list', 'multiple']
     type: str
   source_macvalue:
-    description: Source MAC address. Only applies to MAC type "single". Searchable as String.
-    required: false
+    description:
+      - Source MAC address. Only applies to MAC type 'single'.
+      - Searchable as String.
     type: str
   source_macmultiple:
-    description: List of MAC addresses. Only applies to MAC type "multiple". Searchable as String.
-    required: false
+    description:
+      - List of MAC addresses. Only applies to MAC type 'multiple'.
+      - Searchable as String.
     type: list
     elements: str
   source_maclist_id:
-    description: ID of MAC address list. Only applies to MAC type "mac-list". Searchable as Numeric.
-    required: false
+    description:
+      - ID of MAC address list. Only applies to MAC type 'mac-list'.
+      - Searchable as Numeric.
     type: int
   source_macnot:
     description: Controls if the source MAC setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+      Searchable as Boolean.
     type: bool
   source_port_type:
-    description: The type of source port. Searchable as Choice.
-    required: false
-    choices: ["any", "multiple", "port-list"]
+    description:
+      - The type of source port.
+      - Searchable as Choice.
+    choices: ['any', 'multiple', 'port-list']
     type: str
   source_port_multiple:
-    description: List of comma-delimited source ports. Only applies to source type "multiple".
-    Searchable as String.
-    required: false
+    description:
+      - List of comma-delimited source ports. Only applies to source type 'multiple'.
+      - Searchable as String.
     type: list
     elements: str
-  source_port_list_id	
-    description: ID of source port list. Only applies to source type "port-list". Searchable as Numeric.
-    required: false
+  source_port_list_id:
+    description:
+      - ID of source port list. Only applies to source type 'port-list'.
+      - Searchable as Numeric.
     type: int
   source_port_not:
     description: Controls if the source MAC setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+      Searchable as Boolean.
     type: bool
   destination_iptype:
-    description: Destination IP type. Default is "any". Searchable as Choice.
-    required: false
-    choices: ["any", "masked-ip", "range", "ip-list", "single", "multiple"]
+    description:
+      - Destination IP type. Default is 'any'.
+      - Searchable as Choice.
+    choices: ['any', 'masked-ip', 'range', 'ip-list', 'single', 'multiple']
     type: str
-  destination_ipvalue:	
-    description: Destination IP. Only applies to destination IP type "masked-ip" or "single".
-    Searchable as String.
-    required: false
+  destination_ipvalue:
+    description:
+      - Destination IP. Only applies to destination IP type 'masked-ip' or 'single'.
+      - Searchable as String.
     type: str
   destination_ipmask:
-    description: Destination IP mask. Only applies to destination IP type "masked-ip". Searchable as String.
-    Searchable as String.
-    required: false
+    description:
+      - Destination IP mask. Only applies to destination IP type 'masked-ip'.
+      - Searchable as String.
     type: str
   destination_iprange_from:
-    description: The first value for a range of destination IP addresses. Only applies to estination IP
-    type "range". Searchable as String.
-    required: false
+    description:
+      - The first value for a range of destination IP addresses. Only applies to estination IP
+        type 'range'.
+      - Searchable as String.
     type: str
   destination_iprange_to:
-    description: The last value for a range of destination IP addresses. Only applies to destination IP
-    type "range". Searchable as String.
-    required: false
+    description:
+      - The last value for a range of destination IP addresses. Only applies to destination IP
+        type 'range'.
+      - Searchable as String.
     type: str
-  destination_ipmultiple:	
-    description: List of comma-delimited destination IP addresses. Only applies to destination IP
-    type "multiple". Searchable as String.
-    required: false
+  destination_ipmultiple:
+    description:
+      - List of comma-delimited destination IP addresses. Only applies to destination IP
+        type 'multiple'.
+      - Searchable as String.
     type: list
     elements: str
   destination_iplist_id:
-    description: ID of destination IP list. Only applies to destination IP type "ip-list".
-    Searchable as Numeric.
-    required: false
+    description: ID of destination IP list. Only applies to destination IP type 'ip-list'.
+      Searchable as Numeric.
     type: int
   destination_ipnot:
     description: Controls if the destination IP setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+      Searchable as Boolean.
     type: bool
-  destination_mactype:	
-    description: Destination MAC type. Default is "any". Searchable as Choice.
-    required: false
-    choices: ["any", "single", "mac-list", "multiple"]
+  destination_mactype:
+    description: Destination MAC type. Default is 'any'. Searchable as Choice.
+    choices: ['any', 'single', 'mac-list', 'multiple']
     type: str
   destination_macvalue:
-    description: Destination MAC address. Only applies to MAC type "single". Searchable as String.
-    required: false
+    description: Destination MAC address. Only applies to MAC type 'single'. Searchable as String.
     type: str
   destination_macmultiple:
-    description: List of comma-delimited MAC addresses. Only applies to MAC type "multiple".
-    Searchable as String.
-    required: false
+    description: List of comma-delimited MAC addresses. Only applies to MAC type 'multiple'.
+      Searchable as String.
     type: list
     elements: str
   destination_maclist_id:
-    description: ID of MAC address list. Only applies to MAC type "mac-list". Searchable as Numeric.
-    required: false
+    description: ID of MAC address list. Only applies to MAC type 'mac-list'. Searchable as Numeric.
     type: int
   destination_macnot:
     description: Controls if the destination MAC setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+      Searchable as Boolean.
     type: bool
   destination_port_type:
     description: The type of destination port. Searchable as Choice.
-    required: false
-    choices: ["any", "multiple", "port-list"]
+    choices: ['any', 'multiple', 'port-list']
     type: str
   destination_port_multiple:
-    description: List of comma-delimited destination ports. Only applies to destination type "multiple".
-    Searchable as String.
-    required: false
+    description: List of comma-delimited destination ports. Only applies to destination type 'multiple'.
+      Searchable as String.
     type: list
     elements: str
   destination_port_list_id:
-    description: ID of destination port list. Only applies to destination type "port-list".
-    Searchable as Numeric.
-    required: false
+    description: ID of destination port list. Only applies to destination type 'port-list'.
+      Searchable as Numeric.
     type: int
   destination_port_not:
     description: Controls if the destination port setting should be inverted. Set to true to invert.
-    Searchable as Boolean.
-    required: false
+      Searchable as Boolean.
     type: bool
   any_flags:
     description: True if any flags are used. Searchable as Boolean.
-    required: false
     type: bool
   log_disabled:
     description: Controls if logging for this filter is disabled. Only applies to filter
-    action "log-only" or "deny". Searchable as Boolean.
-    required: false
+      action 'log-only' or 'deny'. Searchable as Boolean.
     type: bool
   include_packet_data:
     description: Controls if this filter should capture data for every log. Searchable as Boolean.
-    required: false
     type: bool
   alert_enabled:
     description: Controls if this filter should be alerted on. Searchable as Boolean.
-    required: false
     type: bool
   context_id:
-    description: ID of the schedule to control when this filter is "on". Searchable as Numeric.
-    required: false
-    type: int
-  contextID:
-    description: RuleContext that is applied to this filter. Searchable as Numeric.
-    required: false
+    description: ID of the schedule to control when this filter is 'on'. Searchable as Numeric.
     type: int
   tcpflags:
     description: TCP flags
-    required: false
-    choices: ["fin", "syn", "rst", "psh", "ack", "urg"]
+    choices: ['fin', 'syn', 'rst', 'psh', 'ack', 'urg']
     type: list
     elements: str
   tcpnot:
     description: TCP Not
-    required: false
     type: bool
   icmptype:
     description: ICMP Type
-    required: false
     type: int
   icmpcode:
     description: ICMPCode
-    required: false
     type: int
   icmpnot:
     description: ICMP Not
-    required: false
     type: bool
-state:
-  description:
-  - The state the configuration should be left in
-  type: str
-  choices:
-  - present
-  - absent
-  default: present
-
-author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+      - present
+      - absent
+    default: present
 """
 
 EXAMPLES = """
@@ -328,6 +305,7 @@ RETURN = """
 updates:
   description: The set of commands that will be pushed to the remote device
   returned: always
+  type: list
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -476,27 +454,21 @@ def map_params_to_obj(module_params):
 def main():
 
     argspec = dict(
-        state=dict(choices=["present", "absent"], required=True),
+        state=dict(choices=["present", "absent"], default="present"),
         name=dict(required=True, type="str"),
-        description=dict(type="str", required=False),
+        description=dict(type="str"),
         action=dict(
             type="str",
             choices=["log-only", "allow", "deny", "force-allow", "bypass"],
-            required=False,
         ),
-        priority=dict(
-            type="str", choices=["0", "1", "2", "3", "4"], required=False
-        ),
-        direction=dict(
-            type="str", choices=["incoming", "outgoing"], required=False
-        ),
+        priority=dict(type="str", choices=["0", "1", "2", "3", "4"]),
+        direction=dict(type="str", choices=["incoming", "outgoing"]),
         frame_type=dict(
             type="str",
             choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"],
-            required=False,
         ),
-        frame_number=dict(type="int", required=False),
-        frame_not=dict(type="bool", required=False),
+        frame_number=dict(type="int"),
+        frame_not=dict(type="bool"),
         protocol=dict(
             type="str",
             choices=[
@@ -511,13 +483,12 @@ def main():
                 "nd",
                 "raw",
                 "tcp-udp",
-                "icmp6",
+                "icmpv6",
                 "other",
             ],
-            required=False,
         ),
-        protocol_number=dict(type="int", required=False),
-        protocol_not=dict(type="bool", required=False),
+        protocol_number=dict(type="int"),
+        protocol_not=dict(type="bool"),
         source_iptype=dict(
             type="str",
             choices=[
@@ -528,32 +499,27 @@ def main():
                 "single",
                 "multiple",
             ],
-            required=False,
         ),
-        source_ipvalue=dict(type="str", required=False),
-        source_ipmask=dict(type="str", required=False),
-        source_iprange_from=dict(type="str", required=False),
-        source_iprange_to=dict(type="str", required=False),
-        source_ipmultiple=dict(type="list", elements="str", required=False),
-        source_iplist_id=dict(type="int", required=False),
-        source_ipnot=dict(type="bool", required=False),
+        source_ipvalue=dict(type="str"),
+        source_ipmask=dict(type="str"),
+        source_iprange_from=dict(type="str"),
+        source_iprange_to=dict(type="str"),
+        source_ipmultiple=dict(type="list", elements="str"),
+        source_iplist_id=dict(type="int"),
+        source_ipnot=dict(type="bool"),
         source_mactype=dict(
-            type="str",
-            choices=["any", "single", "mac-list", "multiple"],
-            required=False,
+            type="str", choices=["any", "single", "mac-list", "multiple"]
         ),
-        source_macvalue=dict(type="str", required=False),
-        source_macmultiple=dict(type="list", elements="str", required=False),
-        source_maclist_id=dict(type="int", required=False),
-        source_macnot=dict(type="bool", required=False),
+        source_macvalue=dict(type="str"),
+        source_macmultiple=dict(type="list", elements="str"),
+        source_maclist_id=dict(type="int"),
+        source_macnot=dict(type="bool"),
         source_port_type=dict(
-            type="str",
-            choices=["any", "multiple", "port-list"],
-            required=False,
+            type="str", choices=["any", "multiple", "port-list"]
         ),
-        source_port_multiple=dict(type="list", elements="str", required=False),
-        source_port_list_id=dict(type="int", required=False),
-        source_port_not=dict(type="bool", required=False),
+        source_port_multiple=dict(type="list", elements="str"),
+        source_port_list_id=dict(type="int"),
+        source_port_not=dict(type="bool"),
         destination_iptype=dict(
             type="str",
             choices=[
@@ -564,53 +530,41 @@ def main():
                 "single",
                 "multiple",
             ],
-            required=False,
         ),
-        destination_ipvalue=dict(type="str", required=False),
-        destination_ipmask=dict(type="str", required=False),
-        destination_iprange_from=dict(type="str", required=False),
-        destination_iprange_to=dict(type="str", required=False),
-        destination_ipmultiple=dict(
-            type="list", elements="str", required=False
-        ),
-        destination_iplist_id=dict(type="int", required=False),
-        destination_ipnot=dict(type="bool", required=False),
+        destination_ipvalue=dict(type="str"),
+        destination_ipmask=dict(type="str"),
+        destination_iprange_from=dict(type="str"),
+        destination_iprange_to=dict(type="str"),
+        destination_ipmultiple=dict(type="list", elements="str"),
+        destination_iplist_id=dict(type="int"),
+        destination_ipnot=dict(type="bool"),
         destination_mactype=dict(
-            type="str",
-            choices=["any", "single", "mac-list", "multiple"],
-            required=False,
+            type="str", choices=["any", "single", "mac-list", "multiple"]
         ),
-        destination_macvalue=dict(type="str", required=False),
-        destination_macmultiple=dict(
-            type="list", elements="str", required=False
-        ),
-        destination_maclist_id=dict(type="int", required=False),
-        destination_macnot=dict(type="bool", required=False),
+        destination_macvalue=dict(type="str"),
+        destination_macmultiple=dict(type="list", elements="str"),
+        destination_maclist_id=dict(type="int"),
+        destination_macnot=dict(type="bool"),
         destination_port_type=dict(
-            type="str",
-            choices=["any", "multiple", "port-list"],
-            required=False,
+            type="str", choices=["any", "multiple", "port-list"]
         ),
-        destination_port_multiple=dict(
-            type="list", elements="str", required=False
-        ),
-        destination_port_list_id=dict(type="int", required=False),
-        destination_port_not=dict(type="bool", elements="int", required=False),
-        any_flags=dict(type="bool", required=False),
-        log_disabled=dict(type="bool", required=False),
-        include_packet_data=dict(type="bool", required=False),
-        alert_enabled=dict(type="bool", required=False),
-        context_id=dict(type="int", required=False),
+        destination_port_multiple=dict(type="list", elements="str"),
+        destination_port_list_id=dict(type="int"),
+        destination_port_not=dict(type="bool"),
+        any_flags=dict(type="bool"),
+        log_disabled=dict(type="bool"),
+        include_packet_data=dict(type="bool"),
+        alert_enabled=dict(type="bool"),
+        context_id=dict(type="int"),
         tcpflags=dict(
             type="list",
             elements="str",
             choices=["fin", "syn", "rst", "psh", "ack", "urg"],
-            required=False,
         ),
-        tcpnot=dict(type="bool", required=False),
-        icmptype=dict(type="int", required=False),
-        icmpcode=dict(type="int", required=False),
-        icmpnot=dict(type="bool", required=False),
+        tcpnot=dict(type="bool"),
+        icmptype=dict(type="int"),
+        icmpcode=dict(type="int"),
+        icmpnot=dict(type="bool"),
     )
 
     api_object = "/api/firewallrules"

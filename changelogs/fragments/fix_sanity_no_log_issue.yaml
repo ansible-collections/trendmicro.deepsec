@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - Fix no log issues for private_key for deepsec_syslog_config module.

@@ -308,7 +308,6 @@ updates:
   type: list
 """
 
-from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
@@ -318,59 +317,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
-
-key_transform = {
-    "id": "ID",
-    "frame_type": "frameType",
-    "frame_number": "frameNumber",
-    "frame_not": "frameNot",
-    "protocol_number": "protocolNumber",
-    "protocol_not": "protocolNot",
-    "source_iptype": "sourceIPType",
-    "source_ipvalue": "sourceIPValue",
-    "source_ipmask": "sourceIPMask",
-    "source_iprange_from": "sourceIPRangeFrom",
-    "source_iprange_to": "sourceIPRangeTo",
-    "source_ipmultiple": "sourceIPMultiple",
-    "source_iplist_id": "sourceIPListID",
-    "source_ipnot": "sourceIPNot",
-    "source_mactype": "sourceMACType",
-    "source_macvalue": "sourceMACValue",
-    "source_macmultiple": "sourceMACMultiple",
-    "source_maclist_id": "sourceMACListID",
-    "source_macnot": "sourceMACNot",
-    "source_port_type": "sourcePortType",
-    "source_port_multiple": "sourcePortMultiple",
-    "source_port_list_id": "sourcePortListID",
-    "source_port_not": "sourcePortNot",
-    "destination_iptype": "destinationIPType",
-    "destination_ipvalue": "destinationIPValue",
-    "destination_ipmask": "destinationIPMask",
-    "destinationIPRangeFrom": "destination_iprange_from",
-    "destination_iprange_to": "destinationIPRangeTo",
-    "destination_ipmultiple": "destinationIPMultiple",
-    "destination_iplist_id": "destinationIPListID",
-    "destination_ipnot": "destinationIPNot",
-    "destination_mactype": "destinationMACType",
-    "destination_macvalue": "destinationMACValue",
-    "destination_macmultiple": "destinationMACMultiple",
-    "destination_maclist_id": "destinationMACListID",
-    "destination_macnot": "destinationMACNot",
-    "destination_port_type": "destinationPortType",
-    "destination_port_multiple": "destinationPortMultiple",
-    "destination_port_list_id": "destinationPortListID",
-    "destination_port_not": "destinationPortNot",
-    "any_flags": "anyFlags",
-    "log_disabled": "logDisabled",
-    "include_packet_data": "includePacketData",
-    "alert_enabled": "alertEnabled",
-    "schedule_id": "scheduleID",
-    "context_id": "contextID",
-    "tcpnot": "TCPNot",
-    "icmptype": "ICMPType",
-    "icmpcode": "ICMPCode",
-    "icmpnot": "ICMPNot",
-}
 
 
 def map_params_to_obj(module_params):
@@ -385,13 +331,122 @@ def map_params_to_obj(module_params):
         obj["priority"] = module_params.get("priority")
     if module_params.get("direction"):
         obj["direction"] = module_params.get("direction")
+    if module_params.get("frame_type"):
+        obj["frameType"] = module_params.get("frame_type")
+    if module_params.get("frame_number"):
+        obj["frameNumber"] = module_params.get("frame_number")
+    if module_params.get("frame_not"):
+        obj["frameNot"] = module_params.get("frame_not")
     if module_params.get("protocol"):
         obj["protocol"] = module_params.get("protocol")
+    if module_params.get("protocol_number"):
+        obj["protocolNumber"] = module_params.get("protocol_number")
+    if module_params.get("protocol_not"):
+        obj["protocolNot"] = module_params.get("protocol_not")
+    if module_params.get("source_iptype"):
+        obj["sourceIPType"] = module_params.get("source_iptype")
+    if module_params.get("source_ipvalue"):
+        obj["sourceIPValue"] = module_params.get("source_ipvalue")
+    if module_params.get("source_ipmask"):
+        obj["sourceIPMask"] = module_params.get("source_ipmask")
+    if module_params.get("source_iprange_from"):
+        obj["sourceIPRangeFrom"] = module_params.get("source_iprange_from")
+    if module_params.get("source_iprange_to"):
+        obj["sourceIPRangeTo"] = module_params.get("source_iprange_to")
+    if module_params.get("source_ipmultiple"):
+        obj["sourceIPMultiple"] = module_params.get("source_ipmultiple")
+    if module_params.get("source_iplist_id"):
+        obj["sourceIPListID"] = module_params.get("source_iplist_id")
+    if module_params.get("source_ipnot"):
+        obj["sourceIPNot"] = module_params.get("source_ipnot")
+    if module_params.get("source_mactype"):
+        obj["sourceMACType"] = module_params.get("source_mactype")
+    if module_params.get("source_macvalue"):
+        obj["sourceMACValue"] = module_params.get("source_macvalue")
+    if module_params.get("source_macmultiple"):
+        obj["sourceMACMultiple"] = module_params.get("source_macmultiple")
+    if module_params.get("source_maclist_id"):
+        obj["sourceMACListID"] = module_params.get("source_maclist_id")
+    if module_params.get("source_macnot"):
+        obj["sourceMACNot"] = module_params.get("source_macnot")
+    if module_params.get("source_port_type"):
+        obj["sourcePortType"] = module_params.get("source_port_type")
+    if module_params.get("source_port_multiple"):
+        obj["sourcePortMultiple"] = module_params.get("source_port_multiple")
+    if module_params.get("source_port_list_id"):
+        obj["sourcePortListID"] = module_params.get("source_port_list_id")
+    if module_params.get("source_port_not"):
+        obj["sourcePortNot"] = module_params.get("source_port_not")
+    if module_params.get("destination_iptype"):
+        obj["destinationIPType"] = module_params.get("destination_iptype")
+    if module_params.get("destination_ipvalue"):
+        obj["destinationIPValue"] = module_params.get("destination_ipvalue")
+    if module_params.get("destination_ipmask"):
+        obj["destinationIPMask"] = module_params.get("destination_ipmask")
+    if module_params.get("destination_iprange_from"):
+        obj["destinationIPRangeFrom"] = module_params.get(
+            "destination_iprange_from"
+        )
+    if module_params.get("destination_iprange_to"):
+        obj["destinationIPRangeTo"] = module_params.get(
+            "destination_iprange_to"
+        )
+    if module_params.get("destination_ipmultiple"):
+        obj["destinationIPMultiple"] = module_params.get(
+            "destination_ipmultiple"
+        )
+    if module_params.get("destination_iplist_id"):
+        obj["destinationIPListID"] = module_params.get("destination_iplist_id")
+    if module_params.get("destination_ipnot"):
+        obj["destinationIPNot"] = module_params.get("destination_ipnot")
+    if module_params.get("destination_mactype"):
+        obj["destinationMACType"] = module_params.get("destination_mactype")
+    if module_params.get("destination_macvalue"):
+        obj["destinationMACValue"] = module_params.get("destination_macvalue")
+    if module_params.get("destination_macmultiple"):
+        obj["destinationMACMultiple"] = module_params.get(
+            "destination_macmultiple"
+        )
+    if module_params.get("destination_maclist_id"):
+        obj["destinationMACListID"] = module_params.get(
+            "destination_maclist_id"
+        )
+    if module_params.get("destination_macnot"):
+        obj["destinationMACNot"] = module_params.get("destination_macnot")
+    if module_params.get("destination_port_type"):
+        obj["destinationPortType"] = module_params.get("destination_port_type")
+    if module_params.get("destination_port_multiple"):
+        obj["destinationPortMultiple"] = module_params.get(
+            "destination_port_multiple"
+        )
+    if module_params.get("destination_port_list_id"):
+        obj["destinationPortListID"] = module_params.get(
+            "destination_port_list_id"
+        )
+    if module_params.get("destination_port_not"):
+        obj["destinationPortNot"] = module_params.get("destination_port_not")
+    if module_params.get("any_flags"):
+        obj["anyFlags"] = module_params.get("any_flags")
+    if module_params.get("log_disabled"):
+        obj["logDisabled"] = module_params.get("log_disabled")
+    if module_params.get("include_packet_data"):
+        obj["includePacketData"] = module_params.get("include_packet_data")
+    if module_params.get("alert_enabled"):
+        obj["alertEnabled"] = module_params.get("alert_enabled")
+    if module_params.get("schedule_id"):
+        obj["scheduleID"] = module_params.get("schedule_id")
+    if module_params.get("context_id"):
+        obj["contextID"] = module_params.get("context_id")
     if module_params.get("tcpflags"):
         obj["tcpflags"] = module_params.get("tcpflags")
-    for k, v in iteritems(key_transform):
-        if module_params.get(k):
-            obj[v] = module_params.get(k)
+    if module_params.get("tcpnot"):
+        obj["TCPNot"] = module_params.get("tcpnot")
+    if module_params.get("icmptype"):
+        obj["ICMPType"] = module_params.get("icmptype")
+    if module_params.get("icmpcode"):
+        obj["ICMPCode"] = module_params.get("icmpcode")
+    if module_params.get("icmpnot"):
+        obj["ICMPNot"] = module_params.get("icmpnot")
 
     return obj
 
@@ -518,7 +573,7 @@ def main():
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
     deepsec_request = DeepSecurityRequest(module)
     want = map_params_to_obj(remove_empties(module.params))
-    # Search for existing firewall rules config via Get call
+
     search_existing_firewallrules = check_if_config_exists(
         deepsec_request, want["name"], api_object.split("/")[2], api_return
     )

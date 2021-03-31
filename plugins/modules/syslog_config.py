@@ -202,7 +202,7 @@ def map_params_to_obj(module_params):
 
 def main():
     argspec = dict(
-        state=dict(choices=["present", "absent"], required=True),
+        state=dict(choices=["present", "absent"], default="present"),
         id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),

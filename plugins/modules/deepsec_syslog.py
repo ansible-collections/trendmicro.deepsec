@@ -9,19 +9,13 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = """
----
-module: syslog_config
+module: deepsec_syslog
 short_description: Configure or create a syslog configuration for TrendMicro Deep Security
 description:
   - Configure or create a syslog configuration for TrendMicro Deep Security
 version_added: 1.0.0
+author: "Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 options:
   name:
     description:
@@ -116,18 +110,20 @@ options:
   state:
     description:
       - The state the configuration should be left in
+      - The state I(gathered) will make a get call to the module API and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
     type: str
     choices:
-      - present
-      - absent
+    - present
+    - absent
+    - gathered
     default: present
-
-author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
 EXAMPLES = """
 - name: Create/Config a new Syslog Config
-  trendmicro.deepsec.syslog_config:
+  trendmicro.deepsec.deepsec_syslog:
     state: present
     name: TEST_SYSLOG
     facility: local0
@@ -138,7 +134,7 @@ EXAMPLES = """
     transport: udp
     description: Syslog Api request from Ansible
 - name: Delete/Remove the existing Syslog Config
-  trendmicro.deepsec.syslog_config:
+  trendmicro.deepsec.deepsec_syslog:
     state: absent
     name: TEST_SYSLOG
 """
@@ -150,6 +146,7 @@ updates:
   type: list
 """
 
+from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
@@ -161,10 +158,31 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.u
 
 
 def check_if_syslog_config_exists(
-    deepsec_request, config_name, api_object, api_return
+    module, deepsec_request, config_name, api_object, api_return
 ):
     # parse syslog  get output and search for want syslog name
     syslog_response = deepsec_request.get(api_object)
+    if syslog_response.get("error"):
+        module.fail_json(msg=syslog_response["error"]["message"])
+    if module.params["state"] == "gathered":
+        if syslog_response:
+            key_transform = {
+                "ID": "id",
+                "eventFormat": "event_format",
+                "privateKey": "private_key",
+                "certificateChain": "certificate_chain",
+            }
+            for each in syslog_response["ListSyslogConfigurationsResponse"][
+                "syslogConfigurations"
+            ]:
+                sorted(each)
+                for k, v in iteritems(key_transform):
+                    if k in each:
+                        each[v] = each[k]
+                        each.pop(k)
+        return syslog_response["ListSyslogConfigurationsResponse"][
+            "syslogConfigurations"
+        ]
     for k in syslog_response.values():
         for each in k.get(api_return):
             if each.get("name") == config_name:
@@ -202,7 +220,9 @@ def map_params_to_obj(module_params):
 
 def main():
     argspec = dict(
-        state=dict(choices=["present", "absent"], default="present"),
+        state=dict(
+            choices=["present", "absent", "gathered"], default="present"
+        ),
         id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
@@ -255,10 +275,16 @@ def main():
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
     deepsec_request = DeepSecurityRequest(module)
+    # Get the configured Syslog config when state is gathered
+    if module.params["state"] == "gathered":
+        result = check_if_syslog_config_exists(
+            module, deepsec_request, None, api_object, api_get_return
+        )
+        module.exit_json(gathered=result, changed=False)
     want = map_params_to_obj(remove_empties(module.params))
     # Search for existing syslog config via Get call
     search_existing_syslog_config = check_if_syslog_config_exists(
-        deepsec_request, want["name"], api_object, api_get_return
+        module, deepsec_request, want["name"], api_object, api_get_return
     )
 
     if (

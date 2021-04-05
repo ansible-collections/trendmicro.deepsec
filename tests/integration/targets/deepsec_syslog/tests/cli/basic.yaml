@@ -4,7 +4,7 @@
 - block:
     - name: Configure syslog config
       register: result
-      trendmicro.deepsec.deepsec_syslog:
+      trendmicro.deepsec.deepsec_syslog: &id001
         state: present
         name: TEST_SYSLOG_1
         facility: local0
@@ -18,6 +18,14 @@
     - assert:
         that:
           - result.changed == true
+
+    - name: Configure syslog config (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_syslog: *id001
+
+    - assert:
+        that:
+          - result.changed == false
 
     - name: Should not match for TEST_SYSLOG_2
       register: result

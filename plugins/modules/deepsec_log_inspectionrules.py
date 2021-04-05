@@ -184,7 +184,7 @@ options:
         enabled or ignored. Custom rules cannot be recommended.
       - Searchable as Choice.
     choices: ["enabled", "ignored", "unknown", "disabled"]
-    type: bool
+    type: str
   sort_order:
     description:
       - Order in which LogInspectionRules are sent to the Deep Security Agent. Log inspeciton
@@ -195,20 +195,21 @@ options:
       - Indicates whether this LogInspectionRule can be allocated without allocating any additional
         LogInspectionRules
       - Ignored if the rule is user-defined, which uses dependency instead.
-    type: int
+    type: bool
   depends_onrule_id:
     description:
       - IDs of LogInspectionRules, separated by commas, that are required by this rule.
       - Ignored if the rule is user-defined which uses dependency_rule_id or dependency_group instead.
     type: list
-state:
-  description:
-  - The state the configuration should be left in
-  type: str
-  choices:
-  - present
-  - absent
-  default: present
+    elements: str
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+      - present
+      - absent
+    default: present
 """
 
 EXAMPLES = """
@@ -355,7 +356,7 @@ def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
         "/api/loginspectionrules/{0}".format(log_inspection_id)
     )
     module.exit_json(
-        msg=" with id: {} deleted successfully!".format(log_inspection_id),
+        msg=" with id: {0} deleted successfully!".format(log_inspection_id),
         changed=True,
     )
 
@@ -363,7 +364,7 @@ def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
 def main():
 
     log_files_spec_list = {
-        "location": dict(type="str", required=True),
+        "location": dict(type="str"),
         "format": dict(
             type="str",
             choices=[
@@ -371,7 +372,6 @@ def main():
                 "snort-full",
                 "snort-fast",
                 "apache",
-                "iis",
                 "iis",
                 "squid",
                 "nmapg",
@@ -381,7 +381,6 @@ def main():
                 "eventlog",
                 "single-line-text-log",
             ],
-            required=True,
         ),
     }
 
@@ -401,30 +400,28 @@ def main():
         original_issue=dict(type="int"),
         last_updated=dict(type="int"),
         identifier=dict(type="str"),
-        template=dict(
-            type="str", choices=["basic-rule", "custom"], required=True
-        ),
+        template=dict(type="str", choices=["basic-rule", "custom"]),
         rule_id=dict(type="int"),
         level=dict(type="int"),
         groups=dict(type="list", elements="str"),
         rule_description=dict(type="str"),
         pattern=dict(type="str"),
-        pattern_type=dict(
-            type="str", choices=["string", "regex"], required=True
-        ),
+        pattern_type=dict(type="str", choices=["string", "regex"]),
         dependency=dict(type="str", choices=["none", "rule", "group"]),
         dependency_rule_id=dict(type="int"),
         dependency_group=dict(type="str"),
         frequency=dict(type="int"),
         time_frame=dict(type="int"),
-        rule_xml=dict(type="str", choices=["all", "any", "none"]),
+        rule_xml=dict(type="str"),
         log_files=dict(type="dict", options=log_files_spec),
         alert_enabled=dict(type="bool"),
         alert_minimum_severity=dict(type="int"),
-        recommendations_mode=dict(type="str"),
+        recommendations_mode=dict(
+            type="str", choices=["enabled", "ignored", "unknown", "disabled"]
+        ),
         sort_order=dict(type="int"),
         can_be_assigned_alone=dict(type="bool"),
-        depends_onrule_id=dict(type="list"),
+        depends_onrule_id=dict(type="list", elements="str"),
     )
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)

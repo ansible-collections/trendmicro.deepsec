@@ -20,13 +20,9 @@ import json
 
 from ansible.module_utils.basic import to_text, to_bytes
 from ansible.module_utils.six.moves.urllib.parse import urlencode
-from ansible.errors import (
-    AnsibleConnectionFailure,
-    AnsibleAuthenticationFailure,
-)
+from ansible.errors import AnsibleAuthenticationFailure
 from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.plugins.httpapi import HttpApiBase
-from ansible.module_utils.connection import ConnectionError
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
@@ -103,6 +99,12 @@ class HttpApi(HttpApiBase):
 
         code, auth_token = self.send_request("POST", login_path, data=data)
         try:
+            if code >= 400 and isinstance(auth_token, dict):
+                raise AnsibleAuthenticationFailure(
+                    message="{0} Failed to acquire login token.".format(
+                        auth_token["error"].get("message")
+                    )
+                )
             # This is still sent as an HTTP header, so we can set our connection's _auth
             # variable manually. If the token is returned to the device in another way,
             # you will have to keep track of it another way and make sure that it is sent

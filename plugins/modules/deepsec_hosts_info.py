@@ -9,33 +9,26 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
 DOCUMENTATION = """
----
-module: hosts_info
+module: deepsec_hosts_info
 short_description: Obtain information about one or many Hosts defined by TrendMicro Deep Security
 description:
   - This module obtains information about Hosts defined by TrendMicro Deep Security
-version_added: "2.9"
+version_added: 1.0.0
+author: "Ansible Security Automation Team (@maxamillion) <https://github.com/ansible-security>"
 options:
   id:
     description:
       - Obtain only information of the Rule with provided ID
     required: false
     type: int
-
-author: Ansible Security Automation Team (@maxamillion) <https://github.com/ansible-security>"
 """
 
 EXAMPLES = """
 - name: Get the Host Info
-  trendmicro.deepsec.hosts_info:
+  trendmicro.deepsec.deepsec_hosts_info:
 - name: Get the Host Info by ID
-  trendmicro.deepsec.hosts_info:
+  trendmicro.deepsec.deepsec_hosts_info:
     id: 1
 """
 
@@ -43,6 +36,7 @@ RETURN = """
 updates:
   description: The set of commands that will be pushed to the remote device
   returned: always
+  type: list
 """
 
 from ansible.module_utils.basic import AnsibleModule

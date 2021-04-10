@@ -1,0 +1,104 @@
+---
+- debug: msg="START cli/basic.yaml"
+
+- block:
+    - name: Configure Log InspectionRules config
+      register: result
+      trendmicro.deepsec.deepsec_log_inspectionrules: &id001
+        state: present
+        name: custom log_rule for mysqld event
+        description: some description
+        minimum_agent_version: 6.0.0.0
+        type: defined
+        template: basic-rule
+        pattern: name
+        pattern_type: string
+        rule_id: 100001
+        rule_description: test rule description
+        groups:
+          - test
+        alert_minimum_severity: 4
+        alert_enabled: true
+        log_files:
+          log_files:
+            - location: /var/log/mysqld.log
+              format: mysql-log
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Configure Log InspectionRules config (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_log_inspectionrules: *id001
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Should not match for earlier created custom log
+      register: result
+      trendmicro.deepsec.deepsec_log_inspectionrules:
+        state: present
+        name: custom new log_rule for mysqld event
+        description: some description
+        minimum_agent_version: 6.0.0.0
+        type: defined
+        template: basic-rule
+        pattern: name
+        pattern_type: string
+        rule_id: 100002
+        rule_description: test rule description
+        groups:
+          - test
+        alert_minimum_severity: 4
+        alert_enabled: true
+        log_files:
+          log_files:
+            - location: /var/log/mysqld.log
+              format: mysql-log
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_log_inspectionrules:
+        state: absent
+        name: custom log_rule for mysqld event
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_log_inspectionrules:
+        state: absent
+        name: custom new log_rule for mysqld event
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown idempotency check
+      register: result
+      trendmicro.deepsec.deepsec_log_inspectionrules:
+        state: absent
+        name: custom log_rule for mysqld event
+
+    - assert:
+        that:
+          - result.changed == false
+  always:
+    - name: teardown
+      trendmicro.deepsec.deepsec_log_inspectionrules:
+        state: absent
+        name: custom log_rule for mysqld event
+    - name: teardown
+      trendmicro.deepsec.deepsec_log_inspectionrules:
+        state: absent
+        name: custom new log_rule for mysqld event
+
+- debug: msg="END cli/basic.yaml"

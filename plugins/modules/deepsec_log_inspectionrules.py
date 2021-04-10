@@ -233,7 +233,6 @@ EXAMPLES = """
       log_files:
         - location: /var/log/mysqld.log
           format: mysql-log
-    register: log
 
 - name: Delete/Remove the existing log inspection rule
   trendmicro.deepsec.deepsec_log_inspectionrules:

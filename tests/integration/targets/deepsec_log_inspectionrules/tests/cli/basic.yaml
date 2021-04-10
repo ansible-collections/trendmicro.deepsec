@@ -23,7 +23,6 @@
           log_files:
             - location: /var/log/mysqld.log
               format: mysql-log
-        register: log
 
     - assert:
         that:
@@ -58,7 +57,6 @@
           log_files:
             - location: /var/log/mysqld.log
               format: mysql-log
-        register: log
 
     - assert:
         that:

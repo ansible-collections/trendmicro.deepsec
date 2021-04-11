@@ -25,13 +25,19 @@ The TrendMicro DeepSecurity collection supports ``httpapi`` connections.
 ## Included content
 
 <!--start collection content-->
-### httpapi plugins
+### Httpapi plugins
 Name | Description
 --- | ---
+[trendmicro.deepsec.deepsec](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_httpapi.rst)|HttpApi Plugin for Trend Micro Deep Security
 
 ### Modules
 Name | Description
 --- | ---
+[trendmicro.deepsec.deepsec_anti_malware](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_anti_malware_module.rst)|Create a new antimalware under TrendMicro Deep Security Policy
+[trendmicro.deepsec.deepsec_firewallrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_firewallrules_module.rst)|Create a new firewall rule.
+[trendmicro.deepsec.deepsec_hosts_info](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_hosts_info_module.rst)|Obtain information about one or many Hosts defined by TrendMicro Deep Security
+[trendmicro.deepsec.deepsec_log_inspectionrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_log_inspectionrules_module.rst)|Create a new log inspection rule.
+[trendmicro.deepsec.deepsec_syslog](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_syslog_module.rst)|Configure or create a syslog configuration for TrendMicro Deep Security
 
 <!--end collection content-->
 

@@ -63,11 +63,26 @@ An example for using this collection to manage a TM deepsecurity policy resource
 is as follows:
 
 `inventory.ini` (Note the password should be managed by a [Vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html) for a production environment.
+Trend Micro Deep security currently supports two ways as to how their REST API can be interacted with, and for each of the respective cases, the Ansible inventory will be changed slightly as mentioned below:
+1. In case of the [newer REST APIs](https://automation.deepsecurity.trendmicro.com/article/fr/api-reference/) the Ansible inventory will work with the network OS `trendmicro.deepsec.deepsec`, a Trend Micro `api-secret-key` and `api-version` key:
 ```
-[trendmicro]
-host_tm.example.com
+[deepsec]
+host_deepsec.example.com
 
-[trendmicro:vars]
+[deepsec:vars]
+ansible_network_os=trendmicro.deepsec.deepsec
+ansible_httpapi_use_ssl=true
+ansible_httpapi_validate_certs=false
+ansible_connection=httpapi
+ansible_python_interpreter=/usr/bin/python
+ansible_httpapi_session_key={'api-secret-key': 'secret-key', 'api-version': 'v1'}
+```
+2. In case of APIs using the [legacy REST APIs](https://automation.deepsecurity.trendmicro.com/legacy-rest/12_5/index.html?env=onprem#overview), the Ansible inventory will also require the network OS `trendmicro.deepsec.deepsec`, but uses a `username` and a `password`. 
+```
+[deepsec]
+host_deepsec.example.com
+
+[deepsec:vars]
 ansible_user=admin
 ansible_httpapi_pass=password
 ansible_httpapi_use_ssl=true
@@ -91,30 +106,19 @@ You can either call modules by their Fully Qualified Collection Namespace (FQCN)
     - trendmicro.deepsec
 
   tasks:
-    - name: Create and Config new policy
-      trendmicro.deepsec.policies_config:
-        name: test_ansible_pol
-        description: TM pol via Ansible
+    - name: Create/Config a new Firewall Rule Config
+      trendmicro.deepsec.deepsec_firewallrules:
         state: present
-        policy_settings:
-          firewall_setting_engine_option_connections_cleanup_max:
-            value: 100
-        recommendation_scan_mode: ongoing
-        anti_malware:
-          state: off
-          real_time_scan_configuration_id: 0
-        firewall:
-          state: off
-          global_stateful_configuration_id: 1
-          rule_id:
-            - 1
-            - 2
-        intrusion_prevention:
-          state: prevent
-          rule_id:
-            - 1
-            - 2
-          application_type_id: [1, 2]
+        name: test_firewallrule config
+        description: test firewall description
+        action: deny
+        priority: 0
+        source_iptype: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp
+        tcpflags:
+          - syn
 ```
 
 ## Contributing to this collection

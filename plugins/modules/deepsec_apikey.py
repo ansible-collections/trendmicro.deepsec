@@ -21,7 +21,7 @@ options:
     type: str
   id:
     description: The ID number of the API key to modify. Required when modifying
-    the API key
+      the API key
     type: str
   description:
     description: Description of the APIKey. Searchable as String.
@@ -35,27 +35,27 @@ options:
     type: int
   time_zone:
     description: Display name of the APIKey's time zone, e.g. America/New_York.
-    Searchable as String.
+      Searchable as String.
     type: str
   active:
     description: If true, the APIKey can be used to authenticate. If false, the APIKey
-    is locked out. Searchable as Boolean.
+      is locked out. Searchable as Boolean.
     type: bool
   created:
     description: Timestamp of the APIKey's creation, in milliseconds since epoch.
-    Searchable as Date.
+      Searchable as Date.
     type: int
   last_sign_in:
     description: Timestamp of the APIKey's last successful authentication, in milliseconds
-    since epoch. Searchable as Date.
+      since epoch. Searchable as Date.
     type: int
   unlock_time:
     description: Timestamp of when a locked out APIKey will be unlocked, in milliseconds since epoch.
-    Searchable as Date.
-    type: str
+      Searchable as Date.
+    type: int
   unsuccessful_sign_in_attempts:
     description: Number of unsuccessful authentication attempts made since the last successful
-    authentication. Searchable as Numeric.
+      authentication. Searchable as Numeric.
     type: int
   expiry_date:
     description: Timestamp of the APIKey's expiry date, in milliseconds since epoch. Searchable as Date.
@@ -78,15 +78,15 @@ options:
       - If true, generates a new secret key for the current API key.
       - Valid param only with secret_key.
     type: bool
-state:
-  description:
-    - The state the configuration should be left in
-  type: str
-  choices:
-    - present
-    - absent
-    - gathered
-  default: present
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+      - present
+      - absent
+      - gathered
+    default: present
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
@@ -182,7 +182,7 @@ def map_params_to_obj(module_params):
 
 def main():
     argspec = dict(
-        state=dict(choices=["present", "absent", "gathered"]),
+        state=dict(choices=["present", "absent", "gathered"], default="present"),
         name=dict(type="str"),
         id=dict(type="str"),
         description=dict(type="str"),

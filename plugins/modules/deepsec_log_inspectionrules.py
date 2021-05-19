@@ -240,13 +240,6 @@ EXAMPLES = """
     name: custom log_rule for mysqld event
 """
 
-RETURN = """
-  updates:
-    description: The set of commands that will be pushed to the remote device
-    returned: always
-    type: dict
-"""
-
 from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
 

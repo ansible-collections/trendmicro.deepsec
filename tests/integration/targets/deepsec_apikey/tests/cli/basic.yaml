@@ -1,0 +1,63 @@
+---
+- debug: msg="START cli/basic.yaml"
+
+- block:
+    - name: Create a API key by name
+      register: result
+      trendmicro.deepsec.deepsec_apikey: &id001
+        name: test_apiKeys
+        description: test API keys
+        active: true
+        role_id: 1
+        locale: en-US
+        state: present
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Create a API key by name (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_apikey: *id001
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Gather API keys by ID
+      register: gather_result
+      trendmicro.deepsec.deepsec_apikey:
+        id: "{{ result['apikey']['ID'] }}"
+        state: gathered
+
+    - assert:
+        that:
+          - gather_result.changed == false
+          - "{{ result == gather_result }}"
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_apikey:
+        state: absent
+        name: test_apiKeys
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown idempotency check
+      register: result
+      trendmicro.deepsec.deepsec_apikey:
+        state: absent
+        name: test_apiKeys
+
+    - assert:
+        that:
+          - result.changed == false
+  always:
+    - name: teardown test_apiKeys
+      trendmicro.deepsec.deepsec_apikey:
+        state: absent
+        name: test_apiKeys
+
+- debug: msg="END cli/basic.yaml"

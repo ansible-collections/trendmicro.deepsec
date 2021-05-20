@@ -11,6 +11,7 @@ from ansible.module_utils.urls import CertificateError
 from ansible.module_utils.connection import ConnectionError
 from ansible.module_utils.connection import Connection
 from ansible.module_utils._text import to_text
+from ansible.module_utils.six import iteritems
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
@@ -34,6 +35,45 @@ def find_dict_in_list(some_list, key, value):
                 if some_dict[key] == value:
                     return some_dict, some_list.index(some_dict)
     return None
+
+
+def map_params_to_obj(module_params, key_transform):
+    """ The fn to convert the api returned params to module params
+    :param module_params: Module params
+    :param key_transform: Dict with module equivalent API params
+    :rtype: A dict
+    :returns: dict with module prams transformed having API expected params
+    """
+    obj = {}
+    for k, v in iteritems(key_transform):
+        if module_params.get(k):
+            obj[v] = module_params.get(k)
+    return obj
+
+
+def map_obj_to_params(module_return_params, key_transform):
+    """ The fn to convert the api returned params to module params
+    :param module_return_params: API returned response params
+    :param key_transform: Module params
+    :rtype: A dict
+    :returns: dict with api returned value to module param value
+    """
+    temp = {}
+    if module_return_params.get("apiKeys"):
+        temp["api_keys"] = []
+        for each in module_return_params["apiKeys"]:
+            api_temp = {}
+            for k, v in iteritems(key_transform):
+                if v in each and each.get(v):
+                    api_temp[k] = each[v]
+            temp["api_keys"].append(api_temp)
+    else:
+        for k, v in iteritems(key_transform):
+            if v in module_return_params and (
+                module_return_params.get(v) or module_return_params.get(v) == 0
+            ):
+                temp[k] = module_return_params[v]
+    return temp
 
 
 def check_if_config_exists(

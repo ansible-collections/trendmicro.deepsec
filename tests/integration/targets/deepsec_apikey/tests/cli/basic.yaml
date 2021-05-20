@@ -5,7 +5,7 @@
     - name: Create a API key by name
       register: result
       trendmicro.deepsec.deepsec_apikey: &id001
-        name: test_apiKeys
+        key_name: test_apiKeys
         description: test API keys
         active: true
         role_id: 1
@@ -27,19 +27,19 @@
     - name: Gather API keys by ID
       register: gather_result
       trendmicro.deepsec.deepsec_apikey:
-        id: "{{ result['apikey']['ID'] }}"
+        id: "{{ result['apikey']['id'] }}"
         state: gathered
 
     - assert:
         that:
           - gather_result.changed == false
-          - "{{ result == gather_result }}"
+          - "{{ result['apikey'] == gather_result['gathered'] }}"
 
     - name: teardown
       register: result
       trendmicro.deepsec.deepsec_apikey:
         state: absent
-        name: test_apiKeys
+        key_name: test_apiKeys
 
     - assert:
         that:
@@ -49,7 +49,7 @@
       register: result
       trendmicro.deepsec.deepsec_apikey:
         state: absent
-        name: test_apiKeys
+        key_name: test_apiKeys
 
     - assert:
         that:
@@ -58,6 +58,6 @@
     - name: teardown test_apiKeys
       trendmicro.deepsec.deepsec_apikey:
         state: absent
-        name: test_apiKeys
+        key_name: test_apiKeys
 
 - debug: msg="END cli/basic.yaml"

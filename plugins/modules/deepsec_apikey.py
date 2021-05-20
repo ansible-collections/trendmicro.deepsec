@@ -16,7 +16,7 @@ description:
   - This module create and manages API key under TrendMicro Deep Security.
 version_added: "1.1.0"
 options:
-  name:
+  key_name:
     description: Display name of the APIKey. Searchable as String.
     type: str
   id:
@@ -81,6 +81,9 @@ options:
   state:
     description:
       - The state the configuration should be left in
+      - The state I(gathered) will get the module API configuration from the device and
+        transform it into structured data in the format as per the module argspec and
+        the value is returned in the I(gathered) key within the result.
     type: str
     choices:
       - present
@@ -94,7 +97,7 @@ EXAMPLES = """
 - name: Create a new API key
   trendmicro.deepsec.deepsec_apikey:
     state: present
-    name: test_apiKeys
+    key_name: test_apiKeys
     description: test API keys
     active: true
     locale: en-US
@@ -102,7 +105,7 @@ EXAMPLES = """
 - name: Generate Secret key for current API key
   trendmicro.deepsec.deepsec_apikey:
     state: present
-    name: test_apiKeys
+    key_name: test_apiKeys
     description: test API keys
     active: true
     locale: en-US
@@ -112,7 +115,7 @@ EXAMPLES = """
 - name: Generate Secret key for specific API key with ID
   trendmicro.deepsec.deepsec_apikey:
     state: present
-    name: test_apiKeys
+    key_name: test_apiKeys
     description: test API keys
     active: true
     locale: en-US
@@ -124,6 +127,19 @@ EXAMPLES = """
     id: 1
     state: gathered
 
+# Gathered output:
+#  "gathered": {
+#         "active": true,
+#         "created": 1621256389741,
+#         "id": 1,
+#         "key_name": "test_apiKeys",
+#         "locale": "en-US",
+#         "role_id": 1,
+#         "service_account": false,
+#         "time_zone": "UTC",
+#         "unsuccessful_sign_in_attempts": 0
+#     },
+
 - name: Get all the API keys
   trendmicro.deepsec.deepsec_apikey:
     state: gathered
@@ -131,7 +147,7 @@ EXAMPLES = """
 - name: Delete/Remove the API key by name
   trendmicro.deepsec.deepsec_apikey:
     state: absent
-    name: test_apiKeys
+    key_name: test_apiKeys
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -139,51 +155,37 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     DeepSecurityRequest,
     check_if_config_exists,
     delete_config_with_id,
+    map_params_to_obj,
+    map_obj_to_params,
 )
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
 
-
-def map_params_to_obj(module_params):
-    # populate the apikey dict with actual api expected values
-    obj = {}
-    obj["keyName"] = module_params["name"]
-    if module_params.get("id"):
-        obj["apiKeyID"] = module_params.get("key_id")
-    if module_params.get("description"):
-        obj["description"] = module_params.get("description")
-    if module_params.get("locale"):
-        obj["locale"] = module_params.get("locale")
-    if module_params.get("role_id") or module_params.get("role_id") == 0:
-        obj["roleID"] = module_params.get("role_id")
-    if module_params.get("time_zone"):
-        obj["timeZone"] = module_params.get("time_zone")
-    if module_params.get("active"):
-        obj["active"] = module_params.get("active")
-    if module_params.get("created"):
-        obj["created"] = module_params.get("created")
-    if module_params.get("last_sign_in"):
-        obj["lastSignIn"] = module_params.get("last_sign_in")
-    if module_params.get("unlock_time"):
-        obj["unlockTime"] = module_params.get("unlock_time")
-    if module_params.get("unsuccessful_sign_in_attempts"):
-        obj["unsuccessfulSignInAttempts"] = module_params.get(
-            "unsuccessful_sign_in_attempts"
-        )
-    if module_params.get("expiry_date"):
-        obj["expiryDate"] = module_params.get("expiry_date")
-    if module_params.get("secret_key"):
-        obj["secretKey"] = module_params.get("secret_key")
-        if module_params.get("service_account"):
-            obj["serviceAccount"] = module_params.get("service_account")
-    return obj
+key_transform = {
+    "key_name": "keyName",
+    "description": "description",
+    "id": "ID",
+    "locale": "locale",
+    "role_id": "roleID",
+    "time_zone": "timeZone",
+    "active": "active",
+    "created": "created",
+    "last_sign_in": "lastSignIn",
+    "unlock_time": "unlockTime",
+    "unsuccessful_sign_in_attempts": "unsuccessfulSignInAttempts",
+    "expiry_date": "expiryDate",
+    "secret_key": "secretKey",
+    "service_account": "serviceAccount",
+}
 
 
 def main():
     argspec = dict(
-        state=dict(choices=["present", "absent", "gathered"], default="present"),
-        name=dict(type="str"),
+        state=dict(
+            choices=["present", "absent", "gathered"], default="present"
+        ),
+        key_name=dict(type="str"),
         id=dict(type="str"),
         description=dict(type="str"),
         locale=dict(type="str", choices=["en-US", "ja-JP"]),
@@ -195,7 +197,7 @@ def main():
         unlock_time=dict(type="int"),
         unsuccessful_sign_in_attempts=dict(type="int"),
         expiry_date=dict(type="int"),
-        secret_key=dict(type="str"),
+        secret_key=dict(no_log=True, type="str"),
         service_account=dict(type="bool"),
         current=dict(type="bool"),
     )
@@ -209,35 +211,41 @@ def main():
     deepsec_request = DeepSecurityRequest(module)
     module.params = remove_empties(module.params)
 
+    # gather and collect structured data as facts
     if module.params["state"] == "gathered":
         if module.params.get("id"):
             request_api = "{0}/{1}".format(api_object, module.params["id"])
             get_key_by_id = deepsec_request.get("{0}".format(request_api))
         else:
             get_key_by_id = deepsec_request.post(api_get_object)
+        get_key_by_id = map_obj_to_params(get_key_by_id, key_transform)
         if get_key_by_id.get("message"):
             module.fail_json(msg=get_key_by_id["message"])
         else:
-            module.exit_json(apikey=get_key_by_id, changed=False)
+            module.exit_json(gathered=get_key_by_id, changed=False)
 
-    want = map_params_to_obj(module.params)
-    search_existing_apikey = check_if_config_exists(
-        deepsec_request,
-        want["keyName"],
-        api_object.split("/")[2],
-        api_return,
-        "keyName",
+    want = map_params_to_obj(module.params, key_transform)
+    search_existing_apikey = map_obj_to_params(
+        check_if_config_exists(
+            deepsec_request,
+            want["keyName"],
+            api_object.split("/")[2],
+            api_return,
+            "keyName",
+        ),
+        key_transform,
     )
-    if "ID" in search_existing_apikey and module.params["state"] == "absent":
+
+    if "id" in search_existing_apikey and module.params["state"] == "absent":
         delete_config_with_id(
             module,
             deepsec_request,
             api_object.split("/")[2],
-            search_existing_apikey["ID"],
+            search_existing_apikey["id"],
             api_return,
         )
     elif (
-        "ID" not in search_existing_apikey
+        "id" not in search_existing_apikey
         and module.params["state"] == "absent"
     ):
         module.exit_json(changed=False)
@@ -252,16 +260,20 @@ def main():
             api_secret_key = deepsec_request.post(
                 "{0}".format(request_api), data=want
             )
+        if api_secret_key:
+            api_secret_key = map_obj_to_params(api_secret_key, key_transform)
         if api_secret_key.get("message"):
             module.fail_json(msg=api_secret_key["message"])
         else:
             module.exit_json(apikey=api_secret_key, changed=True)
     else:
-        apikey = deepsec_request.post("{0}".format(api_object), data=want)
-
-        if "ID" in search_existing_apikey:
+        if "id" in search_existing_apikey:
             module.exit_json(apikey=search_existing_apikey, changed=False)
-        elif apikey.get("message"):
+        apikey = deepsec_request.post("{0}".format(api_object), data=want)
+        if apikey:
+            apikey = map_obj_to_params(apikey, key_transform)
+
+        if apikey.get("message"):
             module.fail_json(msg=apikey["message"])
         else:
             module.exit_json(apikey=apikey, changed=True)

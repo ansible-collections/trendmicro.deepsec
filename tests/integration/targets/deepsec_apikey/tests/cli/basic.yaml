@@ -45,16 +45,6 @@
           - gather_result.changed == false
           - "{{ result['config']['api_keys'] == gather_result['gathered']['api_keys'] }}"
 
-    - name: Gather ALL configured API keys
-      register: gather_result
-      trendmicro.deepsec.deepsec_apikey:
-        state: gathered
-
-    - assert:
-        that:
-          - gather_result.changed == false
-          - "{{ result['config']['api_keys'] == gather_result['gathered']['api_keys'] }}"
-
     - name: teardown
       register: result
       trendmicro.deepsec.deepsec_apikey:

@@ -17,7 +17,7 @@ description:
 version_added: "1.1.0"
 options:
   api_keys:
-    description:
+    description: List of API keys that needs to be configured
     type: list
     elements: dict
     suboptions:
@@ -346,7 +346,6 @@ def configure_module_api(argspec, module, deepsec_request):
 
 def main():
     api_keys_list_spec = {
-        "state": dict(choices=["present", "absent", "gathered"]),
         "key_name": dict(type="str"),
         "id": dict(type="str"),
         "description": dict(type="str"),

@@ -5,12 +5,20 @@
     - name: Create a API key by name
       register: result
       trendmicro.deepsec.deepsec_apikey: &id001
-        key_name: test_apiKeys
-        description: test API keys
-        active: true
-        role_id: 1
-        locale: en-US
         state: present
+        api_keys:
+          - key_name: test_apiKeys_1
+            description: test API keys 1
+            active: true
+            role_id: 1
+            locale: en-US
+            state: present
+          - key_name: test_apiKeys_2
+            description: test API keys 2
+            active: true
+            role_id: 1
+            locale: en-US
+            state: present
 
     - assert:
         that:
@@ -24,22 +32,36 @@
         that:
           - result.changed == false
 
-    - name: Gather API keys by ID
+    - name: Gather API keys by Name
       register: gather_result
       trendmicro.deepsec.deepsec_apikey:
-        id: "{{ result['apikey']['id'] }}"
+        state: gathered
+        api_keys:
+          - key_name: test_apiKeys_1
+          - key_name: test_apiKeys_2
+
+    - assert:
+        that:
+          - gather_result.changed == false
+          - "{{ result['config']['api_keys'] == gather_result['gathered']['api_keys'] }}"
+
+    - name: Gather ALL configured API keys
+      register: gather_result
+      trendmicro.deepsec.deepsec_apikey:
         state: gathered
 
     - assert:
         that:
           - gather_result.changed == false
-          - "{{ result['apikey'] == gather_result['gathered'] }}"
+          - "{{ result['config']['api_keys'] == gather_result['gathered']['api_keys'] }}"
 
     - name: teardown
       register: result
       trendmicro.deepsec.deepsec_apikey:
         state: absent
-        key_name: test_apiKeys
+        api_keys:
+          - key_name: test_apiKeys_1
+          - key_name: test_apiKeys_2
 
     - assert:
         that:
@@ -49,7 +71,9 @@
       register: result
       trendmicro.deepsec.deepsec_apikey:
         state: absent
-        key_name: test_apiKeys
+        api_keys:
+          - key_name: test_apiKeys_1
+          - key_name: test_apiKeys_2
 
     - assert:
         that:
@@ -58,6 +82,8 @@
     - name: teardown test_apiKeys
       trendmicro.deepsec.deepsec_apikey:
         state: absent
-        key_name: test_apiKeys
+        api_keys:
+          - key_name: test_apiKeys_1
+          - key_name: test_apiKeys_2
 
 - debug: msg="END cli/basic.yaml"

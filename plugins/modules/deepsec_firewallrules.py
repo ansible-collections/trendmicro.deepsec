@@ -518,6 +518,7 @@ def main():
             api_object.split("/")[2],
             search_existing_firewallrules["ID"],
             api_return,
+            handle_return=True,
         )
     elif (
         "ID" not in search_existing_firewallrules

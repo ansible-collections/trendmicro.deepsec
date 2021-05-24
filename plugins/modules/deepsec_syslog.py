@@ -291,6 +291,7 @@ def main():
             search_existing_syslog_config["ID"],
             api_return,
             False,
+            handle_return=True,
         )
     elif (
         "ID" not in search_existing_syslog_config

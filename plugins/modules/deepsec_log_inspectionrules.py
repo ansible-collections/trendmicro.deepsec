@@ -437,6 +437,7 @@ def main():
             "loginspectionrules",
             search_existing_log_inspection_rules["ID"],
             "logInspectionRules",
+            handle_return=True,
         )
     elif (
         "ID" not in search_existing_log_inspection_rules

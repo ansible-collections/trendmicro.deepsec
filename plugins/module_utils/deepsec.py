@@ -51,7 +51,7 @@ def map_params_to_obj(module_params, key_transform):
     return obj
 
 
-def map_obj_to_params(module_return_params, key_transform):
+def map_obj_to_params(module_return_params, key_transform, return_param):
     """ The fn to convert the api returned params to module params
     :param module_return_params: API returned response params
     :param key_transform: Module params
@@ -59,14 +59,14 @@ def map_obj_to_params(module_return_params, key_transform):
     :returns: dict with api returned value to module param value
     """
     temp = {}
-    if module_return_params.get("apiKeys"):
-        temp["api_keys"] = []
-        for each in module_return_params["apiKeys"]:
+    if module_return_params.get(return_param):
+        temp[return_param] = []
+        for each in module_return_params[return_param]:
             api_temp = {}
             for k, v in iteritems(key_transform):
                 if v in each and each.get(v):
                     api_temp[k] = each[v]
-            temp["api_keys"].append(api_temp)
+            temp[return_param].append(api_temp)
     else:
         for k, v in iteritems(key_transform):
             if v in module_return_params and (
@@ -107,28 +107,39 @@ def check_if_config_exists(
 
 
 def delete_config_with_id(
-    module, deepsec_request, api, config_id, api_var, api_or_rest=True
+    module,
+    deepsec_request,
+    api,
+    config_id,
+    api_var,
+    api_or_rest=True,
+    handle_return=False,
 ):
     """ The fn calls the delete API based on the config id
-    :param module: ansible module object
     :param deepsec_request: connection obj for TM
     :param config_id: config id for the config that's supposed to be deleted
-    :param api_var: api_var for the response statement
     :param api_or_rest: Fire request for legacy or latest API call
     value has dict as its value
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
     if api_or_rest:
-        deepsec_request.delete("/api/{0}/{1}".format(api, config_id))
+        delete_return = deepsec_request.delete(
+            "/api/{0}/{1}".format(api, config_id)
+        )
     else:
-        deepsec_request.delete("/rest/{0}/{1}".format(api, config_id))
-    module.exit_json(
-        msg="{0} with id: {1} deleted successfully!".format(
-            api_var, config_id
-        ),
-        changed=True,
-    )
+        delete_return = deepsec_request.delete(
+            "/rest/{0}/{1}".format(api, config_id)
+        )
+    if handle_return:
+        module.exit_json(
+            msg="{0} with id: {1} deleted successfully!".format(
+                api_var, config_id
+            ),
+            changed=True,
+        )
+    else:
+        return delete_return
 
 
 class DeepSecurityRequest(object):

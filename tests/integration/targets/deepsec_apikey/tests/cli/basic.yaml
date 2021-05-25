@@ -12,13 +12,11 @@
             active: true
             role_id: 1
             locale: en-US
-            state: present
           - key_name: test_apiKeys_2
             description: test API keys 2
             active: true
             role_id: 1
             locale: en-US
-            state: present
 
     - assert:
         that:

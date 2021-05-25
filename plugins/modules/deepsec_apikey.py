@@ -368,7 +368,10 @@ def main():
             choices=["present", "absent", "gathered"], default="present"
         ),
         api_keys=dict(
-            type="list", elements="dict", options=api_keys_list_spec
+            type="list",
+            elements="dict",
+            options=api_keys_list_spec,
+            no_log=False,
         ),
     )
 

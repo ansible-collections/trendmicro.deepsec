@@ -240,13 +240,6 @@ EXAMPLES = """
     name: custom log_rule for mysqld event
 """
 
-RETURN = """
-  updates:
-    description: The set of commands that will be pushed to the remote device
-    returned: always
-    type: dict
-"""
-
 from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
 
@@ -444,6 +437,7 @@ def main():
             "loginspectionrules",
             search_existing_log_inspection_rules["ID"],
             "logInspectionRules",
+            handle_return=True,
         )
     elif (
         "ID" not in search_existing_log_inspection_rules

@@ -276,7 +276,7 @@ options:
 
 EXAMPLES = """
 - name: Create/Config a new Firewall Rule Config
-  trendmicro.deepsec.firewallrules_config:
+  trendmicro.deepsec.deepsec_firewallrules:
     state: present
     name: test_firewallrule config
     description: test firewall description
@@ -287,18 +287,12 @@ EXAMPLES = """
     direction: incoming
     protocol: tcp
     tcpflags:
-        - syn
+      - syn
+
 - name: Delete/Remove the existing Firewall rule Config
-  trendmicro.deepsec.firewallrules_config:
+  trendmicro.deepsec.deepsec_firewallrules:
     state: absent
     name: test_firewallrule config
-"""
-
-RETURN = """
-updates:
-  description: The set of commands that will be pushed to the remote device
-  returned: always
-  type: list
 """
 
 from ansible.module_utils.six import iteritems
@@ -524,6 +518,7 @@ def main():
             api_object.split("/")[2],
             search_existing_firewallrules["ID"],
             api_return,
+            handle_return=True,
         )
     elif (
         "ID" not in search_existing_firewallrules

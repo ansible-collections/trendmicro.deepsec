@@ -32,13 +32,6 @@ EXAMPLES = """
     id: 1
 """
 
-RETURN = """
-updates:
-  description: The set of commands that will be pushed to the remote device
-  returned: always
-  type: list
-"""
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,

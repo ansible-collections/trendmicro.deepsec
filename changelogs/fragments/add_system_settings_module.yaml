@@ -1,0 +1,3 @@
+---
+minor_changes:
+  - Add deepsec_system_settings config module.

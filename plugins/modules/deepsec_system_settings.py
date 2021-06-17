@@ -2604,7 +2604,7 @@ def reset_module_api_config(argspec, module, deepsec_request):
     if (
         module.params
         and not module.params["config"].get("name")
-        and len(module.params["config"]) > 1
+        and len(module.params["config"]) >= 1
     ):
         name = []
         for each in module.params["config"]:

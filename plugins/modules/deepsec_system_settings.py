@@ -2398,7 +2398,8 @@ key_transform = {
     "platform_setting_syslog_config_id": "platformSettingSyslogConfigId",
     "platform_setting_smtp_start_tls_enabled": "platformSettingSmtpStartTlsEnabled",
     "platform_setting_user_password_require_letters_and_numbers_enabled": "platformSettingUserPasswordRequireLettersAndNumbersEnabled",
-    "platform_setting_primary_tenant_allow_tenant_synchronize_ldap_directories_enabled": "platformSettingPrimaryTenantAllowTenantSynchronizeLdapDirectoriesEnabled",
+    "platform_setting_primary_tenant_allow_tenant_synchronize_ldap"
+    + "_directories_enabled": "platformSettingPrimaryTenantAllowTenantSynchronizeLdapDirectoriesEnabled",
     "platform_setting_load_balancer_relay_port": "platformSettingLoadBalancerRelayPort",
     "platform_setting_managed_detect_response_enabled": "platformSettingManagedDetectResponseEnabled",
     "platform_setting_update_rules_policy_auto_apply_enabled": "platformSettingUpdateRulesPolicyAutoApplyEnabled",
@@ -2406,7 +2407,8 @@ key_transform = {
     "platform_setting_user_password_require_not_same_as_username_enabled": "platformSettingUserPasswordRequireNotSameAsUsernameEnabled",
     "log_inspection_setting_event_rank_severity_medium": "logInspectionSettingEventRankSeverityMedium",
     "anti_malware_setting_retain_event_duration": "antiMalwareSettingRetainEventDuration",
-    "platform_setting_update_agent_security_contact_primary_source_on_missing_relay_enabled": "platformSettingUpdateAgentSecurityContactPrimarySourceOnMissingRelayEnabled",
+    "platform_setting_update_agent_security_contact_primary_source_on_missing_relay"
+    + "_enabled": "platformSettingUpdateAgentSecurityContactPrimarySourceOnMissingRelayEnabled",
     "firewall_setting_event_rank_severity_log_only": "firewallSettingEventRankSeverityLogOnly",
     "platform_setting_primary_tenant_lock_and_hide_tenant_data_privacy_option_enabled": "platformSettingPrimaryTenantLockAndHideTenantDataPrivacyOptionEnabled",
     "application_control_setting_retain_event_duration": "applicationControlSettingRetainEventDuration",
@@ -2428,7 +2430,8 @@ key_transform = {
     "platform_setting_retain_security_updates_max": "platformSettingRetainSecurityUpdatesMax",
     "platform_setting_connected_threat_defense_control_manager_source_option": "platformSettingConnectedThreatDefenseControlManagerSourceOption",
     "anti_malware_setting_event_email_enabled": "antiMalwareSettingEventEmailEnabled",
-    "platform_setting_update_agent_software_use_download_center_on_missing_deep_security_manager_enabled": "platformSettingUpdateAgentSoftwareUseDownloadCenterOnMissingDeepSecurityManagerEnabled",
+    "platform_setting_update_agent_software_use_download_center_on_missing_deep_security"
+    + "_manager_enabled": "platformSettingUpdateAgentSoftwareUseDownloadCenterOnMissingDeepSecurityManagerEnabled",
     "platform_setting_recommendation_ongoing_scans_enabled": "platformSettingRecommendationOngoingScansEnabled",
     "platform_setting_agent_initiated_activation_token": "platformSettingAgentInitiatedActivationToken",
     "platform_setting_user_password_length_min": "platformSettingUserPasswordLengthMin",
@@ -2454,7 +2457,8 @@ key_transform = {
     "platform_setting_aws_manager_identity_access_key": "platformSettingAwsManagerIdentityAccessKey",
     "platform_setting_connected_threat_defense_control_manager_proxy_id": "platformSettingConnectedThreatDefenseControlManagerProxyId",
     "platform_setting_tenant_allow_impersonation_by_primary_tenant_enabled": "platformSettingTenantAllowImpersonationByPrimaryTenantEnabled",
-    "platform_setting_connected_threat_defense_control_manager_manual_source_server_url": "platformSettingConnectedThreatDefenseControlManagerManualSourceServerUrl",
+    "platform_setting_connected_threat_defense_control_manager_manual_source"
+    + "_server_url": "platformSettingConnectedThreatDefenseControlManagerManualSourceServerUrl",
     "platform_setting_user_password_require_mixed_case_enabled": "platformSettingUserPasswordRequireMixedCaseEnabled",
     "platform_setting_trend_micro_xdr_identity_provider_api_url": "platformSettingTrendMicroXdrIdentityProviderApiUrl",
     "platform_setting_smart_protection_feedback_for_suspicious_file_enabled": "platformSettingSmartProtectionFeedbackForSuspiciousFileEnabled",
@@ -2484,7 +2488,8 @@ key_transform = {
     "platform_setting_user_password_expiry": "platformSettingUserPasswordExpiry",
     "platform_setting_smart_protection_feedback_enabled": "platformSettingSmartProtectionFeedbackEnabled",
     "integrity_monitoring_setting_retain_event_duration": "integrityMonitoringSettingRetainEventDuration",
-    "platform_setting_primary_tenant_allow_tenant_use_scheduled_run_script_task_enabled": "platformSettingPrimaryTenantAllowTenantUseScheduledRunScriptTaskEnabled",
+    "platform_setting_primary_tenant_allow_tenant_use_scheduled_run_script"
+    + "_task_enabled": "platformSettingPrimaryTenantAllowTenantUseScheduledRunScriptTaskEnabled",
     "log_inspection_setting_event_rank_severity_critical": "logInspectionSettingEventRankSeverityCritical",
     "platform_setting_primary_tenant_lock_and_hide_tenant_smtp_tab_enabled": "platformSettingPrimaryTenantLockAndHideTenantSmtpTabEnabled",
     "platform_setting_ddan_proxy_id": "platformSettingDdanProxyId",
@@ -2506,7 +2511,8 @@ key_transform = {
     "firewall_setting_internet_connectivity_test_interval": "firewallSettingInternetConnectivityTestInterval",
     "platform_setting_whois_url": "platformSettingWhoisUrl",
     "platform_setting_ddan_source_option": "platformSettingDdanSourceOption",
-    "platform_setting_connected_threat_defense_control_manager_suspicious_object_list_comparison_enabled": "platformSettingConnectedThreatDefenseControlManagerSuspiciousObjectListComparisonEnabled",
+    "platform_setting_connected_threat_defense_control_manager_suspicious_object"
+    + "_list_comparison_enabled": "platformSettingConnectedThreatDefenseControlManagerSuspiciousObjectListComparisonEnabled",
     "platform_setting_exported_file_character_encoding": "platformSettingExportedFileCharacterEncoding",
     "platform_setting_user_session_duration_max": "platformSettingUserSessionDurationMax",
     "platform_setting_update_software_alternate_update_server_urls": "platformSettingUpdateSoftwareAlternateUpdateServerUrls",
@@ -2531,7 +2537,8 @@ key_transform = {
     "platform_setting_user_sign_in_attempts_allowed_number": "platformSettingUserSignInAttemptsAllowedNumber",
     "platform_setting_ddan_use_proxy_enabled": "platformSettingDdanUseProxyEnabled",
     "platform_setting_agent_initiated_activation_enabled": "platformSettingAgentInitiatedActivationEnabled",
-    "platform_setting_primary_tenant_allow_tenant_configure_remember_me_option_enabled": "platformSettingPrimaryTenantAllowTenantConfigureRememberMeOptionEnabled",
+    "platform_setting_primary_tenant_allow_tenant"
+    + "_configure_remember_me_option_enabled": "platformSettingPrimaryTenantAllowTenantConfigureRememberMeOptionEnabled",
     "platform_setting_smart_protection_feedback_bandwidth_max_kbytes": "platformSettingSmartProtectionFeedbackBandwidthMaxKbytes",
     "firewall_setting_event_rank_severity_packet_rejection": "firewallSettingEventRankSeverityPacketRejection",
     "platform_setting_proxy_manager_update_proxy_id": "platformSettingProxyManagerUpdateProxyId",
@@ -2539,7 +2546,8 @@ key_transform = {
     "platform_setting_event_forwarding_sns_access_key": "platformSettingEventForwardingSnsAccessKey",
     "platform_setting_agent_initiated_activation_specify_hostname_enabled": "platformSettingAgentInitiatedActivationSpecifyHostnameEnabled",
     "platform_setting_primary_tenant_allow_tenant_sync_with_cloud_account_enabled": "platformSettingPrimaryTenantAllowTenantSyncWithCloudAccountEnabled",
-    "platform_setting_connected_threat_defenses_use_primary_tenant_server_settings_enabled": "platformSettingConnectedThreatDefensesUsePrimaryTenantServerSettingsEnabled",
+    "platform_setting_connected_threat_defenses"
+    + "_use_primary_tenant_server_settings_enabled": "platformSettingConnectedThreatDefensesUsePrimaryTenantServerSettingsEnabled",
     "platform_setting_inactive_agent_cleanup_duration": "platformSettingInactiveAgentCleanupDuration",
     "platform_setting_agent_initiated_activation_duplicate_hostname_mode": "platformSettingAgentInitiatedActivationDuplicateHostnameMode",
     "platform_setting_vmware_nsx_manager_node": "platformSettingVmwareNsxManagerNode",

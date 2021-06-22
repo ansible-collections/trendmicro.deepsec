@@ -2866,6 +2866,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
+                    no_log=False
                 ),
                 platform_setting_user_password_require_not_same_as_username_enabled=dict(
                     type="dict",
@@ -3023,6 +3024,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
+                    no_log=False
                 ),
                 platform_setting_update_appliance_default_agent_version=dict(
                     type="dict",

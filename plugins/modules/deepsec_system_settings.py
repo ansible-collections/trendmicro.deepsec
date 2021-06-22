@@ -2844,6 +2844,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
+                    no_log=False,
                 ),
                 platform_setting_primary_tenant_allow_tenant_synchronize_ldap_directories_enabled=dict(
                     type="dict",
@@ -2866,13 +2867,14 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
-                    no_log=False
+                    no_log=False,
                 ),
                 platform_setting_user_password_require_not_same_as_username_enabled=dict(
                     type="dict",
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
+                    no_log=False,
                 ),
                 log_inspection_setting_event_rank_severity_medium=dict(
                     type="dict",
@@ -2907,6 +2909,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_windows_upgrade_on_activation_enabled=dict(
                     type="dict",
@@ -2937,6 +2940,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_load_balancer_heartbeat_address=dict(
                     type="dict",
@@ -2992,12 +2996,14 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_user_password_length_min=dict(
                     type="dict",
                     options=dict(
                         value=dict(type="str", default="8", no_log=False)
                     ),
+                    no_log=False,
                 ),
                 platform_setting_primary_tenant_allow_tenant_database_state=dict(
                     type="dict",
@@ -3024,7 +3030,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
-                    no_log=False
+                    no_log=False,
                 ),
                 platform_setting_update_appliance_default_agent_version=dict(
                     type="dict",
@@ -3083,6 +3089,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_connected_threat_defense_control_manager_proxy_id=dict(
                     type="dict",
@@ -3101,6 +3108,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
+                    no_log=False,
                 ),
                 platform_setting_trend_micro_xdr_identity_provider_api_url=dict(
                     type="dict",
@@ -3173,6 +3181,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_load_balancer_manager_address=dict(
                     type="dict",
@@ -3216,6 +3225,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="Never", no_log=False)
                     ),
+                    no_log=False,
                 ),
                 platform_setting_smart_protection_feedback_enabled=dict(
                     type="dict",
@@ -3365,6 +3375,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_event_forwarding_sns_config_json=dict(
                     type="dict",
@@ -3387,6 +3398,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_logo_binary_image_img=dict(
                     type="dict",
@@ -3397,6 +3409,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 web_reputation_setting_event_rank_risk_highly_suspicious=dict(
                     type="dict",
@@ -3415,6 +3428,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="false", no_log=False)
                     ),
+                    no_log=False,
                 ),
                 platform_setting_user_sign_in_attempts_allowed_number=dict(
                     type="dict",
@@ -3455,6 +3469,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_agent_initiated_activation_specify_hostname_enabled=dict(
                     type="dict",
@@ -3572,6 +3587,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 platform_setting_saml_service_provider_entity_id=dict(
                     type="dict",
@@ -3590,6 +3606,7 @@ def main():
                     options=dict(
                         value=dict(type="str", default="", no_log=True)
                     ),
+                    no_log=True,
                 ),
                 integrity_monitoring_setting_event_rank_severity_low=dict(
                     type="dict",

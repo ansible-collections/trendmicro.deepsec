@@ -1,0 +1,102 @@
+---
+- debug: msg="START cli/basic.yaml"
+
+- block:
+    - name: Apply the input config to System Settings config
+      register: result
+      trendmicro.deepsec.deepsec_system_settings: &id001
+        state: present
+        config:
+          platform_setting_syslog_config_id:
+            value: 12
+          platform_setting_http_strict_transport_enabled:
+            value: true
+          platform_setting_demo_mode_enabled:
+            value: true
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Apply the input config to System Settings config (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_system_settings: *id001
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Gather System Settings by System Settings Name
+      register: gather_result
+      trendmicro.deepsec.deepsec_system_settings:
+        state: gathered
+        config:
+          name:
+            - platform_setting_syslog_config_id
+            - platform_setting_http_strict_transport_enabled
+            - platform_setting_demo_mode_enabled
+
+    - debug:
+        msg:
+          - "{{ result['system_settings']['before'] }}"
+          - "{{ gather_result['gathered']['config'] }}"
+
+    - assert:
+        that:
+          - gather_result.changed == false
+          - "{{ result['system_settings']['before'] == gather_result['gathered']['config'] }}"
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_system_settings:
+        state: absent
+        config:
+          name:
+            - platform_setting_syslog_config_id
+            - platform_setting_http_strict_transport_enabled
+            - platform_setting_demo_mode_enabled
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown idempotency check
+      register: result
+      trendmicro.deepsec.deepsec_system_settings:
+        state: absent
+        config:
+          name:
+            - platform_setting_syslog_config_id
+            - platform_setting_http_strict_transport_enabled
+            - platform_setting_demo_mode_enabled
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Gather complete system settings
+      register: result
+      trendmicro.deepsec.deepsec_system_settings:
+        state: gathered
+    
+    - name: Apply the gathered system settings
+      register: result
+      trendmicro.deepsec.deepsec_system_settings:
+        config: "{{ result['gathered']['config'] }}"
+        state: present
+    
+    - assert:
+        that:
+          - result.changed == false
+
+  always:
+    - name: teardown/reset system settings
+      trendmicro.deepsec.deepsec_system_settings:
+        state: absent
+        config:
+          name:
+            - platform_setting_syslog_config_id
+            - platform_setting_http_strict_transport_enabled
+            - platform_setting_demo_mode_enabled
+
+- debug: msg="END cli/basic.yaml"

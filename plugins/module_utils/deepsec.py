@@ -77,7 +77,12 @@ def map_obj_to_params(module_return_params, key_transform, return_param):
 
 
 def check_if_config_exists(
-    deepsec_request, config_name, api, api_search_result, field_name="name"
+    deepsec_request,
+    config_name,
+    api,
+    api_search_result,
+    field_name="name",
+    api_request="post",
 ):
     """ The fn check if the config_name detect based on config
     :param deepsec_request: the objects from which the configuration should be read
@@ -98,9 +103,14 @@ def check_if_config_exists(
     temp_criteria["stringValue"] = config_name
     search_dict["searchCriteria"].append(temp_criteria)
 
-    search_result = deepsec_request.post(
-        "/api/{0}/search".format(api), data=search_dict
-    )
+    if api_request == "get":
+        search_result = deepsec_request.get(
+            "/api/{0}/{1}".format(api, config_name)
+        )
+    else:
+        search_result = deepsec_request.post(
+            "/api/{0}/search".format(api), data=search_dict
+        )
     if search_result.get(api_search_result):
         return search_result[api_search_result][0]
     return search_result

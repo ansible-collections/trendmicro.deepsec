@@ -5,7 +5,7 @@ The Ansible TrendMicro DeepSecurity collection includes a variety of Ansible con
 <!--start requires_ansible-->
 ## Ansible version compatibility
 
-This collection has been tested against following Ansible versions: **>=2.9.10,<2.11**.
+This collection has been tested against following Ansible versions: **>=2.9.10**.
 
 Plugins and modules within a collection may be tested with only specific Ansible versions.
 A collection may contain metadata that identifies these versions.
@@ -34,10 +34,12 @@ Name | Description
 Name | Description
 --- | ---
 [trendmicro.deepsec.deepsec_anti_malware](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_anti_malware_module.rst)|Create a new antimalware under TrendMicro Deep Security Policy
+[trendmicro.deepsec.deepsec_apikey](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_apikey_module.rst)|Create a new and manage API Keys.
 [trendmicro.deepsec.deepsec_firewallrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_firewallrules_module.rst)|Create a new firewall rule.
 [trendmicro.deepsec.deepsec_hosts_info](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_hosts_info_module.rst)|Obtain information about one or many Hosts defined by TrendMicro Deep Security
 [trendmicro.deepsec.deepsec_log_inspectionrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_log_inspectionrules_module.rst)|Create a new log inspection rule.
 [trendmicro.deepsec.deepsec_syslog](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_syslog_module.rst)|Configure or create a syslog configuration for TrendMicro Deep Security
+[trendmicro.deepsec.deepsec_system_settings](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_system_settings_module.rst)|Modify the system settings for TrendMicro Deep Security.
 
 <!--end collection content-->
 

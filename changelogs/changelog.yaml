@@ -1,0 +1,47 @@
+ancestor: null
+releases:
+  1.0.0:
+    changes:
+      bugfixes:
+      - Fix no log issues for private_key for deepsec_syslog_config module.
+      minor_changes:
+      - Add deepsec_anti_malware config module.
+      - Add deepsec_firewallrules config module.
+      - Add deepsec_hosts_info config module.
+      - Add deepsec_log_inspectionrules module.
+      - Add deepsec_syslog module.
+    fragments:
+    - anti_malware_config.yml
+    - fix_sanity_no_log_issue.yaml
+    modules:
+    - description: Create a new antimalware under TrendMicro Deep Security Policy
+      name: deepsec_anti_malware
+      namespace: ''
+    - description: Create a new firewall rule.
+      name: deepsec_firewallrules
+      namespace: ''
+    - description: Obtain information about one or many Hosts defined by TrendMicro Deep Security
+      name: deepsec_hosts_info
+      namespace: ''
+    - description: Create a new log inspection rule.
+      name: deepsec_log_inspectionrules
+      namespace: ''
+    - description: Configure or create a syslog configuration for TrendMicro Deep Security
+      name: deepsec_syslog
+    release_date: '2021-06-23'
+  1.1.0:
+    changes:
+      minor_changes:
+      - Add deepsec_apikey config module.
+      - Add deepsec_system_settings config module.
+    fragments:
+    - add_api_key_module.yaml
+    - add_system_settings_module.yaml
+    modules:
+    - description: Create a new and manage API Keys.
+      name: deepsec_apikey
+      namespace: ''
+    - description: Modify the system settings for TrendMicro Deep Security.
+      name: deepsec_system_settings
+      namespace: ''
+    release_date: '2021-06-24'

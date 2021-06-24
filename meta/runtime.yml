@@ -1,2 +1,18 @@
 ---
 requires_ansible: '>=2.9.10'
+plugin_routing:
+  modules:
+    anti_malware:
+      redirect: trendmicro.deepsec.deepsec_anti_malware
+    apikey:
+      redirect: trendmicro.deepsec.deepsec_apikey
+    firewallrules:
+      redirect: trendmicro.deepsec.deepsec_firewallrules
+    hosts_info:
+      redirect: trendmicro.deepsec.deepsec_hosts_info
+    log_inspectionrules:
+      redirect: trendmicro.deepsec.deepsec_log_inspectionrules
+    syslog:
+      redirect: trendmicro.deepsec.deepsec_syslog
+    system_settings:
+      redirect: trendmicro.deepsec.deepsec_system_settings

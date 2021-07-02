@@ -74,7 +74,7 @@ options:
           - Not available if event logging disabled is true.
           - Searchable as Boolean.
         type: bool
-      always_include_packet_data
+      always_include_packet_data:
         description:
           - Enabled to include package data in the event logs.
           - Not available if event logging disabled is true.

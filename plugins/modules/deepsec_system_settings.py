@@ -2366,6 +2366,8 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common i
 
 key_transform = {
     "platform_setting_saml_identity_provider_certificate_expiry_warning_daysr": "platformSettingSamlIdentityProviderCertificateExpiryWarningDays",
+    "platform_setting_allow_packet_data_capture_in_network_events": "platformSettingAllowPacketDataCaptureInNetworkEvents",
+    "platform_setting_dsm_as_xbc_agent_feature_enabled": "platformSettingDsmAsXbcAgentFeatureEnabled",
     "platform_setting_update_agent_security_on_missing_deep_security_manager_enabled": "platformSettingUpdateAgentSecurityOnMissingDeepSecurityManagerEnabled",
     "platform_setting_ddan_manual_source_server_url": "platformSettingDdanManualSourceServerUrl",
     "platform_setting_load_balancer_manager_port": "platformSettingLoadBalancerManagerPort",
@@ -2714,6 +2716,12 @@ def main():
                 platform_setting_saml_identity_provider_certificate_expiry_warning_daysr=dict(
                     type="dict",
                     options=dict(value=dict(type="str", default="30")),
+                ),
+                platform_setting_allow_packet_data_capture_in_network_events=dict(
+                    type="dict", options=dict(value=dict(type="str"))
+                ),
+                platform_setting_dsm_as_xbc_agent_feature_enabled=dict(
+                    type="dict", options=dict(value=dict(type="bool"))
                 ),
                 platform_setting_update_agent_security_on_missing_deep_security_manager_enabled=dict(
                     type="dict",

@@ -101,7 +101,7 @@ options:
         description:
           - Timestamp of the last rule modification, in milliseconds since epoch.
           - Searchable as Date.
-        type: str
+        type: int
       template:
         description: Type of template for the IntrusionPreventionRule. Applicable only to custom rules.
         choices: ["signature", "start-end-patterns", "custom"]
@@ -180,7 +180,25 @@ options:
           - List of CVEs associated with the IntrusionPreventionRule.
           - Searchable as String.
         type: list
-        elements: int
+        elements: str
+      id:
+        description:
+          - ID for the Intrusion prevention rule.
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
+        type: int
+      identifier:
+        description:
+          - Identifier for the Intrusion prevention rule.
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
+        type: str
+      can_be_assigned_alone:
+        description:
+          - Intrusion prevention rule can be assigned by self.
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
+        type: bool
   state:
     description:
       - The state the configuration should be left in
@@ -206,7 +224,6 @@ EXAMPLES = """
       - alert_enabled: false
         always_include_packet_data: false
         application_type_id: 300
-        can_be_assigned_alone: true
         template: signature
         signature: test_new_signature_1
         debug_mode_enabled: false
@@ -220,7 +237,6 @@ EXAMPLES = """
       - alert_enabled: false
         always_include_packet_data: false
         application_type_id: 300
-        can_be_assigned_alone: true
         template: signature
         signature: test_new_signature_2
         debug_mode_enabled: false
@@ -621,7 +637,7 @@ def main():
         "alert_enabled": dict(type="bool"),
         "schedule_id": dict(type="int"),
         "context_id": dict(type="int"),
-        "recommendations_mode": dict(type="str"),
+        "recommendations_mode": dict(type="str", choices=["enabled", "ignored", "unknown", "disabled"]),
         "depends_on_rule_ids": dict(type="list", elements="int"),
         "cvss_score": dict(type="str"),
         "cve": dict(type="list", elements="str"),

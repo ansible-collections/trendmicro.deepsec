@@ -1604,6 +1604,26 @@ options:
           value:
             description: Value of a Setting.
             type: str
+      platform_setting_allow_packet_data_capture_in_network_events:
+        description:
+          - platform setting that allows packet data capture in network_events
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
+        type: dict
+        suboptions:
+          value:
+            description: Value of a Setting.
+            type: str
+      platform_setting_dsm_as_xbc_agent_feature_enabled:
+        description:
+          - platform setting dsm as xbc agent feature enabled
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
+        type: dict
+        suboptions:
+          value:
+            description: Value of a Setting.
+            type: bool
   state:
     description:
       - The state the configuration should be left in

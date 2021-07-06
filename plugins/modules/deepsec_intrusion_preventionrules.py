@@ -637,7 +637,9 @@ def main():
         "alert_enabled": dict(type="bool"),
         "schedule_id": dict(type="int"),
         "context_id": dict(type="int"),
-        "recommendations_mode": dict(type="str", choices=["enabled", "ignored", "unknown", "disabled"]),
+        "recommendations_mode": dict(
+            type="str", choices=["enabled", "ignored", "unknown", "disabled"]
+        ),
         "depends_on_rule_ids": dict(type="list", elements="int"),
         "cvss_score": dict(type="str"),
         "cve": dict(type="list", elements="str"),

@@ -99,6 +99,26 @@
         that:
           - result.changed == false
 
+    - name: Modify an existing Intrusion prevention rules
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: &id003
+        state: present
+        config:
+          - name: TEST IPR 2
+            severity: low
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Modify an existing Intrusion prevention rules (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: *id003
+
+    - assert:
+        that:
+          - result.changed == false
+
     - name: teardown
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules:

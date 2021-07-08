@@ -217,6 +217,9 @@ author: Ansible Security Automation Team (@justjais) <https://github.com/ansible
 
 EXAMPLES = """
 
+# Using PRESENT state
+# -------------------
+
 - name: Create Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: present
@@ -251,7 +254,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "intrusion_preventionrules": {
 #     "after": [
 #         {
 #             "action": "drop",
@@ -293,57 +296,61 @@ EXAMPLES = """
 #     "before": []
 # }
 
-- name: Delete Intrusion Prevention Rules
+- name: Modify the severity of Integrity Monitoring Rule by name
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
-    state: absent
+    state: present
     config:
-      - name: TEST IPR 1
       - name: TEST IPR 2
+        severity: low
 
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
-#     "after": [],
+# "intrusion_preventionrules": {
+#     "after": [
+#         {
+#            "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 7902,
+#             "name": "TEST IPR 2",
+#             "priority": "normal",
+#             "severity": "low",
+#             "signature": "test_new_signature",
+#             "template": "signature"
+#          }
+#     ],
 #     "before": [
 #         {
-#             "action": "drop",
+#            "action": "drop",
 #             "alert_enabled": false,
 #             "always_include_packet_data": false,
 #             "application_type_id": 300,
 #             "case_sensitive": false,
 #             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
+#             "description": "TEST IPR",
 #             "detect_only": false,
 #             "event_logging_disabled": false,
 #             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
+#             "id": 7902,
 #             "name": "TEST IPR 2",
 #             "priority": "normal",
 #             "severity": "medium",
-#             "signature": "test_new_signature_2",
+#             "signature": "test_new_signature",
 #             "template": "signature"
-#         }
+#          }
 #     ]
 # }
+
+# Using GATHERED state
+# --------------------
 
 - name: Gather Intrusion Prevention Rules by IPR names
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
@@ -397,6 +404,62 @@ EXAMPLES = """
 - name: Gather ALL of the Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: gathered
+
+# Using ABSENT state
+# ------------------
+
+- name: Delete Intrusion Prevention Rules
+  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+    state: absent
+    config:
+      - name: TEST IPR 1
+      - name: TEST IPR 2
+
+# Play Run:
+# =========
+#
+# "intrusion_preventionrules": {
+#     "after": [],
+#     "before": [
+#         {
+#             "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR 2 DESCRIPTION",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 7887,
+#             "name": "TEST IPR 1",
+#             "priority": "normal",
+#             "severity": "medium",
+#             "signature": "test_new_signature_1",
+#             "template": "signature"
+#         },
+#         {
+#             "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR 2 DESCRIPTION",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 7888,
+#             "name": "TEST IPR 2",
+#             "priority": "normal",
+#             "severity": "medium",
+#             "signature": "test_new_signature_2",
+#             "template": "signature"
+#         }
+#     ]
+# }
+
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -404,6 +467,7 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     DeepSecurityRequest,
     map_obj_to_params,
     map_params_to_obj,
+    remove_get_keys_from_payload_dict,
 )
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
     utils,
@@ -432,10 +496,12 @@ key_transform = {
     "cve": "CVE",
 }
 
+get_supported_keys = ["id", "identifier", "can_be_assigned_alone"]
+
 api_object = "/api/intrusionpreventionrules"
 api_object_search = "/api/intrusionpreventionrules/search"
 api_return = "intrusionPreventionRules"
-module_return = "intrusion_prevention_rules"
+module_return = "intrusion_preventionrules"
 
 
 def search_for_ipr_by_name(deepsec_request, name):
@@ -512,14 +578,10 @@ def reset_module_api_config(module, deepsec_request):
                     )
         if changed:
             config.update({"before": before, "after": after})
-            module.exit_json(
-                intrusion_prevention_rules=config, changed=changed
-            )
+            module.exit_json(intrusion_preventionrules=config, changed=changed)
         else:
             config.update({"before": before})
-            module.exit_json(
-                intrusion_prevention_rules=config, changed=changed
-            )
+            module.exit_json(intrusion_preventionrules=config, changed=changed)
 
 
 def configure_module_api(argspec, module, deepsec_request):
@@ -534,6 +596,7 @@ def configure_module_api(argspec, module, deepsec_request):
             "can_be_assigned_alone",
             "type",
         ]
+        temp_name = []
         for each in module.params["config"]:
             search_by_name = search_for_ipr_by_name(
                 deepsec_request, each["name"]
@@ -545,13 +608,21 @@ def configure_module_api(argspec, module, deepsec_request):
                     if every["name"] == each["name"]:
                         diff = utils.dict_diff(every, each)
                 if diff:
-                    before.append(every)
-                    for each_key in remove_from_diff_compare:
-                        if each_key in diff:
-                            diff.pop(each_key)
+                    diff = remove_get_keys_from_payload_dict(
+                        diff, remove_from_diff_compare
+                    )
                     if diff:
+                        if each["name"] not in temp_name:
+                            after.extend(before)
+                        before.append(every)
                         # Check for actual modification and if present fire
                         # the request over that IPR ID
+                        each = utils.remove_empties(
+                            utils.dict_merge(every, each)
+                        )
+                        each = remove_get_keys_from_payload_dict(
+                            each, remove_from_diff_compare
+                        )
                         changed = True
                         utils.validate_config(argspec, {"config": [each]})
                         payload = map_params_to_obj(each, key_transform)
@@ -568,10 +639,16 @@ def configure_module_api(argspec, module, deepsec_request):
                                 api_request, key_transform, api_return
                             )
                         )
+                    else:
+                        before.append(every)
+                        temp_name.append(every["name"])
                 else:
-                    before.append(each_result)
+                    before.append(every)
             else:
                 changed = True
+                each = remove_get_keys_from_payload_dict(
+                    each, get_supported_keys
+                )
                 utils.validate_config(argspec, {"config": [each]})
                 payload = map_params_to_obj(each, key_transform)
                 api_request = deepsec_request.post(
@@ -585,7 +662,7 @@ def configure_module_api(argspec, module, deepsec_request):
                     map_obj_to_params(api_request, key_transform, api_return)
                 )
         config.update({"before": before, "after": after})
-        module.exit_json(intrusion_prevention_rules=config, changed=changed)
+        module.exit_json(intrusion_preventionrules=config, changed=changed)
 
 
 def main():

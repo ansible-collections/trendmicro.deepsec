@@ -37,6 +37,13 @@ def find_dict_in_list(some_list, key, value):
     return None
 
 
+def remove_get_keys_from_payload_dict(payload_dict, remove_key_list):
+    for each_key in remove_key_list:
+        if each_key in payload_dict:
+            payload_dict.pop(each_key)
+    return payload_dict
+
+
 def map_params_to_obj(module_params, key_transform):
     """ The fn to convert the api returned params to module params
     :param module_params: Module params

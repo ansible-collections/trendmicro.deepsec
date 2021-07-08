@@ -59,7 +59,7 @@
     - assert:
         that:
           - gather_result.changed == false
-          - "{{ result['intrusion_prevention_rules']['before'] == gather_result['gathered'] }}"
+          - "{{ result['intrusion_preventionrules']['before'] == gather_result['gathered'] }}"
 
     - name: teardown
       register: result

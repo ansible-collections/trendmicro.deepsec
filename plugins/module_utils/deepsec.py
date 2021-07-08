@@ -91,6 +91,7 @@ def map_obj_to_params(module_return_params, key_transform, return_param):
                 or module_return_params.get(v) == 0
                 or module_return_params.get(v) is False
             ):
+                temp[k] = module_return_params[v]
                 temp[k] = module_return_params.pop(v)
         if module_return_params:
             temp.update(module_return_params)

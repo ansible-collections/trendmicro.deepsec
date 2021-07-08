@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {
 }
 
 DOCUMENTATION = """
-module: deepsec_integrity_monitoring_rules
+module: deepsec_integrity_monitoringrules
 short_description: Create/Configure Integrity Monitoring Rules.
 description:
   - This module creates and configure Integrity Monitoring Rules under TrendMicro Deep Security.
@@ -59,7 +59,7 @@ options:
           - Empty if the IntegrityMonitoringRule does not monitor a registry key.
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
         type: str
-      registryinclude_subkeys:
+      registry_include_subkeys:
         description:
           - Controls whether the IntegrityMonitoringRule should also include subkeys of the registry key it monitors.
           - Defaults to false.
@@ -72,12 +72,11 @@ options:
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
         type: list
         elements: str
-      registryinclude_default_value:
+      registry_include_default_value:
         description:
           - Controls whether the rule should monitor default registry key values.
           - Defaults to true.
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
-        default: true
         type: bool
       registry_excluded_values:
         description:
@@ -104,7 +103,6 @@ options:
             the base file directory that is associated with it.
           - Defaults to false.
           - Ignored if the IntegrityMonitoringRule does not monitor a file directory.
-        default: false
         type: bool
       file_included_values:
         description:
@@ -143,7 +141,6 @@ options:
           - Controls whether an alert should be made if an event related to the IntegrityMonitoringRule is logged.
           - Defaults to false.
           - Searchable as Boolean.
-        default: false
         type: bool
       real_time_monitoring_enabled:
         description:
@@ -151,7 +148,6 @@ options:
           - Defaults to true which indicates that it is monitored in real time.
           - A value of false indicates that it will only be checked during scans.
           - Searchable as Boolean.
-        default: true
         type: bool
       recommendations_mode:
         description:
@@ -159,7 +155,7 @@ options:
           - Can be set to enabled or ignored.
           - Custom rules cannot be recommended.
           - Searchable as Choice.
-        choices: ["enabled", "ignored", "unknown", "disabled"
+        choices: ["enabled", "ignored", "unknown", "disabled"]
   state:
     description:
       - The state the configuration should be left in
@@ -178,190 +174,294 @@ author: Ansible Security Automation Team (@justjais) <https://github.com/ansible
 
 EXAMPLES = """
 
-- name: Create Integrity Monitoring Rules
-  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
+# Using PRESENT state
+# -------------------
+
+- name: Create and Configure Integrity Monitoring Rules
+  trendmicro.deepsec.deepsec_integrity_monitoringrules:
     state: present
     config:
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        can_be_assigned_alone: true
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 2 DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 1
-        priority: normal
+      - name: THIS IS TEST IMR - 1
+        alert_enabled: false
+        description: THIS IS TEST IMR DESCRIPTION - 1
+        real_time_monitoring_enabled: true
+        registry_included_values:
+          - test_1
+          - test_2
         severity: medium
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        can_be_assigned_alone: true
-        template: signature
-        signature: test_new_signature_2
-        debug_mode_enabled: false
-        description: TEST IPR 2 DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 2
-        priority: normal
-        severity: medium
+        template: registry
+      - name: THIS IS TEST IMR - 2
+        alert_enabled: false
+        description: THIS IS TEST IMR DESCRIPTION - 2
+        real_time_monitoring_enabled: true
+        registry_attributes:
+          - test
+        severity: low
+        template: registry
 
 # Play Run:
 # =========
 #
-# "integrity_monitoring_rules": {
+# "integrity_monitoringrules": {
 #     "after": [
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
+#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#             "id": 213,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 1",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "STANDARD"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_subkeys": false,
+#             "registry_included_values": [
+#                 "test_1",
+#                 "test_2"
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
 #             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "template": "registry"
 #         },
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 214,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_subkeys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "low",
+#             "template": "registry"
 #         }
 #     ],
 #     "before": []
 # }
 
-- name: Delete Integrity Monitoring Rules
-  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
-    state: absent
+- name: Modify the severity of Integrity Monitoring Rule by name
+  trendmicro.deepsec.deepsec_integrity_monitoringrules:
+    state: present
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: THIS IS TEST IMR - 2
+        severity: medium
 
 # Play Run:
 # =========
 #
-# "integrity_monitoring_rules": {
-#     "after": [],
+# "integrity_monitoringrules": {
+#     "after": [
+#         {
+#             "alert_enabled": false,
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 216,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_subkeys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "medium",
+#             "template": "registry"
+#         }
+#     ],
 #     "before": [
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 216,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_subkeys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "low",
+#             "template": "registry"
 #         }
 #     ]
 # }
 
-- name: Gather Integrity Monitoring Rules by IPR names
-  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
+# Using GATHERED state
+# --------------------
+
+- name: Gather Integrity Monitoring Rules by IMR names
+  trendmicro.deepsec.deepsec_integrity_monitoringrules:
     state: gathered
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: THIS IS TEST IMR - 1
+      - name: THIS IS TEST IMR - 2
 
 # Play Run:
 # =========
 #
 # "gathered": [
 #     {
-#         "action": "drop",
 #         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7887,
-#         "name": "TEST IPR 1",
-#         "priority": "normal",
+#         "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#         "id": 215,
+#         "minimum_agent_version": "6.0.0.0",
+#         "minimum_manager_version": "6.0.0",
+#         "name": "THIS IS TEST IMR - 1",
+#         "real_time_monitoring_enabled": true,
+#         "registry_attributes": [
+#             "STANDARD"
+#         ],
+#         "registry_excluded_values": [
+#             ""
+#         ],
+#         "registry_include_default_value": true,
+#         "registry_include_subkeys": false,
+#         "registry_included_values": [
+#             "test_1",
+#             "test_2"
+#         ],
+#         "registry_key_root": "HKEY_CLASSES_ROOT",
+#         "registry_key_value": "\\",
 #         "severity": "medium",
-#         "signature": "test_new_signature_1",
-#         "template": "signature"
+#         "template": "registry"
 #     },
 #     {
-#         "action": "drop",
 #         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7888,
-#         "name": "TEST IPR 2",
-#         "priority": "normal",
-#         "severity": "medium",
-#         "signature": "test_new_signature_2",
-#         "template": "signature"
+#         "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#         "id": 216,
+#         "minimum_agent_version": "6.0.0.0",
+#         "minimum_manager_version": "6.0.0",
+#         "name": "THIS IS TEST IMR - 2",
+#         "real_time_monitoring_enabled": true,
+#         "registry_attributes": [
+#             "test"
+#         ],
+#         "registry_excluded_values": [
+#             ""
+#         ],
+#         "registry_include_default_value": true,
+#         "registry_include_subkeys": false,
+#         "registry_included_values": [
+#             ""
+#         ],
+#         "registry_key_root": "HKEY_CLASSES_ROOT",
+#         "registry_key_value": "\\",
+#         "severity": "low",
+#         "template": "registry"
 #     }
 # ]
 
 - name: Gather ALL of the Integrity Monitoring Rules
-  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
+  trendmicro.deepsec.deepsec_integrity_monitoringrules:
     state: gathered
-"""
 
+# Using ABSENT state
+# ------------------
+
+- name: Delete existing Integrity Monitoring Rules
+  trendmicro.deepsec.deepsec_integrity_monitoringrules:
+    state: absent
+    config:
+      - name: THIS IS TEST IMR - 1
+      - name: THIS IS TEST IMR - 2
+
+# Play Run:
+# =========
+#
+# "integrity_monitoringrules": {
+#     "after": [],
+#     "before": [
+#         {
+#             "alert_enabled": false,
+#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#             "id": 213,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 1",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "STANDARD"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_subkeys": false,
+#             "registry_included_values": [
+#                 "test_1",
+#                 "test_2"
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "medium",
+#             "template": "registry"
+#         },
+#         {
+#             "alert_enabled": false,
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 214,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_subkeys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "low",
+#             "template": "registry"
+#         }
+#     ]
+# }
+
+"""
+import q
+import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
@@ -374,32 +474,32 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common i
 
 key_transform = {
     "id": "ID",
-    "minimum_agent_version": "minimumAgentVersion",
-    "application_type_id": "applicationTypeID",
-    "detect_only": "detectOnly",
-    "event_logging_disabled": "eventLoggingDisabled",
-    "generate_event_on_packet_drop": "generateEventOnPacketDrop",
-    "always_include_packet_data": "alwaysIncludePacketData",
-    "debug_mode_enabled": "debugModeEnabled",
-    "original_issue": "originalIssue",
-    "last_updated": "lastUpdated",
-    "can_be_assigned_alone": "canBeAssignedAlone",
-    "case_sensitive": "caseSensitive",
+    "registry_key_root": "registryKeyRoot",
+    "registry_key_value": "registryKeyValue",
+    "registry_include_subkeys": "registryIncludeSubKeys",
+    "registry_included_values": "registryIncludedValues",
+    "registry_include_default_value": "registryIncludeDefaultValue",
+    "registry_excluded_values": "registryExcludedValues",
+    "registry_attributes": "registryAttributes",
+    "filebase_directory": "fileBaseDirectory",
+    "fileinclude_subdirectories": "fileIncludeSubDirectories",
+    "file_included_values": "fileIncludedValues",
+    "file_excluded_values": "fileExcludedValues",
+    "file_attributes": "fileAttributes",
     "custom_xml": "customXML",
     "alert_enabled": "alertEnabled",
-    "schedule_id": "scheduleID",
-    "context_id": "contextID",
+    "real_time_monitoring_enabled": "realTimeMonitoringEnabled",
     "recommendations_mode": "recommendationsMode",
-    "depends_on_rule_ids": "dependsOnRuleIDs",
-    "cvss_score": "CVSSScore",
-    "cve": "CVE",
+    "minimum_agent_version": "minimumAgentVersion",
+    "minimum_manager_version": "minimumManagerVersion",
+    "original_issue": "originalIssue",
+    "last_updated": "lastUpdated",
 }
 
 api_object = "/api/integritymonitoringrules"
 api_object_search = "/api/integritymonitoringrules/search"
 api_return = "integrityMonitoringRules"
-module_return = "integrity_monitoring_rules"
-
+module_return = "integrity_monitoringrules"
 
 def search_for_imr_by_name(deepsec_request, name):
     search_payload = {
@@ -476,45 +576,55 @@ def reset_module_api_config(module, deepsec_request):
         if changed:
             config.update({"before": before, "after": after})
             module.exit_json(
-                integrity_monitoring_rules=config, changed=changed
+                integrity_monitoringrules=config, changed=changed
             )
         else:
             config.update({"before": before})
             module.exit_json(
-                integrity_monitoring_rules=config, changed=changed
+                integrity_monitoringrules=config, changed=changed
             )
 
-
 def configure_module_api(argspec, module, deepsec_request):
+    q(module.params.get("config"))
     if module.params.get("config"):
         config = {}
         before = []
         after = []
         changed = False
         remove_from_diff_compare = [
-            "cvss_score",
-            "cve",
-            "can_be_assigned_alone",
-            "type",
+            "recommendations_mode",
+            "minimum_agent_version",
+            "minimum_manager_version",
+            "identifier",
+            "id",
         ]
+        temp_name = []
         for each in module.params["config"]:
+            q(each)
             search_by_name = search_for_imr_by_name(
                 deepsec_request, each["name"]
             )
             if search_by_name.get(api_return):
                 each_result = search_by_name[api_return]
-                for every in each_result:
+                temp = copy.deepcopy(each_result)
+                for every in temp:
                     every = map_obj_to_params(every, key_transform, api_return)
                     if every["name"] == each["name"]:
                         diff = utils.dict_diff(every, each)
                 if diff:
-                    before.append(every)
                     for each_key in remove_from_diff_compare:
                         if each_key in diff:
                             diff.pop(each_key)
                     if diff:
+                        if each['name'] not in temp_name:
+                          after.extend(before)
+                        before.append(every)
                         # Check for actual modification and if present fire
                         # the request over that IPR ID
+                        each = utils.remove_empties(utils.dict_merge(every, each))
+                        for key in remove_from_diff_compare:
+                          if key in each:
+                            each.pop(key)
                         changed = True
                         utils.validate_config(argspec, {"config": [each]})
                         payload = map_params_to_obj(each, key_transform)
@@ -531,8 +641,11 @@ def configure_module_api(argspec, module, deepsec_request):
                                 api_request, key_transform, api_return
                             )
                         )
+                    else:
+                      before.append(every)
+                      temp_name.append(every['name'])
                 else:
-                    before.append(each_result)
+                    before.append(every)
             else:
                 changed = True
                 utils.validate_config(argspec, {"config": [each]})
@@ -548,7 +661,7 @@ def configure_module_api(argspec, module, deepsec_request):
                     map_obj_to_params(api_request, key_transform, api_return)
                 )
         config.update({"before": before, "after": after})
-        module.exit_json(integrity_monitoring_rules=config, changed=changed)
+        module.exit_json(integrity_monitoringrules=config, changed=changed)
 
 
 def main():
@@ -556,54 +669,47 @@ def main():
     ipr_spec = {
         "name": dict(type="str"),
         "description": dict(type="str"),
-        "minimum_agent_version": dict(type="str"),
-        "application_type_id": dict(type="int"),
-        "priority": dict(
-            type="str", choices=["lowest", "low", "normal", "high", "highest"]
-        ),
         "severity": dict(
             type="str", choices=["low", "medium", "high", "critical"]
         ),
-        "detect_only": dict(type="bool"),
-        "event_logging_disabled": dict(type="bool"),
-        "generate_event_on_packet_drop": dict(type="bool"),
-        "always_include_packet_data": dict(type="bool"),
-        "debug_mode_enabled": dict(type="bool"),
-        "type": dict(
-            type="str",
-            choices=[
-                "custom",
-                "smart",
-                "vulnerability",
-                "exploit",
-                "hidden",
-                "policy",
-                "info",
-            ],
-        ),
-        "original_issue": dict(type="int"),
-        "id": dict(type="int"),
-        "identifier": dict(type="str"),
-        "last_updated": dict(type="int"),
         "template": dict(
-            type="str", choices=["signature", "start-end-patterns", "custom"]
+            type="str", choices=["registry", "file", "custom"]
         ),
-        "signature": dict(type="str"),
-        "start": dict(type="str"),
-        "patterns": dict(type="list", elements="str"),
-        "end": dict(type="str"),
-        "can_be_assigned_alone": dict(type="bool"),
-        "case_sensitive": dict(type="bool"),
-        "condition": dict(type="str", choices=["all", "any", "none"]),
-        "action": dict(type="str", choices=["drop", "log-only"]),
+        "registry_key_root": dict(type="str"),
+        "registry_key_value": dict(type="str"),
+        "registry_include_subkeys": dict(type="bool"),
+        "registry_included_values": dict(
+            type="list", elements="str"
+        ),
+        "registry_include_default_value": dict(type="bool"),
+        "registry_excluded_values": dict(
+            type="list", elements="str"
+        ),
+        "registry_attributes": dict(
+            type="list", elements="str"
+        ),
+        "filebase_directory": dict(type="str"),
+        "fileinclude_subdirectories": dict(type="bool"),
+        "file_included_values": dict(
+            type="list", elements="str"
+        ),
+        "file_excluded_values": dict(
+            type="list", elements="str"
+        ),
+        "file_attributes": dict(
+            type="list", elements="str"
+        ),
         "custom_xml": dict(type="str"),
         "alert_enabled": dict(type="bool"),
-        "schedule_id": dict(type="int"),
-        "context_id": dict(type="int"),
-        "recommendations_mode": dict(type="str"),
-        "depends_on_rule_ids": dict(type="list", elements="int"),
-        "cvss_score": dict(type="str"),
-        "cve": dict(type="list", elements="str"),
+        "real_time_monitoring_enabled": dict(type="bool"),
+        "recommendations_mode": dict(
+            type="str", choices=["enabled", "ignored", "unknown", "disabled"]
+        ),
+        "minimum_agent_version": dict(type="str"),
+        "minimum_manager_version": dict(type="str"),
+        "original_issue": dict(type="int"),
+        "last_updated": dict(type="int"),
+        "type": dict(type="str")
     }
 
     argspec = dict(

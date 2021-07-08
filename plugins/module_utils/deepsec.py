@@ -53,14 +53,8 @@ def map_params_to_obj(module_params, key_transform):
     """
     obj = {}
     for k, v in iteritems(key_transform):
-        if k in module_params and (
-            module_params.get(k)
-            or module_params.get(k) == 0
-            or module_params.get(k) is False
-        ):
-            obj[v] = module_params.pop(k)
-    if module_params:
-        obj.update(module_params)
+        if module_params.get(k):
+            obj[v] = module_params.get(k)
     return obj
 
 
@@ -77,24 +71,15 @@ def map_obj_to_params(module_return_params, key_transform, return_param):
         for each in module_return_params[return_param]:
             api_temp = {}
             for k, v in iteritems(key_transform):
-                if v in each and (
-                    each.get(v) or each.get(v) == 0 or each.get(v) is False
-                ):
-                    api_temp[k] = each.pop(v)
-            if each:
-                api_temp.update(each)
+                if v in each and each.get(v):
+                    api_temp[k] = each[v]
             temp[return_param].append(api_temp)
     else:
         for k, v in iteritems(key_transform):
             if v in module_return_params and (
-                module_return_params.get(v)
-                or module_return_params.get(v) == 0
-                or module_return_params.get(v) is False
+                module_return_params.get(v) or module_return_params.get(v) == 0
             ):
                 temp[k] = module_return_params[v]
-                temp[k] = module_return_params.pop(v)
-        if module_return_params:
-            temp.update(module_return_params)
     return temp
 
 

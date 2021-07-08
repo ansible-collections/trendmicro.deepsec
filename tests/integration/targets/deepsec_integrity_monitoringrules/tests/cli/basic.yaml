@@ -88,6 +88,26 @@
         that:
           - result.changed == false
 
+    - name: Modify an existing Integrity Monitoring Rules
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: &id003
+        state: present
+        config:
+          - name: THIS IS TEST IMR - 2
+            severity: medium
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Modify an existing Integrity Monitoring Rules (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: *id003
+
+    - assert:
+        that:
+          - result.changed == false
+
     - name: teardown
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoringrules:
@@ -99,7 +119,6 @@
     - assert:
         that:
           - result.changed == true
-
 
   always:
     - name: ALWAYS teardown/reset Integrity Monitoring Rules

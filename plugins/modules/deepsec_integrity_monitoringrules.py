@@ -156,6 +156,60 @@ options:
           - Custom rules cannot be recommended.
           - Searchable as Choice.
         choices: ["enabled", "ignored", "unknown", "disabled"]
+        type: str
+      minimum_agent_version:
+        description:
+          - Minimum Deep Security Agent version that supports the IntegrityMonitoringRule.
+          - This value is provided in the X.X.X.X format. Defaults to 6.0.0.0.
+          - If an agent is not the minimum required version, the manager does not send the rule to the agent,
+            and generates an alert. Searchable as String.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: str
+      minimum_manager_version:
+        description:
+          - Minimum Deep Security Manager version that supports the IntegrityMonitoringRule.
+          - This value is provided in the X.X.X format. Defaults to 6.0.0.
+          - An alert will be raised if a manager that fails to meet the minimum manager version value
+            tries to assign this rule to a host or profile. Searchable as String.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: str
+      identifier:
+        description:
+          - Identifier of the IntegrityMonitoringRule from Trend Micro.
+          - Empty if the IntegrityMonitoringRule is user created. Searchable as String.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: str
+      type:
+        description:
+          - Type of the IntegrityMonitoringRule.
+          - If the rule is predefined by Trend Micro, it is set to 2.
+          - If it is user created, it is set to 1. Searchable as String.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: str
+      original_issue:
+        description:
+          - Timestamp when the IntegrityMonitoringRule was originally issued by Trend Micro, in milliseconds since epoch.
+          - Empty if the IntegrityMonitoringRule is user created. Searchable as Date.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: int
+      last_updated:
+        description:
+          - Timestamp when the IntegrityMonitoringRule was last updated, in milliseconds since epoch.
+            Searchable as Date.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: int
+      id:
+        description:
+          - ID of the IntegrityMonitoringRule. Searchable as ID.
+          - APPLICABLE ONLY with GET call
+          - NOT APPLICABLE param with Create/Modify POST call.
+        type: int
   state:
     description:
       - The state the configuration should be left in
@@ -460,13 +514,14 @@ EXAMPLES = """
 # }
 
 """
-import q
+
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     map_obj_to_params,
     map_params_to_obj,
+    remove_get_keys_from_payload_dict,
 )
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
     utils,
@@ -496,10 +551,21 @@ key_transform = {
     "last_updated": "lastUpdated",
 }
 
+get_supported_keys = [
+    "minimum_agent_version",
+    "minimum_manager_version",
+    "identifier",
+    "type",
+    "original_issue",
+    "last_updated",
+    "id",
+]
+
 api_object = "/api/integritymonitoringrules"
 api_object_search = "/api/integritymonitoringrules/search"
 api_return = "integrityMonitoringRules"
 module_return = "integrity_monitoringrules"
+
 
 def search_for_imr_by_name(deepsec_request, name):
     search_payload = {
@@ -575,32 +641,20 @@ def reset_module_api_config(module, deepsec_request):
                     )
         if changed:
             config.update({"before": before, "after": after})
-            module.exit_json(
-                integrity_monitoringrules=config, changed=changed
-            )
+            module.exit_json(integrity_monitoringrules=config, changed=changed)
         else:
             config.update({"before": before})
-            module.exit_json(
-                integrity_monitoringrules=config, changed=changed
-            )
+            module.exit_json(integrity_monitoringrules=config, changed=changed)
+
 
 def configure_module_api(argspec, module, deepsec_request):
-    q(module.params.get("config"))
     if module.params.get("config"):
         config = {}
         before = []
         after = []
         changed = False
-        remove_from_diff_compare = [
-            "recommendations_mode",
-            "minimum_agent_version",
-            "minimum_manager_version",
-            "identifier",
-            "id",
-        ]
         temp_name = []
         for each in module.params["config"]:
-            q(each)
             search_by_name = search_for_imr_by_name(
                 deepsec_request, each["name"]
             )
@@ -612,19 +666,21 @@ def configure_module_api(argspec, module, deepsec_request):
                     if every["name"] == each["name"]:
                         diff = utils.dict_diff(every, each)
                 if diff:
-                    for each_key in remove_from_diff_compare:
-                        if each_key in diff:
-                            diff.pop(each_key)
+                    diff = remove_get_keys_from_payload_dict(
+                        diff, get_supported_keys
+                    )
                     if diff:
-                        if each['name'] not in temp_name:
-                          after.extend(before)
+                        if each["name"] not in temp_name:
+                            after.extend(before)
                         before.append(every)
                         # Check for actual modification and if present fire
                         # the request over that IPR ID
-                        each = utils.remove_empties(utils.dict_merge(every, each))
-                        for key in remove_from_diff_compare:
-                          if key in each:
-                            each.pop(key)
+                        each = utils.remove_empties(
+                            utils.dict_merge(every, each)
+                        )
+                        each = remove_get_keys_from_payload_dict(
+                            each, get_supported_keys
+                        )
                         changed = True
                         utils.validate_config(argspec, {"config": [each]})
                         payload = map_params_to_obj(each, key_transform)
@@ -642,12 +698,15 @@ def configure_module_api(argspec, module, deepsec_request):
                             )
                         )
                     else:
-                      before.append(every)
-                      temp_name.append(every['name'])
+                        before.append(every)
+                        temp_name.append(every["name"])
                 else:
                     before.append(every)
             else:
                 changed = True
+                each = remove_get_keys_from_payload_dict(
+                    each, get_supported_keys
+                )
                 utils.validate_config(argspec, {"config": [each]})
                 payload = map_params_to_obj(each, key_transform)
                 api_request = deepsec_request.post(
@@ -672,33 +731,19 @@ def main():
         "severity": dict(
             type="str", choices=["low", "medium", "high", "critical"]
         ),
-        "template": dict(
-            type="str", choices=["registry", "file", "custom"]
-        ),
+        "template": dict(type="str", choices=["registry", "file", "custom"]),
         "registry_key_root": dict(type="str"),
         "registry_key_value": dict(type="str"),
         "registry_include_subkeys": dict(type="bool"),
-        "registry_included_values": dict(
-            type="list", elements="str"
-        ),
+        "registry_included_values": dict(type="list", elements="str"),
         "registry_include_default_value": dict(type="bool"),
-        "registry_excluded_values": dict(
-            type="list", elements="str"
-        ),
-        "registry_attributes": dict(
-            type="list", elements="str"
-        ),
+        "registry_excluded_values": dict(type="list", elements="str"),
+        "registry_attributes": dict(type="list", elements="str"),
         "filebase_directory": dict(type="str"),
         "fileinclude_subdirectories": dict(type="bool"),
-        "file_included_values": dict(
-            type="list", elements="str"
-        ),
-        "file_excluded_values": dict(
-            type="list", elements="str"
-        ),
-        "file_attributes": dict(
-            type="list", elements="str"
-        ),
+        "file_included_values": dict(type="list", elements="str"),
+        "file_excluded_values": dict(type="list", elements="str"),
+        "file_attributes": dict(type="list", elements="str"),
         "custom_xml": dict(type="str"),
         "alert_enabled": dict(type="bool"),
         "real_time_monitoring_enabled": dict(type="bool"),
@@ -709,7 +754,9 @@ def main():
         "minimum_manager_version": dict(type="str"),
         "original_issue": dict(type="int"),
         "last_updated": dict(type="int"),
-        "type": dict(type="str")
+        "type": dict(type="str"),
+        "identifier": dict(type="str"),
+        "id": dict(type="int"),
     }
 
     argspec = dict(

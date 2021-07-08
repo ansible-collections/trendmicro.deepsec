@@ -1,0 +1,123 @@
+---
+- debug: msg="START cli/basic.yaml"
+
+- block:
+    - name: Create Intrusion Prevention Rules
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: &id001
+        state: present
+        config:
+          - alert_enabled: false
+            always_include_packet_data: false
+            application_type_id: 300
+            can_be_assigned_alone: true
+            template: signature
+            signature: test_new_signature_1
+            debug_mode_enabled: false
+            description: TEST IPR 2 DESCRIPTION
+            detect_only: false
+            event_logging_disabled: false
+            generate_event_on_packet_drop: true
+            name: TEST IPR 1
+            priority: normal
+            severity: medium
+          - alert_enabled: false
+            always_include_packet_data: false
+            application_type_id: 300
+            can_be_assigned_alone: true
+            template: signature
+            signature: test_new_signature_2
+            debug_mode_enabled: false
+            description: TEST IPR 2 DESCRIPTION
+            detect_only: false
+            event_logging_disabled: false
+            generate_event_on_packet_drop: true
+            name: TEST IPR 2
+            priority: normal
+            severity: medium
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Create Intrusion Prevention Rules (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: *id001
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Gather Intrusion Prevention Rules
+      register: gather_result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules:
+        state: gathered
+        config:
+          - name: TEST IPR 1
+          - name: TEST IPR 2
+
+    - assert:
+        that:
+          - gather_result.changed == false
+          - "{{ result['intrusion_preventionrules']['before'] == gather_result['gathered'] }}"
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: &id002
+        state: absent
+        config:
+          - name: TEST IPR 1
+          - name: TEST IPR 2
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown idempotency check (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: *id002
+
+    - assert:
+        that:
+          - result.changed == false
+    
+    - name: Apply the gathered Intrusion prevention rules for verifying RTT
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules:
+        config: "{{ gather_result['gathered'] }}"
+        state: present
+    
+    - assert:
+        that:
+          - result.changed == true
+    
+    - name: Apply the gathered Intrusion prevention rules for verifying RTT (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules: *id001
+    
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_preventionrules:
+        state: absent
+        config:
+          - name: TEST IPR 1
+          - name: TEST IPR 2
+
+    - assert:
+        that:
+          - result.changed == true
+
+
+  always:
+    - name: ALWAYS teardown/reset Intrusion prevention rules
+      trendmicro.deepsec.deepsec_intrusion_preventionrules:
+        state: absent
+        config:
+          - name: TEST IPR 1
+          - name: TEST IPR 2
+
+- debug: msg="END cli/basic.yaml"

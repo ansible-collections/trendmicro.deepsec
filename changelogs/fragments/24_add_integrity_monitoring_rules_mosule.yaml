@@ -1,0 +1,3 @@
+---
+minor_changes:
+  - Add new Integrity Monitoring rules module (https://github.com/ansible-collections/trendmicro.deepsec/pull/24).

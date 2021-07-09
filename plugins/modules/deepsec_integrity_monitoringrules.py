@@ -40,8 +40,7 @@ options:
       severity:
         description:
           - Severity level of the event is multiplied by the computer's asset value to determine ranking.
-          - Ranking can be used to sort events with more business impact.
-          - Searchable as Choice.
+          - Ranking can be used to sort events with more business impact. Searchable as Choice.
         choices: ["low", "medium", "high", "critical"]
         type: str
       template:
@@ -65,10 +64,9 @@ options:
           - Defaults to false.
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
         type: bool
-      registry_included_values
+      registry_included_values:
         description:
           - Registry key values to be monitored by the IntegrityMonitoringRule.
-          - JSON array or delimited by \n. ? matches a single character, while * matches zero or more characters.
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
         type: list
         elements: str
@@ -81,14 +79,12 @@ options:
       registry_excluded_values:
         description:
           - Registry key values to be ignored by the IntegrityMonitoringRule.
-          - JSON array or delimited by \n. ? matches a single character, while * matches zero or more characters.
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
         type: list
         elements: str
       registry_attributes:
         description:
           - Registry key attributes to be monitored by the IntegrityMonitoringRule.
-          - JSON array or delimited by \n. Defaults to STANDARD which will monitor changes in registry size, content and type.
           - Ignored if the IntegrityMonitoringRule does not monitor a registry key.
         type: list
         elements: str
@@ -107,7 +103,6 @@ options:
       file_included_values:
         description:
           - File name values to be monitored by the IntegrityMonitoringRule.
-          - JSON array or delimited by \n. ? matches a single character, while * matches zero or more characters.
           - Leaving this field blank when monitoring file directories will cause the IntegrityMonitoringRule
             to monitor all files in a directory.
           - This can use significant system resources if the base directory contains numerous or large files.
@@ -117,14 +112,12 @@ options:
       file_excluded_values:
         description:
           - File name values to be ignored by the IntegrityMonitoringRule.
-          - JSON array or delimited by \n. ? matches a single character, while * matches zero or more characters.
           - Ignored if the IntegrityMonitoringRule does not monitor a file directory.
         type: list
         elements: str
       file_attributes:
         description:
           - File attributes to be monitored by the IntegrityMonitoringRule.
-          - JSON array or delimited by \n.
           - Defaults to STANDARD which will monitor changes in file creation date,
             last modified date, permissions, owner, group, size, content, flags (Windows) and SymLinkPath (Linux).
           - Ignored if the IntegrityMonitoringRule does not monitor a file directory.
@@ -153,8 +146,7 @@ options:
         description:
           - Indicates whether recommendation scans consider the IntegrityMonitoringRule.
           - Can be set to enabled or ignored.
-          - Custom rules cannot be recommended.
-          - Searchable as Choice.
+          - Custom rules cannot be recommended. Searchable as Choice.
         choices: ["enabled", "ignored", "unknown", "disabled"]
         type: str
       minimum_agent_version:
@@ -725,15 +717,15 @@ def configure_module_api(argspec, module, deepsec_request):
 
 def main():
 
-    ipr_spec = {
+    imr_spec = {
         "name": dict(type="str"),
         "description": dict(type="str"),
         "severity": dict(
             type="str", choices=["low", "medium", "high", "critical"]
         ),
         "template": dict(type="str", choices=["registry", "file", "custom"]),
-        "registry_key_root": dict(type="str"),
-        "registry_key_value": dict(type="str"),
+        "registry_key_root": dict(type="str", no_log=True),
+        "registry_key_value": dict(type="str", no_log=True),
         "registry_include_subkeys": dict(type="bool"),
         "registry_included_values": dict(type="list", elements="str"),
         "registry_include_default_value": dict(type="bool"),
@@ -763,7 +755,7 @@ def main():
         state=dict(
             choices=["present", "absent", "gathered"], default="present"
         ),
-        config=dict(type="list", elements="dict", options=ipr_spec),
+        config=dict(type="list", elements="dict", options=imr_spec),
     )
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)

@@ -1,0 +1,131 @@
+---
+- debug: msg="START cli/basic.yaml"
+
+- block:
+    - name: Create and Configure Integrity Monitoring Rules
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: &id001
+        state: present
+        config:
+          - name: THIS IS TEST IMR - 1
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 1
+            real_time_monitoring_enabled: true
+            registry_included_values:
+              - test_1
+              - test_2
+            severity: medium
+            template: registry
+          - name: THIS IS TEST IMR - 2
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 2
+            real_time_monitoring_enabled: true
+            registry_attributes:
+              - test
+            severity: low
+            template: registry
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Create and Configure Integrity Monitoring Rules (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: *id001
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Gather Integrity Monitoring Rules
+      register: gather_result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules:
+        state: gathered
+        config:
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
+
+    - assert:
+        that:
+          - gather_result.changed == false
+          - "{{ result['integrity_monitoringrules']['before'] == gather_result['gathered'] }}"
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: &id002
+        state: absent
+        config:
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: teardown idempotency check (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: *id002
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Apply the gathered Integrity Monitoring Rules for verifying RTT
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules:
+        config: "{{ gather_result['gathered'] }}"
+        state: present
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Apply the gathered Integrity Monitoring Rules for verifying RTT (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: *id001
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: Modify an existing Integrity Monitoring Rules
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: &id003
+        state: present
+        config:
+          - name: THIS IS TEST IMR - 2
+            severity: medium
+
+    - assert:
+        that:
+          - result.changed == true
+
+    - name: Modify an existing Integrity Monitoring Rules (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules: *id003
+
+    - assert:
+        that:
+          - result.changed == false
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoringrules:
+        state: absent
+        config:
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
+
+    - assert:
+        that:
+          - result.changed == true
+
+  always:
+    - name: ALWAYS teardown/reset Integrity Monitoring Rules
+      trendmicro.deepsec.deepsec_integrity_monitoringrules:
+        state: absent
+        config:
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
+
+- debug: msg="END cli/basic.yaml"

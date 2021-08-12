@@ -299,6 +299,121 @@ EXAMPLES = r"""
 #     ]
 # }
 
+# Using REPLACED state
+# --------------------
+
+- name: Replace existing Intrusion Prevention Rules
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+    state: replaced
+    config:
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_1
+        debug_mode_enabled: false
+        description: TEST IPR 1 REPLACE DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 1
+        priority: normal
+        severity: low
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_1
+        debug_mode_enabled: false
+        description: TEST IPR 2 REPLACE DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 2
+        priority: normal
+        severity: low
+
+# Play Run:
+# =========
+#
+#  "intrusion_prevention_rules": {
+#     "after": [
+#         {
+#             "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR 1 REPLACE DESCRIPTION",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 8151,
+#             "name": "TEST IPR 1",
+#             "priority": "normal",
+#             "severity": "low",
+#             "signature": "test_new_signature_1",
+#             "template": "signature"
+#         },
+#         {
+#             "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR 2 REPLACE DESCRIPTION",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 8152,
+#             "name": "TEST IPR 2",
+#             "priority": "normal",
+#             "severity": "low",
+#             "signature": "test_new_signature_1",
+#             "template": "signature"
+#         }
+#     ],
+#     "before": [
+#         {
+#             "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR 1 DESCRIPTION",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 8149,
+#             "name": "TEST IPR 1",
+#             "priority": "normal",
+#             "severity": "medium",
+#             "signature": "test_new_signature_1",
+#             "template": "signature"
+#         },
+#         {
+#             "action": "drop",
+#             "alert_enabled": false,
+#             "always_include_packet_data": false,
+#             "application_type_id": 300,
+#             "case_sensitive": false,
+#             "debug_mode_enabled": false,
+#             "description": "TEST IPR 2 DESCRIPTION",
+#             "detect_only": false,
+#             "event_logging_disabled": false,
+#             "generate_event_on_packet_drop": true,
+#             "id": 8150,
+#             "name": "TEST IPR 2",
+#             "priority": "normal",
+#             "severity": "medium",
+#             "signature": "test_new_signature_2",
+#             "template": "signature"
+#         }
+#     ]
+
 # Using GATHERED state
 # --------------------
 

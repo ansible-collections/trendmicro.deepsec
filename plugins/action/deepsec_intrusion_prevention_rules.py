@@ -144,7 +144,7 @@ class ActionModule(ActionBase):
 
         return search_result
 
-    def reset_module_api_config(
+    def delete_module_api_config(
         self, deepsec_conn_request, module_config_params
     ):
         config = {}
@@ -328,7 +328,7 @@ class ActionModule(ActionBase):
             if self._task.args.get("config"):
                 self._result[self.module_return], self._result[
                     "changed"
-                ] = self.reset_module_api_config(
+                ] = self.delete_module_api_config(
                     deepsec_conn_request, self._task.args["config"]
                 )
 

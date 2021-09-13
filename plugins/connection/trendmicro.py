@@ -520,7 +520,7 @@ class Connection(PersistentConnection):
     @ensure_current_token
     @ensure_connect
     def request_method(self, url, *args, **kwargs):
-        """Call a method in the GH library directly by passing a string as the function name
+        """Call a method directly by passing a string as the function name
         useful when:
 
         1) a 1:1 relationship exists between the action and the underlying library

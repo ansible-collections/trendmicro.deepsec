@@ -28,6 +28,9 @@ BASE_HEADERS = {
     "Accept": "application/json",
 }
 
+LOGIN_URL = "/rest/authentication/login/primary"
+LOGOUT_BY_ID = "/rest/authentication/logout?sID="
+
 
 class HttpApi(HttpApiBase):
     def send_request(
@@ -88,7 +91,7 @@ class HttpApi(HttpApiBase):
             return response_text
 
     def login(self, username, password):
-        login_path = "/rest/authentication/login/primary"
+        login_path = LOGIN_URL
         data = {
             "dsCredentials": {
                 "password": to_text(password),
@@ -123,9 +126,8 @@ class HttpApi(HttpApiBase):
         if self.connection._auth is not None:
             self.send_request(
                 "DELETE",
-                "/rest/authentication/logout?sID={0}".format(
-                    self.connection._auth["Cookie"].split("=")[-1]
-                ),
+                LOGOUT_BY_ID
+                + "{0}".format(self.connection._auth["Cookie"].split("=")[-1]),
             )
 
             # Clean up tokens

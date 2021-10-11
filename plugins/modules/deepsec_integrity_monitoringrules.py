@@ -133,7 +133,7 @@ options:
         description: Minimum Deep Security Manager version that supports the IntegrityMonitoringRule.
           This value is provided in the X.X.X format. Defaults to 6.0.0. An alert will be raised
           if a manager that fails to meet the minimum manager version value tries to assign this
-          rule to a host or profile. APPLICABLE ONLY with GET call. NOT APPLICABLE param with 
+          rule to a host or profile. APPLICABLE ONLY with GET call. NOT APPLICABLE param with
           Create/Modify POST call.
         type: str
       identifier:

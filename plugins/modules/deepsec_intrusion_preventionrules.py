@@ -28,79 +28,55 @@ options:
     elements: dict
     suboptions:
       name:
-        description:
-          - Name of the IntrusionPreventionRule.
-          - Searchable as String.
+        description: Name of the IntrusionPreventionRule.
         type: str
       description:
-        description:
-          - Description of the IntrusionPreventionRule.
-          - Searchable as String.
+        description: Description of the IntrusionPreventionRule.
         type: str
       minimum_agent_version:
-        description:
-          - Version of the Deep Security agent or appliance required to support the rule.
-          - Searchable as String.
+        description: Version of the Deep Security agent or appliance required to support the rule.
         type: str
       application_type_id:
-        description:
-          - ID of the application type for the IntrusionPreventionRule.
-          - Searchable as Numeric.
+        description: ID of the application type for the IntrusionPreventionRule.
         type: int
       priority:
-        description:
-          - Priority level of the rule. Higher priority rules are applied before lower priority rules.
-          - Searchable as Choice.
+        description: Priority level of the rule. Higher priority rules are applied before
+          lower priority rules.
         choices: ["lowest", "low", "normal", "high", "highest"]
         type: str
       severity:
-        description:
-          - Severity level of the rule. Severity levels can be used as sorting criteria and affect event rankings.
-          - Searchable as Choice.
+        description: Severity level of the rule. Severity levels can be used as sorting criteria
+          and affect event rankings.
         choices: ["low", "medium", "high", "critical"]
         type: str
       detect_only:
         description: In detect mode, the rule creates an event log and does not interfere with traffic.
         type: bool
       event_logging_disabled:
-        description:
-          - Enable to prevent event logs from being created when the rule is triggered.
-          - Not available if detect only is true.
-          - Searchable as Boolean.
+        description: Enable to prevent event logs from being created when the rule is triggered.
+          Not available if detect only is true.
         type: bool
       generate_event_on_packet_drop:
-        description:
-          - Generate an event every time a packet is dropped for the rule.
-          - Not available if event logging disabled is true.
-          - Searchable as Boolean.
+        description: Generate an event every time a packet is dropped for the rule.
+          Not available if event logging disabled is true.
         type: bool
       always_include_packet_data:
-        description:
-          - Enabled to include package data in the event logs.
-          - Not available if event logging disabled is true.
-          - Searchable as Boolean.
+        description: Enabled to include package data in the event logs.
+          Not available if event logging disabled is true.
         type: bool
       debug_mode_enabled:
-        description:
-          - Enable to log additional packets preceeding and following the packet that the rule detected.
-          - Not available if event logging disabled is true.
-          - Searchable as Boolean.
+        description: Enable to log additional packets preceeding and following the packet
+          that the rule detected. Not available if event logging disabled is true.
         type: bool
       type:
-        description:
-          - Type of IntrusionPreventionRule.
-          - Searchable as Choice.
+        description: Type of IntrusionPreventionRule.
         choices: ["custom", "smart", "vulnerability", "exploit", "hidden", "policy", "info"]
         type: str
       original_issue:
-        description:
-          - Timestamp of the date the rule was released, in milliseconds since epoch.
-          - Searchable as Date.
+        description: Timestamp of the date the rule was released, in milliseconds since epoch.
         type: int
       last_updated:
-        description:
-          - Timestamp of the last rule modification, in milliseconds since epoch.
-          - Searchable as Date.
+        description: Timestamp of the last rule modification, in milliseconds since epoch.
         type: int
       template:
         description: Type of template for the IntrusionPreventionRule. Applicable only to custom rules.
@@ -113,91 +89,69 @@ options:
         description: Start pattern of the rule. Applicable to custom rules with template type start-end-patterns.
         type: str
       patterns:
-        description:
-          - Body patterns of the rule, which must be found between start and end patterns.
-          - Applicable to custom rules with template type start-end-patterns.
+        description: Body patterns of the rule, which must be found between start and end patterns.
+          Applicable to custom rules with template type start-end-patterns.
         type: list
         elements: str
       end:
         description: End pattern of the rule. Applicable to custom rules with template type start-end-patterns.
         type: str
       case_sensitive:
-        description:
-          - Enable to make signatures and patterns case sensitive.
-          - Applicable to custom rules with template type signature or start-end-patterns.
+        description: Enable to make signatures and patterns case sensitive.
+          Applicable to custom rules with template type signature or start-end-patterns.
         type: bool
       condition:
-        description:
-          - Condition to determine if the rule is triggered.
-          - Applicable to custom rules with template type start-end-patterns.
+        description: Condition to determine if the rule is triggered.
+          Applicable to custom rules with template type start-end-patterns.
         choices: ["all", "any", "none"]
         type: str
       action:
-        description:
-          - Action to apply if the rule is triggered.
-          - Applicable to custom rules with template type signature or start-end-patterns.
+        description: Action to apply if the rule is triggered.
+          Applicable to custom rules with template type signature or start-end-patterns.
         choices: ["drop", "log-only"]
         type: str
       custom_xml:
-        description:
-          - The custom XML used to define the rule.
-          - Applicable to custom rules with template type custom.
+        description: The custom XML used to define the rule.
+          Applicable to custom rules with template type custom.
         type: str
       alert_enabled:
-        description:
-          - Enable to raise an alert when the rule logs an event.
-          - Searchable as Boolean.
+        description: Enable to raise an alert when the rule logs an event.
         type: bool
       schedule_id:
-        description:
-          - ID of the schedule which defines times during which the rule is active.
-          - Searchable as Numeric.
+        description: ID of the schedule which defines times during which the rule is active.
         type: int
       context_id:
-        description:
-          - ID of the context in which the rule is applied.
-          - Searchable as Numeric.
+        description: ID of the context in which the rule is applied.
         type: int
       recommendations_mode:
-        description:
-          - Indicates whether recommendation scans consider the IntrusionPreventionRule.
-          - Can be set to enabled or ignored. Custom rules cannot be recommended.
-          - Searchable as Choice.
+        description: Indicates whether recommendation scans consider the IntrusionPreventionRule.
+          Can be set to enabled or ignored. Custom rules cannot be recommended.
         choices: ["enabled", "ignored", "unknown", "disabled"]
         type: str
       depends_on_rule_ids:
-        description:
-          - IDs of intrusion prevention rules the rule depends on, which will be automatically assigned if this rule is assigned.
+        description: IDs of intrusion prevention rules the rule depends on,
+          which will be automatically assigned if this rule is assigned.
         type: list
         elements: int
       cvss_score:
-        description:
-          - A measure of the severity of the vulnerability according the National Vulnerability Database.
-          - Searchable as String or as Numeric.
+        description: A measure of the severity of the vulnerability according the
+          National Vulnerability Database.
         type: str
       cve:
-        description:
-          - List of CVEs associated with the IntrusionPreventionRule.
-          - Searchable as String.
+        description: List of CVEs associated with the IntrusionPreventionRule.
         type: list
         elements: str
       id:
-        description:
-          - ID for the Intrusion prevention rule.
-          - Applicaple only with GET call
-          - Not applicaple param with Create/Modify POST call
+        description: ID for the Intrusion prevention rule. Applicaple only with GET call
+          Not applicaple param with Create/Modify POST call
         type: int
       identifier:
-        description:
-          - Identifier for the Intrusion prevention rule.
-          - Applicaple only with GET call
-          - Not applicaple param with Create/Modify POST call
+        description: Identifier for the Intrusion prevention rule.
+          Applicaple only with GET call. Not applicaple param with Create/Modify POST call
         type: str
       can_be_assigned_alone:
-        description:
-          - Intrusion prevention rule can be assigned by self.
-          - Applicaple only with GET call
-          - Not applicaple param with Create/Modify POST call
+        description: Intrusion prevention rule can be assigned by self.
+          Applicaple only with GET call. Not applicaple param with Create/Modify POST call
         type: bool
   state:
     description:

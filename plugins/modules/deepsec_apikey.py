@@ -22,48 +22,45 @@ options:
     elements: dict
     suboptions:
       key_name:
-        description: Display name of the APIKey. Searchable as String.
+        description: Display name of the APIKey.
         type: str
       id:
         description: The ID number of the API key to modify. Required when modifying
           the API key
         type: str
       description:
-        description: Description of the APIKey. Searchable as String.
+        description: Description of the APIKey.
         type: str
       locale:
         description: Country and language for the APIKey.
         choices: ["en-US", "ja-JP"]
         type: str
       role_id:
-        description: ID of the role assigned to the APIKey. Searchable as Numeric.
+        description: ID of the role assigned to the APIKey.
         type: int
       time_zone:
         description: Display name of the APIKey's time zone, e.g. America/New_York.
-          Searchable as String.
         type: str
       active:
         description: If true, the APIKey can be used to authenticate. If false, the APIKey
-          is locked out. Searchable as Boolean.
+          is locked out.
         type: bool
       created:
         description: Timestamp of the APIKey's creation, in milliseconds since epoch.
-          Searchable as Date.
         type: int
       last_sign_in:
         description: Timestamp of the APIKey's last successful authentication, in milliseconds
-          since epoch. Searchable as Date.
+          since epoch.
         type: int
       unlock_time:
         description: Timestamp of when a locked out APIKey will be unlocked, in milliseconds since epoch.
-          Searchable as Date.
         type: int
       unsuccessful_sign_in_attempts:
         description: Number of unsuccessful authentication attempts made since the last successful
-          authentication. Searchable as Numeric.
+          authentication.
         type: int
       expiry_date:
-        description: Timestamp of the APIKey's expiry date, in milliseconds since epoch. Searchable as Date.
+        description: Timestamp of the APIKey's expiry date, in milliseconds since epoch.
         type: int
       secret_key:
         description:
@@ -75,7 +72,7 @@ options:
       service_account:
         description:
           - If true, the APIKey was created by the primary tenant (T0) to authenticate API calls against
-            other tenants' databases. Searchable as Boolean.
+            other tenants' databases.
           - Valid param only with secret_key.
         type: bool
       current:

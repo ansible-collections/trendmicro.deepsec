@@ -37,116 +37,92 @@ version_added: 1.0.0
 author: "Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 options:
   name:
-    description: Name of the LogInspectionRule. Searchable as String.
+    description: Name of the LogInspectionRule.
     required: true
     type: str
   description:
-    description:
-      - Description of the LogInspectionRule that appears in search results,and on the General
-        tab in the Deep Security Manager user interface.
-      - Searchable as String.
+    description: Description of the LogInspectionRule that appears in search results,
+      and on the General tab in the Deep Security Manager user interface.
     type: str
   minimum_agent_version:
-    description:
-      - Minimum Deep Security Agent version required by the LogInspectionRule.
-      - Searchable as String.
+    description: Minimum Deep Security Agent version required by the LogInspectionRule.
     type: str
   minimum_manager_version:
-    description:
-      - Minimumn Deep Security Manager version required by the LogInspectionRule.
-      - Searchable as String.
+    description: Minimumn Deep Security Manager version required by the LogInspectionRule.
     type: str
   type:
-    description:
-      - Type of the LogInspectionRule. The value 'Defined' is used for LogInspectionRules
-        provided by Trend Micro.
-      - Searchable as String.
+    description: Type of the LogInspectionRule. The value 'Defined' is used for LogInspectionRules
+      provided by Trend Micro.
     type: str
   original_issue:
-    description:
-      - Creation timestamp of the LogInspectionRule, measured in milliseconds since
-        epoch.
-      - Searchable as Date.
+    description: Creation timestamp of the LogInspectionRule, measured in milliseconds since
+      epoch.
     type: int
   last_updated:
-    description:
-      - Update timestamp of the LogInspectionRule, measured in milliseconds since epoch.
-      - Searchable as Date.
+    description: Update timestamp of the LogInspectionRule, measured in milliseconds
+      since epoch.
     type: int
   identifier:
-    description:
-      - Indentifier of the LogInspectionRule used in the Deep Security Manager user interface.
-      - Searchable as String.
+    description: Indentifier of the LogInspectionRule used in the Deep Security Manager
+      user interface.
     type: str
   template:
     description: Template used to create this rule.
     choices: ["basic-rule", "custom"]
     type: str
   rule_id:
-    description:
-      - ID of the LogInspectionRule sent to the Deep Security Agent.
-        The values 100000 - 109999 are reserved for user-definded rules.
+    description: ID of the LogInspectionRule sent to the Deep Security Agent.
+      The values 100000 - 109999 are reserved for user-definded rules.
     type: int
   level:
-    description:
-      - Log level of the LogInspectionRule indicates severity of attack.
-        Level 0 is the least severe and will not log an event. Level 15 is the most severe.
+    description: Log level of the LogInspectionRule indicates severity of attack.
+      Level 0 is the least severe and will not log an event. Level 15 is the most severe.
     type: int
   groups:
-    description:
-      - Groups that the LogInspectionRule is assigned to, separated by commas.
-        Useful when dependency is used as it's possible to create a LogInspectionRule that
-        fires when another LogInspectionRule belonging to a specific group fires.
+    description: Groups that the LogInspectionRule is assigned to, separated by commas.
+      Useful when dependency is used as it's possible to create a LogInspectionRule that
+      fires when another LogInspectionRule belonging to a specific group fires.
     type: list
     elements: str
   rule_description:
-    description:
-      - Description of the LogInspectionRule that appears on events and the
-        Content tab in the Deep Security Manager user interface.
-      - Alternatively, you can configure this by inserting a description in 'rule_xml'.
+    description: Description of the LogInspectionRule that appears on events and the
+      Content tab in the Deep Security Manager user interface. Alternatively,
+      you can configure this by inserting a description in 'rule_xml'.
     type: str
   pattern:
-    description:
-      - Regular expression pattern the LogInspectionRule will look for in the logs.
-        The rule will be triggered on a match. Open Source HIDS SEcurity (OSSEC) regular expression
-        syntax is supported, see http://www.ossec.net/docs/syntax/regex.html.
+    description: Regular expression pattern the LogInspectionRule will look for in the logs.
+      The rule will be triggered on a match. Open Source HIDS SEcurity (OSSEC) regular expression
+      syntax is supported, see http://www.ossec.net/docs/syntax/regex.html.
     type: str
   pattern_type:
-    description:
-      - Pattern the LogInspectionRule will look for in the logs. The string matching
-        pattern is faster than the regex pattern.
+    description: Pattern the LogInspectionRule will look for in the logs. The string matching
+      pattern is faster than the regex pattern.
     choices: ["string", "regex"]
     type: str
   dependency:
-    description:
-      - Indicates if a dependant rule or dependency group is set or not.
-        If set, the LogInspectionRule will only log an event if the dependency is triggered.
-      - Available for user-defined rules.
+    description: Indicates if a dependant rule or dependency group is set or not.
+      If set, the LogInspectionRule will only log an event if the dependency is triggered.
+      Available for user-defined rules.
     choices: ["none", "rule", "group"]
     type: str
   dependency_rule_id:
-    description:
-      - If dependency is configured, the ID of the rule that this rule is dependant on.
-        Ignored if the rule is from Trend Micro, which uses dependsOnRuleIDs instead.
+    description: If dependency is configured, the ID of the rule that this rule is dependant on.
+      Ignored if the rule is from Trend Micro, which uses dependsOnRuleIDs instead.
     type: int
   dependency_group:
-    description:
-      - If dependency is configured, the dependancy groups that this rule is dependant on.
+    description: If dependency is configured, the dependancy groups that this rule is dependant on.
     type: str
   frequency:
-    description:
-      - Number of times the dependant rule has to match within a specific time frame before
-        the rule is triggered.
+    description: Number of times the dependant rule has to match within a specific time frame before
+      the rule is triggered.
     type: int
   time_frame:
-    description:
-      - Time period for the frequency of LogInspectionRule triggers that will generate an event,
-        in seconds.
+    description: Time period for the frequency of LogInspectionRule triggers that will
+      generate an event, in seconds.
     type: int
   rule_xml:
-    description:
-      - LogInspectionRule in an XML format. For information on the XML format,
-        see http://ossec-docs.readthedocs.io/en/latest/syntax/head_rules.html
+    description: LogInspectionRule in an XML format. For information on the XML format,
+      see http://ossec-docs.readthedocs.io/en/latest/syntax/head_rules.html
     type: str
   log_files:
     description: Log file objects
@@ -161,45 +137,35 @@ options:
             description: File path of the log file.
             type: str
           format:
-            description:
-              - Structure of the data in the log file. The application that generates
-                the log file defines the structure of the data.
+            description: Structure of the data in the log file. The application that generates
+              the log file defines the structure of the data.
             choices: ["syslog", "snort-full", "snort-fast", "apache", "iis", "squid", "nmapg",
-                "mysql-log", "postgresql-log", "dbj-multilog", "eventlog", "single-line-text-log"]
+              "mysql-log", "postgresql-log", "dbj-multilog", "eventlog", "single-line-text-log"]
             type: str
   alert_enabled:
-    description:
-      - Controls whether to raise an alert when a LogInspectionRule logs an event.
-        Use true to raise an alert. Searchable as Boolean.
+    description: Controls whether to raise an alert when a LogInspectionRule logs an event.
+      Use true to raise an alert.
     type: bool
   alert_minimum_severity:
-    description:
-      - Severity level that will trigger an alert. Ignored unless ruleXML contains
-        multiple rules with different severities, and so you must indicate which severity level to use.
-      - Searchable as Numeric.
+    description: Severity level that will trigger an alert. Ignored unless ruleXML contains
+      multiple rules with different severities, and so you must indicate which severity level to use.
     type: int
   recommendations_mode:
-    description:
-      - Indicates whether recommendation scans consider the LogInspectionRule. Can be set to
-        enabled or ignored. Custom rules cannot be recommended.
-      - Searchable as Choice.
+    description: Indicates whether recommendation scans consider the LogInspectionRule. Can be set to
+      enabled or ignored. Custom rules cannot be recommended.
     choices: ["enabled", "ignored", "unknown", "disabled"]
     type: str
   sort_order:
-    description:
-      - Order in which LogInspectionRules are sent to the Deep Security Agent. Log inspeciton
-        rules are sent in ascending order. Valid values are between 10000 and 20000.
+    description: Order in which LogInspectionRules are sent to the Deep Security Agent. Log inspeciton
+      rules are sent in ascending order. Valid values are between 10000 and 20000.
     type: int
   can_be_assigned_alone:
-    description:
-      - Indicates whether this LogInspectionRule can be allocated without allocating any additional
-        LogInspectionRules
-      - Ignored if the rule is user-defined, which uses dependency instead.
+    description: Indicates whether this LogInspectionRule can be allocated without allocating any additional
+      LogInspectionRules. Ignored if the rule is user-defined, which uses dependency instead.
     type: bool
   depends_onrule_id:
-    description:
-      - IDs of LogInspectionRules, separated by commas, that are required by this rule.
-      - Ignored if the rule is user-defined which uses dependency_rule_id or dependency_group instead.
+    description: IDs of LogInspectionRules, separated by commas, that are required by this rule.
+      Ignored if the rule is user-defined which uses dependency_rule_id or dependency_group instead.
     type: list
     elements: str
   state:

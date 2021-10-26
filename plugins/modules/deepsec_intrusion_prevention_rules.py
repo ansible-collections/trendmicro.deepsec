@@ -4,14 +4,14 @@
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 """
-The module file for deepsec_intrusion_preventionrules
+The module file for deepsec_intrusion_prevention_rules
 """
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 DOCUMENTATION = r"""
-module: deepsec_intrusion_preventionrules
+module: deepsec_intrusion_prevention_rules
 short_description: Create a new intrusion prevention rule.
 description:
   - This module creates a new intrusion preventin rul under TrendMicro Deep Security.

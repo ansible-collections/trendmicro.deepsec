@@ -15,6 +15,7 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common i
     utils,
 )
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
+    DeepSecurityRequest,
     map_obj_to_params,
     map_params_to_obj,
     remove_get_keys_from_payload_dict,
@@ -91,10 +92,10 @@ class ActionModule(ActionBase):
     def search_for_intrusion_prevention_rules(
         self, deepsec_conn_request, search_payload=None
     ):
-        ipr_obj, ipr_response = deepsec_conn_request.request_method(
-            self.api_object_search, request_method="POST", data=search_payload
+        code, ipr_response = deepsec_conn_request.post(
+            self.api_object_search, data=search_payload
         )
-        self._check_for_response_code(ipr_obj, ipr_response)
+        self._check_for_response_code(code, ipr_response)
         return ipr_response
 
     def search_for_ipr_name(self, deepsec_conn_request, search_ipr_by_names):
@@ -162,10 +163,8 @@ class ActionModule(ActionBase):
                     self.api_return,
                 )
                 before.append(every)
-                response_code, api_response = deepsec_conn_request.request_method(
-                    "{0}/{1}".format(self.api_object, every["id"]),
-                    request_method="DELETE",
-                    data=each,
+                response_code, api_response = deepsec_conn_request.delete(
+                    "{0}/{1}".format(self.api_object, every["id"]), data=each
                 )
                 self._check_for_response_code(response_code, api_response)
 
@@ -228,9 +227,8 @@ class ActionModule(ActionBase):
                             payload = map_params_to_obj(
                                 each, self.key_transform
                             )
-                            response_code, api_response = deepsec_conn_request.request_method(
+                            response_code, api_response = deepsec_conn_request.post(
                                 "{0}/{1}".format(self.api_object, every["id"]),
-                                request_method="POST",
                                 data=payload,
                             )
                             self._check_for_response_code(
@@ -244,9 +242,8 @@ class ActionModule(ActionBase):
                                 )
                             )
                         elif self._task.args["state"] == "replaced":
-                            response_code, api_response = deepsec_conn_request.request_method(
+                            response_code, api_response = deepsec_conn_request.delete(
                                 "{0}/{1}".format(self.api_object, every["id"]),
-                                request_method="DELETE",
                                 data=each,
                             )
                             self._check_for_response_code(
@@ -256,10 +253,8 @@ class ActionModule(ActionBase):
                             payload = map_params_to_obj(
                                 each, self.key_transform
                             )
-                            response_code, api_response = deepsec_conn_request.request_method(
-                                "{0}".format(self.api_object),
-                                request_method="POST",
-                                data=payload,
+                            response_code, api_response = deepsec_conn_request.post(
+                                "{0}".format(self.api_object), data=payload
                             )
                             self._check_for_response_code(
                                 response_code, api_response
@@ -273,9 +268,11 @@ class ActionModule(ActionBase):
                             )
                     else:
                         before.append(every)
+                        after.append(every)
                         temp_name.append(every["name"])
                 else:
                     before.append(every)
+                    after.append(every)
             else:
                 changed = True
                 each = utils.remove_empties(each)
@@ -283,36 +280,40 @@ class ActionModule(ActionBase):
                     each, get_supported_keys
                 )
                 payload = map_params_to_obj(each, self.key_transform)
-                response_code, api_response = deepsec_conn_request.request_method(
-                    "{0}".format(self.api_object),
-                    request_method="POST",
-                    data=payload,
+                code, api_response = deepsec_conn_request.post(
+                    "{0}".format(self.api_object), data=payload
                 )
-                self._check_for_response_code(response_code, api_response)
+                self._check_for_response_code(code, api_response)
                 after.extend(before)
                 after.append(
                     map_obj_to_params(
                         api_response, self.key_transform, self.api_return
                     )
                 )
+        if not changed:
+            after = []
         config.update({"before": before, "after": after})
 
         return config, changed
 
     def run(self, tmp=None, task_vars=None):
+        self._supports_check_mode = True
         self._result = super(ActionModule, self).run(tmp, task_vars)
         self._check_argspec()
         if self._result.get("failed"):
             return self._result
-        deepsec_conn_request = Connection(self._connection._socket_path)
+        conn = Connection(self._connection.socket_path)
+        deepsec_conn_request = DeepSecurityRequest(
+            connection=conn, task_vars=task_vars
+        )
         if self._task.args["state"] == "gathered":
             if self._task.args.get("config"):
                 self._result["gathered"] = self.search_for_ipr_name(
                     deepsec_conn_request, self._task.args["config"]
                 )
             else:
-                self._result["gathered"] = deepsec_conn_request.request_method(
-                    self.api_object, request_method="GET"
+                self._result["gathered"] = deepsec_conn_request.get(
+                    self.api_object
                 )
         elif (
             self._task.args["state"] == "merged"

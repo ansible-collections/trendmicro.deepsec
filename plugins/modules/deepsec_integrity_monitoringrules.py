@@ -81,8 +81,8 @@ options:
         type: str
       fileinclude_subdirectories:
         description: Controls whether the IntegrityMonitoringRule should also monitor sub-directories of
-            the base file directory that is associated with it. Ignored if the IntegrityMonitoringRule
-            does not monitor a file directory.
+          the base file directory that is associated with it. Ignored if the IntegrityMonitoringRule
+          does not monitor a file directory.
         type: bool
       file_included_values:
         description: File name values to be monitored by the IntegrityMonitoringRule. Leaving this
@@ -143,8 +143,8 @@ options:
         type: str
       type:
         description: Type of the IntegrityMonitoringRule. If the rule is predefined
-        by Trend Micro, it is set to 2. If it is user created, it is set to 1.
-        APPLICABLE ONLY with GET call. NOT APPLICABLE param with Create/Modify POST call.
+          by Trend Micro, it is set to 2. If it is user created, it is set to 1.
+          APPLICABLE ONLY with GET call. NOT APPLICABLE param with Create/Modify POST call.
         type: str
       original_issue:
         description: Timestamp when the IntegrityMonitoringRule was originally issued

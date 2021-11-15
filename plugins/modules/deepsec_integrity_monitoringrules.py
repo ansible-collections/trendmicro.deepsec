@@ -94,7 +94,7 @@ options:
         elements: str
       file_excluded_values:
         description: File name values to be ignored by the IntegrityMonitoringRule. Ignored if
-        the IntegrityMonitoringRule does not monitor a file directory.
+          the IntegrityMonitoringRule does not monitor a file directory.
         type: list
         elements: str
       file_attributes:

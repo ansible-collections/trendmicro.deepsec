@@ -80,21 +80,21 @@
     - assert:
         that:
           - result.changed == false
-    
+
     - name: Apply the gathered Intrusion prevention rules for verifying RTT
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         config: "{{ gather_result['gathered'] }}"
         state: present
-    
+
     - assert:
         that:
           - result.changed == true
-    
+
     - name: Apply the gathered Intrusion prevention rules for verifying RTT (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules: *id001
-    
+
     - assert:
         that:
           - result.changed == false

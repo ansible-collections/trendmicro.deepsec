@@ -74,8 +74,7 @@ class HttpApi(HttpApiBase):
     def _display_request(self, request_method):
         self.connection.queue_message(
             "vvvv",
-            "Deep Security REST: %s %s"
-            % (request_method, self.connection._url),
+            "Deep Security REST: %s %s" % (request_method, self.connection._url),
         )
 
     def _get_response_value(self, response_data):
@@ -116,9 +115,7 @@ class HttpApi(HttpApiBase):
             # the session Cookie
             self._auth_token = auth_token
         except KeyError:
-            raise AnsibleAuthenticationFailure(
-                message="Failed to acquire login token."
-            )
+            raise AnsibleAuthenticationFailure(message="Failed to acquire login token.")
 
     def logout(self):
         if self.connection._auth is not None:

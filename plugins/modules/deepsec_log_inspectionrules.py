@@ -312,7 +312,7 @@ def map_params_to_obj(module_params):
 
 
 def check_if_log_inspection_rules_exists(deepsec_request, log_inspection_name):
-    """ The fn check if the log_inspection detect based on log_inspection name
+    """The fn check if the log_inspection detect based on log_inspection name
     :param deepsec_request: the objects from which the configuration should be read
     :param log_inspection_name: log_inspection name with which log_inspection will be searched
     in existing log_inspection configurations
@@ -336,7 +336,7 @@ def check_if_log_inspection_rules_exists(deepsec_request, log_inspection_name):
 
 
 def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
-    """ The fn calls the delete API based on the log_inspection id
+    """The fn calls the delete API based on the log_inspection id
     :param module: ansible module object
     :param deepsec_request: connection obj for TM
     :param log_inspection_id: log_inspection id for the log_inspection that's supposed to be deleted
@@ -344,9 +344,7 @@ def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
-    deepsec_request.delete(
-        "/api/loginspectionrules/{0}".format(log_inspection_id)
-    )
+    deepsec_request.delete("/api/loginspectionrules/{0}".format(log_inspection_id))
     module.exit_json(
         msg=" with id: {0} deleted successfully!".format(log_inspection_id),
         changed=True,
@@ -377,9 +375,7 @@ def main():
     }
 
     log_files_spec = {
-        "log_files": dict(
-            type="list", elements="dict", options=log_files_spec_list
-        )
+        "log_files": dict(type="list", elements="dict", options=log_files_spec_list)
     }
 
     argspec = dict(
@@ -456,9 +452,7 @@ def main():
         elif log_inspection_rules.get("message"):
             module.fail_json(msg=log_inspection_rules["message"])
         else:
-            module.exit_json(
-                log_inspection_rules=log_inspection_rules, changed=True
-            )
+            module.exit_json(log_inspection_rules=log_inspection_rules, changed=True)
     module.exit_json(changed=False)
 
 

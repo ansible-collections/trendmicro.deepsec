@@ -314,31 +314,23 @@ def configure_module_api(argspec, module, deepsec_request):
                 elif "id" in search_existing_apikey:
                     id = search_existing_apikey["id"]
                     request_api = "/api/apikeys/{0}/secretkey".format(id)
-                    api_key = deepsec_request.post(
-                        "{0}".format(request_api), data=want
-                    )
+                    api_key = deepsec_request.post("{0}".format(request_api), data=want)
                 if api_key.get("message"):
                     module.fail_json(msg=api_key["message"])
                 else:
                     changed = True
-                    api_key = map_obj_to_params(
-                        api_key, key_transform, api_return
-                    )
+                    api_key = map_obj_to_params(api_key, key_transform, api_return)
                     return_val["api_keys"].append(api_key)
             else:
                 if "id" in search_existing_apikey:
                     return_val["api_keys"].append(search_existing_apikey)
                     continue
-                apikey = deepsec_request.post(
-                    "{0}".format(api_object), data=want
-                )
+                apikey = deepsec_request.post("{0}".format(api_object), data=want)
                 if apikey.get("message"):
                     module.fail_json(msg=apikey["message"])
                 else:
                     changed = True
-                    apikey = map_obj_to_params(
-                        apikey, key_transform, api_return
-                    )
+                    apikey = map_obj_to_params(apikey, key_transform, api_return)
                     return_val["api_keys"].append(apikey)
     utils.validate_config(argspec, return_val)
     module.exit_json(config=return_val, changed=changed)
@@ -364,9 +356,7 @@ def main():
     }
 
     argspec = dict(
-        state=dict(
-            choices=["present", "absent", "gathered"], default="present"
-        ),
+        state=dict(choices=["present", "absent", "gathered"], default="present"),
         api_keys=dict(
             type="list",
             elements="dict",

@@ -522,13 +522,9 @@ def display_gathered_result(module, deepsec_request):
     if module.params.get("config"):
         return_config["config"] = []
         for each in module.params.get("config"):
-            search_result = search_for_ipr_by_name(
-                deepsec_request, each["name"]
-            )
+            search_result = search_for_ipr_by_name(deepsec_request, each["name"])
             return_config["config"].extend(
-                map_obj_to_params(search_result, key_transform, api_return)[
-                    api_return
-                ]
+                map_obj_to_params(search_result, key_transform, api_return)[api_return]
             )
     else:
         search_result = search_for_intrusion_prevention_rules(deepsec_request)
@@ -538,9 +534,7 @@ def display_gathered_result(module, deepsec_request):
     module.exit_json(gathered=return_config["config"], changed=False)
 
 
-def search_for_intrusion_prevention_rules(
-    deepsec_api_request, search_payload=None
-):
+def search_for_intrusion_prevention_rules(deepsec_api_request, search_payload=None):
     search_for_intrusion_prevention_rules = deepsec_api_request.post(
         api_object_search, data=search_payload
     )
@@ -554,9 +548,7 @@ def reset_module_api_config(module, deepsec_request):
         after = []
         changed = False
         for each in module.params["config"]:
-            search_by_name = search_for_ipr_by_name(
-                deepsec_request, each["name"]
-            )
+            search_by_name = search_for_ipr_by_name(deepsec_request, each["name"])
             if search_by_name.get(api_return):
                 every = map_obj_to_params(
                     search_by_name[api_return][0], key_transform, api_return
@@ -572,9 +564,7 @@ def reset_module_api_config(module, deepsec_request):
                 changed = True
                 if api_request:
                     after.append(
-                        map_obj_to_params(
-                            api_request, key_transform, api_return
-                        )
+                        map_obj_to_params(api_request, key_transform, api_return)
                     )
         if changed:
             config.update({"before": before, "after": after})
@@ -598,9 +588,7 @@ def configure_module_api(argspec, module, deepsec_request):
         ]
         temp_name = []
         for each in module.params["config"]:
-            search_by_name = search_for_ipr_by_name(
-                deepsec_request, each["name"]
-            )
+            search_by_name = search_for_ipr_by_name(deepsec_request, each["name"])
             if search_by_name.get(api_return):
                 each_result = search_by_name[api_return]
                 for every in each_result:
@@ -617,9 +605,7 @@ def configure_module_api(argspec, module, deepsec_request):
                         before.append(every)
                         # Check for actual modification and if present fire
                         # the request over that IPR ID
-                        each = utils.remove_empties(
-                            utils.dict_merge(every, each)
-                        )
+                        each = utils.remove_empties(utils.dict_merge(every, each))
                         each = remove_get_keys_from_payload_dict(
                             each, remove_from_diff_compare
                         )
@@ -635,9 +621,7 @@ def configure_module_api(argspec, module, deepsec_request):
                         elif api_request.get("message"):
                             module.fail_json(msg=api_request["message"])
                         after.append(
-                            map_obj_to_params(
-                                api_request, key_transform, api_return
-                            )
+                            map_obj_to_params(api_request, key_transform, api_return)
                         )
                     else:
                         before.append(every)
@@ -646,9 +630,7 @@ def configure_module_api(argspec, module, deepsec_request):
                     before.append(every)
             else:
                 changed = True
-                each = remove_get_keys_from_payload_dict(
-                    each, get_supported_keys
-                )
+                each = remove_get_keys_from_payload_dict(each, get_supported_keys)
                 utils.validate_config(argspec, {"config": [each]})
                 payload = map_params_to_obj(each, key_transform)
                 api_request = deepsec_request.post(
@@ -658,9 +640,7 @@ def configure_module_api(argspec, module, deepsec_request):
                     module.fail_json(msg=api_request["errors"])
                 elif api_request.get("message"):
                     module.fail_json(msg=api_request["message"])
-                after.append(
-                    map_obj_to_params(api_request, key_transform, api_return)
-                )
+                after.append(map_obj_to_params(api_request, key_transform, api_return))
         config.update({"before": before, "after": after})
         module.exit_json(intrusion_preventionrules=config, changed=changed)
 
@@ -675,9 +655,7 @@ def main():
         "priority": dict(
             type="str", choices=["lowest", "low", "normal", "high", "highest"]
         ),
-        "severity": dict(
-            type="str", choices=["low", "medium", "high", "critical"]
-        ),
+        "severity": dict(type="str", choices=["low", "medium", "high", "critical"]),
         "detect_only": dict(type="bool"),
         "event_logging_disabled": dict(type="bool"),
         "generate_event_on_packet_drop": dict(type="bool"),
@@ -723,9 +701,7 @@ def main():
     }
 
     argspec = dict(
-        state=dict(
-            choices=["present", "absent", "gathered"], default="present"
-        ),
+        state=dict(choices=["present", "absent", "gathered"], default="present"),
         config=dict(type="list", elements="dict", options=ipr_spec),
     )
 

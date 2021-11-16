@@ -213,17 +213,13 @@ def map_params_to_obj(module_params):
 
 def main():
     argspec = dict(
-        state=dict(
-            choices=["present", "absent", "gathered"], default="present"
-        ),
+        state=dict(choices=["present", "absent", "gathered"], default="present"),
         id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
         server=dict(type="str"),
         port=dict(type="int", default=514),
-        transport=dict(
-            type="str", choices=["udp", "tcp", "tls"], default="udp"
-        ),
+        transport=dict(type="str", choices=["udp", "tcp", "tls"], default="udp"),
         event_format=dict(
             type="str", choices=["standard", "cef", "leef"], default="cef"
         ),
@@ -280,10 +276,7 @@ def main():
         module, deepsec_request, want["name"], api_object, api_get_return
     )
 
-    if (
-        "ID" in search_existing_syslog_config
-        and module.params["state"] == "absent"
-    ):
+    if "ID" in search_existing_syslog_config and module.params["state"] == "absent":
         delete_config_with_id(
             module,
             deepsec_request,
@@ -294,20 +287,15 @@ def main():
             handle_return=True,
         )
     elif (
-        "ID" not in search_existing_syslog_config
-        and module.params["state"] == "absent"
+        "ID" not in search_existing_syslog_config and module.params["state"] == "absent"
     ):
         module.exit_json(changed=False)
     else:
         # create legacy API request body for creating Syslog-Configurations
         want = {api_create_obj: {api_return: want}}
-        syslog_config = deepsec_request.post(
-            "{0}".format(api_object), data=want
-        )
+        syslog_config = deepsec_request.post("{0}".format(api_object), data=want)
         if "ID" in search_existing_syslog_config:
-            module.exit_json(
-                syslog_config=search_existing_syslog_config, changed=False
-            )
+            module.exit_json(syslog_config=search_existing_syslog_config, changed=False)
         elif syslog_config.get("message"):
             module.fail_json(msg=syslog_config["message"])
         else:

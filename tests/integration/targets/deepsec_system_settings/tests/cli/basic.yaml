@@ -78,13 +78,13 @@
       register: result
       trendmicro.deepsec.deepsec_system_settings:
         state: gathered
-    
+
     - name: Apply the gathered system settings
       register: result
       trendmicro.deepsec.deepsec_system_settings:
         config: "{{ result['gathered']['config'] }}"
         state: present
-    
+
     - assert:
         that:
           - result.changed == false

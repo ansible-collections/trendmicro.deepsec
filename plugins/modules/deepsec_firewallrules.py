@@ -17,19 +17,14 @@ version_added: 1.0.0
 author: "Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 options:
   name:
-    description:
-      - Name of the firewall rule
-      - Searchable as String.
+    description: Name of the firewall rule
     required: true
     type: str
   description:
-    description:
-      - Description of the firewall rule
-      - Searchable as String.
+    description: Description of the firewall rule
     type: str
   action:
-    description:
-      - Action of the packet filter. Searchable as Choice.
+    description: Action of the packet filter.
     type: str
     choices:
       - 'log-only'
@@ -38,214 +33,165 @@ options:
       - 'force-allow'
       - 'bypass'
   priority:
-    description: Priority of the packet filter. Searchable as Choice.
+    description: Priority of the packet filter.
     choices: ['0', '1', '2', '3', '4']
     type: str
   direction:
-    description: Packet direction. Searchable as Choice.
+    description: Packet direction.
     choices: ['incoming', 'outgoing']
     type: str
   frame_type:
-    description: Supported frame types. Searchable as Choice.
+    description: Supported frame types.
     choices: ['any', 'ip', 'arp', 'revarp', 'ipv4', 'ipv6', 'other']
     type: str
   frame_number:
-    description: Ethernet frame number. Only required for FrameType 'other'. Searchable as Numeric.
+    description: Ethernet frame number. Only required for FrameType 'other'.
     type: int
   frame_not:
-    description: Controls if the frame setting should be inverted. Set to true to invert. Searchable as Boolean.
+    description: Controls if the frame setting should be inverted. Set to true to invert.
     type: bool
   protocol:
-    description: Protocol. Searchable as Choice.
+    description: Protocol.
     choices: ['any', 'icmp', 'igmp', 'ggp', 'tcp', 'pup', 'udp', 'idp', 'nd', 'raw', 'tcp-udp', 'icmpv6', 'other']
     type: str
   protocol_number:
-    description: Two-byte protocol number. Searchable as Numeric.
+    description: Two-byte protocol number.
     type: int
   protocol_not:
-    description: Controls if the protocol setting should be inverted. Set to true to invert. Searchable as Boolean.
+    description: Controls if the protocol setting should be inverted. Set to true to invert.
     type: bool
   source_iptype:
-    description: Source IP type. Default is 'any'. Searchable as Choice.
+    description: Source IP type.
     choices: ['any', 'masked-ip', 'range', 'ip-list', 'single', 'multiple']
     type: str
   source_ipvalue:
-    description:
-      - Source IP.
-      - Only applies to source IP type 'masked-ip' or 'single'.
-      - Searchable as String.
+    description: Source IP. Only applies to source IP type 'masked-ip' or 'single'.
     type: str
   source_ipmask:
-    description:
-      - Source IP mask. Only applies to source IP type 'masked-ip'.
-      - Searchable as String.
+    description: Source IP mask. Only applies to source IP type 'masked-ip'.
     type: str
   source_iprange_from:
-    description:
-      - The first value for a range of source IP addresses. Only applies to source IP type 'range'.
-      - Searchable as String.
+    description: The first value for a range of source IP addresses. Only applies to source IP type 'range'.
     type: str
   source_iprange_to:
-    description:
-      - The last value for a range of source IP addresses. Only applies to source IP type 'range'.
-      - Searchable as String.
+    description: The last value for a range of source IP addresses. Only applies to source IP type 'range'.
     type: str
   source_ipmultiple:
-    description:
-      - List of source IP addresses. Only applies to source IP type 'multiple'.
-      - Searchable as String.
+    description: List of source IP addresses. Only applies to source IP type 'multiple'.
     type: list
     elements: str
   source_iplist_id:
-    description:
-      - ID of source IP list. Only applies to source IP type 'ip-list'.
-      - Searchable as Numeric.
+    description: ID of source IP list. Only applies to source IP type 'ip-list'.
     type: int
   source_ipnot:
     description: Controls if the source IP setting should be inverted. Set to true to invert.
-      Searchable as Boolean.
     type: bool
   source_mactype:
-    description:
-      - Source MAC type. Default is 'any'.
-      - Searchable as Choice.
+    description: Source MAC type.
     choices: ['any', 'single', 'mac-list', 'multiple']
     type: str
   source_macvalue:
-    description:
-      - Source MAC address. Only applies to MAC type 'single'.
-      - Searchable as String.
+    description: Source MAC address. Only applies to MAC type 'single'.
     type: str
   source_macmultiple:
-    description:
-      - List of MAC addresses. Only applies to MAC type 'multiple'.
-      - Searchable as String.
+    description: List of MAC addresses. Only applies to MAC type 'multiple'.
     type: list
     elements: str
   source_maclist_id:
-    description:
-      - ID of MAC address list. Only applies to MAC type 'mac-list'.
-      - Searchable as Numeric.
+    description: ID of MAC address list. Only applies to MAC type 'mac-list'.
     type: int
   source_macnot:
     description: Controls if the source MAC setting should be inverted. Set to true to invert.
-      Searchable as Boolean.
     type: bool
   source_port_type:
-    description:
-      - The type of source port.
-      - Searchable as Choice.
+    description: The type of source port.
     choices: ['any', 'multiple', 'port-list']
     type: str
   source_port_multiple:
-    description:
-      - List of comma-delimited source ports. Only applies to source type 'multiple'.
-      - Searchable as String.
+    description: List of comma-delimited source ports. Only applies to source type 'multiple'.
     type: list
     elements: str
   source_port_list_id:
-    description:
-      - ID of source port list. Only applies to source type 'port-list'.
-      - Searchable as Numeric.
+    description: ID of source port list. Only applies to source type 'port-list'.
     type: int
   source_port_not:
     description: Controls if the source MAC setting should be inverted. Set to true to invert.
-      Searchable as Boolean.
     type: bool
   destination_iptype:
-    description:
-      - Destination IP type. Default is 'any'.
-      - Searchable as Choice.
+    description: Destination IP type.
     choices: ['any', 'masked-ip', 'range', 'ip-list', 'single', 'multiple']
     type: str
   destination_ipvalue:
-    description:
-      - Destination IP. Only applies to destination IP type 'masked-ip' or 'single'.
-      - Searchable as String.
+    description: Destination IP. Only applies to destination IP type 'masked-ip' or 'single'.
     type: str
   destination_ipmask:
-    description:
-      - Destination IP mask. Only applies to destination IP type 'masked-ip'.
-      - Searchable as String.
+    description: Destination IP mask. Only applies to destination IP type 'masked-ip'.
     type: str
   destination_iprange_from:
-    description:
-      - The first value for a range of destination IP addresses. Only applies to estination IP
-        type 'range'.
-      - Searchable as String.
+    description: The first value for a range of destination IP addresses. Only applies to estination IP
+      type 'range'.
     type: str
   destination_iprange_to:
-    description:
-      - The last value for a range of destination IP addresses. Only applies to destination IP
-        type 'range'.
-      - Searchable as String.
+    description: The last value for a range of destination IP addresses. Only applies to destination IP
+      type 'range'.
     type: str
   destination_ipmultiple:
-    description:
-      - List of comma-delimited destination IP addresses. Only applies to destination IP
-        type 'multiple'.
-      - Searchable as String.
+    description: List of comma-delimited destination IP addresses. Only applies to destination IP
+      type 'multiple'.
     type: list
     elements: str
   destination_iplist_id:
     description: ID of destination IP list. Only applies to destination IP type 'ip-list'.
-      Searchable as Numeric.
     type: int
   destination_ipnot:
     description: Controls if the destination IP setting should be inverted. Set to true to invert.
-      Searchable as Boolean.
     type: bool
   destination_mactype:
-    description: Destination MAC type. Default is 'any'. Searchable as Choice.
+    description: Destination MAC type.
     choices: ['any', 'single', 'mac-list', 'multiple']
     type: str
   destination_macvalue:
-    description: Destination MAC address. Only applies to MAC type 'single'. Searchable as String.
+    description: Destination MAC address. Only applies to MAC type 'single'.
     type: str
   destination_macmultiple:
     description: List of comma-delimited MAC addresses. Only applies to MAC type 'multiple'.
-      Searchable as String.
     type: list
     elements: str
   destination_maclist_id:
-    description: ID of MAC address list. Only applies to MAC type 'mac-list'. Searchable as Numeric.
+    description: ID of MAC address list. Only applies to MAC type 'mac-list'.
     type: int
   destination_macnot:
     description: Controls if the destination MAC setting should be inverted. Set to true to invert.
-      Searchable as Boolean.
     type: bool
   destination_port_type:
-    description: The type of destination port. Searchable as Choice.
+    description: The type of destination port.
     choices: ['any', 'multiple', 'port-list']
     type: str
   destination_port_multiple:
     description: List of comma-delimited destination ports. Only applies to destination type 'multiple'.
-      Searchable as String.
     type: list
     elements: str
   destination_port_list_id:
     description: ID of destination port list. Only applies to destination type 'port-list'.
-      Searchable as Numeric.
     type: int
   destination_port_not:
     description: Controls if the destination port setting should be inverted. Set to true to invert.
-      Searchable as Boolean.
     type: bool
   any_flags:
-    description: True if any flags are used. Searchable as Boolean.
+    description: True if any flags are used.
     type: bool
   log_disabled:
     description: Controls if logging for this filter is disabled. Only applies to filter
-      action 'log-only' or 'deny'. Searchable as Boolean.
+      action 'log-only' or 'deny'.
     type: bool
   include_packet_data:
-    description: Controls if this filter should capture data for every log. Searchable as Boolean.
+    description: Controls if this filter should capture data for every log.
     type: bool
   alert_enabled:
-    description: Controls if this filter should be alerted on. Searchable as Boolean.
+    description: Controls if this filter should be alerted on.
     type: bool
   context_id:
-    description: ID of the schedule to control when this filter is 'on'. Searchable as Numeric.
+    description: ID of the schedule to control when this filter is 'on'.
     type: int
   tcpflags:
     description: TCP flags

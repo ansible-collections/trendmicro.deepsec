@@ -16,3 +16,7 @@ plugin_routing:
       redirect: trendmicro.deepsec.deepsec_syslog
     system_settings:
       redirect: trendmicro.deepsec.deepsec_system_settings
+    integrity_monitoringrules:
+      redirect: trendmicro.deepsec.deepsec_deepsec_integrity_monitoringrules
+    intrusion_preventionrules:
+      redirect: trendmicro.deepsec.deepsec_intrusion_preventionrules

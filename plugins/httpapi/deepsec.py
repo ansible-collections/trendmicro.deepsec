@@ -13,7 +13,6 @@ short_description: HttpApi Plugin for Trend Micro Deep Security
 description:
   - This HttpApi plugin provides methods to connect to Trend Micro Deep Security
     over a HTTP(S)-based api.
-version_added: "2.9"
 """
 
 import json

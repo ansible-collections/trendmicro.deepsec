@@ -195,7 +195,7 @@ class DeepSecurityRequest(object):
                     "trendmicro.deepsec.deepsec"
                 )
                 self.connection.set_options(var_options=task_vars)
-            except ConnectionError as exc:
+            except ConnectionError:
                 raise
         # This allows us to exclude specific argspec keys from being included by
         # the rest data that don't follow the deepsec_* naming convention

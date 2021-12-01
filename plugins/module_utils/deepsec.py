@@ -12,14 +12,11 @@ from ansible.module_utils.connection import ConnectionError
 from ansible.module_utils.connection import Connection
 from ansible.module_utils._text import to_text
 from ansible.module_utils.six import iteritems
-#from ansible.utils.display import Display
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
     "Accept": "application/json",
 }
-
-# display = Display()
 
 
 def find_dict_in_list(some_list, key, value):
@@ -200,10 +197,6 @@ class DeepSecurityRequest(object):
                 self.connection.set_options(var_options=task_vars)
             except ConnectionError as exc:
                 raise
-                # if "Method not found" in to_text(exc):
-                #     display.vvvv("load_platform_plugins not defined")
-                # else:
-                #     raise
         # This allows us to exclude specific argspec keys from being included by
         # the rest data that don't follow the deepsec_* naming convention
         if not_rest_data_keys:

@@ -1,16 +1,12 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-# Copyright 2021 Red Hat
-# GNU General Public License v3.0+
-# (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""
-The module file for deepsec_intrusion_prevention_rules
-"""
+# Copyright: Ansible Project
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-DOCUMENTATION = r"""
+
+DOCUMENTATION = """
 module: deepsec_intrusion_prevention_rules
 short_description: Create a new intrusion prevention rule.
 description:
@@ -165,7 +161,7 @@ options:
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
-EXAMPLES = r"""
+EXAMPLES = """
 
 # Using MERGED state
 # -------------------

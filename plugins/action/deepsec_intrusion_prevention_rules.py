@@ -130,8 +130,8 @@ class ActionModule(ActionBase):
                     deepsec_conn_request, search_payload
                 )
                 if (
-                    temp_search_response.get("intrusionPreventionRules") and
-                        temp_search_response["intrusionPreventionRules"]
+                    temp_search_response.get("intrusionPreventionRules")
+                    and temp_search_response["intrusionPreventionRules"]
                 ):
                     search_result.append(
                         map_obj_to_params(
@@ -330,8 +330,8 @@ class ActionModule(ActionBase):
                     self.api_object
                 )
         elif (
-            self._task.args["state"] == "merged" or
-                self._task.args["state"] == "replaced"
+            self._task.args["state"] == "merged"
+            or self._task.args["state"] == "replaced"
         ):
             if self._task.args.get("config"):
                 self._result[self.module_return], self._result[

@@ -174,9 +174,29 @@ def delete_config_with_id(
 
 
 class DeepSecurityRequest(object):
-    def __init__(self, module, headers=None, not_rest_data_keys=None):
+    def __init__(
+        self,
+        module=None,
+        connection=None,
+        headers=None,
+        not_rest_data_keys=None,
+        task_vars=None,
+    ):
         self.module = module
-        self.connection = Connection(self.module._socket_path)
+        if module:
+            # This will be removed, once all of the available modules
+            # are moved to use action plugin design, as otherwise test
+            # would start to complain without the implementation.
+            self.connection = Connection(self.module._socket_path)
+        elif connection:
+            self.connection = connection
+            try:
+                self.connection.load_platform_plugins(
+                    "trendmicro.deepsec.deepsec"
+                )
+                self.connection.set_options(var_options=task_vars)
+            except ConnectionError:
+                raise
         # This allows us to exclude specific argspec keys from being included by
         # the rest data that don't follow the deepsec_* naming convention
         if not_rest_data_keys:
@@ -204,8 +224,13 @@ class DeepSecurityRequest(object):
             )
         except ValueError as e:
             self.module.fail_json(msg="certificate not found: {0}".format(e))
-
-        return response
+        # This fn. will return both code and response, once all of the available modules
+        # are moved to use action plugin design, as otherwise test
+        # would start to complain without the implementation.
+        if self.module:
+            return response
+        else:
+            return code, response
 
     def get(self, url, **kwargs):
         return self._httpapi_error_handle("GET", url, **kwargs)

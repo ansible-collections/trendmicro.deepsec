@@ -6,168 +6,202 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = """
-module: deepsec_intrusion_prevention_rules
-short_description: Create a new intrusion prevention rule.
-description:
-  - This module creates a new intrusion preventin rul under TrendMicro Deep Security.
-version_added: "1.2.0"
+DOCUMENTATION = r"""
+module: deepsec_integrity_monitoring_rules
+short_description: Manages Integrity Monitoring Rule resource module
+description: Integrity monitoring rules describe how Deep Security Agents should scan
+  for and detect changes to a computer's files, directories and registry keys and
+  values as well as changes in installed software, processes, listening ports and
+  running services. Integrity monitoring rules can be assigned directly to computers
+  or can be made part of a policy.
+version_added: 2.0.0
 options:
   config:
-    description: Intrusion prevention rules config
+    description: A dictionary of Integrity Monitoring Rules options
     type: list
     elements: dict
     suboptions:
       name:
-        description: Name of the IntrusionPreventionRule.
+        description: Name of the IntegrityMonitoringRule. Searchable as String.
         type: str
       description:
-        description: Description of the IntrusionPreventionRule.
+        description: Description of the IntegrityMonitoringRule. Searchable as String.
         type: str
       minimum_agent_version:
-        description: Version of the Deep Security agent or appliance required to support the rule.
+        description: Minimum Deep Security Agent version that supports the IntegrityMonitoringRule.
+          This value is provided in the X.X.X.X format. Defaults to '6.0.0.0'. If
+          an agent is not the minimum required version, the manager does not send
+          the rule to the agent, and generates an alert. Searchable as String.
         type: str
-      application_type_id:
-        description: ID of the application type for the IntrusionPreventionRule.
-        type: int
-      priority:
-        description: Priority level of the rule. Higher priority rules are applied before
-          lower priority rules.
-        choices: ["lowest", "low", "normal", "high", "highest"]
+      minimum_manager_version:
+        description: Minimum Deep Security Manager version that supports the IntegrityMonitoringRule.
+          This value is provided in the X.X.X format. Defaults to '6.0.0'. An alert
+          will be raised if a manager that fails to meet the minimum manager version
+          value tries to assign this rule to a host or profile. Searchable as String.
         type: str
       severity:
-        description: Severity level of the rule. Severity levels can be used as sorting criteria
-          and affect event rankings.
-        choices: ["low", "medium", "high", "critical"]
+        description: Severity level of the event is multiplied by the computer's asset
+          value to determine ranking. Ranking can be used to sort events with more
+          business impact. Searchable as Choice.
         type: str
-      detect_only:
-        description: In detect mode, the rule creates an event log and does not interfere with traffic.
-        type: bool
-      event_logging_disabled:
-        description: Enable to prevent event logs from being created when the rule is triggered.
-          Not available if detect only is true.
-        type: bool
-      generate_event_on_packet_drop:
-        description: Generate an event every time a packet is dropped for the rule.
-          Not available if event logging disabled is true.
-        type: bool
-      always_include_packet_data:
-        description: Enabled to include package data in the event logs.
-          Not available if event logging disabled is true.
-        type: bool
-      debug_mode_enabled:
-        description: Enable to log additional packets preceeding and following the packet
-          that the rule detected. Not available if event logging disabled is true.
-        type: bool
+        choices:
+        - low
+        - medium
+        - high
+        - critical
       type:
-        description: Type of IntrusionPreventionRule.
-        choices: ["custom", "smart", "vulnerability", "exploit", "hidden", "policy", "info"]
+        description: Type of the IntegrityMonitoringRule. If the rule is predefined
+          by Trend Micro, it is set to '2'. If it is user created, it is set to '1'.
+          Searchable as String.
         type: str
       original_issue:
-        description: Timestamp of the date the rule was released, in milliseconds since epoch.
+        description: Timestamp when the IntegrityMonitoringRule was originally issued
+          by Trend Micro, in milliseconds since epoch.  Empty if the IntegrityMonitoringRule
+          is user created. Searchable as Date.
         type: int
       last_updated:
-        description: Timestamp of the last rule modification, in milliseconds since epoch.
-        type: int
-      template:
-        description: Type of template for the IntrusionPreventionRule. Applicable only to custom rules.
-        choices: ["signature", "start-end-patterns", "custom"]
-        type: str
-      signature:
-        description: Signature of the rule. Applicable to custom rules with template type signature.
-        type: str
-      start:
-        description: Start pattern of the rule. Applicable to custom rules with template type start-end-patterns.
-        type: str
-      patterns:
-        description: Body patterns of the rule, which must be found between start and end patterns.
-          Applicable to custom rules with template type start-end-patterns.
-        type: list
-        elements: str
-      end:
-        description: End pattern of the rule. Applicable to custom rules with template type start-end-patterns.
-        type: str
-      case_sensitive:
-        description: Enable to make signatures and patterns case sensitive.
-          Applicable to custom rules with template type signature or start-end-patterns.
-        type: bool
-      condition:
-        description: Condition to determine if the rule is triggered.
-          Applicable to custom rules with template type start-end-patterns.
-        choices: ["all", "any", "none"]
-        type: str
-      action:
-        description: Action to apply if the rule is triggered.
-          Applicable to custom rules with template type signature or start-end-patterns.
-        choices: ["drop", "log-only"]
-        type: str
-      custom_xml:
-        description: The custom XML used to define the rule.
-          Applicable to custom rules with template type custom.
-        type: str
-      alert_enabled:
-        description: Enable to raise an alert when the rule logs an event.
-        type: bool
-      schedule_id:
-        description: ID of the schedule which defines times during which the rule is active.
-        type: int
-      context_id:
-        description: ID of the context in which the rule is applied.
-        type: int
-      recommendations_mode:
-        description: Indicates whether recommendation scans consider the IntrusionPreventionRule.
-          Can be set to enabled or ignored. Custom rules cannot be recommended.
-        choices: ["enabled", "ignored", "unknown", "disabled"]
-        type: str
-      depends_on_rule_ids:
-        description: IDs of intrusion prevention rules the rule depends on,
-          which will be automatically assigned if this rule is assigned.
-        type: list
-        elements: int
-      cvss_score:
-        description: A measure of the severity of the vulnerability according the
-          National Vulnerability Database.
-        type: str
-      cve:
-        description: List of CVEs associated with the IntrusionPreventionRule.
-        type: list
-        elements: str
-      id:
-        description: ID for the Intrusion prevention rule. Applicaple only with GET call
-          Not applicaple param with Create/Modify POST call
+        description: Timestamp when the IntegrityMonitoringRule was last updated,
+          in milliseconds since epoch. Searchable as Date.
         type: int
       identifier:
-        description: Identifier for the Intrusion prevention rule.
-          Applicaple only with GET call. Not applicaple param with Create/Modify POST call
+        description: Identifier of the IntegrityMonitoringRule from Trend Micro. Empty
+          if the IntegrityMonitoringRule is user created. Searchable as String.
         type: str
-      can_be_assigned_alone:
-        description: Intrusion prevention rule can be assigned by self.
-          Applicaple only with GET call. Not applicaple param with Create/Modify POST call
+      template:
+        description: Template which the IntegrityMonitoringRule follows.
+        type: str
+        choices:
+        - registry
+        - file
+        - custom
+      registry_key_root:
+        description: Registry hive which is monitored by the IntegrityMonitoringRule.
+          Empty if the IntegrityMonitoringRule does not monitor a registry key.
+        type: str
+      registry_key_value:
+        description: Registry key which is monitored by the IntegrityMonitoringRule.
+          Empty if the IntegrityMonitoringRule does not monitor a registry key. Ignored
+          if the IntegrityMonitoringRule does not monitor a registry key.
+        type: str
+      registry_include_sub_keys:
+        description: Controls whether the IntegrityMonitoringRule should also include
+          subkeys of the registry key it monitors. Defaults to 'false'. Ignored if
+          the IntegrityMonitoringRule does not monitor a registry key.
         type: bool
+      registry_included_values:
+        description: Registry key values to be monitored by the IntegrityMonitoringRule.
+          JSON array or delimited by '\n'. '?' matches a single character, while '*'
+          matches zero or more characters. Ignored if the IntegrityMonitoringRule
+          does not monitor a registry key.
+        type: list
+        elements: str
+      registry_include_default_value:
+        description: Controls whether the rule should monitor default registry key
+          values. Defaults to 'true'. Ignored if the IntegrityMonitoringRule does
+          not monitor a registry key.
+        type: bool
+      registry_excluded_values:
+        description: Registry key values to be ignored by the IntegrityMonitoringRule.
+          JSON array or delimited by '\n'. '?' matches a single character, while '*'
+          matches zero or more characters. Ignored if the IntegrityMonitoringRule
+          does not monitor a registry key.
+        type: list
+        elements: str
+      registry_attributes:
+        description: Registry key attributes to be monitored by the IntegrityMonitoringRule.
+          JSON array or delimited by '\n'. Defaults to 'STANDARD' which will monitor
+          changes in registry size, content and type. Ignored if the IntegrityMonitoringRule
+          does not monitor a registry key.
+        type: list
+        elements: str
+      file_base_directory:
+        description: Base of the file directory to be monitored by the IntegrityMonitoringRule.
+          Ignored if the IntegrityMonitoringRule does not monitor a file directory.
+        type: str
+      file_include_sub_directories:
+        description: Controls whether the IntegrityMonitoringRule should also monitor
+          sub-directories of the base file directory that is associated with it. Defaults
+          to 'false'. Ignored if the IntegrityMonitoringRule does not monitor a file
+          directory.
+        type: bool
+      file_included_values:
+        description: File name values to be monitored by the IntegrityMonitoringRule.
+          JSON array or delimited by '\n'. '?' matches a single character, while '*'
+          matches zero or more characters. Leaving this field blank when monitoring
+          file directories will cause the IntegrityMonitoringRule to monitor all files
+          in a directory. This can use significant system resources if the base directory
+          contains numerous or large files. Ignored if the IntegrityMonitoringRule
+          does not monitor a file directory.
+        type: list
+        elements: str
+      file_excluded_values:
+        description: File name values to be ignored by the IntegrityMonitoringRule.
+          JSON array or delimited by '\n'. '?' matches a single character, while '*'
+          matches zero or more characters. Ignored if the IntegrityMonitoringRule
+          does not monitor a file directory.
+        type: list
+        elements: str
+      file_attributes:
+        description: File attributes to be monitored by the IntegrityMonitoringRule.
+          JSON array or delimited by '\n'. Defaults to 'STANDARD' which will monitor
+          changes in file creation date, last modified date, permissions, owner, group,
+          size, content, flags (Windows) and SymLinkPath (Linux). Ignored if the IntegrityMonitoringRule
+          does not monitor a file directory.
+        type: list
+        elements: str
+      custom_xml:
+        description: Custom XML rules to be used by the IntegrityMonitoringRule. Custom
+          XML rules must be encoded in the Base64 format. Ignored if the IntegrityMonitoringRule
+          does not follow the 'custom' template.
+        type: str
+      alert_enabled:
+        description: Controls whether an alert should be made if an event related
+          to the IntegrityMonitoringRule is logged. Defaults to 'false'. Searchable
+          as Boolean.
+        type: bool
+      real_time_monitoring_enabled:
+        description: Controls whether the IntegrityMonitoringRule is monitored in
+          real time or during every scan. Defaults to 'true' which indicates that
+          it is monitored in real time. A value of 'false' indicates that it will
+          only be checked during scans. Searchable as Boolean.
+        type: bool
+      recommendations_mode:
+        description: Indicates whether recommendation scans consider the IntegrityMonitoringRule.
+          Can be set to enabled or ignored. Custom rules cannot be recommended. Searchable
+          as Choice.
+        type: str
+        choices:
+        - enabled
+        - ignored
+        - unknown
+        - disabled
+      id:
+        description: ID of the IntegrityMonitoringRule. Searchable as ID.
+        type: int
   state:
     description:
-      - The state the configuration should be left in
-      - The state I(gathered) will get the module API configuration from the device and
-        transform it into structured data in the format as per the module argspec and
-        the value is returned in the I(gathered) key within the result.
+    - The state the configuration should be left in
+    - The state I(gathered) will get the module API configuration from the device
+      and transform it into structured data in the format as per the module argspec
+      and the value is returned in the I(gathered) key within the result.
     type: str
     choices:
-      - merged
-      - replaced
-      - deleted
-      - gathered
-    default: present
+    - merged
+    - replaced
+    - overridden
+    - gathered
+    - deleted
 
-author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
+author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>
 """
 
-EXAMPLES = """
+EXAMPLES = r"""
 
 # Using MERGED state
 # -------------------
 
-- name: Create Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+- name: Create Integrity Monitoring Rules
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: merged
     config:
       - alert_enabled: false
@@ -200,7 +234,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "integrity_monitoring_rules": {
 #     "after": [
 #         {
 #             "action": "drop",
@@ -243,7 +277,7 @@ EXAMPLES = """
 # }
 
 - name: Modify the severity of Integrity Monitoring Rule by name
-  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: merged
     config:
       - name: TEST IPR 2
@@ -252,7 +286,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "integrity_monitoring_rules": {
 #     "after": [
 #         {
 #            "action": "drop",
@@ -298,8 +332,8 @@ EXAMPLES = """
 # Using REPLACED state
 # --------------------
 
-- name: Replace existing Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+- name: Replace existing Integrity Monitoring Rule
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: replaced
     config:
       - alert_enabled: false
@@ -332,7 +366,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-#  "intrusion_prevention_rules": {
+#  "integrity_monitoring_rules": {
 #     "after": [
 #         {
 #             "action": "drop",
@@ -413,8 +447,8 @@ EXAMPLES = """
 # Using GATHERED state
 # --------------------
 
-- name: Gather Intrusion Prevention Rules by IPR names
-  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+- name: Gather Integrity Monitoring Rule by IPR names
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: gathered
     config:
       - name: TEST IPR 1
@@ -462,15 +496,15 @@ EXAMPLES = """
 #     }
 # ]
 
-- name: Gather ALL of the Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+- name: Gather ALL of the Integrity Monitoring Rule
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: gathered
 
 # Using DELETED state
 # ------------------
 
-- name: Delete Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+- name: Delete Integrity Monitoring Rule
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: deleted
     config:
       - name: TEST IPR 1
@@ -479,7 +513,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "integrity_monitoring_rules": {
 #     "after": [],
 #     "before": [
 #         {

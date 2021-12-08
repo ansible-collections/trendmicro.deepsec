@@ -84,12 +84,6 @@
         config: "{{ gather_result['gathered'] }}"
         state: replaced
 
-    - debug:
-        msg:
-          - "{{ merged['after'] | symmetric_difference(revert['intrusion_prevention_rules']['after']) |\
-            \ length == 4 }}"
-          - "{{ merged['after'] | symmetric_difference(revert['intrusion_prevention_rules']['after']) }}"
-
     - assert:
         that:
           - revert['changed'] == true

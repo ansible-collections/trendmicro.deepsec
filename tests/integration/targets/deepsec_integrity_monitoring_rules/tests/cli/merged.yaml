@@ -1,0 +1,57 @@
+---
+- debug:
+    msg: START Merged deepsec_integrity_monitoring_rules state for integration tests on connection={{
+      ansible_connection }}
+
+- include_tasks: _remove_imr_config.yaml
+
+- block:
+
+    - name: Merge and Create new Integrity Monitoring Rules
+      tags: merged
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoring_rules: &id001
+        state: merged
+        config:
+          - name: THIS IS TEST IMR - 1
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 1
+            real_time_monitoring_enabled: true
+            registry_included_values:
+              - test_1
+              - test_2
+            severity: medium
+            template: registry
+          - name: THIS IS TEST IMR - 2
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 2
+            real_time_monitoring_enabled: true
+            registry_attributes:
+              - test
+            severity: low
+            template: registry
+
+    - name: Assert that task reports change and after dict is correctly generated
+      assert:
+        that:
+          - result['changed'] == true
+          - "{{ merged['after'] | symmetric_difference(result['integrity_monitoring_rules']['after']) |\
+            \ length == 4 }}"
+
+    - name: Assert that before dicts are correctly generated
+      assert:
+        that:
+          - merged['before'] == result['integrity_monitoring_rules']['before']
+
+    - name: Merge provided configuration with device configuration (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_integrity_monitoring_rules: *id001
+
+    - name: Assert that the previous task was idempotent
+      assert:
+        that:
+          - result['changed'] == false
+
+  always:
+
+    - include_tasks: _remove_imr_config.yaml

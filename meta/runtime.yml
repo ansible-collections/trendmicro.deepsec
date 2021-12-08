@@ -29,3 +29,12 @@ plugin_routing:
       redirect: trendmicro.deepsec.deepsec_integrity_monitoring_rules
     intrusion_preventionrules:
       redirect: trendmicro.deepsec.deepsec_intrusion_preventionrules
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    deepsec_intrusion_preventionrules:
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    deepsec_intrusion_prevention_rules:
+      redirect: trendmicro.deepsec.deepsec_intrusion_prevention_rules

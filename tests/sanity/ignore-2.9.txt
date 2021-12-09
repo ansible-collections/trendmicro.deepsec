@@ -1,0 +1,2 @@
+plugins/modules/deepsec_integrity_monitoringrules.py:0:0: deprecation-mismatch # 2.9 expects METADATA
+plugins/modules/deepsec_integrity_monitoringrules.py:0:0: validate-modules:invalid-documentation # removed_at_date not supported in `deprecated` dict

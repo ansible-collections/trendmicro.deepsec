@@ -1,0 +1,87 @@
+---
+- debug:
+    msg: START deepsec_firewall_rules round trip integration tests on connection={{ ansible_connection
+      }}
+
+- include_tasks: _remove_fwr_config.yaml
+- include_tasks: _populate_fwr_config.yaml
+
+- block:
+
+    - name: Apply the provided configuration (base config)
+      register: base_config
+      trendmicro.deepsec.deepsec_firewall_rules: &id001
+        state: merged
+        config:
+          - name: test_firewallrule_1
+            description: incoming firewall 1 rule description
+            action: deny
+            priority: 0
+            source_iptype: any
+            destination_iptype: any
+            direction: incoming
+            protocol: tcp
+            log_disabled: true
+          - name: test_firewallrule_2
+            description: incoming firewall 2 rule description
+            action: deny
+            priority: 0
+            source_iptype: any
+            source_ipnot: false
+            source_port_type: any
+            destination_iptype: any
+            direction: incoming
+            protocol: tcp
+
+    - name: Gather TM Firewall Rules facts
+      register: gather_result
+      trendmicro.deepsec.deepsec_firewall_rules:
+        config:
+          - name: test_firewallrule_1
+          - name: test_firewallrule_2
+        state: gathered
+
+    - name: Apply the configuration which need to be reverted
+      register: result
+      trendmicro.deepsec.deepsec_firewall_rules:
+        config:
+          - name: test_firewallrule_1
+            description: outgoing firewall 1 replaced rule
+            action: deny
+            priority: 0
+            source_iptype: any
+            destination_iptype: any
+            direction: outgoing
+            protocol: any
+            log_disabled: true
+        state: replaced
+
+    - assert:
+        that:
+          - result.changed == true
+          - "{{ replaced['before'] | symmetric_difference(result['firewall_rules']['before']) |\
+            \ length == 2 }}"
+          - "{{ replaced['after'] | symmetric_difference(result['firewall_rules']['after']) |\
+            \ length == 2 }}"
+
+    - name: Revert back to base config using facts round trip
+      register: revert
+      trendmicro.deepsec.deepsec_firewall_rules:
+        config: "{{ gather_result['gathered'] }}"
+        state: replaced
+
+    - debug:
+        msg:
+          - "{{ merged['after'] | symmetric_difference(revert['firewall_rules']['after']) |\
+            \ length == 4 }}"
+          - "{{ merged['after'] | symmetric_difference(revert['firewall_rules']['after']) }}"
+
+    - assert:
+        that:
+          - revert['changed'] == true
+          - "{{ merged['after'] | symmetric_difference(revert['firewall_rules']['after']) |\
+            \ length == 4 }}"
+
+  always:
+
+    - include_tasks: _remove_fwr_config.yaml

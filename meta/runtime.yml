@@ -2,11 +2,11 @@
 requires_ansible: '>=2.9.10'
 plugin_routing:
   action:
-    ios_integrity_monitoringrules:
+    deepsec_integrity_monitoringrules:
       redirect: trendmicro.deepsec.deepsec
     integrity_monitoringrules:
       redirect: trendmicro.deepsec.deepsec
-    ios_integrity_monitoring_rules:
+    deepsec_integrity_monitoring_rules:
       redirect: trendmicro.deepsec.deepsec
     integrity_monitoring_rules:
       redirect: trendmicro.deepsec.deepsec

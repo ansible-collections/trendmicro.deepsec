@@ -30,7 +30,6 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 from ansible_collections.trendmicro.deepsec.plugins.modules.deepsec_firewall_rules import (
     DOCUMENTATION,
 )
-import q
 
 
 class ActionModule(ActionBase):

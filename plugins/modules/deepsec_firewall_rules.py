@@ -316,359 +316,423 @@ EXAMPLES = """
 # Using MERGED state
 # -------------------
 
-- name: Create Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+- name: Create Firewall Rules
+  trendmicro.deepsec.deepsec_firewall_rules:
     state: merged
     config:
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 2 DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 1
-        priority: normal
-        severity: medium
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_2
-        debug_mode_enabled: false
-        description: TEST IPR 2 DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 2
-        priority: normal
-        severity: medium
+      - name: test_firewallrule_1
+        description: incoming firewall 1 rule description
+        action: deny
+        priority: 0
+        source_iptype: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp
+        log_disabled: true
+      - name: test_firewallrule_2
+        description: incoming firewall 2 rule description
+        action: deny
+        priority: 0
+        source_iptype: any
+        source_ipnot: false
+        source_port_type: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp
 
 # Play Run:
 # =========
 #
-# "intrusion_preventionrules": {
+# "firewall_rules": {
 #     "after": [
 #         {
-#             "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "any_flags": true,
+#             "description": "incoming firewall 1 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 132,
+#             "include_packet_data": false,
+#             "log_disabled": true,
+#             "name": "test_firewallrule_1",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
 #         },
 #         {
-#             "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "any_flags": true,
+#             "description": "incoming firewall 2 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 133,
+#             "include_packet_data": false,
+#             "log_disabled": false,
+#             "name": "test_firewallrule_2",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
 #         }
 #     ],
 #     "before": []
 # }
 
-- name: Modify the severity of Integrity Monitoring Rule by name
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+- name: Modify the severity of Firewall Rule by name
+  trendmicro.deepsec.deepsec_firewall_rules:
     state: merged
     config:
-      - name: TEST IPR 2
-        severity: low
+      - name: test_firewallrule_1
+        action: allow
 
 # Play Run:
 # =========
 #
-# "intrusion_preventionrules": {
+# "firewall_rules": {
 #     "after": [
 #         {
-#            "action": "drop",
+#             "action": "allow",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7902,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature",
-#             "template": "signature"
-#          }
+#             "any_flags": true,
+#             "description": "incoming firewall 1 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 132,
+#             "include_packet_data": false,
+#             "log_disabled": true,
+#             "name": "test_firewallrule_1",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
+#         }
 #     ],
 #     "before": [
 #         {
-#            "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7902,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature",
-#             "template": "signature"
-#          }
+#             "any_flags": true,
+#             "description": "incoming firewall 1 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 132,
+#             "include_packet_data": false,
+#             "log_disabled": true,
+#             "name": "test_firewallrule_1",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
+#         }
 #     ]
 # }
 
 # Using REPLACED state
 # --------------------
 
-- name: Replace existing Intrusion Prevention Rules
+- name: Replace existing Firewall Rules
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: replaced
     config:
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 1 REPLACE DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 1
-        priority: normal
-        severity: low
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 2 REPLACE DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 2
-        priority: normal
-        severity: low
+      - name: test_firewallrule_1
+        description: outgoing firewall 1 replaced rule
+        action: deny
+        priority: 0
+        source_iptype: any
+        destination_iptype: any
+        direction: outgoing
+        protocol: any
+        log_disabled: true
 
 # Play Run:
 # =========
 #
-#  "intrusion_prevention_rules": {
+# "firewall_rules": {
 #     "after": [
 #         {
-#             "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 1 REPLACE DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8151,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 REPLACE DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8152,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "any_flags": true,
+#             "description": "outgoing firewall 1 replaced rule",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "outgoing",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 134,
+#             "include_packet_data": false,
+#             "log_disabled": true,
+#             "name": "test_firewallrule_1",
+#             "priority": "0",
+#             "protocol": "any",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
 #         }
 #     ],
 #     "before": [
 #         {
-#             "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 1 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8149,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8150,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "any_flags": true,
+#             "description": "incoming firewall 1 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 132,
+#             "include_packet_data": false,
+#             "log_disabled": true,
+#             "name": "test_firewallrule_1",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
 #         }
 #     ]
+# }
 
 # Using GATHERED state
 # --------------------
 
-- name: Gather Intrusion Prevention Rules by IPR names
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+- name: Gather Firewall Rules by FW names
+  trendmicro.deepsec.deepsec_firewall_rules:
     state: gathered
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: test_firewallrule_1
+      - name: test_firewallrule_2
 
 # Play Run:
 # =========
 #
 # "gathered": [
-#     {
-#         "action": "drop",
-#         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7887,
-#         "name": "TEST IPR 1",
-#         "priority": "normal",
-#         "severity": "medium",
-#         "signature": "test_new_signature_1",
-#         "template": "signature"
-#     },
-#     {
-#         "action": "drop",
-#         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7888,
-#         "name": "TEST IPR 2",
-#         "priority": "normal",
-#         "severity": "medium",
-#         "signature": "test_new_signature_2",
-#         "template": "signature"
-#     }
+# {
+#       "action": "deny",
+#       "alert_enabled": false,
+#       "any_flags": true,
+#       "description": "incoming firewall 1 rule description",
+#       "destination_ipnot": false,
+#       "destination_iptype": "any",
+#       "destination_macnot": false,
+#       "destination_mactype": "any",
+#       "destination_port_not": false,
+#       "destination_port_type": "any",
+#       "direction": "incoming",
+#       "frame_not": false,
+#       "frame_number": 2048,
+#       "frame_type": "ip",
+#       "id": 132,
+#       "include_packet_data": false,
+#       "log_disabled": true,
+#       "name": "test_firewallrule_1",
+#       "priority": "0",
+#       "protocol": "tcp",
+#       "protocol_not": false,
+#       "source_ipnot": false,
+#       "source_iptype": "any",
+#       "source_macnot": false,
+#       "source_mactype": "any",
+#       "source_port_not": false,
+#       "source_port_type": "any"
+#   },
+#   {
+#       "action": "deny",
+#       "alert_enabled": false,
+#       "any_flags": true,
+#       "description": "incoming firewall 2 rule description",
+#       "destination_ipnot": false,
+#       "destination_iptype": "any",
+#       "destination_macnot": false,
+#       "destination_mactype": "any",
+#       "destination_port_not": false,
+#       "destination_port_type": "any",
+#       "direction": "incoming",
+#       "frame_not": false,
+#       "frame_number": 2048,
+#       "frame_type": "ip",
+#       "id": 133,
+#       "include_packet_data": false,
+#       "log_disabled": false,
+#       "name": "test_firewallrule_2",
+#       "priority": "0",
+#       "protocol": "tcp",
+#       "protocol_not": false,
+#       "source_ipnot": false,
+#       "source_iptype": "any",
+#       "source_macnot": false,
+#       "source_mactype": "any",
+#       "source_port_not": false,
+#       "source_port_type": "any"
+#   }
 # ]
 
-- name: Gather ALL of the Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+- name: Gather ALL of the Firewall Rules
+  trendmicro.deepsec.deepsec_firewall_rules:
     state: gathered
 
 # Using DELETED state
 # ------------------
 
-- name: Delete Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+- name: Delete Firewall Rules
+  trendmicro.deepsec.deepsec_firewall_rules:
     state: deleted
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: test_firewallrule_1
+      - name: test_firewallrule_2
 
 # Play Run:
 # =========
 #
-# "intrusion_preventionrules": {
+# "firewall_rules": {
 #     "after": [],
 #     "before": [
 #         {
-#             "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "any_flags": true,
+#             "description": "incoming firewall 1 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 134,
+#             "include_packet_data": false,
+#             "log_disabled": true,
+#             "name": "test_firewallrule_1",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
 #         },
 #         {
-#             "action": "drop",
+#             "action": "deny",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "any_flags": true,
+#             "description": "incoming firewall 2 rule description",
+#             "destination_ipnot": false,
+#             "destination_iptype": "any",
+#             "destination_macnot": false,
+#             "destination_mactype": "any",
+#             "destination_port_not": false,
+#             "destination_port_type": "any",
+#             "direction": "incoming",
+#             "frame_not": false,
+#             "frame_number": 2048,
+#             "frame_type": "ip",
+#             "id": 133,
+#             "include_packet_data": false,
+#             "log_disabled": false,
+#             "name": "test_firewallrule_2",
+#             "priority": "0",
+#             "protocol": "tcp",
+#             "protocol_not": false,
+#             "source_ipnot": false,
+#             "source_iptype": "any",
+#             "source_macnot": false,
+#             "source_mactype": "any",
+#             "source_port_not": false,
+#             "source_port_type": "any"
 #         }
 #     ]
 # }
 
+"""
+
+RETURN = """
+before:
+  description: The configuration as structured data prior to module invocation.
+  returned: always
+  type: list
+  sample: The configuration returned will always be in the same format of the parameters above.
+after:
+  description: The configuration as structured data after module completion.
+  returned: when changed
+  type: list
+  sample: The configuration returned will always be in the same format of the parameters above.
 """

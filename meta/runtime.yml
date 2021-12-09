@@ -1,6 +1,15 @@
 ---
 requires_ansible: '>=2.9.10'
 plugin_routing:
+  action:
+    ios_integrity_monitoringrules:
+      redirect: trendmicro.deepsec.deepsec
+    integrity_monitoringrules:
+      redirect: trendmicro.deepsec.deepsec
+    ios_integrity_monitoring_rules:
+      redirect: trendmicro.deepsec.deepsec
+    integrity_monitoring_rules:
+      redirect: trendmicro.deepsec.deepsec
   modules:
     anti_malware:
       redirect: trendmicro.deepsec.deepsec_anti_malware
@@ -17,11 +26,15 @@ plugin_routing:
     system_settings:
       redirect: trendmicro.deepsec.deepsec_system_settings
     integrity_monitoringrules:
-      redirect: trendmicro.deepsec.deepsec_deepsec_integrity_monitoringrules
+      redirect: trendmicro.deepsec.deepsec_integrity_monitoringrules
       deprecation:
         removal_date: "2023-12-08"
         warning_text: See the plugin documentation for more details
-    deepsec_integrity_monitoring_rules:
+    deepsec_integrity_monitoringrules:
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    integrity_monitoring_rules:
       redirect: trendmicro.deepsec.deepsec_integrity_monitoring_rules
     intrusion_preventionrules:
       redirect: trendmicro.deepsec.deepsec_intrusion_preventionrules

@@ -337,4 +337,4 @@ class ActionModule(ActionBase):
                     conn_request, self._task.args["config"]
                 )
 
-        return self._result 
+        return self._result

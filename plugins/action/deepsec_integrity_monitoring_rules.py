@@ -63,7 +63,7 @@ class ActionModule(ActionBase):
             "custom_xml": "customXML",
             "alert_enabled": "alertEnabled",
             "real_time_monitoring_enabled": "realTimeMonitoringEnabled",
-            "recommendations_mode": "recommendationsMode"
+            "recommendations_mode": "recommendationsMode",
         }
 
     def _check_argspec(self):
@@ -93,9 +93,7 @@ class ActionModule(ActionBase):
                     )
                 )
 
-    def search_for_existing_rules(
-        self, conn_request, search_payload=None
-    ):
+    def search_for_existing_rules(self, conn_request, search_payload=None):
         code, resource_response = conn_request.post(
             self.api_object_search, data=search_payload
         )
@@ -149,9 +147,7 @@ class ActionModule(ActionBase):
 
         return search_result
 
-    def delete_module_api_config(
-        self, conn_request, module_config_params
-    ):
+    def delete_module_api_config(self, conn_request, module_config_params):
         config = {}
         before = []
         after = []
@@ -316,9 +312,7 @@ class ActionModule(ActionBase):
                     conn_request, self._task.args["config"]
                 )
             else:
-                self._result["gathered"] = conn_request.get(
-                    self.api_object
-                )
+                self._result["gathered"] = conn_request.get(self.api_object)
         elif (
             self._task.args["state"] == "merged"
             or self._task.args["state"] == "replaced"

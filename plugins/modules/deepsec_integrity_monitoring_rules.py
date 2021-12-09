@@ -204,32 +204,23 @@ EXAMPLES = r"""
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: merged
     config:
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 2 DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 1
-        priority: normal
+      - name: THIS IS TEST IMR - 1
+        alert_enabled: false
+        description: THIS IS TEST IMR DESCRIPTION - 1
+        real_time_monitoring_enabled: true
+        registry_included_values:
+          - test_1
+          - test_2
         severity: medium
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_2
-        debug_mode_enabled: false
-        description: TEST IPR 2 DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 2
-        priority: normal
-        severity: medium
+        template: registry
+      - name: THIS IS TEST IMR - 2
+        alert_enabled: false
+        description: THIS IS TEST IMR DESCRIPTION - 2
+        real_time_monitoring_enabled: true
+        registry_attributes:
+          - test
+        severity: low
+        template: registry
 
 # Play Run:
 # =========
@@ -237,40 +228,53 @@ EXAMPLES = r"""
 # "integrity_monitoring_rules": {
 #     "after": [
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
+#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#             "id": 321,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 1",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "STANDARD"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 "test_1",
+#                 "test_2"
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
 #             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "template": "registry"
 #         },
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 322,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "low",
+#             "template": "registry"
 #         }
 #     ],
 #     "before": []
@@ -280,8 +284,8 @@ EXAMPLES = r"""
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: merged
     config:
-      - name: TEST IPR 2
-        severity: low
+      - name: THIS IS TEST IMR - 2
+        severity: medium
 
 # Play Run:
 # =========
@@ -289,43 +293,55 @@ EXAMPLES = r"""
 # "integrity_monitoring_rules": {
 #     "after": [
 #         {
-#            "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7902,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature",
-#             "template": "signature"
-#          }
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 322,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "medium",
+#             "template": "registry"
+#         }
 #     ],
 #     "before": [
 #         {
-#            "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7902,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature",
-#             "template": "signature"
-#          }
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 322,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "low",
+#             "template": "registry"
+#         }
 #     ]
 # }
 
@@ -336,32 +352,16 @@ EXAMPLES = r"""
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: replaced
     config:
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 1 REPLACE DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 1
-        priority: normal
+      - name: THIS IS TEST IMR - 1
+        alert_enabled: false
+        description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
+        real_time_monitoring_enabled: true
+        registry_included_values:
+          - test_3
+          - test_4
         severity: low
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 2 REPLACE DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 2
-        priority: normal
-        severity: low
+        template: registry
+
 
 # Play Run:
 # =========
@@ -369,130 +369,122 @@ EXAMPLES = r"""
 #  "integrity_monitoring_rules": {
 #     "after": [
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 1 REPLACE DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8151,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
+#             "description": "THIS IS REPLACED TEST IMR DESCRIPTION - 1",
+#             "id": 325,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 1",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "STANDARD"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 "test_3",
+#                 "test_4"
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
 #             "severity": "low",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 REPLACE DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8152,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "template": "registry"
 #         }
 #     ],
 #     "before": [
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 1 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8149,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
+#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#             "id": 323,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 1",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "STANDARD"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 "test_1",
+#                 "test_2"
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
 #             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8150,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "template": "registry"
 #         }
 #     ]
+# }
 
 # Using GATHERED state
 # --------------------
 
-- name: Gather Integrity Monitoring Rule by IPR names
+- name: Gather Integrity Monitoring Rule by IMR names
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: gathered
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: THIS IS TEST IMR - 1
+      - name: THIS IS TEST IMR - 2
 
 # Play Run:
 # =========
 #
 # "gathered": [
 #     {
-#         "action": "drop",
 #         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7887,
-#         "name": "TEST IPR 1",
-#         "priority": "normal",
+#         "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#         "id": 326,
+#         "minimum_agent_version": "6.0.0.0",
+#         "minimum_manager_version": "6.0.0",
+#         "name": "THIS IS TEST IMR - 1",
+#         "real_time_monitoring_enabled": true,
+#         "registry_attributes": [
+#             "STANDARD"
+#         ],
+#         "registry_excluded_values": [
+#             ""
+#         ],
+#         "registry_include_default_value": true,
+#         "registry_include_subkeys": false,
+#         "registry_included_values": [
+#             "test_1",
+#             "test_2"
+#         ],
+#         "registry_key_root": "HKEY_CLASSES_ROOT",
+#         "registry_key_value": "\\",
 #         "severity": "medium",
-#         "signature": "test_new_signature_1",
-#         "template": "signature"
+#         "template": "registry"
 #     },
 #     {
-#         "action": "drop",
 #         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7888,
-#         "name": "TEST IPR 2",
-#         "priority": "normal",
-#         "severity": "medium",
-#         "signature": "test_new_signature_2",
-#         "template": "signature"
+#         "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#         "id": 327,
+#         "minimum_agent_version": "6.0.0.0",
+#         "minimum_manager_version": "6.0.0",
+#         "name": "THIS IS TEST IMR - 2",
+#         "real_time_monitoring_enabled": true,
+#         "registry_attributes": [
+#             "test"
+#         ],
+#         "registry_excluded_values": [
+#             ""
+#         ],
+#         "registry_include_default_value": true,
+#         "registry_include_subkeys": false,
+#         "registry_included_values": [
+#             ""
+#         ],
+#         "registry_key_root": "HKEY_CLASSES_ROOT",
+#         "registry_key_value": "\\",
+#         "severity": "low",
+#         "template": "registry"
 #     }
 # ]
 
@@ -507,8 +499,8 @@ EXAMPLES = r"""
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: deleted
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: THIS IS TEST IMR - 1
+      - name: THIS IS TEST IMR - 2
 
 # Play Run:
 # =========
@@ -517,42 +509,69 @@ EXAMPLES = r"""
 #     "after": [],
 #     "before": [
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
+#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
+#             "id": 326,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 1",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "STANDARD"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 "test_1",
+#                 "test_2"
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
 #             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "template": "registry"
 #         },
 #         {
-#             "action": "drop",
 #             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
+#             "id": 327,
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "THIS IS TEST IMR - 2",
+#             "real_time_monitoring_enabled": true,
+#             "registry_attributes": [
+#                 "test"
+#             ],
+#             "registry_excluded_values": [
+#                 ""
+#             ],
+#             "registry_include_default_value": true,
+#             "registry_include_sub_keys": false,
+#             "registry_included_values": [
+#                 ""
+#             ],
+#             "registry_key_root": "HKEY_CLASSES_ROOT",
+#             "registry_key_value": "\\",
+#             "severity": "low",
+#             "template": "registry"
 #         }
 #     ]
 # }
 
+"""
+
+RETURN = r"""
+
+before:
+  description: The configuration as structured data prior to module invocation.
+  returned: always
+  type: list
+  sample: The configuration returned will always be in the same format of the parameters above.
+after:
+  description: The configuration as structured data after module completion.
+  returned: when changed
+  type: list
+  sample: The configuration returned will always be in the same format of the parameters above.
 """

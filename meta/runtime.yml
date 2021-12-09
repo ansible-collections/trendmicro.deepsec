@@ -1,15 +1,6 @@
 ---
 requires_ansible: '>=2.9.10'
 plugin_routing:
-  action:
-    deepsec_integrity_monitoringrules:
-      redirect: trendmicro.deepsec.deepsec
-    integrity_monitoringrules:
-      redirect: trendmicro.deepsec.deepsec
-    deepsec_integrity_monitoring_rules:
-      redirect: trendmicro.deepsec.deepsec
-    integrity_monitoring_rules:
-      redirect: trendmicro.deepsec.deepsec
   modules:
     anti_malware:
       redirect: trendmicro.deepsec.deepsec_anti_malware

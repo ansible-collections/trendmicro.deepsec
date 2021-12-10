@@ -8,10 +8,10 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 module: deepsec_intrusion_prevention_rules
-short_description: Create a new intrusion prevention rule.
+short_description: Intrusion Prevention Rule resource module.
 description:
   - This module creates a new intrusion preventin rul under TrendMicro Deep Security.
-version_added: "1.2.0"
+version_added: "2.0.0"
 options:
   config:
     description: Intrusion prevention rules config

@@ -36,5 +36,5 @@ plugin_routing:
       deprecation:
         removal_date: "2023-12-08"
         warning_text: See the plugin documentation for more details
-    deepsec_intrusion_prevention_rules:
+    intrusion_prevention_rules:
       redirect: trendmicro.deepsec.deepsec_intrusion_prevention_rules

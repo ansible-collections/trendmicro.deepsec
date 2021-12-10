@@ -4,6 +4,15 @@ plugin_routing:
   modules:
     anti_malware:
       redirect: trendmicro.deepsec.deepsec_anti_malware
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    deepsec_anti_malware:
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    anti_malwares:
+      redirect: trendmicro.deepsec.deepsec_anti_malwares
     apikey:
       redirect: trendmicro.deepsec.deepsec_apikey
     firewallrules:

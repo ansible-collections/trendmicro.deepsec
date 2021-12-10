@@ -14,6 +14,10 @@ module: deepsec_firewallrules
 short_description: Create a new firewall rule.
 description: This module creates a new firewall rule under TrendMicro Deep Security.
 version_added: 1.0.0
+deprecated:
+  alternative: deepsec_firewall_rules
+  why: Newer and updated modules released with more functionality
+  removed_at_date: '2023-12-08'
 author: "Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 options:
   name:

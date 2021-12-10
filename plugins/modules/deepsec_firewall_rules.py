@@ -281,18 +281,23 @@ options:
           any assignment. Searchable as Numeric.
         type: int
       tcpflags:
+        description: TCP flags
         type: list
         elements: str
       id:
         description: ID of the firewall rule. Searchable as ID.
         type: int
       tcpnot:
+        description: TCP not
         type: bool
       icmptype:
+        description: ICMP type
         type: int
       icmpcode:
+        description: ICMP code
         type: int
       icmpnot:
+        description: ICMP not
         type: bool
   state:
     description:

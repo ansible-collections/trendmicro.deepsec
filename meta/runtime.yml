@@ -8,6 +8,15 @@ plugin_routing:
       redirect: trendmicro.deepsec.deepsec_apikey
     firewallrules:
       redirect: trendmicro.deepsec.deepsec_firewallrules
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    deepsec_firewallrules:
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    firewall_rules:
+      redirect: trendmicro.deepsec.deepsec_firewall_rules
     hosts_info:
       redirect: trendmicro.deepsec.deepsec_hosts_info
     log_inspectionrules:

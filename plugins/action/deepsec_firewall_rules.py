@@ -7,7 +7,6 @@ The module file for deepsec_firewall_rules
 """
 
 from __future__ import absolute_import, division, print_function
-from ansible.module_utils.six import iteritems
 
 __metaclass__ = type
 

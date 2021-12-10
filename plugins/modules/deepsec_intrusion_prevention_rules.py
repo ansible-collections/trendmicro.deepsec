@@ -167,7 +167,7 @@ EXAMPLES = """
 # -------------------
 
 - name: Create Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: merged
     config:
       - alert_enabled: false
@@ -200,7 +200,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_preventionrules": {
+# "intrusion_prevention_rules": {
 #     "after": [
 #         {
 #             "action": "drop",
@@ -243,7 +243,7 @@ EXAMPLES = """
 # }
 
 - name: Modify the severity of Integrity Monitoring Rule by name
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: merged
     config:
       - name: TEST IPR 2
@@ -252,7 +252,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_preventionrules": {
+# "intrusion_prevention_rules": {
 #     "after": [
 #         {
 #            "action": "drop",
@@ -414,7 +414,7 @@ EXAMPLES = """
 # --------------------
 
 - name: Gather Intrusion Prevention Rules by IPR names
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: gathered
     config:
       - name: TEST IPR 1
@@ -463,14 +463,14 @@ EXAMPLES = """
 # ]
 
 - name: Gather ALL of the Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: gathered
 
 # Using DELETED state
 # ------------------
 
 - name: Delete Intrusion Prevention Rules
-  trendmicro.deepsec.deepsec_intrusion_preventionrules:
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: deleted
     config:
       - name: TEST IPR 1
@@ -479,7 +479,7 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_preventionrules": {
+# "intrusion_prevention_rules": {
 #     "after": [],
 #     "before": [
 #         {
@@ -520,5 +520,20 @@ EXAMPLES = """
 #         }
 #     ]
 # }
+
+"""
+
+
+RETURN = """
+before:
+  description: The configuration as structured data prior to module invocation.
+  returned: always
+  type: list
+  sample: The configuration returned will always be in the same format of the parameters above.
+after:
+  description: The configuration as structured data after module completion.
+  returned: when changed
+  type: list
+  sample: The configuration returned will always be in the same format of the parameters above.
 
 """

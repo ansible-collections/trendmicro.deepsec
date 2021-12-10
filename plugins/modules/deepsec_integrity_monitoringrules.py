@@ -21,6 +21,10 @@ short_description: Create/Configure Integrity Monitoring Rules.
 description:
   - This module creates and configure Integrity Monitoring Rules under TrendMicro Deep Security.
 version_added: "1.2.0"
+deprecated:
+  alternative: deepsec_integrity_monitoring_rules
+  why: Newer and updated modules released with more functionality
+  removed_at_date: '2023-12-08'
 options:
   config:
     description: Integrity Monitoring Rules config

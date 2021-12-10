@@ -1,0 +1,23 @@
+---
+- name: Populate Integrity Monitoring Rules for tests
+  tags: merged
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules: &id001
+    state: merged
+    config:
+      - name: THIS IS TEST IMR - 1
+        alert_enabled: false
+        description: THIS IS TEST IMR DESCRIPTION - 1
+        real_time_monitoring_enabled: true
+        registry_included_values:
+          - test_1
+          - test_2
+        severity: medium
+        template: registry
+      - name: THIS IS TEST IMR - 2
+        alert_enabled: false
+        description: THIS IS TEST IMR DESCRIPTION - 2
+        real_time_monitoring_enabled: true
+        registry_attributes:
+          - test
+        severity: low
+        template: registry

@@ -1,0 +1,7 @@
+---
+- name: Remove already configured Firewall Rules Config by Name
+  trendmicro.deepsec.deepsec_firewall_rules:
+    state: deleted
+    config:
+      - name: test_firewallrule_1
+      - name: test_firewallrule_2

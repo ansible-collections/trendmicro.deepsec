@@ -1,0 +1,54 @@
+---
+- debug:
+    msg: START Replaced deepsec_log_inspection_rules state for integration tests on connection={{ ansible_connection
+      }}
+
+- include_tasks: _remove_lir_config.yaml
+- include_tasks: _populate_lir_config.yaml
+
+- block:
+
+    - name: Replace existing Log Inspection Rules
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules: &id001
+        state: replaced
+        config:
+          - name: custom log_rule for daemon event
+            description: Replaced log daemon event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100003
+            rule_description: daemon rule description
+            groups:
+              - test
+            alert_minimum_severity: 5
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/messages
+                  format: syslog
+
+    - assert:
+        that:
+          - result.changed == true
+          - "{{ replaced['before'] | symmetric_difference(result['log_inspection_rules']['before']) |\
+            \ length == 2 }}"
+          - "{{ replaced['after'] | symmetric_difference(result['log_inspection_rules']['after']) |\
+            \ length == 2 }}"
+
+    - name: Replaces device configuration of Log Inspection Rule with provided configuration
+        (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules: *id001
+
+    - name: Assert that task was idempotent
+      assert:
+        that:
+          - result['changed'] == false
+
+  always:
+
+    - include_tasks: _remove_lir_config.yaml

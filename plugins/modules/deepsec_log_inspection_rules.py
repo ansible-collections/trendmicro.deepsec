@@ -121,12 +121,12 @@ options:
         type: str
       log_files:
         description: Log file objects
-        type: list
-        elements: dict
+        type: dict
         suboptions:
-          log_file:
+          log_files:
             description: Array of objects (logFile)
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               location:
                 description: File path of the log file.
@@ -240,98 +240,148 @@ EXAMPLES = """
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "log_inspection_rules": {
 #     "after": [
 #         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 4,
+#             "dependency": "none",
+#             "description": "log mysqld event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 93,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "mysql-log",
+#                         "location": "/var/log/mysqld.log"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for mysqld event",
+#             "pattern": "name",
+#             "pattern_type": "string",
+#             "rule_description": "mysqld rule description",
+#             "rule_id": 100001,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
 #         },
 #         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 5,
+#             "dependency": "none",
+#             "description": "log daemon event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 94,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "syslog",
+#                         "location": "/var/log/daemon.log"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for daemon event",
+#             "pattern": "name",
+#             "pattern_type": "string",
+#             "rule_description": "daemon rule description",
+#             "rule_id": 100002,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
 #         }
 #     ],
 #     "before": []
 # }
 
-- name: Modify the severity of Log Inspection Rule by name
+- name: Modify the Pattern type of Log Inspection Rule by name
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: merged
     config:
-      - name: TEST IPR 2
-        severity: low
+      - name: custom log_rule for mysqld event
+        description: Modified pattern type for mysqld log event
+        pattern: name
+        pattern_type: regex
+        log_files:
+          log_files:
+            - location: /var/log/messages
+              format: syslog
 
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "log_inspection_rules": {
 #     "after": [
 #         {
-#            "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7902,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature",
-#             "template": "signature"
-#          }
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 4,
+#             "dependency": "none",
+#             "description": "Modified pattern type for mysqld log event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 134,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "mysql-log",
+#                         "location": "/var/log/mysqld.log"
+#                     },
+#                     {
+#                         "format": "syslog",
+#                         "location": "/var/log/messages"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for mysqld event",
+#             "pattern": "name",
+#             "pattern_type": "regex",
+#             "rule_description": "mysqld rule description",
+#             "rule_id": 100001,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
+#         }
 #     ],
 #     "before": [
 #         {
-#            "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7902,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature",
-#             "template": "signature"
-#          }
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 4,
+#             "dependency": "none",
+#             "description": "log mysqld event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 134,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": {
+#                     "mysql-log/var/log/mysqld.log": {
+#                         "format": "mysql-log",
+#                         "location": "/var/log/mysqld.log"
+#                     }
+#                 }
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for mysqld event",
+#             "pattern": "name",
+#             "pattern_type": "string",
+#             "rule_description": "mysqld rule description",
+#             "rule_id": 100001,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
+#         }
 #     ]
 # }
 
@@ -342,113 +392,89 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: replaced
     config:
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 1 REPLACE DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 1
-        priority: normal
-        severity: low
-      - alert_enabled: false
-        always_include_packet_data: false
-        application_type_id: 300
-        template: signature
-        signature: test_new_signature_1
-        debug_mode_enabled: false
-        description: TEST IPR 2 REPLACE DESCRIPTION
-        detect_only: false
-        event_logging_disabled: false
-        generate_event_on_packet_drop: true
-        name: TEST IPR 2
-        priority: normal
-        severity: low
+      - name: custom log_rule for daemon event
+        description: Replaced log daemon event
+        minimum_agent_version: 6.0.0.0
+        type: defined
+        template: basic-rule
+        pattern: name
+        pattern_type: string
+        rule_id: 100003
+        rule_description: daemon rule description
+        groups:
+          - test
+        alert_minimum_severity: 5
+        alert_enabled: true
+        log_files:
+          log_files:
+            - location: /var/log/messages
+              format: syslog
 
 # Play Run:
 # =========
 #
-#  "intrusion_prevention_rules": {
+# "log_inspection_rules": {
 #     "after": [
 #         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 1 REPLACE DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8151,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 REPLACE DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8152,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "low",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 5,
+#             "dependency": "none",
+#             "description": "Replaced log daemon event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 155,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "syslog",
+#                         "location": "/var/log/messages"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for daemon event",
+#             "pattern": "name",
+#             "pattern_type": "string",
+#             "rule_description": "daemon rule description",
+#             "rule_id": 100003,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
 #         }
 #     ],
 #     "before": [
 #         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 1 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8149,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
-#         },
-#         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 8150,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 5,
+#             "dependency": "none",
+#             "description": "log daemon event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 154,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "syslog",
+#                         "location": "/var/log/daemon.log"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for daemon event",
+#             "pattern": "name",
+#             "pattern_type": "string",
+#             "rule_description": "daemon rule description",
+#             "rule_id": 100002,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
 #         }
 #     ]
+# }
 
 # Using GATHERED state
 # --------------------
@@ -457,48 +483,68 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: gathered
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: custom log_rule for mysqld event
+      - name: custom log_rule for daemon event
 
 # Play Run:
 # =========
 #
 # "gathered": [
 #     {
-#         "action": "drop",
-#         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7887,
-#         "name": "TEST IPR 1",
-#         "priority": "normal",
-#         "severity": "medium",
-#         "signature": "test_new_signature_1",
-#         "template": "signature"
+#         "alert_enabled": true,
+#         "alert_minimum_severity": 4,
+#         "dependency": "none",
+#         "description": "log mysqld event",
+#         "groups": [
+#             "test"
+#         ],
+#         "id": 153,
+#         "level": 0,
+#         "logFiles": {
+#             "logFiles": [
+#                 {
+#                     "format": "mysql-log",
+#                     "location": "/var/log/mysqld.log"
+#                 }
+#             ]
+#         },
+#         "minimum_agent_version": "6.0.0.0",
+#         "minimum_manager_version": "6.0.0",
+#         "name": "custom log_rule for mysqld event",
+#         "pattern": "name",
+#         "pattern_type": "string",
+#         "rule_description": "mysqld rule description",
+#         "rule_id": 100001,
+#         "sort_order": 15000,
+#         "template": "basic-rule"
 #     },
 #     {
-#         "action": "drop",
-#         "alert_enabled": false,
-#         "always_include_packet_data": false,
-#         "application_type_id": 300,
-#         "case_sensitive": false,
-#         "debug_mode_enabled": false,
-#         "description": "TEST IPR 2 DESCRIPTION",
-#         "detect_only": false,
-#         "event_logging_disabled": false,
-#         "generate_event_on_packet_drop": true,
-#         "id": 7888,
-#         "name": "TEST IPR 2",
-#         "priority": "normal",
-#         "severity": "medium",
-#         "signature": "test_new_signature_2",
-#         "template": "signature"
+#         "alert_enabled": true,
+#         "alert_minimum_severity": 5,
+#         "dependency": "none",
+#         "description": "log daemon event",
+#         "groups": [
+#             "test"
+#         ],
+#         "id": 154,
+#         "level": 0,
+#         "logFiles": {
+#             "logFiles": [
+#                 {
+#                     "format": "syslog",
+#                     "location": "/var/log/daemon.log"
+#                 }
+#             ]
+#         },
+#         "minimum_agent_version": "6.0.0.0",
+#         "minimum_manager_version": "6.0.0",
+#         "name": "custom log_rule for daemon event",
+#         "pattern": "name",
+#         "pattern_type": "string",
+#         "rule_description": "daemon rule description",
+#         "rule_id": 100002,
+#         "sort_order": 15000,
+#         "template": "basic-rule"
 #     }
 # ]
 
@@ -513,50 +559,74 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: deleted
     config:
-      - name: TEST IPR 1
-      - name: TEST IPR 2
+      - name: custom log_rule for mysqld event
+      - name: custom log_rule for daemon event
 
 # Play Run:
 # =========
 #
-# "intrusion_prevention_rules": {
+# "log_inspection_rules": {
 #     "after": [],
 #     "before": [
 #         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7887,
-#             "name": "TEST IPR 1",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_1",
-#             "template": "signature"
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 4,
+#             "dependency": "none",
+#             "description": "Modified pattern type for mysqld log event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 151,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "mysql-log",
+#                         "location": "/var/log/mysqld.log"
+#                     },
+#                     {
+#                         "format": "syslog",
+#                         "location": "/var/log/messages"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for mysqld event",
+#             "pattern": "name",
+#             "pattern_type": "regex",
+#             "rule_description": "mysqld rule description",
+#             "rule_id": 100001,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
 #         },
 #         {
-#             "action": "drop",
-#             "alert_enabled": false,
-#             "always_include_packet_data": false,
-#             "application_type_id": 300,
-#             "case_sensitive": false,
-#             "debug_mode_enabled": false,
-#             "description": "TEST IPR 2 DESCRIPTION",
-#             "detect_only": false,
-#             "event_logging_disabled": false,
-#             "generate_event_on_packet_drop": true,
-#             "id": 7888,
-#             "name": "TEST IPR 2",
-#             "priority": "normal",
-#             "severity": "medium",
-#             "signature": "test_new_signature_2",
-#             "template": "signature"
+#             "alert_enabled": true,
+#             "alert_minimum_severity": 5,
+#             "dependency": "none",
+#             "description": "log daemon event",
+#             "groups": [
+#                 "test"
+#             ],
+#             "id": 152,
+#             "level": 0,
+#             "log_files": {
+#                 "log_files": [
+#                     {
+#                         "format": "syslog",
+#                         "location": "/var/log/daemon.log"
+#                     }
+#                 ]
+#             },
+#             "minimum_agent_version": "6.0.0.0",
+#             "minimum_manager_version": "6.0.0",
+#             "name": "custom log_rule for daemon event",
+#             "pattern": "name",
+#             "pattern_type": "string",
+#             "rule_description": "daemon rule description",
+#             "rule_id": 100002,
+#             "sort_order": 15000,
+#             "template": "basic-rule"
 #         }
 #     ]
 # }

@@ -1,0 +1,27 @@
+---
+- debug:
+    msg: START deepsec_log_inspection_rules gathered integration tests on connection={{ ansible_connection
+      }}
+
+- include_tasks: _remove_lir_config.yaml
+
+- include_tasks: _populate_lir_config.yaml
+
+- block:
+
+    - name: Gather the provided configuration with the exisiting running configuration
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        config:
+          - name: custom log_rule for mysqld event
+          - name: custom log_rule for daemon event
+        state: gathered
+
+    - assert:
+        that:
+          - "{{ merged['after'] | symmetric_difference(result['gathered']) |\
+            \ length == 4 }}"
+          - result['changed'] == false
+  always:
+
+    - include_tasks: _remove_lir_config.yaml

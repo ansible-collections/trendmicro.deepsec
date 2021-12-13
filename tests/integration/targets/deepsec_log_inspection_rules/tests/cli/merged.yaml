@@ -1,0 +1,74 @@
+---
+- debug:
+    msg: START Merged deepsec_log_inspection_rules state for integration tests on connection={{
+      ansible_connection }}
+
+- include_tasks: _remove_lir_config.yaml
+
+- block:
+
+    - name: Merge and Create new Log Inspection Rules
+      tags: merged
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules: &id001
+        state: merged
+        config:
+          - name: custom log_rule for mysqld event
+            description: log mysqld event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100001
+            rule_description: mysqld rule description
+            groups:
+              - test
+            alert_minimum_severity: 4
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/mysqld.log
+                  format: mysql-log
+          - name: custom log_rule for daemon event
+            description: log daemon event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100002
+            rule_description: daemon rule description
+            groups:
+              - test
+            alert_minimum_severity: 5
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/daemon.log
+                  format: syslog
+
+    - name: Assert that task reports change and after dict is correctly generated
+      assert:
+        that:
+          - result['changed'] == true
+          - "{{ merged['after'] | symmetric_difference(result['log_inspection_rules']['after']) |\
+            \ length == 4 }}"
+
+    - name: Assert that before dicts are correctly generated
+      assert:
+        that:
+          - merged['before'] == result['log_inspection_rules']['before']
+
+    - name: Merge provided configuration with device configuration (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules: *id001
+
+    - name: Assert that the previous task was idempotent
+      assert:
+        that:
+          - result['changed'] == false
+
+  always:
+
+    - include_tasks: _remove_lir_config.yaml

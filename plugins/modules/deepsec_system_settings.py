@@ -14,7 +14,7 @@ module: deepsec_system_settings
 short_description: Modify the system settings for TrendMicro Deep Security.
 description:
 - This module modifies system settings under TrendMicro Deep Security.
-version_added: 1.1.0
+version_added: "1.1.0"
 options:
   config:
     description: System settings config

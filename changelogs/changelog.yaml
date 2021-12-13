@@ -20,14 +20,14 @@ releases:
     - description: Create a new firewall rule.
       name: deepsec_firewallrules
       namespace: ''
-      - description: Obtain information about one or many Hosts defined by TrendMicro Deep Security
-        name: deepsec_hosts_info
-        namespace: ''
-      - description: Create a new log inspection rule.
-        name: deepsec_log_inspectionrules
-        namespace: ''
-      - description: Configure or create a syslog configuration for TrendMicro Deep Security
-        name: deepsec_syslog
+    - description: Obtain information about one or many Hosts defined by TrendMicro Deep Security
+      name: deepsec_hosts_info
+      namespace: ''
+    - description: Create a new log inspection rule.
+      name: deepsec_log_inspectionrules
+      namespace: ''
+    - description: Configure or create a syslog configuration for TrendMicro Deep Security
+      name: deepsec_syslog
     release_date: '2021-06-23'
   1.1.0:
     changes:

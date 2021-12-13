@@ -1,0 +1,92 @@
+---
+merged:
+  before: []
+
+  after:
+    - alert_enabled: true
+      alert_minimum_severity: 4
+      dependency: none
+      description: "log mysqld event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: mysql-log
+            location: /var/log/mysqld.log
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for mysqld event"
+      pattern: name
+      pattern_type: string
+      rule_description: "mysqld rule description"
+      rule_id: 100001
+      sort_order: 15000
+      template: basic-rule
+    - alert_enabled: true
+      alert_minimum_severity: 5
+      dependency: none
+      description: false
+      destination_iptype: "log daemon event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: syslog
+            location: /var/log/daemon.log
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for daemon event"
+      pattern: name
+      pattern_type: string
+      rule_description: "daemon rule description"
+      rule_id: 100002
+      sort_order: 15000
+      template: basic-rule
+
+replaced:
+  before:
+    - alert_enabled: true
+      alert_minimum_severity: 5
+      dependency: none
+      description: false
+      destination_iptype: "log daemon event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: syslog
+            location: /var/log/daemon.log
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for daemon event"
+      pattern: name
+      pattern_type: string
+      rule_description: "daemon rule description"
+      rule_id: 100002
+      sort_order: 15000
+      template: basic-rule
+  after:
+    - alert_enabled: true
+      alert_minimum_severity: 5
+      dependency: none
+      description: false
+      destination_iptype: "Replaced log daemon event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: syslog
+            location: /var/log/messages
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for daemon event"
+      pattern: name
+      pattern_type: string
+      rule_description: "daemon rule description"
+      rule_id: 100002
+      sort_order: 15000
+      template: basic-rule

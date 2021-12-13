@@ -1,0 +1,40 @@
+---
+- name: Populate Log Inspection Rules for tests
+  tags: merged
+  trendmicro.deepsec.deepsec_log_inspection_rules: &id001
+    state: merged
+    config:
+      - name: custom log_rule for mysqld event
+        description: log mysqld event
+        minimum_agent_version: 6.0.0.0
+        type: defined
+        template: basic-rule
+        pattern: name
+        pattern_type: string
+        rule_id: 100001
+        rule_description: mysqld rule description
+        groups:
+          - test
+        alert_minimum_severity: 4
+        alert_enabled: true
+        log_files:
+          log_files:
+            - location: /var/log/mysqld.log
+              format: mysql-log
+      - name: custom log_rule for daemon event
+        description: log daemon event
+        minimum_agent_version: 6.0.0.0
+        type: defined
+        template: basic-rule
+        pattern: name
+        pattern_type: string
+        rule_id: 100002
+        rule_description: daemon rule description
+        groups:
+          - test
+        alert_minimum_severity: 5
+        alert_enabled: true
+        log_files:
+          log_files:
+            - location: /var/log/daemon.log
+              format: syslog

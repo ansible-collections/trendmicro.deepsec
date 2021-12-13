@@ -6,3 +6,5 @@ plugins/modules/deepsec_firewallrules.py validate-modules:deprecation-mismatch #
 plugins/modules/deepsec_firewallrules.py validate-modules:invalid-documentation # removed_at_date not supported in `deprecated` dict
 plugins/modules/deepsec_anti_malware.py validate-modules:deprecation-mismatch # 2.9 expects METADATA
 plugins/modules/deepsec_anti_malware.py validate-modules:invalid-documentation # removed_at_date not supported in `deprecated` dict
+plugins/modules/deepsec_log_inspectionrules.py validate-modules:deprecation-mismatch # 2.9 expects METADATA
+plugins/modules/deepsec_log_inspectionrules.py validate-modules:invalid-documentation # removed_at_date not supported in `deprecated` dict

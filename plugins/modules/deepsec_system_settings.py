@@ -547,7 +547,6 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: No
       platform_setting_agent_initiated_activation_token:
         description: platform setting agent initiated activation token
         type: dict
@@ -2410,7 +2409,7 @@ def main():
                 ),
                 platform_setting_recommendation_ongoing_scans_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="No")),
+                    options=dict(value=dict(type="str")),
                 ),
                 platform_setting_agent_initiated_activation_token=dict(
                     type="dict",

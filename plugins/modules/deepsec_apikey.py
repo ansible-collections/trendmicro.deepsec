@@ -9,12 +9,11 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
----
 module: deepsec_apikey
 short_description: Create a new and manage API Keys.
 description:
-  - This module create and manages API key under TrendMicro Deep Security.
-version_added: "1.1.0"
+- This module create and manages API key under TrendMicro Deep Security.
+version_added: 1.0.0
 options:
   api_keys:
     description: List of API keys that needs to be configured
@@ -33,7 +32,7 @@ options:
         type: str
       locale:
         description: Country and language for the APIKey.
-        choices: ["en-US", "ja-JP"]
+        choices: [en-US, ja-JP]
         type: str
       role_id:
         description: ID of the role assigned to the APIKey.
@@ -42,55 +41,57 @@ options:
         description: Display name of the APIKey's time zone, e.g. America/New_York.
         type: str
       active:
-        description: If true, the APIKey can be used to authenticate. If false, the APIKey
-          is locked out.
+        description: If true, the APIKey can be used to authenticate. If false, the
+          APIKey is locked out.
         type: bool
       created:
         description: Timestamp of the APIKey's creation, in milliseconds since epoch.
         type: int
       last_sign_in:
-        description: Timestamp of the APIKey's last successful authentication, in milliseconds
-          since epoch.
+        description: Timestamp of the APIKey's last successful authentication, in
+          milliseconds since epoch.
         type: int
       unlock_time:
-        description: Timestamp of when a locked out APIKey will be unlocked, in milliseconds since epoch.
+        description: Timestamp of when a locked out APIKey will be unlocked, in milliseconds
+          since epoch.
         type: int
       unsuccessful_sign_in_attempts:
-        description: Number of unsuccessful authentication attempts made since the last successful
-          authentication.
+        description: Number of unsuccessful authentication attempts made since the
+          last successful authentication.
         type: int
       expiry_date:
-        description: Timestamp of the APIKey's expiry date, in milliseconds since epoch.
+        description: Timestamp of the APIKey's expiry date, in milliseconds since
+          epoch.
         type: int
       secret_key:
         description:
-          - Secret key used to authenticate API requests. Only returned when creating a new APIKey or
-            regenerating the secret key.
-          - With secret key generation as everytime request is fired it'll try to create a new secret key,
-            so with secret key idempotency will not be maintained
+        - Secret key used to authenticate API requests. Only returned when creating
+          a new APIKey or regenerating the secret key.
+        - With secret key generation as everytime request is fired it'll try to create
+          a new secret key, so with secret key idempotency will not be maintained
         type: str
       service_account:
         description:
-          - If true, the APIKey was created by the primary tenant (T0) to authenticate API calls against
-            other tenants' databases.
-          - Valid param only with secret_key.
+        - If true, the APIKey was created by the primary tenant (T0) to authenticate
+          API calls against other tenants' databases.
+        - Valid param only with secret_key.
         type: bool
       current:
         description:
-          - If true, generates a new secret key for the current API key.
-          - Valid param only with secret_key.
+        - If true, generates a new secret key for the current API key.
+        - Valid param only with secret_key.
         type: bool
   state:
     description:
-      - The state the configuration should be left in
-      - The state I(gathered) will get the module API configuration from the device and
-        transform it into structured data in the format as per the module argspec and
-        the value is returned in the I(gathered) key within the result.
+    - The state the configuration should be left in
+    - The state I(gathered) will get the module API configuration from the device
+      and transform it into structured data in the format as per the module argspec
+      and the value is returned in the I(gathered) key within the result.
     type: str
     choices:
-      - present
-      - absent
-      - gathered
+    - present
+    - absent
+    - gathered
     default: present
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
@@ -100,87 +101,35 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_apikey:
     state: present
     api_keys:
-      - key_name: admin_apiKeys
-        description: test API keys 1
-        active: true
-        role_id: 1
-        locale: en-US
-      - key_name: auditor_apiKeys
-        description: test API keys 2
-        active: true
-        role_id: 2
-        locale: en-US
-
+    - key_name: admin_apiKeys
+      description: test API keys 1
+      active: true
+      role_id: 1
+      locale: en-US
+    - key_name: auditor_apiKeys
+      description: test API keys 2
+      active: true
+      role_id: 2
+      locale: en-US
 - name: Generate Secret key for current API key
   trendmicro.deepsec.deepsec_apikey:
     state: present
     api_keys:
-      - current: true
-
+    - current: true
 - name: Generate Secret key for specified API key
   trendmicro.deepsec.deepsec_apikey:
     state: present
     api_keys:
-      - key_name: admin_apiKeys
-        secret_key: test_secret
-
+    - key_name: admin_apiKeys
+      secret_key: test_secret
 - name: Get the API keys by Name
   trendmicro.deepsec.deepsec_apikey:
     api_keys:
-      - key_name: admin_apiKeys
+    - key_name: admin_apiKeys
     state: gathered
-
-# Gathered output:
-#  "gathered": {
-#     "api_keys": [
-#           {
-#               "active": true,
-#               "created": 1621845321503,
-#               "description": "test API keys 1",
-#               "id": 1,
-#               "key_name": "admin_apiKeys",
-#               "locale": "en-US",
-#               "role_id": 1,
-#               "service_account": false,
-#               "time_zone": "UTC",
-#               "unsuccessful_sign_in_attempts": 0
-#           }
-#        ]
-#     },
-
 - name: Get all the API keys
   trendmicro.deepsec.deepsec_apikey:
     state: gathered
-
-#   "gathered": {
-#         "api_keys": [
-#             {
-#                 "active": true,
-#                 "created": 1621845321503,
-#                 "description": "test API keys 1",
-#                 "id": 1,
-#                 "key_name": "admin_apiKeys",
-#                 "locale": "en-US",
-#                 "role_id": 1,
-#                 "service_account": false,
-#                 "time_zone": "UTC",
-#                 "unsuccessful_sign_in_attempts": 0
-#             },
-#             {
-#                 "active": true,
-#                 "created": 1621845321503,
-#                 "description": "test API keys 2",
-#                 "id": 2,
-#                 "key_name": "auditor_apiKeys",
-#                 "locale": "en-US",
-#                 "role_id": 1,
-#                 "service_account": false,
-#                 "time_zone": "UTC",
-#                 "unsuccessful_sign_in_attempts": 0
-#             }
-#         ]
-#     },
-
 - name: Delete/Remove the API key by name
   trendmicro.deepsec.deepsec_apikey:
     state: absent

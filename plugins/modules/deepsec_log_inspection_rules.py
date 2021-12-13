@@ -11,7 +11,7 @@ module: deepsec_log_inspection_rules
 short_description: Manages Log Inspection Rule resource module
 description: Contains string matching and threshold to trigger alerts as well as group
   information for LogInspectionRules.
-version_added: 2.0.0
+version_added: 1.2.0
 options:
   config:
     description: A dictionary of Log Inspection Rules options
@@ -132,10 +132,10 @@ options:
                 description: File path of the log file.
                 type: str
               format:
-                description: Structure of the data in the log file. The application that generates
-                  the log file defines the structure of the data.
-                choices: ["syslog", "snort-full", "snort-fast", "apache", "iis", "squid", "nmapg",
-                  "mysql-log", "postgresql-log", "dbj-multilog", "eventlog", "single-line-text-log"]
+                description: Structure of the data in the log file. The application
+                  that generates the log file defines the structure of the data.
+                choices: [syslog, snort-full, snort-fast, apache, iis, squid, nmapg,
+                  mysql-log, postgresql-log, dbj-multilog, eventlog, single-line-text-log]
                 type: str
       alert_enabled:
         description: Controls whether to raise an alert when a LogInspectionRule logs
@@ -202,435 +202,88 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: merged
     config:
-      - name: custom log_rule for mysqld event
-        description: some description
-        minimum_agent_version: 6.0.0.0
-        type: defined
-        template: basic-rule
-        pattern: name
-        pattern_type: string
-        rule_id: 100001
-        rule_description: test rule description
-        groups:
-          - test
-        alert_minimum_severity: 4
-        alert_enabled: true
+    - name: custom log_rule for mysqld event
+      description: some description
+      minimum_agent_version: 6.0.0.0
+      type: defined
+      template: basic-rule
+      pattern: name
+      pattern_type: string
+      rule_id: 100001
+      rule_description: test rule description
+      groups:
+      - test
+      alert_minimum_severity: 4
+      alert_enabled: true
+      log_files:
         log_files:
-          log_files:
-            - location: /var/log/mysqld.log
-              format: mysql-log
-      - name: custom log_rule for mysqld event
-        description: some description
-        minimum_agent_version: 6.0.0.0
-        type: defined
-        template: basic-rule
-        pattern: name
-        pattern_type: string
-        rule_id: 100001
-        rule_description: test rule description
-        groups:
-          - test
-        alert_minimum_severity: 4
-        alert_enabled: true
+        - location: /var/log/mysqld.log
+          format: mysql-log
+    - name: custom log_rule for mysqld event
+      description: some description
+      minimum_agent_version: 6.0.0.0
+      type: defined
+      template: basic-rule
+      pattern: name
+      pattern_type: string
+      rule_id: 100001
+      rule_description: test rule description
+      groups:
+      - test
+      alert_minimum_severity: 4
+      alert_enabled: true
+      log_files:
         log_files:
-          log_files:
-            - location: /var/log/mysqld.log
-              format: mysql-log
-
-# Play Run:
-# =========
-#
-# "log_inspection_rules": {
-#     "after": [
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 4,
-#             "dependency": "none",
-#             "description": "log mysqld event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 93,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "mysql-log",
-#                         "location": "/var/log/mysqld.log"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for mysqld event",
-#             "pattern": "name",
-#             "pattern_type": "string",
-#             "rule_description": "mysqld rule description",
-#             "rule_id": 100001,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         },
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 5,
-#             "dependency": "none",
-#             "description": "log daemon event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 94,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "syslog",
-#                         "location": "/var/log/daemon.log"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for daemon event",
-#             "pattern": "name",
-#             "pattern_type": "string",
-#             "rule_description": "daemon rule description",
-#             "rule_id": 100002,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         }
-#     ],
-#     "before": []
-# }
-
+        - location: /var/log/mysqld.log
+          format: mysql-log
 - name: Modify the Pattern type of Log Inspection Rule by name
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: merged
     config:
-      - name: custom log_rule for mysqld event
-        description: Modified pattern type for mysqld log event
-        pattern: name
-        pattern_type: regex
+    - name: custom log_rule for mysqld event
+      description: Modified pattern type for mysqld log event
+      pattern: name
+      pattern_type: regex
+      log_files:
         log_files:
-          log_files:
-            - location: /var/log/messages
-              format: syslog
-
-# Play Run:
-# =========
-#
-# "log_inspection_rules": {
-#     "after": [
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 4,
-#             "dependency": "none",
-#             "description": "Modified pattern type for mysqld log event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 134,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "mysql-log",
-#                         "location": "/var/log/mysqld.log"
-#                     },
-#                     {
-#                         "format": "syslog",
-#                         "location": "/var/log/messages"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for mysqld event",
-#             "pattern": "name",
-#             "pattern_type": "regex",
-#             "rule_description": "mysqld rule description",
-#             "rule_id": 100001,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         }
-#     ],
-#     "before": [
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 4,
-#             "dependency": "none",
-#             "description": "log mysqld event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 134,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": {
-#                     "mysql-log/var/log/mysqld.log": {
-#                         "format": "mysql-log",
-#                         "location": "/var/log/mysqld.log"
-#                     }
-#                 }
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for mysqld event",
-#             "pattern": "name",
-#             "pattern_type": "string",
-#             "rule_description": "mysqld rule description",
-#             "rule_id": 100001,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         }
-#     ]
-# }
-
-# Using REPLACED state
-# --------------------
-
+        - location: /var/log/messages
+          format: syslog
 - name: Replace existing Log Inspection Rules
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: replaced
     config:
-      - name: custom log_rule for daemon event
-        description: Replaced log daemon event
-        minimum_agent_version: 6.0.0.0
-        type: defined
-        template: basic-rule
-        pattern: name
-        pattern_type: string
-        rule_id: 100003
-        rule_description: daemon rule description
-        groups:
-          - test
-        alert_minimum_severity: 5
-        alert_enabled: true
+    - name: custom log_rule for daemon event
+      description: Replaced log daemon event
+      minimum_agent_version: 6.0.0.0
+      type: defined
+      template: basic-rule
+      pattern: name
+      pattern_type: string
+      rule_id: 100003
+      rule_description: daemon rule description
+      groups:
+      - test
+      alert_minimum_severity: 5
+      alert_enabled: true
+      log_files:
         log_files:
-          log_files:
-            - location: /var/log/messages
-              format: syslog
-
-# Play Run:
-# =========
-#
-# "log_inspection_rules": {
-#     "after": [
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 5,
-#             "dependency": "none",
-#             "description": "Replaced log daemon event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 155,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "syslog",
-#                         "location": "/var/log/messages"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for daemon event",
-#             "pattern": "name",
-#             "pattern_type": "string",
-#             "rule_description": "daemon rule description",
-#             "rule_id": 100003,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         }
-#     ],
-#     "before": [
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 5,
-#             "dependency": "none",
-#             "description": "log daemon event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 154,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "syslog",
-#                         "location": "/var/log/daemon.log"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for daemon event",
-#             "pattern": "name",
-#             "pattern_type": "string",
-#             "rule_description": "daemon rule description",
-#             "rule_id": 100002,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         }
-#     ]
-# }
-
-# Using GATHERED state
-# --------------------
-
+        - location: /var/log/messages
+          format: syslog
 - name: Gather Log Inspection Rules by IPR names
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: gathered
     config:
-      - name: custom log_rule for mysqld event
-      - name: custom log_rule for daemon event
-
-# Play Run:
-# =========
-#
-# "gathered": [
-#     {
-#         "alert_enabled": true,
-#         "alert_minimum_severity": 4,
-#         "dependency": "none",
-#         "description": "log mysqld event",
-#         "groups": [
-#             "test"
-#         ],
-#         "id": 153,
-#         "level": 0,
-#         "logFiles": {
-#             "logFiles": [
-#                 {
-#                     "format": "mysql-log",
-#                     "location": "/var/log/mysqld.log"
-#                 }
-#             ]
-#         },
-#         "minimum_agent_version": "6.0.0.0",
-#         "minimum_manager_version": "6.0.0",
-#         "name": "custom log_rule for mysqld event",
-#         "pattern": "name",
-#         "pattern_type": "string",
-#         "rule_description": "mysqld rule description",
-#         "rule_id": 100001,
-#         "sort_order": 15000,
-#         "template": "basic-rule"
-#     },
-#     {
-#         "alert_enabled": true,
-#         "alert_minimum_severity": 5,
-#         "dependency": "none",
-#         "description": "log daemon event",
-#         "groups": [
-#             "test"
-#         ],
-#         "id": 154,
-#         "level": 0,
-#         "logFiles": {
-#             "logFiles": [
-#                 {
-#                     "format": "syslog",
-#                     "location": "/var/log/daemon.log"
-#                 }
-#             ]
-#         },
-#         "minimum_agent_version": "6.0.0.0",
-#         "minimum_manager_version": "6.0.0",
-#         "name": "custom log_rule for daemon event",
-#         "pattern": "name",
-#         "pattern_type": "string",
-#         "rule_description": "daemon rule description",
-#         "rule_id": 100002,
-#         "sort_order": 15000,
-#         "template": "basic-rule"
-#     }
-# ]
-
+    - name: custom log_rule for mysqld event
+    - name: custom log_rule for daemon event
 - name: Gather ALL of the Log Inspection Rules
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: gathered
-
-# Using DELETED state
-# ------------------
-
 - name: Delete Log Inspection Rules
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: deleted
     config:
-      - name: custom log_rule for mysqld event
-      - name: custom log_rule for daemon event
-
-# Play Run:
-# =========
-#
-# "log_inspection_rules": {
-#     "after": [],
-#     "before": [
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 4,
-#             "dependency": "none",
-#             "description": "Modified pattern type for mysqld log event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 151,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "mysql-log",
-#                         "location": "/var/log/mysqld.log"
-#                     },
-#                     {
-#                         "format": "syslog",
-#                         "location": "/var/log/messages"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for mysqld event",
-#             "pattern": "name",
-#             "pattern_type": "regex",
-#             "rule_description": "mysqld rule description",
-#             "rule_id": 100001,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         },
-#         {
-#             "alert_enabled": true,
-#             "alert_minimum_severity": 5,
-#             "dependency": "none",
-#             "description": "log daemon event",
-#             "groups": [
-#                 "test"
-#             ],
-#             "id": 152,
-#             "level": 0,
-#             "log_files": {
-#                 "log_files": [
-#                     {
-#                         "format": "syslog",
-#                         "location": "/var/log/daemon.log"
-#                     }
-#                 ]
-#             },
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "custom log_rule for daemon event",
-#             "pattern": "name",
-#             "pattern_type": "string",
-#             "rule_description": "daemon rule description",
-#             "rule_id": 100002,
-#             "sort_order": 15000,
-#             "template": "basic-rule"
-#         }
-#     ]
-# }
-
+    - name: custom log_rule for mysqld event
+    - name: custom log_rule for daemon event
 """
 
 

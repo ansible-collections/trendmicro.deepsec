@@ -5,11 +5,11 @@ plugin_routing:
     anti_malware:
       redirect: trendmicro.deepsec.deepsec_anti_malware
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     deepsec_anti_malware:
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     anti_malwares:
       redirect: trendmicro.deepsec.deepsec_anti_malwares
@@ -18,11 +18,11 @@ plugin_routing:
     firewallrules:
       redirect: trendmicro.deepsec.deepsec_firewallrules
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     deepsec_firewallrules:
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     firewall_rules:
       redirect: trendmicro.deepsec.deepsec_firewall_rules
@@ -31,11 +31,11 @@ plugin_routing:
     log_inspectionrules:
       redirect: trendmicro.deepsec.deepsec_log_inspectionrules
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     deepsec_log_inspectionrules:
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     log_inspection_rules:
       redirect: trendmicro.deepsec.deepsec_log_inspection_rules
@@ -46,22 +46,22 @@ plugin_routing:
     integrity_monitoringrules:
       redirect: trendmicro.deepsec.deepsec_integrity_monitoringrules
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     deepsec_integrity_monitoringrules:
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     integrity_monitoring_rules:
       redirect: trendmicro.deepsec.deepsec_integrity_monitoring_rules
     intrusion_preventionrules:
       redirect: trendmicro.deepsec.deepsec_intrusion_preventionrules
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     deepsec_intrusion_preventionrules:
       deprecation:
-        removal_date: "2023-12-08"
+        removal_date: "2023-12-01"
         warning_text: See the plugin documentation for more details
     intrusion_prevention_rules:
       redirect: trendmicro.deepsec.deepsec_intrusion_prevention_rules

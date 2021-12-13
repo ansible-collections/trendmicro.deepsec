@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_apikey
 **Create a new and manage API Keys.**
 
 
-Version added: 1.1.0
+Version added: 1.0.0
 
 .. contents::
    :local:
@@ -66,7 +66,7 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>If true, the APIKey can be used to authenticate. If false, the APIKey is locked out. Searchable as Boolean.</div>
+                        <div>If true, the APIKey can be used to authenticate. If false, the APIKey is locked out.</div>
                 </td>
             </tr>
             <tr>
@@ -82,7 +82,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Timestamp of the APIKey&#x27;s creation, in milliseconds since epoch. Searchable as Date.</div>
+                        <div>Timestamp of the APIKey&#x27;s creation, in milliseconds since epoch.</div>
                 </td>
             </tr>
             <tr>
@@ -119,7 +119,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Description of the APIKey. Searchable as String.</div>
+                        <div>Description of the APIKey.</div>
                 </td>
             </tr>
             <tr>
@@ -135,7 +135,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Timestamp of the APIKey&#x27;s expiry date, in milliseconds since epoch. Searchable as Date.</div>
+                        <div>Timestamp of the APIKey&#x27;s expiry date, in milliseconds since epoch.</div>
                 </td>
             </tr>
             <tr>
@@ -167,7 +167,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Display name of the APIKey. Searchable as String.</div>
+                        <div>Display name of the APIKey.</div>
                 </td>
             </tr>
             <tr>
@@ -183,7 +183,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Timestamp of the APIKey&#x27;s last successful authentication, in milliseconds since epoch. Searchable as Date.</div>
+                        <div>Timestamp of the APIKey&#x27;s last successful authentication, in milliseconds since epoch.</div>
                 </td>
             </tr>
             <tr>
@@ -219,7 +219,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>ID of the role assigned to the APIKey. Searchable as Numeric.</div>
+                        <div>ID of the role assigned to the APIKey.</div>
                 </td>
             </tr>
             <tr>
@@ -256,7 +256,7 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>If true, the APIKey was created by the primary tenant (T0) to authenticate API calls against other tenants&#x27; databases. Searchable as Boolean.</div>
+                        <div>If true, the APIKey was created by the primary tenant (T0) to authenticate API calls against other tenants&#x27; databases.</div>
                         <div>Valid param only with secret_key.</div>
                 </td>
             </tr>
@@ -273,7 +273,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Display name of the APIKey&#x27;s time zone, e.g. America/New_York. Searchable as String.</div>
+                        <div>Display name of the APIKey&#x27;s time zone, e.g. America/New_York.</div>
                 </td>
             </tr>
             <tr>
@@ -289,7 +289,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Timestamp of when a locked out APIKey will be unlocked, in milliseconds since epoch. Searchable as Date.</div>
+                        <div>Timestamp of when a locked out APIKey will be unlocked, in milliseconds since epoch.</div>
                 </td>
             </tr>
             <tr>
@@ -305,7 +305,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Number of unsuccessful authentication attempts made since the last successful authentication. Searchable as Numeric.</div>
+                        <div>Number of unsuccessful authentication attempts made since the last successful authentication.</div>
                 </td>
             </tr>
 
@@ -345,87 +345,35 @@ Examples
       trendmicro.deepsec.deepsec_apikey:
         state: present
         api_keys:
-          - key_name: admin_apiKeys
-            description: test API keys 1
-            active: true
-            role_id: 1
-            locale: en-US
-          - key_name: auditor_apiKeys
-            description: test API keys 2
-            active: true
-            role_id: 2
-            locale: en-US
-
+        - key_name: admin_apiKeys
+          description: test API keys 1
+          active: true
+          role_id: 1
+          locale: en-US
+        - key_name: auditor_apiKeys
+          description: test API keys 2
+          active: true
+          role_id: 2
+          locale: en-US
     - name: Generate Secret key for current API key
       trendmicro.deepsec.deepsec_apikey:
         state: present
         api_keys:
-          - current: true
-
+        - current: true
     - name: Generate Secret key for specified API key
       trendmicro.deepsec.deepsec_apikey:
         state: present
         api_keys:
-          - key_name: admin_apiKeys
-            secret_key: test_secret
-
+        - key_name: admin_apiKeys
+          secret_key: test_secret
     - name: Get the API keys by Name
       trendmicro.deepsec.deepsec_apikey:
         api_keys:
-          - key_name: admin_apiKeys
+        - key_name: admin_apiKeys
         state: gathered
-
-    # Gathered output:
-    #  "gathered": {
-    #     "api_keys": [
-    #           {
-    #               "active": true,
-    #               "created": 1621845321503,
-    #               "description": "test API keys 1",
-    #               "id": 1,
-    #               "key_name": "admin_apiKeys",
-    #               "locale": "en-US",
-    #               "role_id": 1,
-    #               "service_account": false,
-    #               "time_zone": "UTC",
-    #               "unsuccessful_sign_in_attempts": 0
-    #           }
-    #        ]
-    #     },
-
     - name: Get all the API keys
       trendmicro.deepsec.deepsec_apikey:
         state: gathered
-
-    #   "gathered": {
-    #         "api_keys": [
-    #             {
-    #                 "active": true,
-    #                 "created": 1621845321503,
-    #                 "description": "test API keys 1",
-    #                 "id": 1,
-    #                 "key_name": "admin_apiKeys",
-    #                 "locale": "en-US",
-    #                 "role_id": 1,
-    #                 "service_account": false,
-    #                 "time_zone": "UTC",
-    #                 "unsuccessful_sign_in_attempts": 0
-    #             },
-    #             {
-    #                 "active": true,
-    #                 "created": 1621845321503,
-    #                 "description": "test API keys 2",
-    #                 "id": 2,
-    #                 "key_name": "auditor_apiKeys",
-    #                 "locale": "en-US",
-    #                 "role_id": 1,
-    #                 "service_account": false,
-    #                 "time_zone": "UTC",
-    #                 "unsuccessful_sign_in_attempts": 0
-    #             }
-    #         ]
-    #     },
-
     - name: Delete/Remove the API key by name
       trendmicro.deepsec.deepsec_apikey:
         state: absent

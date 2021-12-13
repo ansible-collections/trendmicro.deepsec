@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Add new Intrusion prevention rules module (https://github.com/ansible-collections/trendmicro.deepsec/pull/23).

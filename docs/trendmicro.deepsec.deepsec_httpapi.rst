@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec
 **HttpApi Plugin for Trend Micro Deep Security**
 
 
-Version added: 2.9
+Version added: 1.0.0
 
 .. contents::
    :local:

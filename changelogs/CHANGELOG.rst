@@ -5,6 +5,32 @@ TrendMicro DeepSecurity Collection Release Notes
 .. contents:: Topics
 
 
+v1.2.0
+======
+
+Minor Changes
+-------------
+
+- Add AntiMalware rules resource module.
+- Add Firewall rules resource module.
+- Add Log Inspection rules resource module.
+- Add new Integrity Monitoring rules module (https://github.com/ansible-collections/trendmicro.deepsec/pull/24).
+- Add new RM states to Intrusion prevention rules module (https://github.com/ansible-collections/trendmicro.deepsec/pull/25).
+
+Documentation Changes
+---------------------
+
+- To update comments to get included TM collection under Ansible (https://github.com/ansible-collections/ansible-inclusion/discussions/27#discussioncomment-1016085).
+
+New Modules
+-----------
+
+- deepsec_anti_malwares - Manages AntiMalware Rule resource module
+- deepsec_firewall_rules - Manages Firewall Rule resource module
+- deepsec_integrity_monitoring_rules - Manages Integrity Monitoring Rule resource module
+- deepsec_intrusion_prevention_rules - Intrusion Prevention Rule resource module.
+- deepsec_log_inspection_rules - Manages Log Inspection Rule resource module
+
 v1.1.0
 ======
 

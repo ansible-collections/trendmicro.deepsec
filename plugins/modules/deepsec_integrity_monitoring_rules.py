@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = r"""
+DOCUMENTATION = """
 module: deepsec_integrity_monitoring_rules
 short_description: Manages Integrity Monitoring Rule resource module
 description: Integrity monitoring rules describe how Deep Security Agents should scan
@@ -14,7 +14,7 @@ description: Integrity monitoring rules describe how Deep Security Agents should
   values as well as changes in installed software, processes, listening ports and
   running services. Integrity monitoring rules can be assigned directly to computers
   or can be made part of a policy.
-version_added: 2.0.0
+version_added: 1.2.0
 options:
   config:
     description: A dictionary of Integrity Monitoring Rules options
@@ -90,8 +90,8 @@ options:
         type: bool
       registry_included_values:
         description: Registry key values to be monitored by the IntegrityMonitoringRule.
-          JSON array or delimited by '\n'. '?' matches a single character, while '*'
-          matches zero or more characters. Ignored if the IntegrityMonitoringRule
+          JSON array or delimited by new line. Question mark matches a single character,
+          while '*' matches zero or more characters. Ignored if the IntegrityMonitoringRule
           does not monitor a registry key.
         type: list
         elements: str
@@ -102,14 +102,14 @@ options:
         type: bool
       registry_excluded_values:
         description: Registry key values to be ignored by the IntegrityMonitoringRule.
-          JSON array or delimited by '\n'. '?' matches a single character, while '*'
-          matches zero or more characters. Ignored if the IntegrityMonitoringRule
+          JSON array or delimited by new line. Question mark matches a single character,
+          while '*' matches zero or more characters. Ignored if the IntegrityMonitoringRule
           does not monitor a registry key.
         type: list
         elements: str
       registry_attributes:
         description: Registry key attributes to be monitored by the IntegrityMonitoringRule.
-          JSON array or delimited by '\n'. Defaults to 'STANDARD' which will monitor
+          JSON array or delimited by new line. Defaults to 'STANDARD' which will monitor
           changes in registry size, content and type. Ignored if the IntegrityMonitoringRule
           does not monitor a registry key.
         type: list
@@ -126,24 +126,24 @@ options:
         type: bool
       file_included_values:
         description: File name values to be monitored by the IntegrityMonitoringRule.
-          JSON array or delimited by '\n'. '?' matches a single character, while '*'
-          matches zero or more characters. Leaving this field blank when monitoring
-          file directories will cause the IntegrityMonitoringRule to monitor all files
-          in a directory. This can use significant system resources if the base directory
-          contains numerous or large files. Ignored if the IntegrityMonitoringRule
+          JSON array or delimited by new line. Question mark matches a single character,
+          while '*' matches zero or more characters. Leaving this field blank when
+          monitoring file directories will cause the IntegrityMonitoringRule to monitor
+          all files in a directory. This can use significant system resources if the
+          base directory contains numerous or large files. Ignored if the IntegrityMonitoringRule
           does not monitor a file directory.
         type: list
         elements: str
       file_excluded_values:
         description: File name values to be ignored by the IntegrityMonitoringRule.
-          JSON array or delimited by '\n'. '?' matches a single character, while '*'
-          matches zero or more characters. Ignored if the IntegrityMonitoringRule
+          JSON array or delimited by new line. Question mark matches a single character,
+          while '*' matches zero or more characters. Ignored if the IntegrityMonitoringRule
           does not monitor a file directory.
         type: list
         elements: str
       file_attributes:
         description: File attributes to be monitored by the IntegrityMonitoringRule.
-          JSON array or delimited by '\n'. Defaults to 'STANDARD' which will monitor
+          JSON array or delimited by new line. Defaults to 'STANDARD' which will monitor
           changes in file creation date, last modified date, permissions, owner, group,
           size, content, flags (Windows) and SymLinkPath (Linux). Ignored if the IntegrityMonitoringRule
           does not monitor a file directory.
@@ -195,7 +195,7 @@ options:
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>
 """
 
-EXAMPLES = r"""
+EXAMPLES = """
 
 # Using MERGED state
 # -------------------
@@ -204,362 +204,57 @@ EXAMPLES = r"""
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: merged
     config:
-      - name: THIS IS TEST IMR - 1
-        alert_enabled: false
-        description: THIS IS TEST IMR DESCRIPTION - 1
-        real_time_monitoring_enabled: true
-        registry_included_values:
-          - test_1
-          - test_2
-        severity: medium
-        template: registry
-      - name: THIS IS TEST IMR - 2
-        alert_enabled: false
-        description: THIS IS TEST IMR DESCRIPTION - 2
-        real_time_monitoring_enabled: true
-        registry_attributes:
-          - test
-        severity: low
-        template: registry
-
-# Play Run:
-# =========
-#
-# "integrity_monitoring_rules": {
-#     "after": [
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
-#             "id": 321,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 1",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "STANDARD"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 "test_1",
-#                 "test_2"
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "medium",
-#             "template": "registry"
-#         },
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
-#             "id": 322,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 2",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "test"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 ""
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "low",
-#             "template": "registry"
-#         }
-#     ],
-#     "before": []
-# }
-
+    - name: THIS IS TEST IMR - 1
+      alert_enabled: false
+      description: THIS IS TEST IMR DESCRIPTION - 1
+      real_time_monitoring_enabled: true
+      registry_included_values:
+      - test_1
+      - test_2
+      severity: medium
+      template: registry
+    - name: THIS IS TEST IMR - 2
+      alert_enabled: false
+      description: THIS IS TEST IMR DESCRIPTION - 2
+      real_time_monitoring_enabled: true
+      registry_attributes:
+      - test
+      severity: low
+      template: registry
 - name: Modify the severity of Integrity Monitoring Rule by name
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: merged
     config:
-      - name: THIS IS TEST IMR - 2
-        severity: medium
-
-# Play Run:
-# =========
-#
-# "integrity_monitoring_rules": {
-#     "after": [
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
-#             "id": 322,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 2",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "test"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 ""
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "medium",
-#             "template": "registry"
-#         }
-#     ],
-#     "before": [
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
-#             "id": 322,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 2",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "test"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 ""
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "low",
-#             "template": "registry"
-#         }
-#     ]
-# }
-
-# Using REPLACED state
-# --------------------
-
+    - name: THIS IS TEST IMR - 2
+      severity: medium
 - name: Replace existing Integrity Monitoring Rule
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: replaced
     config:
-      - name: THIS IS TEST IMR - 1
-        alert_enabled: false
-        description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
-        real_time_monitoring_enabled: true
-        registry_included_values:
-          - test_3
-          - test_4
-        severity: low
-        template: registry
-
-
-# Play Run:
-# =========
-#
-#  "integrity_monitoring_rules": {
-#     "after": [
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS REPLACED TEST IMR DESCRIPTION - 1",
-#             "id": 325,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 1",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "STANDARD"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 "test_3",
-#                 "test_4"
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "low",
-#             "template": "registry"
-#         }
-#     ],
-#     "before": [
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
-#             "id": 323,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 1",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "STANDARD"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 "test_1",
-#                 "test_2"
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "medium",
-#             "template": "registry"
-#         }
-#     ]
-# }
-
-# Using GATHERED state
-# --------------------
-
+    - name: THIS IS TEST IMR - 1
+      alert_enabled: false
+      description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
+      real_time_monitoring_enabled: true
+      registry_included_values:
+      - test_3
+      - test_4
+      severity: low
+      template: registry
 - name: Gather Integrity Monitoring Rule by IMR names
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: gathered
     config:
-      - name: THIS IS TEST IMR - 1
-      - name: THIS IS TEST IMR - 2
-
-# Play Run:
-# =========
-#
-# "gathered": [
-#     {
-#         "alert_enabled": false,
-#         "description": "THIS IS TEST IMR DESCRIPTION - 1",
-#         "id": 326,
-#         "minimum_agent_version": "6.0.0.0",
-#         "minimum_manager_version": "6.0.0",
-#         "name": "THIS IS TEST IMR - 1",
-#         "real_time_monitoring_enabled": true,
-#         "registry_attributes": [
-#             "STANDARD"
-#         ],
-#         "registry_excluded_values": [
-#             ""
-#         ],
-#         "registry_include_default_value": true,
-#         "registry_include_subkeys": false,
-#         "registry_included_values": [
-#             "test_1",
-#             "test_2"
-#         ],
-#         "registry_key_root": "HKEY_CLASSES_ROOT",
-#         "registry_key_value": "\\",
-#         "severity": "medium",
-#         "template": "registry"
-#     },
-#     {
-#         "alert_enabled": false,
-#         "description": "THIS IS TEST IMR DESCRIPTION - 2",
-#         "id": 327,
-#         "minimum_agent_version": "6.0.0.0",
-#         "minimum_manager_version": "6.0.0",
-#         "name": "THIS IS TEST IMR - 2",
-#         "real_time_monitoring_enabled": true,
-#         "registry_attributes": [
-#             "test"
-#         ],
-#         "registry_excluded_values": [
-#             ""
-#         ],
-#         "registry_include_default_value": true,
-#         "registry_include_subkeys": false,
-#         "registry_included_values": [
-#             ""
-#         ],
-#         "registry_key_root": "HKEY_CLASSES_ROOT",
-#         "registry_key_value": "\\",
-#         "severity": "low",
-#         "template": "registry"
-#     }
-# ]
-
+    - name: THIS IS TEST IMR - 1
+    - name: THIS IS TEST IMR - 2
 - name: Gather ALL of the Integrity Monitoring Rule
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: gathered
-
-# Using DELETED state
-# ------------------
-
 - name: Delete Integrity Monitoring Rule
   trendmicro.deepsec.deepsec_integrity_monitoring_rules:
     state: deleted
     config:
-      - name: THIS IS TEST IMR - 1
-      - name: THIS IS TEST IMR - 2
-
-# Play Run:
-# =========
-#
-# "integrity_monitoring_rules": {
-#     "after": [],
-#     "before": [
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 1",
-#             "id": 326,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 1",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "STANDARD"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 "test_1",
-#                 "test_2"
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "medium",
-#             "template": "registry"
-#         },
-#         {
-#             "alert_enabled": false,
-#             "description": "THIS IS TEST IMR DESCRIPTION - 2",
-#             "id": 327,
-#             "minimum_agent_version": "6.0.0.0",
-#             "minimum_manager_version": "6.0.0",
-#             "name": "THIS IS TEST IMR - 2",
-#             "real_time_monitoring_enabled": true,
-#             "registry_attributes": [
-#                 "test"
-#             ],
-#             "registry_excluded_values": [
-#                 ""
-#             ],
-#             "registry_include_default_value": true,
-#             "registry_include_sub_keys": false,
-#             "registry_included_values": [
-#                 ""
-#             ],
-#             "registry_key_root": "HKEY_CLASSES_ROOT",
-#             "registry_key_value": "\\",
-#             "severity": "low",
-#             "template": "registry"
-#         }
-#     ]
-# }
-
+    - name: THIS IS TEST IMR - 1
+    - name: THIS IS TEST IMR - 2
 """
 
 RETURN = r"""

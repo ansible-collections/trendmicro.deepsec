@@ -10,7 +10,7 @@ DOCUMENTATION = """
 module: deepsec_firewall_rules
 short_description: Manages Firewall Rule resource module
 description: Firewall rule details.
-version_added: 2.0.0
+version_added: 1.2.0
 options:
   config:
     description: A dictionary of Firewall Rules options

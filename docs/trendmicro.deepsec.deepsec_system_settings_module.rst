@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_system_settings
 **Modify the system settings for TrendMicro Deep Security.**
 
 
-Version added: 1.1.0
+Version added: 1.0.0
 
 .. contents::
    :local:

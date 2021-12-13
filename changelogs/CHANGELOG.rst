@@ -5,7 +5,7 @@ TrendMicro DeepSecurity Collection Release Notes
 .. contents:: Topics
 
 
-v2.0.0
+v1.2.0
 ======
 
 Minor Changes

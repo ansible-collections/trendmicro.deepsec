@@ -45,7 +45,7 @@ releases:
       name: deepsec_system_settings
       namespace: ''
     release_date: '2021-06-24'
-  2.0.0:
+  1.2.0:
     changes:
       doc_changes:
       - To update comments to get included TM collection under Ansible (https://github.com/ansible-collections/ansible-inclusion/discussions/27#discussioncomment-1016085).

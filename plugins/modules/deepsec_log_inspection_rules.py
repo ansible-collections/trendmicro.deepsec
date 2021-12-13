@@ -11,7 +11,7 @@ module: deepsec_log_inspection_rules
 short_description: Manages Log Inspection Rule resource module
 description: Contains string matching and threshold to trigger alerts as well as group
   information for LogInspectionRules.
-version_added: 2.0.0
+version_added: 1.2.0
 options:
   config:
     description: A dictionary of Log Inspection Rules options

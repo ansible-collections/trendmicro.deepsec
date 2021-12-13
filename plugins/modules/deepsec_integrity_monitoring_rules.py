@@ -14,7 +14,7 @@ description: Integrity monitoring rules describe how Deep Security Agents should
   values as well as changes in installed software, processes, listening ports and
   running services. Integrity monitoring rules can be assigned directly to computers
   or can be made part of a policy.
-version_added: 2.0.0
+version_added: 1.2.0
 options:
   config:
     description: A dictionary of Integrity Monitoring Rules options

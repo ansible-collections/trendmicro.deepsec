@@ -313,7 +313,9 @@ def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
-    deepsec_request.delete("/api/loginspectionrules/{0}".format(log_inspection_id))
+    deepsec_request.delete(
+        "/api/loginspectionrules/{0}".format(log_inspection_id)
+    )
     module.exit_json(
         msg=" with id: {0} deleted successfully!".format(log_inspection_id),
         changed=True,
@@ -344,7 +346,9 @@ def main():
     }
 
     log_files_spec = {
-        "log_files": dict(type="list", elements="dict", options=log_files_spec_list)
+        "log_files": dict(
+            type="list", elements="dict", options=log_files_spec_list
+        )
     }
 
     argspec = dict(
@@ -386,7 +390,10 @@ def main():
     want = map_params_to_obj(remove_empties(module.params))
 
     search_existing_log_inspection_rules = check_if_config_exists(
-        deepsec_request, want["name"], "loginspectionrules", "logInspectionRules"
+        deepsec_request,
+        want["name"],
+        "loginspectionrules",
+        "logInspectionRules",
     )
 
     if (
@@ -412,12 +419,15 @@ def main():
         )
         if "ID" in search_existing_log_inspection_rules:
             module.exit_json(
-                log_inspection_rules=search_existing_log_inspection_rules, changed=False
+                log_inspection_rules=search_existing_log_inspection_rules,
+                changed=False,
             )
         elif log_inspection_rules.get("message"):
             module.fail_json(msg=log_inspection_rules["message"])
         else:
-            module.exit_json(log_inspection_rules=log_inspection_rules, changed=True)
+            module.exit_json(
+                log_inspection_rules=log_inspection_rules, changed=True
+            )
     module.exit_json(changed=False)
 
 

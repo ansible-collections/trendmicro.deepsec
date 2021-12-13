@@ -2045,7 +2045,9 @@ def reset_module_api_config(argspec, module, deepsec_request):
             if (
                 search_result
                 and search_result[system_setting_name]["value"]
-                != argspec["config"]["options"][each]["options"]["value"]["default"]
+                != argspec["config"]["options"][each]["options"]["value"][
+                    "default"
+                ]
             ):
                 changed = True
                 reset_return = delete_config_with_id(
@@ -2092,13 +2094,17 @@ def configure_module_api(argspec, module, deepsec_request):
                 after.update({k: v})
         if len(temp_config) == 1:
             for k, v in iteritems(temp_config):
-                api_key = deepsec_request.post("{0}/{1}".format(api_object, k), data=v)
+                api_key = deepsec_request.post(
+                    "{0}/{1}".format(api_object, k), data=v
+                )
                 if api_key.get("errors"):
                     module.fail_json(msg=api_key["errors"])
                 elif api_key.get("message"):
                     module.fail_json(msg=api_key["message"])
         elif len(temp_config) > 1:
-            api_key = deepsec_request.post("{0}".format(api_object), data=temp_config)
+            api_key = deepsec_request.post(
+                "{0}".format(api_object), data=temp_config
+            )
             if api_key.get("errors"):
                 module.fail_json(msg=api_key["errors"])
             elif api_key.get("message"):
@@ -2113,13 +2119,16 @@ def configure_module_api(argspec, module, deepsec_request):
 
 def main():
     argspec = dict(
-        state=dict(choices=["present", "absent", "gathered"], default="present"),
+        state=dict(
+            choices=["present", "absent", "gathered"], default="present"
+        ),
         config=dict(
             type="dict",
             options=dict(
                 name=dict(type="list", elements="str"),
                 platform_setting_saml_identity_provider_certificate_expiry_warning_daysr=dict(
-                    type="dict", options=dict(value=dict(type="str", default="30"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="30")),
                 ),
                 platform_setting_allow_packet_data_capture_in_network_events=dict(
                     type="dict", options=dict(value=dict(type="str"))
@@ -2128,380 +2137,505 @@ def main():
                     type="dict", options=dict(value=dict(type="bool"))
                 ),
                 platform_setting_update_agent_security_on_missing_deep_security_manager_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_ddan_manual_source_server_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_load_balancer_manager_port=dict(
-                    type="dict", options=dict(value=dict(type="str", default="4119"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="4119")),
                 ),
                 platform_setting_smart_protection_feedback_threat_detections_threshold=dict(
-                    type="dict", options=dict(value=dict(type="str", default="10"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="10")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_run_port_scan_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 intrusion_prevention_setting_event_rank_severity_filter_medium=dict(
-                    type="dict", options=dict(value=dict(type="str", default="25"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="25")),
                 ),
                 firewall_setting_intranet_connectivity_test_expected_content_regex=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_event_forwarding_sns_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_tenant_auto_revoke_impersonation_by_primary_tenant_timeout=dict(
-                    type="dict", options=dict(value=dict(type="str", default="4 Hours"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="4 Hours")),
                 ),
                 web_reputation_setting_event_rank_risk_blocked_by_administrator_rank=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 platform_setting_primary_tenant_lock_and_hide_tenant_storage_tab_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 anti_malware_setting_event_email_recipients=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_use_default_relay_group_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_http_strict_transport_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 firewall_setting_intranet_connectivity_test_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_configure_sns_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_tenant_use_default_relay_group_from_primary_tenant_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_exported_diagnostic_package_locale=dict(
-                    type="dict", options=dict(value=dict(type="str", default="en_US"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="en_US")),
                 ),
                 intrusion_prevention_setting_event_rank_severity_filter_critical=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 platform_setting_update_imported_software_auto_download_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_demo_mode_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_user_enforce_terms_and_conditions_message=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_trend_micro_xdr_common_log_receiver_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_managed_detect_response_company_guid=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_alert_default_email_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_agent_initiated_activation_reactivate_cloned_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_managed_detect_response_server_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_primary_tenant_share_managed_detect_responses_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_saml_service_provider_certificate=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_syslog_config_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default="0"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="0")),
                 ),
                 platform_setting_smtp_start_tls_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_user_password_require_letters_and_numbers_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="false", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="false", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_primary_tenant_allow_tenant_synchronize_ldap_directories_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_load_balancer_relay_port=dict(
-                    type="dict", options=dict(value=dict(type="str", default="4122"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="4122")),
                 ),
                 platform_setting_managed_detect_response_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_update_rules_policy_auto_apply_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_configure_forgot_password_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="false", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="false", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_user_password_require_not_same_as_username_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="false", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="false", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 log_inspection_setting_event_rank_severity_medium=dict(
-                    type="dict", options=dict(value=dict(type="str", default="25"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="25")),
                 ),
                 anti_malware_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_update_agent_security_contact_primary_source_on_missing_relay_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 firewall_setting_event_rank_severity_log_only=dict(
-                    type="dict", options=dict(value=dict(type="str", default="1"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="1")),
                 ),
                 platform_setting_primary_tenant_lock_and_hide_tenant_data_privacy_option_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 application_control_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_api_soap_web_service_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_saml_service_provider_private_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_windows_upgrade_on_activation_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_system_event_forwarding_snmp_port=dict(
-                    type="dict", options=dict(value=dict(type="str", default="162"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="162")),
                 ),
                 firewall_setting_event_rank_severity_deny=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 intrusion_prevention_setting_event_rank_severity_filter_low=dict(
-                    type="dict", options=dict(value=dict(type="str", default="1"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="1")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_control_impersonation_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_recommendation_cpu_usage_level=dict(
-                    type="dict", options=dict(value=dict(type="str", default="High"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="High")),
                 ),
                 platform_setting_managed_detect_response_service_token=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_load_balancer_heartbeat_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_trend_micro_xdr_api_user=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_content_security_policy_report_only_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 log_inspection_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_tenant_auto_revoke_impersonation_by_primary_tenant_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 anti_malware_setting_event_email_body_template=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_retain_security_updates_max=dict(
-                    type="dict", options=dict(value=dict(type="str", default="10"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="10")),
                 ),
                 platform_setting_connected_threat_defense_control_manager_source_option=dict(
                     type="dict",
                     options=dict(
                         value=dict(
-                            type="str", default="Manually select an Apex Central server"
+                            type="str",
+                            default="Manually select an Apex Central server",
                         )
                     ),
                 ),
                 anti_malware_setting_event_email_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_update_agent_software_use_download_center_on_missing_deep_security_manager_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_recommendation_ongoing_scans_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="No"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="No")),
                 ),
                 platform_setting_agent_initiated_activation_token=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_user_password_length_min=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="8", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="8", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_primary_tenant_allow_tenant_database_state=dict(
-                    type="dict", options=dict(value=dict(type="str", default="10"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="10")),
                 ),
                 platform_setting_aws_manager_identity_use_instance_role_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_content_security_policy=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_product_usage_data_collection_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_alert_agent_update_pending_threshold=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_user_password_require_special_characters_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="false", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="false", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_update_appliance_default_agent_version=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_system_event_forwarding_snmp_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_smtp_bounce_email_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_update_relay_security_support_agent_9and_earlier_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_managed_detect_response_proxy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_trend_micro_xdr_log_server_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_inactive_agent_cleanup_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_load_balancer_relay_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_http_public_key_pin_policy=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_user_session_idle_timeout=dict(
                     type="dict",
                     options=dict(value=dict(type="str", default="30 Minutes")),
                 ),
                 anti_malware_setting_event_email_subject=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_connected_threat_defense_control_manager_use_proxy_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_user_enforce_terms_and_conditions_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_aws_manager_identity_access_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_connected_threat_defense_control_manager_proxy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_tenant_allow_impersonation_by_primary_tenant_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_connected_threat_defense_control_manager_manual_source_server_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_user_password_require_mixed_case_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="false", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="false", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_trend_micro_xdr_identity_provider_api_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_smart_protection_feedback_for_suspicious_file_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_configure_snmp_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_smart_protection_feedback_industry_type=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="Not specified")),
+                    options=dict(
+                        value=dict(type="str", default="Not specified")
+                    ),
                 ),
                 web_reputation_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_retain_server_log_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 integrity_monitoring_setting_event_rank_severity_medium=dict(
-                    type="dict", options=dict(value=dict(type="str", default="25"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="25")),
                 ),
                 platform_setting_proxy_manager_cloud_proxy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_update_relay_security_all_regions_patterns_download_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_ddan_submission_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 web_reputation_setting_event_rank_risk_suspicious=dict(
-                    type="dict", options=dict(value=dict(type="str", default="25"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="25")),
                 ),
                 integrity_monitoring_setting_event_rank_severity_critical=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 platform_setting_smtp_from_email_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_event_forwarding_sns_topic_arn=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 firewall_setting_global_stateful_config_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default="0"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="0")),
                 ),
                 firewall_setting_internet_connectivity_test_expected_content_regex=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_connected_threat_defense_control_manager_manual_source_api_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_load_balancer_manager_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_update_security_primary_source_mode=dict(
                     type="dict",
                     options=dict(
                         value=dict(
-                            type="str", default="Trend Micro ActiveUpdate Server"
+                            type="str",
+                            default="Trend Micro ActiveUpdate Server",
                         )
                     ),
                 ),
                 platform_setting_primary_tenant_share_connected_threat_defenses_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 web_reputation_setting_event_rank_risk_dangerous=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 platform_setting_load_balancer_heartbeat_port=dict(
-                    type="dict", options=dict(value=dict(type="str", default="4120"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="4120")),
                 ),
                 platform_setting_user_hide_unlicensed_modules_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_capture_encrypted_traffic_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_retain_system_event_duration=dict(
                     type="dict",
@@ -2509,79 +2643,104 @@ def main():
                 ),
                 platform_setting_user_password_expiry=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="Never", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="Never", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_smart_protection_feedback_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 integrity_monitoring_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_use_scheduled_run_script_task_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 log_inspection_setting_event_rank_severity_critical=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 platform_setting_primary_tenant_lock_and_hide_tenant_smtp_tab_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_ddan_proxy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_agent_initiated_activation_within_ip_list_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_update_security_primary_source_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default="http://"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="http://")),
                 ),
                 platform_setting_agentless_vcloud_protection_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_linux_upgrade_on_activation_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_trend_micro_xdr_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_active_sessions_max_exceeded_action=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="Block new sessions")),
+                    options=dict(
+                        value=dict(type="str", default="Block new sessions")
+                    ),
                 ),
                 platform_setting_update_hostname_on_ip_change_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 log_inspection_setting_event_rank_severity_high=dict(
-                    type="dict", options=dict(value=dict(type="str", default="50"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="50")),
                 ),
                 platform_setting_smtp_requires_authentication_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_active_sessions_max=dict(
-                    type="dict", options=dict(value=dict(type="str", default="10"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="10")),
                 ),
                 platform_setting_aws_external_id_retrieval_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 log_inspection_setting_event_rank_severity_low=dict(
-                    type="dict", options=dict(value=dict(type="str", default="1"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="1")),
                 ),
                 platform_setting_azure_sso_certificate=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_smtp_username=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_event_forwarding_sns_advanced_config_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 firewall_setting_internet_connectivity_test_interval=dict(
                     type="dict",
                     options=dict(value=dict(type="str", default="10 Seconds")),
                 ),
                 platform_setting_whois_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_ddan_source_option=dict(
                     type="dict",
@@ -2593,7 +2752,8 @@ def main():
                     ),
                 ),
                 platform_setting_connected_threat_defense_control_manager_suspicious_object_list_comparison_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_exported_file_character_encoding=dict(
                     type="dict",
@@ -2604,139 +2764,182 @@ def main():
                     options=dict(value=dict(type="str", default="No Limit")),
                 ),
                 platform_setting_update_software_alternate_update_server_urls=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_retain_counters_duration=dict(
                     type="dict",
                     options=dict(value=dict(type="str", default="13 Weeks")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_run_computer_discovery_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_smart_protection_feedback_interval=dict(
-                    type="dict", options=dict(value=dict(type="str", default="5"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="5")),
                 ),
                 platform_setting_system_event_forwarding_snmp_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_smtp_server_address=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_configure_siem_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_smtp_password=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_event_forwarding_sns_config_json=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 firewall_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 web_reputation_setting_event_rank_risk_untested=dict(
-                    type="dict", options=dict(value=dict(type="str", default="25"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="25")),
                 ),
                 platform_setting_managed_detect_response_use_proxy_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_event_forwarding_sns_secret_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_logo_binary_image_img=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_aws_manager_identity_secret_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 web_reputation_setting_event_rank_risk_highly_suspicious=dict(
-                    type="dict", options=dict(value=dict(type="str", default="50"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="50")),
                 ),
                 platform_setting_api_status_monitoring_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_sign_in_page_message=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_user_password_expiry_send_email_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="false", no_log=False)),
+                    options=dict(
+                        value=dict(type="str", default="false", no_log=False)
+                    ),
                     no_log=False,
                 ),
                 platform_setting_user_sign_in_attempts_allowed_number=dict(
-                    type="dict", options=dict(value=dict(type="str", default="5"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="5")),
                 ),
                 platform_setting_ddan_use_proxy_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_agent_initiated_activation_enabled=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="For any computers")),
+                    options=dict(
+                        value=dict(type="str", default="For any computers")
+                    ),
                 ),
                 platform_setting_primary_tenant_allow_tenant_configure_remember_me_option_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_smart_protection_feedback_bandwidth_max_kbytes=dict(
-                    type="dict", options=dict(value=dict(type="str", default="32"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="32")),
                 ),
                 firewall_setting_event_rank_severity_packet_rejection=dict(
-                    type="dict", options=dict(value=dict(type="str", default="50"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="50")),
                 ),
                 platform_setting_proxy_manager_update_proxy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_managed_detect_response_use_primary_tenant_settings_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_event_forwarding_sns_access_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_agent_initiated_activation_specify_hostname_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_sync_with_cloud_account_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_connected_threat_defenses_use_primary_tenant_server_settings_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_inactive_agent_cleanup_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="1 Month"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="1 Month")),
                 ),
                 platform_setting_agent_initiated_activation_duplicate_hostname_mode=dict(
                     type="dict",
                     options=dict(
                         value=dict(
-                            type="str", default="Re-activate the existing Computer"
+                            type="str",
+                            default="Re-activate the existing Computer",
                         )
                     ),
                 ),
                 platform_setting_vmware_nsx_manager_node=dict(
-                    type="dict", options=dict(value=dict(type="str", default="1"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="1")),
                 ),
                 platform_setting_user_enforce_terms_and_conditions_title=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_primary_tenant_allow_tenant_add_vmware_vcenter_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_new_tenant_download_security_update_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_tenant_protection_usage_monitoring_computer_id_3=dict(
                     type="dict",
                     options=dict(value=dict(type="str", default="Platform")),
                 ),
                 platform_setting_agent_initiated_activation_reactivate_unknown_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_tenant_protection_usage_monitoring_computer_id_2=dict(
                     type="dict",
@@ -2745,72 +2948,94 @@ def main():
                     ),
                 ),
                 platform_setting_agent_initiated_activation_policy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_tenant_protection_usage_monitoring_computer_id_1=dict(
                     type="dict",
                     options=dict(value=dict(type="str", default="Hostname")),
                 ),
                 platform_setting_trend_micro_xdr_api_server_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_retain_agent_installers_per_platform_max=dict(
-                    type="dict", options=dict(value=dict(type="str", default="5"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="5")),
                 ),
                 application_control_setting_serve_rulesets_from_relays_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 integrity_monitoring_setting_event_rank_severity_high=dict(
-                    type="dict", options=dict(value=dict(type="str", default="50"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="50")),
                 ),
                 platform_setting_saml_retain_inactive_external_administrators_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="365"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="365")),
                 ),
                 intrusion_prevention_setting_retain_event_duration=dict(
-                    type="dict", options=dict(value=dict(type="str", default="7 Days"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="7 Days")),
                 ),
                 platform_setting_http_public_key_pin_policy_report_only_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="true"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="true")),
                 ),
                 platform_setting_saml_service_provider_name=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 firewall_setting_internet_connectivity_test_url=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_saml_service_provider_certificate_expiry_warning_days=dict(
-                    type="dict", options=dict(value=dict(type="str", default="30"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="30")),
                 ),
                 platform_setting_proxy_agent_update_proxy_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 platform_setting_ddan_auto_submission_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str", default="false"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_ddan_manual_source_api_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 platform_setting_saml_service_provider_entity_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
                 intrusion_prevention_setting_event_rank_severity_filter_error=dict(
-                    type="dict", options=dict(value=dict(type="str", default="100"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="100")),
                 ),
                 intrusion_prevention_setting_event_rank_severity_filter_high=dict(
-                    type="dict", options=dict(value=dict(type="str", default="50"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="50")),
                 ),
                 platform_setting_trend_micro_xdr_api_key=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="", no_log=True)),
+                    options=dict(
+                        value=dict(type="str", default="", no_log=True)
+                    ),
                     no_log=True,
                 ),
                 integrity_monitoring_setting_event_rank_severity_low=dict(
-                    type="dict", options=dict(value=dict(type="str", default="1"))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="1")),
                 ),
                 platform_setting_trend_micro_xdr_company_id=dict(
-                    type="dict", options=dict(value=dict(type="str", default=""))
+                    type="dict",
+                    options=dict(value=dict(type="str", default="")),
                 ),
             ),
         ),

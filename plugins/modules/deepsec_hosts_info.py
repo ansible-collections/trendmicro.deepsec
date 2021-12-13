@@ -48,7 +48,9 @@ def main():
     deepsec_request = DeepSecurityRequest(module)
 
     if module.params["id"]:
-        hosts = deepsec_request.get("/rest/hosts/{0}".format(module.params["id"]))
+        hosts = deepsec_request.get(
+            "/rest/hosts/{0}".format(module.params["id"])
+        )
     else:
         hosts = deepsec_request.get("/rest/hosts")
 

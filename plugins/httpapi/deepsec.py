@@ -23,7 +23,10 @@ from ansible.errors import AnsibleAuthenticationFailure
 from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.plugins.httpapi import HttpApiBase
 
-BASE_HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
+BASE_HEADERS = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
 
 LOGIN_URL = "/rest/authentication/login/primary"
 LOGOUT_BY_ID = "/rest/authentication/logout?sID="
@@ -58,7 +61,10 @@ class HttpApi(HttpApiBase):
         try:
             self._display_request(request_method)
             response, response_data = self.connection.send(
-                url, to_bytes(json.dumps(data)), method=request_method, headers=headers
+                url,
+                to_bytes(json.dumps(data)),
+                method=request_method,
+                headers=headers,
             )
             value = self._get_response_value(response_data)
 
@@ -69,7 +75,9 @@ class HttpApi(HttpApiBase):
 
     def _display_request(self, request_method):
         self.connection.queue_message(
-            "vvvv", "Deep Security REST: %s %s" % (request_method, self.connection._url)
+            "vvvv",
+            "Deep Security REST: %s %s"
+            % (request_method, self.connection._url),
         )
 
     def _get_response_value(self, response_data):
@@ -110,7 +118,9 @@ class HttpApi(HttpApiBase):
             # the session Cookie
             self._auth_token = auth_token
         except KeyError:
-            raise AnsibleAuthenticationFailure(message="Failed to acquire login token.")
+            raise AnsibleAuthenticationFailure(
+                message="Failed to acquire login token."
+            )
 
     def logout(self):
         if self.connection._auth is not None:

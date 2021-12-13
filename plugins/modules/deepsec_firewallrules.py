@@ -352,12 +352,14 @@ def main():
         name=dict(required=True, type="str"),
         description=dict(type="str"),
         action=dict(
-            type="str", choices=["log-only", "allow", "deny", "force-allow", "bypass"]
+            type="str",
+            choices=["log-only", "allow", "deny", "force-allow", "bypass"],
         ),
         priority=dict(type="str", choices=["0", "1", "2", "3", "4"]),
         direction=dict(type="str", choices=["incoming", "outgoing"]),
         frame_type=dict(
-            type="str", choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"]
+            type="str",
+            choices=["any", "ip", "arp", "revarp", "ipv4", "ipv6", "other"],
         ),
         frame_number=dict(type="int"),
         frame_not=dict(type="bool"),
@@ -383,7 +385,14 @@ def main():
         protocol_not=dict(type="bool"),
         source_iptype=dict(
             type="str",
-            choices=["any", "masked-ip", "range", "ip-list", "single", "multiple"],
+            choices=[
+                "any",
+                "masked-ip",
+                "range",
+                "ip-list",
+                "single",
+                "multiple",
+            ],
         ),
         source_ipvalue=dict(type="str"),
         source_ipmask=dict(type="str"),
@@ -399,13 +408,22 @@ def main():
         source_macmultiple=dict(type="list", elements="str"),
         source_maclist_id=dict(type="int"),
         source_macnot=dict(type="bool"),
-        source_port_type=dict(type="str", choices=["any", "multiple", "port-list"]),
+        source_port_type=dict(
+            type="str", choices=["any", "multiple", "port-list"]
+        ),
         source_port_multiple=dict(type="list", elements="str"),
         source_port_list_id=dict(type="int"),
         source_port_not=dict(type="bool"),
         destination_iptype=dict(
             type="str",
-            choices=["any", "masked-ip", "range", "ip-list", "single", "multiple"],
+            choices=[
+                "any",
+                "masked-ip",
+                "range",
+                "ip-list",
+                "single",
+                "multiple",
+            ],
         ),
         destination_ipvalue=dict(type="str"),
         destination_ipmask=dict(type="str"),
@@ -454,7 +472,10 @@ def main():
         deepsec_request, want["name"], api_object.split("/")[2], api_return
     )
 
-    if "ID" in search_existing_firewallrules and module.params["state"] == "absent":
+    if (
+        "ID" in search_existing_firewallrules
+        and module.params["state"] == "absent"
+    ):
         delete_config_with_id(
             module,
             deepsec_request,
@@ -464,13 +485,18 @@ def main():
             handle_return=True,
         )
     elif (
-        "ID" not in search_existing_firewallrules and module.params["state"] == "absent"
+        "ID" not in search_existing_firewallrules
+        and module.params["state"] == "absent"
     ):
         module.exit_json(changed=False)
     else:
-        firewallrules = deepsec_request.post("{0}".format(api_object), data=want)
+        firewallrules = deepsec_request.post(
+            "{0}".format(api_object), data=want
+        )
         if "ID" in search_existing_firewallrules:
-            module.exit_json(firewallrules=search_existing_firewallrules, changed=False)
+            module.exit_json(
+                firewallrules=search_existing_firewallrules, changed=False
+            )
         elif firewallrules.get("message"):
             module.fail_json(msg=firewallrules["message"])
         else:

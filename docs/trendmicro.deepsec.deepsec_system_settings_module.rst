@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_system_settings
 **Modify the system settings for TrendMicro Deep Security.**
 
 
-Version added: 1.1.0
+Version added: 1.0.0
 
 .. contents::
    :local:
@@ -1668,6 +1668,42 @@ Parameters
                     <td class="elbow-placeholder"></td>
                 <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>platform_setting_allow_packet_data_capture_in_network_events</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>platform setting that allows packet data capture in network_events</div>
+                        <div>Applicaple only with GET call</div>
+                        <div>Not applicaple param with Create/Modify POST call</div>
+                </td>
+            </tr>
+                                <tr>
+                    <td class="elbow-placeholder"></td>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>value</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Value of a Setting.</div>
+                </td>
+            </tr>
+
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>platform_setting_api_soap_web_service_enabled</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -2523,6 +2559,46 @@ Parameters
                 </td>
                 <td>
                         <b>Default:</b><br/><div style="color: blue">"false"</div>
+                </td>
+                <td>
+                        <div>Value of a Setting.</div>
+                </td>
+            </tr>
+
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>platform_setting_dsm_as_xbc_agent_feature_enabled</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>platform setting dsm as xbc agent feature enabled</div>
+                        <div>Applicaple only with GET call</div>
+                        <div>Not applicaple param with Create/Modify POST call</div>
+                </td>
+            </tr>
+                                <tr>
+                    <td class="elbow-placeholder"></td>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>value</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>no</li>
+                                    <li>yes</li>
+                        </ul>
                 </td>
                 <td>
                         <div>Value of a Setting.</div>
@@ -4396,7 +4472,7 @@ Parameters
                     </div>
                 </td>
                 <td>
-                        <b>Default:</b><br/><div style="color: blue">"No"</div>
+                        <b>Default:</b><br/><div style="color: blue">"no"</div>
                 </td>
                 <td>
                         <div>Value of a Setting.</div>
@@ -7223,43 +7299,14 @@ Examples
             value: true
           platform_setting_demo_mode_enabled:
             value: true
-
-    # Play Run:
-    # =========
-    #
-    # "system_settings": {
-    #         "after": {
-    #             "platform_setting_demo_mode_enabled": {
-    #                 "value": true
-    #             },
-    #             "platform_setting_http_strict_transport_enabled": {
-    #                 "value": true
-    #             },
-    #             "platform_setting_syslog_config_id": {
-    #                 "value": "12"
-    #             }
-    #         },
-    #         "before": {
-    #             "platform_setting_demo_mode_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_http_strict_transport_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_syslog_config_id": {
-    #                 "value": "0"
-    #             }
-    #         }
-    #     }
-
     - name: Reset/Delete the input System Settings Config
       trendmicro.deepsec.deepsec_system_settings:
         state: absent
         config:
           name:
-            - platform_setting_syslog_config_id
-            - platform_setting_http_strict_transport_enabled
-            - platform_setting_demo_mode_enabled
+          - platform_setting_syslog_config_id
+          - platform_setting_http_strict_transport_enabled
+          - platform_setting_demo_mode_enabled
 
     # Play Run:
     # =========
@@ -7294,9 +7341,9 @@ Examples
         state: gathered
         config:
           name:
-            - platform_setting_syslog_config_id
-            - platform_setting_http_strict_transport_enabled
-            - platform_setting_demo_mode_enabled
+          - platform_setting_syslog_config_id
+          - platform_setting_http_strict_transport_enabled
+          - platform_setting_demo_mode_enabled
 
     # Play Run:
     # =========
@@ -7318,629 +7365,6 @@ Examples
     - name: Gather/Get the complete System Settings
       trendmicro.deepsec.deepsec_system_settings:
         state: gathered
-
-    # Play Run:
-    # =========
-    #
-    # "gathered": {
-    #         "config": {
-    #             "anti_malware_setting_event_email_body_template": {
-    #                 "value": ""
-    #             },
-    #             "anti_malware_setting_event_email_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "anti_malware_setting_event_email_recipients": {
-    #                 "value": ""
-    #             },
-    #             "anti_malware_setting_event_email_subject": {
-    #                 "value": ""
-    #             },
-    #             "anti_malware_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "application_control_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "application_control_setting_serve_rulesets_from_relays_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "firewall_setting_event_rank_severity_deny": {
-    #                 "value": "100"
-    #             },
-    #             "firewall_setting_event_rank_severity_log_only": {
-    #                 "value": "1"
-    #             },
-    #             "firewall_setting_event_rank_severity_packet_rejection": {
-    #                 "value": "50"
-    #             },
-    #             "firewall_setting_global_stateful_config_id": {
-    #                 "value": "0"
-    #             },
-    #             "firewall_setting_internet_connectivity_test_expected_content_regex": {
-    #                 "value": ""
-    #             },
-    #             "firewall_setting_internet_connectivity_test_interval": {
-    #                 "value": "10 Seconds"
-    #             },
-    #             "firewall_setting_internet_connectivity_test_url": {
-    #                 "value": ""
-    #             },
-    #             "firewall_setting_intranet_connectivity_test_expected_content_regex": {
-    #                 "value": ""
-    #             },
-    #             "firewall_setting_intranet_connectivity_test_url": {
-    #                 "value": ""
-    #             },
-    #             "firewall_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "integrity_monitoring_setting_event_rank_severity_critical": {
-    #                 "value": "100"
-    #             },
-    #             "integrity_monitoring_setting_event_rank_severity_high": {
-    #                 "value": "50"
-    #             },
-    #             "integrity_monitoring_setting_event_rank_severity_low": {
-    #                 "value": "1"
-    #             },
-    #             "integrity_monitoring_setting_event_rank_severity_medium": {
-    #                 "value": "25"
-    #             },
-    #             "integrity_monitoring_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "intrusion_prevention_setting_event_rank_severity_filter_critical": {
-    #                 "value": "100"
-    #             },
-    #             "intrusion_prevention_setting_event_rank_severity_filter_error": {
-    #                 "value": "100"
-    #             },
-    #             "intrusion_prevention_setting_event_rank_severity_filter_high": {
-    #                 "value": "50"
-    #             },
-    #             "intrusion_prevention_setting_event_rank_severity_filter_low": {
-    #                 "value": "1"
-    #             },
-    #             "intrusion_prevention_setting_event_rank_severity_filter_medium": {
-    #                 "value": "25"
-    #             },
-    #             "intrusion_prevention_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "log_inspection_setting_event_rank_severity_critical": {
-    #                 "value": "100"
-    #             },
-    #             "log_inspection_setting_event_rank_severity_high": {
-    #                 "value": "50"
-    #             },
-    #             "log_inspection_setting_event_rank_severity_low": {
-    #                 "value": "1"
-    #             },
-    #             "log_inspection_setting_event_rank_severity_medium": {
-    #                 "value": "25"
-    #             },
-    #             "log_inspection_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "platform_setting_active_sessions_max": {
-    #                 "value": "10"
-    #             },
-    #             "platform_setting_active_sessions_max_exceeded_action": {
-    #                 "value": "Block new sessions"
-    #             },
-    #             "platform_setting_agent_initiated_activation_duplicate_hostname_mode": {
-    #                 "value": "Re-activate the existing Computer"
-    #             },
-    #             "platform_setting_agent_initiated_activation_enabled": {
-    #                 "value": "For any computers"
-    #             },
-    #             "platform_setting_agent_initiated_activation_policy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_agent_initiated_activation_reactivate_cloned_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_agent_initiated_activation_reactivate_unknown_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_agent_initiated_activation_specify_hostname_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_agent_initiated_activation_token": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_agent_initiated_activation_within_ip_list_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_agentless_vcloud_protection_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_alert_agent_update_pending_threshold": {
-    #                 "value": "7 Days"
-    #             },
-    #             "platform_setting_alert_default_email_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_api_soap_web_service_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_api_status_monitoring_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_aws_external_id_retrieval_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_aws_manager_identity_access_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_aws_manager_identity_secret_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_aws_manager_identity_use_instance_role_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_azure_sso_certificate": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_capture_encrypted_traffic_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_connected_threat_defense_control_manager_manual_source_api_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_connected_threat_defense_control_manager_manual_source_server_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_connected_threat_defense_control_manager_proxy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_connected_threat_defense_control_manager_source_option": {
-    #                 "value": "Manually select an Apex Central server"
-    #             },
-    #             "platform_setting_connected_threat_defense_control_manager_suspicious_object_list_comparison_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_connected_threat_defense_control_manager_use_proxy_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_connected_threat_defenses_use_primary_tenant_server_settings_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_content_security_policy": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_content_security_policy_report_only_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_ddan_auto_submission_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_ddan_manual_source_api_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_ddan_manual_source_server_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_ddan_proxy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_ddan_source_option": {
-    #                 "value": "Manually select a Deep Discovery Analyzer server"
-    #             },
-    #             "platform_setting_ddan_submission_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_ddan_use_proxy_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_demo_mode_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_event_forwarding_sns_access_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_event_forwarding_sns_advanced_config_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_event_forwarding_sns_config_json": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_event_forwarding_sns_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_event_forwarding_sns_secret_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_event_forwarding_sns_topic_arn": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_exported_diagnostic_package_locale": {
-    #                 "value": "en_US"
-    #             },
-    #             "platform_setting_exported_file_character_encoding": {
-    #                 "value": "US-ASCII"
-    #             },
-    #             "platform_setting_http_public_key_pin_policy": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_http_public_key_pin_policy_report_only_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_http_strict_transport_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_inactive_agent_cleanup_duration": {
-    #                 "value": "1 Month"
-    #             },
-    #             "platform_setting_inactive_agent_cleanup_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_linux_upgrade_on_activation_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_load_balancer_heartbeat_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_load_balancer_heartbeat_port": {
-    #                 "value": "4120"
-    #             },
-    #             "platform_setting_load_balancer_manager_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_load_balancer_manager_port": {
-    #                 "value": "4119"
-    #             },
-    #             "platform_setting_load_balancer_relay_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_load_balancer_relay_port": {
-    #                 "value": "4122"
-    #             },
-    #             "platform_setting_logo_binary_image_img": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_managed_detect_response_company_guid": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_managed_detect_response_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_managed_detect_response_proxy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_managed_detect_response_server_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_managed_detect_response_service_token": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_managed_detect_response_use_primary_tenant_settings_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_managed_detect_response_use_proxy_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_new_tenant_download_security_update_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_add_vmware_vcenter_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_configure_forgot_password_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_configure_remember_me_option_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_configure_siem_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_configure_snmp_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_configure_sns_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_control_impersonation_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_database_state": {
-    #                 "value": "10"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_run_computer_discovery_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_run_port_scan_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_sync_with_cloud_account_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_synchronize_ldap_directories_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_use_default_relay_group_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_allow_tenant_use_scheduled_run_script_task_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_lock_and_hide_tenant_data_privacy_option_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_lock_and_hide_tenant_smtp_tab_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_lock_and_hide_tenant_storage_tab_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_share_connected_threat_defenses_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_primary_tenant_share_managed_detect_responses_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_product_usage_data_collection_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_proxy_agent_update_proxy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_proxy_manager_cloud_proxy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_proxy_manager_update_proxy_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_recommendation_cpu_usage_level": {
-    #                 "value": "High"
-    #             },
-    #             "platform_setting_recommendation_ongoing_scans_enabled": {
-    #                 "value": "No"
-    #             },
-    #             "platform_setting_retain_agent_installers_per_platform_max": {
-    #                 "value": "5"
-    #             },
-    #             "platform_setting_retain_counters_duration": {
-    #                 "value": "13 Weeks"
-    #             },
-    #             "platform_setting_retain_security_updates_max": {
-    #                 "value": "10"
-    #             },
-    #             "platform_setting_retain_server_log_duration": {
-    #                 "value": "7 Days"
-    #             },
-    #             "platform_setting_retain_system_event_duration": {
-    #                 "value": "53 Weeks"
-    #             },
-    #             "platform_setting_saml_identity_provider_certificate_expiry_warning_daysr": {
-    #                 "value": "30"
-    #             },
-    #             "platform_setting_saml_retain_inactive_external_administrators_duration": {
-    #                 "value": "365"
-    #             },
-    #             "platform_setting_saml_service_provider_certificate": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_saml_service_provider_certificate_expiry_warning_days": {
-    #                 "value": "30"
-    #             },
-    #             "platform_setting_saml_service_provider_entity_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_saml_service_provider_name": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_saml_service_provider_private_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_sign_in_page_message": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_smart_protection_feedback_bandwidth_max_kbytes": {
-    #                 "value": "32"
-    #             },
-    #             "platform_setting_smart_protection_feedback_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_smart_protection_feedback_for_suspicious_file_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_smart_protection_feedback_industry_type": {
-    #                 "value": "Not specified"
-    #             },
-    #             "platform_setting_smart_protection_feedback_interval": {
-    #                 "value": "5"
-    #             },
-    #             "platform_setting_smart_protection_feedback_threat_detections_threshold": {
-    #                 "value": "10"
-    #             },
-    #             "platform_setting_smtp_bounce_email_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_smtp_from_email_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_smtp_password": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_smtp_requires_authentication_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_smtp_server_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_smtp_start_tls_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_smtp_username": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_syslog_config_id": {
-    #                 "value": "0"
-    #             },
-    #             "platform_setting_system_event_forwarding_snmp_address": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_system_event_forwarding_snmp_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_system_event_forwarding_snmp_port": {
-    #                 "value": "162"
-    #             },
-    #             "platform_setting_tenant_allow_impersonation_by_primary_tenant_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_tenant_auto_revoke_impersonation_by_primary_tenant_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_tenant_auto_revoke_impersonation_by_primary_tenant_timeout": {
-    #                 "value": "4 Hours"
-    #             },
-    #             "platform_setting_tenant_protection_usage_monitoring_computer_id_1": {
-    #                 "value": "Hostname"
-    #             },
-    #             "platform_setting_tenant_protection_usage_monitoring_computer_id_2": {
-    #                 "value": "Last Used IP Address"
-    #             },
-    #             "platform_setting_tenant_protection_usage_monitoring_computer_id_3": {
-    #                 "value": "Platform"
-    #             },
-    #             "platform_setting_tenant_use_default_relay_group_from_primary_tenant_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_trend_micro_xdr_api_key": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_trend_micro_xdr_api_server_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_trend_micro_xdr_api_user": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_trend_micro_xdr_common_log_receiver_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_trend_micro_xdr_company_id": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_trend_micro_xdr_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_trend_micro_xdr_identity_provider_api_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_trend_micro_xdr_log_server_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_update_agent_security_contact_primary_source_on_missing_relay_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_update_agent_security_on_missing_deep_security_manager_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_update_agent_software_use_download_center_on_missing_deep_security_manager_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_update_appliance_default_agent_version": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_update_hostname_on_ip_change_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_update_imported_software_auto_download_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_update_relay_security_all_regions_patterns_download_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_update_relay_security_support_agent_9and_earlier_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_update_rules_policy_auto_apply_enabled": {
-    #                 "value": "true"
-    #             },
-    #             "platform_setting_update_security_primary_source_mode": {
-    #                 "value": "Trend Micro ActiveUpdate Server"
-    #             },
-    #             "platform_setting_update_security_primary_source_url": {
-    #                 "value": "http://"
-    #             },
-    #             "platform_setting_update_software_alternate_update_server_urls": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_user_enforce_terms_and_conditions_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_enforce_terms_and_conditions_message": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_user_enforce_terms_and_conditions_title": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_user_hide_unlicensed_modules_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_password_expiry": {
-    #                 "value": "Never"
-    #             },
-    #             "platform_setting_user_password_expiry_send_email_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_password_length_min": {
-    #                 "value": "8"
-    #             },
-    #             "platform_setting_user_password_require_letters_and_numbers_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_password_require_mixed_case_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_password_require_not_same_as_username_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_password_require_special_characters_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "platform_setting_user_session_duration_max": {
-    #                 "value": "No Limit"
-    #             },
-    #             "platform_setting_user_session_idle_timeout": {
-    #                 "value": "30 Minutes"
-    #             },
-    #             "platform_setting_user_sign_in_attempts_allowed_number": {
-    #                 "value": "5"
-    #             },
-    #             "platform_setting_vmware_nsx_manager_node": {
-    #                 "value": "1"
-    #             },
-    #             "platform_setting_whois_url": {
-    #                 "value": ""
-    #             },
-    #             "platform_setting_windows_upgrade_on_activation_enabled": {
-    #                 "value": "false"
-    #             },
-    #             "web_reputation_setting_event_rank_risk_blocked_by_administrator_rank": {
-    #                 "value": "100"
-    #             },
-    #             "web_reputation_setting_event_rank_risk_dangerous": {
-    #                 "value": "100"
-    #             },
-    #             "web_reputation_setting_event_rank_risk_highly_suspicious": {
-    #                 "value": "50"
-    #             },
-    #             "web_reputation_setting_event_rank_risk_suspicious": {
-    #                 "value": "25"
-    #             },
-    #             "web_reputation_setting_event_rank_risk_untested": {
-    #                 "value": "25"
-    #             },
-    #             "web_reputation_setting_retain_event_duration": {
-    #                 "value": "7 Days"
-    #             }
-    #         }
-    #       }
 
 
 

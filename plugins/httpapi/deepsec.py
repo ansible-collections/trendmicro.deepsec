@@ -6,13 +6,13 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
----
 author: Ansible Security Automation Team
 httpapi: deepsec
 short_description: HttpApi Plugin for Trend Micro Deep Security
 description:
-  - This HttpApi plugin provides methods to connect to Trend Micro Deep Security
-    over a HTTP(S)-based api.
+- This HttpApi plugin provides methods to connect to Trend Micro Deep Security over
+  a HTTP(S)-based api.
+version_added: 1.0.0
 """
 
 import json
@@ -23,10 +23,7 @@ from ansible.errors import AnsibleAuthenticationFailure
 from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.plugins.httpapi import HttpApiBase
 
-BASE_HEADERS = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
+BASE_HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
 
 LOGIN_URL = "/rest/authentication/login/primary"
 LOGOUT_BY_ID = "/rest/authentication/logout?sID="
@@ -61,10 +58,7 @@ class HttpApi(HttpApiBase):
         try:
             self._display_request(request_method)
             response, response_data = self.connection.send(
-                url,
-                to_bytes(json.dumps(data)),
-                method=request_method,
-                headers=headers,
+                url, to_bytes(json.dumps(data)), method=request_method, headers=headers
             )
             value = self._get_response_value(response_data)
 
@@ -75,9 +69,7 @@ class HttpApi(HttpApiBase):
 
     def _display_request(self, request_method):
         self.connection.queue_message(
-            "vvvv",
-            "Deep Security REST: %s %s"
-            % (request_method, self.connection._url),
+            "vvvv", "Deep Security REST: %s %s" % (request_method, self.connection._url)
         )
 
     def _get_response_value(self, response_data):
@@ -118,9 +110,7 @@ class HttpApi(HttpApiBase):
             # the session Cookie
             self._auth_token = auth_token
         except KeyError:
-            raise AnsibleAuthenticationFailure(
-                message="Failed to acquire login token."
-            )
+            raise AnsibleAuthenticationFailure(message="Failed to acquire login token.")
 
     def logout(self):
         if self.connection._auth is not None:

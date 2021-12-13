@@ -34,9 +34,16 @@ Name | Description
 Name | Description
 --- | ---
 [trendmicro.deepsec.deepsec_anti_malware](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_anti_malware_module.rst)|Create a new antimalware under TrendMicro Deep Security Policy
+[trendmicro.deepsec.deepsec_anti_malwares](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_anti_malwares_module.rst)|Manages AntiMalware Rule resource module
 [trendmicro.deepsec.deepsec_apikey](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_apikey_module.rst)|Create a new and manage API Keys.
+[trendmicro.deepsec.deepsec_firewall_rules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_firewall_rules_module.rst)|Manages Firewall Rule resource module
 [trendmicro.deepsec.deepsec_firewallrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_firewallrules_module.rst)|Create a new firewall rule.
 [trendmicro.deepsec.deepsec_hosts_info](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_hosts_info_module.rst)|Obtain information about one or many Hosts defined by TrendMicro Deep Security
+[trendmicro.deepsec.deepsec_integrity_monitoring_rules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_integrity_monitoring_rules_module.rst)|Manages Integrity Monitoring Rule resource module
+[trendmicro.deepsec.deepsec_integrity_monitoringrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_integrity_monitoringrules_module.rst)|Create/Configure Integrity Monitoring Rules.
+[trendmicro.deepsec.deepsec_intrusion_prevention_rules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_intrusion_prevention_rules_module.rst)|Intrusion Prevention Rule resource module.
+[trendmicro.deepsec.deepsec_intrusion_preventionrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_intrusion_preventionrules_module.rst)|Create a new intrusion prevention rule.
+[trendmicro.deepsec.deepsec_log_inspection_rules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_log_inspection_rules_module.rst)|Manages Log Inspection Rule resource module
 [trendmicro.deepsec.deepsec_log_inspectionrules](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_log_inspectionrules_module.rst)|Create a new log inspection rule.
 [trendmicro.deepsec.deepsec_syslog](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_syslog_module.rst)|Configure or create a syslog configuration for TrendMicro Deep Security
 [trendmicro.deepsec.deepsec_system_settings](https://github.com/ansible-collections/trendmicro.deepsec/blob/main/docs/trendmicro.deepsec.deepsec_system_settings_module.rst)|Modify the system settings for TrendMicro Deep Security.

@@ -1,11 +1,11 @@
-.. _trendmicro.deepsec.deepsec_log_inspectionrules_module:
+.. _trendmicro.deepsec.deepsec_log_inspection_rules_module:
 
 
-**********************************************
-trendmicro.deepsec.deepsec_log_inspectionrules
-**********************************************
+***********************************************
+trendmicro.deepsec.deepsec_log_inspection_rules
+***********************************************
 
-**Create a new log inspection rule.**
+**Manages Log Inspection Rule resource module**
 
 
 Version added: 1.0.0
@@ -14,17 +14,10 @@ Version added: 1.0.0
    :local:
    :depth: 1
 
-DEPRECATED
-----------
-:Removed in collection release after 2023-12-01
-:Why: Newer and updated modules released with more functionality
-:Alternative: deepsec_log_inspection_rules
-
-
 
 Synopsis
 --------
-- This module creates a new log inspection rule under TrendMicro Deep Security.
+- Contains string matching and threshold to trigger alerts as well as group information for LogInspectionRules.
 
 
 
@@ -36,11 +29,28 @@ Parameters
 
     <table  border=0 cellpadding=0 class="documentation-table">
         <tr>
-            <th colspan="3">Parameter</th>
+            <th colspan="4">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
             <th width="100%">Comments</th>
         </tr>
             <tr>
+                <td colspan="4">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>config</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=dictionary</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>A dictionary of Log Inspection Rules options</div>
+                </td>
+            </tr>
+                                <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>alert_enabled</b>
@@ -56,10 +66,11 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Controls whether to raise an alert when a LogInspectionRule logs an event. Use true to raise an alert.</div>
+                        <div>Controls whether to raise an alert when a LogInspectionRule logs an event. Use true to raise an alert. Searchable as Boolean.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>alert_minimum_severity</b>
@@ -71,10 +82,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Severity level that will trigger an alert. Ignored unless ruleXML contains multiple rules with different severities, and so you must indicate which severity level to use.</div>
+                        <div>Severity level that will trigger an alert. Ignored unless &#x27;ruleXML&#x27; contains multiple rules with different severities, and so you must indicate which severity level to use. Searchable as Numeric.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>can_be_assigned_alone</b>
@@ -90,10 +102,11 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Indicates whether this LogInspectionRule can be allocated without allocating any additional LogInspectionRules. Ignored if the rule is user-defined, which uses dependency instead.</div>
+                        <div>Indicates whether this LogInspectionRule can be allocated without allocating any additional LogInspectionRules. Ignored if the rule is user-defined, which uses &#x27;dependency&#x27; instead.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>dependency</b>
@@ -114,6 +127,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>dependency_group</b>
@@ -129,6 +143,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>dependency_rule_id</b>
@@ -140,26 +155,28 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>If dependency is configured, the ID of the rule that this rule is dependant on. Ignored if the rule is from Trend Micro, which uses dependsOnRuleIDs instead.</div>
+                        <div>If dependency is configured, the ID of the rule that this rule is dependant on. Ignored if the rule is from Trend Micro, which uses &#x27;dependsOnRuleIDs&#x27; instead.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>depends_onrule_id</b>
+                    <b>depends_on_rule_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>
+                         / <span style="color: purple">elements=integer</span>
                     </div>
                 </td>
                 <td>
                 </td>
                 <td>
-                        <div>IDs of LogInspectionRules, separated by commas, that are required by this rule. Ignored if the rule is user-defined which uses dependency_rule_id or dependency_group instead.</div>
+                        <div>IDs of LogInspectionRules, separated by commas, that are required by this rule. Ignored if the rule is user-defined, which uses &#x27;dependencyRuleID&#x27; or &#x27;dependencyGroup&#x27; instead.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>description</b>
@@ -171,10 +188,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Description of the LogInspectionRule that appears in search results, and on the General tab in the Deep Security Manager user interface.</div>
+                        <div>Description of the LogInspectionRule that appears in search results, and on the General tab in the Deep Security Manager user interface. Searchable as String.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>frequency</b>
@@ -190,6 +208,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>groups</b>
@@ -206,6 +225,23 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="3">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>id</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>ID of the LogInspectionRule. This number is set automatically. Searchable as ID.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>identifier</b>
@@ -217,10 +253,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Indentifier of the LogInspectionRule used in the Deep Security Manager user interface.</div>
+                        <div>Indentifier of the LogInspectionRule used in the Deep Security Manager user interface. Searchable as String.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>last_updated</b>
@@ -232,10 +269,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Update timestamp of the LogInspectionRule, measured in milliseconds since epoch.</div>
+                        <div>Update timestamp of the LogInspectionRule, measured in milliseconds since epoch. Searchable as Date.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>level</b>
@@ -251,6 +289,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>log_files</b>
@@ -266,6 +305,7 @@ Parameters
                 </td>
             </tr>
                                 <tr>
+                    <td class="elbow-placeholder"></td>
                     <td class="elbow-placeholder"></td>
                 <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
@@ -283,6 +323,7 @@ Parameters
                 </td>
             </tr>
                                 <tr>
+                    <td class="elbow-placeholder"></td>
                     <td class="elbow-placeholder"></td>
                     <td class="elbow-placeholder"></td>
                 <td colspan="1">
@@ -316,6 +357,7 @@ Parameters
             <tr>
                     <td class="elbow-placeholder"></td>
                     <td class="elbow-placeholder"></td>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>location</b>
@@ -333,6 +375,7 @@ Parameters
 
 
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>minimum_agent_version</b>
@@ -344,10 +387,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Minimum Deep Security Agent version required by the LogInspectionRule.</div>
+                        <div>Minimum Deep Security Agent version required by the LogInspectionRule. Searchable as String.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>minimum_manager_version</b>
@@ -359,26 +403,27 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Minimumn Deep Security Manager version required by the LogInspectionRule.</div>
+                        <div>Minimumn Deep Security Manager version required by the LogInspectionRule. Searchable as String.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>name</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                         / <span style="color: red">required</span>
                     </div>
                 </td>
                 <td>
                 </td>
                 <td>
-                        <div>Name of the LogInspectionRule.</div>
+                        <div>Name of the LogInspectionRule. Searchable as String.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>original_issue</b>
@@ -390,10 +435,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Creation timestamp of the LogInspectionRule, measured in milliseconds since epoch.</div>
+                        <div>Creation timestamp of the LogInspectionRule, measured in milliseconds since epoch. Searchable as Date.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>pattern</b>
@@ -409,6 +455,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>pattern_type</b>
@@ -428,6 +475,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>recommendations_mode</b>
@@ -445,10 +493,11 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Indicates whether recommendation scans consider the LogInspectionRule. Can be set to enabled or ignored. Custom rules cannot be recommended.</div>
+                        <div>Indicates whether recommendation scans consider the LogInspectionRule. Can be set to enabled or ignored. Custom rules cannot be recommended. Searchable as Choice.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>rule_description</b>
@@ -460,10 +509,11 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Description of the LogInspectionRule that appears on events and the Content tab in the Deep Security Manager user interface. Alternatively, you can configure this by inserting a description in &#x27;rule_xml&#x27;.</div>
+                        <div>Description of the LogInspectionRule that appears on events and the Content tab in the Deep Security Manager user interface. Alternatively, you can configure this by inserting a description in &#x27;ruleXML&#x27;.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>rule_id</b>
@@ -479,6 +529,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>rule_xml</b>
@@ -494,6 +545,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>sort_order</b>
@@ -509,25 +561,7 @@ Parameters
                 </td>
             </tr>
             <tr>
-                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>state</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
-                                    <li>absent</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The state the configuration should be left in</div>
-                </td>
-            </tr>
-            <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>template</b>
@@ -547,6 +581,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>time_frame</b>
@@ -562,6 +597,7 @@ Parameters
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>type</b>
@@ -573,7 +609,31 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Type of the LogInspectionRule. The value &#x27;Defined&#x27; is used for LogInspectionRules provided by Trend Micro.</div>
+                        <div>Type of the LogInspectionRule. The value &#x27;Defined&#x27; is used for LogInspectionRules provided by Trend Micro. Searchable as String.</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>state</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>merged</li>
+                                    <li>replaced</li>
+                                    <li>overridden</li>
+                                    <li>gathered</li>
+                                    <li>deleted</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>The state the configuration should be left in</div>
+                        <div>The state <em>gathered</em> will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the <em>gathered</em> key within the result.</div>
                 </td>
             </tr>
     </table>
@@ -587,40 +647,150 @@ Examples
 
 .. code-block:: yaml
 
-    - name: Create a new log inspection rule
-      trendmicro.deepsec.deepsec_log_inspectionrules:
-        state: present
-        name: custom log_rule for mysqld event
-        description: some description
-        minimum_agent_version: 6.0.0.0
-        type: defined
-        template: basic-rule
-        pattern: name
-        pattern_type: string
-        rule_id: 100001
-        rule_description: test rule description
-        groups:
-        - test
-        alert_minimum_severity: 4
-        alert_enabled: true
-        log_files:
+    # Using MERGED state
+    # -------------------
+
+    - name: Create Log Inspection Rules
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        state: merged
+        config:
+        - name: custom log_rule for mysqld event
+          description: some description
+          minimum_agent_version: 6.0.0.0
+          type: defined
+          template: basic-rule
+          pattern: name
+          pattern_type: string
+          rule_id: 100001
+          rule_description: test rule description
+          groups:
+          - test
+          alert_minimum_severity: 4
+          alert_enabled: true
           log_files:
-          - location: /var/log/mysqld.log
-            format: mysql-log
-    - name: Delete/Remove the existing log inspection rule
-      trendmicro.deepsec.deepsec_log_inspectionrules:
-        state: absent
-        name: custom log_rule for mysqld event
+            log_files:
+            - location: /var/log/mysqld.log
+              format: mysql-log
+        - name: custom log_rule for mysqld event
+          description: some description
+          minimum_agent_version: 6.0.0.0
+          type: defined
+          template: basic-rule
+          pattern: name
+          pattern_type: string
+          rule_id: 100001
+          rule_description: test rule description
+          groups:
+          - test
+          alert_minimum_severity: 4
+          alert_enabled: true
+          log_files:
+            log_files:
+            - location: /var/log/mysqld.log
+              format: mysql-log
+    - name: Modify the Pattern type of Log Inspection Rule by name
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        state: merged
+        config:
+        - name: custom log_rule for mysqld event
+          description: Modified pattern type for mysqld log event
+          pattern: name
+          pattern_type: regex
+          log_files:
+            log_files:
+            - location: /var/log/messages
+              format: syslog
+    - name: Replace existing Log Inspection Rules
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        state: replaced
+        config:
+        - name: custom log_rule for daemon event
+          description: Replaced log daemon event
+          minimum_agent_version: 6.0.0.0
+          type: defined
+          template: basic-rule
+          pattern: name
+          pattern_type: string
+          rule_id: 100003
+          rule_description: daemon rule description
+          groups:
+          - test
+          alert_minimum_severity: 5
+          alert_enabled: true
+          log_files:
+            log_files:
+            - location: /var/log/messages
+              format: syslog
+    - name: Gather Log Inspection Rules by IPR names
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        state: gathered
+        config:
+        - name: custom log_rule for mysqld event
+        - name: custom log_rule for daemon event
+    - name: Gather ALL of the Log Inspection Rules
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        state: gathered
+    - name: Delete Log Inspection Rules
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        state: deleted
+        config:
+        - name: custom log_rule for mysqld event
+        - name: custom log_rule for daemon event
 
 
+
+Return Values
+-------------
+Common return values are documented `here <https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values>`_, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-"></div>
+                    <b>after</b>
+                    <a class="ansibleOptionLink" href="#return-" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                    </div>
+                </td>
+                <td>when changed</td>
+                <td>
+                            <div>The configuration as structured data after module completion.</div>
+                    <br/>
+                        <div style="font-size: smaller"><b>Sample:</b></div>
+                        <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">The configuration returned will always be in the same format of the parameters above.</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-"></div>
+                    <b>before</b>
+                    <a class="ansibleOptionLink" href="#return-" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                    </div>
+                </td>
+                <td>always</td>
+                <td>
+                            <div>The configuration as structured data prior to module invocation.</div>
+                    <br/>
+                        <div style="font-size: smaller"><b>Sample:</b></div>
+                        <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">The configuration returned will always be in the same format of the parameters above.</div>
+                </td>
+            </tr>
+    </table>
+    <br/><br/>
 
 
 Status
 ------
-
-
-- This module will be removed in a release after 2023-12-01. *[deprecated]*
-- For more information see `DEPRECATED`_.
 
 
 Authors

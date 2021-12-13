@@ -1,11 +1,11 @@
-.. _trendmicro.deepsec.deepsec_anti_malware_module:
+.. _trendmicro.deepsec.deepsec_intrusion_prevention_rules_module:
 
 
-***************************************
-trendmicro.deepsec.deepsec_anti_malware
-***************************************
+*****************************************************
+trendmicro.deepsec.deepsec_intrusion_prevention_rules
+*****************************************************
 
-**Create a new antimalware under TrendMicro Deep Security Policy**
+**Intrusion Prevention Rule resource module.**
 
 
 Version added: 1.0.0
@@ -14,17 +14,10 @@ Version added: 1.0.0
    :local:
    :depth: 1
 
-DEPRECATED
-----------
-:Removed in collection release after 2023-12-01
-:Why: Newer and updated modules released with more functionality
-:Alternative: deepsec_anti_malwares
-
-
 
 Synopsis
 --------
-- This module creates a new antimalware under TrendMicro Deep Security
+- This module creates a new intrusion preventin rul under TrendMicro Deep Security.
 
 
 
@@ -36,11 +29,48 @@ Parameters
 
     <table  border=0 cellpadding=0 class="documentation-table">
         <tr>
-            <th colspan="1">Parameter</th>
+            <th colspan="2">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
             <th width="100%">Comments</th>
         </tr>
             <tr>
+                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>config</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=dictionary</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Intrusion prevention rules config</div>
+                </td>
+            </tr>
+                                <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>action</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>drop</li>
+                                    <li>log-only</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Action to apply if the rule is triggered. Applicable to custom rules with template type signature or start-end-patterns.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>alert_enabled</b>
@@ -56,13 +86,14 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Controls whether to create an alert when the Malware Scan Configuration logs an event. Set to true to enable the alert.</div>
+                        <div>Enable to raise an alert when the rule logs an event.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>behavior_monitoring_enabled</b>
+                    <b>always_include_packet_data</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">boolean</span>
@@ -75,13 +106,70 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Controls whether to detect suspicious activity and unauthorized changes (including ransomware). Set to true to detect.</div>
+                        <div>Enabled to include package data in the event logs. Not available if event logging disabled is true.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>cpu_usage</b>
+                    <b>application_type_id</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>ID of the application type for the IntrusionPreventionRule.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>can_be_assigned_alone</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>no</li>
+                                    <li>yes</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Intrusion prevention rule can be assigned by self. Applicaple only with GET call. Not applicaple param with Create/Modify POST call</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>case_sensitive</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>no</li>
+                                    <li>yes</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Enable to make signatures and patterns case sensitive. Applicable to custom rules with template type signature or start-end-patterns.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>condition</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
@@ -89,19 +177,85 @@ Parameters
                 </td>
                 <td>
                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>low</li>
-                                    <li>medium</li>
-                                    <li>high</li>
+                                    <li>all</li>
+                                    <li>any</li>
+                                    <li>none</li>
                         </ul>
                 </td>
                 <td>
-                        <div>CPU usage.</div>
+                        <div>Condition to determine if the rule is triggered. Applicable to custom rules with template type start-end-patterns.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>custom_remediation_actions_enabled</b>
+                    <b>context_id</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>ID of the context in which the rule is applied.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>custom_xml</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>The custom XML used to define the rule. Applicable to custom rules with template type custom.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>cve</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>List of CVEs associated with the IntrusionPreventionRule.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>cvss_score</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>A measure of the severity of the vulnerability according the National Vulnerability Database.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>debug_mode_enabled</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">boolean</span>
@@ -114,29 +268,28 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Controls whether to use the action ActiveActions recommends when malware is detected. Set to true to use the action ActiveAction recommends.</div>
+                        <div>Enable to log additional packets preceeding and following the packet that the rule detected. Not available if event logging disabled is true.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>custom_scan_actions_enabled</b>
+                    <b>depends_on_rule_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=integer</span>
                     </div>
                 </td>
                 <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
                 </td>
                 <td>
-                        <div>Controls whether to use custom actions. Use true to enable custom actions.</div>
+                        <div>IDs of intrusion prevention rules the rule depends on, which will be automatically assigned if this rule is assigned.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>description</b>
@@ -148,32 +301,90 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Description of the anti-malware configuration.</div>
+                        <div>Description of the IntrusionPreventionRule.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>directories_to_scan</b>
+                    <b>detect_only</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>no</li>
+                                    <li>yes</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>In detect mode, the rule creates an event log and does not interfere with traffic.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>end</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                     </div>
                 </td>
                 <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>all-directories</li>
-                                    <li>directory-list</li>
-                        </ul>
                 </td>
                 <td>
-                        <div>Specify if the scan will be peformed on all the directories or on a subset.</div>
+                        <div>End pattern of the rule. Applicable to custom rules with template type start-end-patterns.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>directory_list_id</b>
+                    <b>event_logging_disabled</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>no</li>
+                                    <li>yes</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Enable to prevent event logs from being created when the rule is triggered. Not available if detect only is true.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>generate_event_on_packet_drop</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>no</li>
+                                    <li>yes</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Generate an event every time a packet is dropped for the rule. Not available if event logging disabled is true.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>id</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">integer</span>
@@ -182,539 +393,78 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>ID of the directory list to scan.</div>
+                        <div>ID for the Intrusion prevention rule. Applicaple only with GET call Not applicaple param with Create/Modify POST call</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>document_exploit_heuristic_level</b>
+                    <b>identifier</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                     </div>
                 </td>
                 <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>default</li>
-                                    <li>default-and-agressive</li>
-                        </ul>
                 </td>
                 <td>
-                        <div>Controls whether to scan for exploits of known critical vulnerabilites as well as aggessively detect suspicious behaviour that could be an unknown exploit.</div>
+                        <div>Identifier for the Intrusion prevention rule. Applicaple only with GET call. Not applicaple param with Create/Modify POST call</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>document_exploit_protection</b>
+                    <b>last_updated</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Timestamp of the last rule modification, in milliseconds since epoch.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>minimum_agent_version</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                     </div>
                 </td>
                 <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>critical-only</li>
-                                    <li>critical-and-heuristic</li>
-                        </ul>
                 </td>
                 <td>
-                        <div>Scan for exploits against known critical vulnerabilities only.</div>
+                        <div>Version of the Deep Security agent or appliance required to support the rule.</div>
                 </td>
             </tr>
             <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>document_exploit_protection_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether to scan for known critical vulnerabilities. Use true to enable scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>document_recovery_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether to back up ransomware-encrypted files. Set to true to back up.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>excluded_directory_list_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>ID of the directory list to exclude from the scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>excluded_file_extension_list_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>ID of the file extension list to exclude from the scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>excluded_file_list_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>ID of the file list to exclude from the scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>excluded_process_image_file_list_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>ID of the process image file list to exclude from the scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>file_extension_list_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>ID of the file extension list to scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>files_to_scan</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>all-files</li>
-                                    <li>intelliscan-file-types</li>
-                                    <li>file-extension-list</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Specify if scan will be performed on all files, a subset or by using IntelliScan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>intelli_trap_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether IntelliTrap is enabled. Set to true to enable.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>machine_learning_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether predictive machine learning is enabled. Set to true to enable.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>memory_scan_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether to scan process memory for malware. Use true to enable scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>microsoft_office_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether to scan Embedded Microsoft Office Objects. Use true to enable scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>microsoft_office_layers</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>Number of Microsoft Object Linking and Embedding (OLE) Layers to scan.</div>
-                </td>
-            </tr>
-            <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>name</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                         / <span style="color: red">required</span>
                     </div>
                 </td>
                 <td>
                 </td>
                 <td>
-                        <div>Name of the anti-malware configuration.</div>
+                        <div>Name of the IntrusionPreventionRule.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>network_directories_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether to scan network directories. Set to true to enable.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>real_time_scan</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>read-only</li>
-                                    <li>write-only</li>
-                                    <li>read-write</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Specify when to perform the real-time scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_cookies</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to take when cookies are detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_cve</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to take when a CVE exploit is detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_heuristics</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to take when malware identified with heuristics are detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_other_threats</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>clean</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to take when other threats are detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_packer</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to perform when a packer is detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_possible_malware</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>active-action</li>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to take when possible malware is detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_spyware</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to perform when spyware is detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_trojans</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to perform when a trojan is detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_action_for_virus</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>pass</li>
-                                    <li>delete</li>
-                                    <li>quarantine</li>
-                                    <li>clean</li>
-                                    <li>deny-access</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>The action to perform when a virus is detected.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_compressed_enabled</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Controls whether to scan compressed files. Use true to enable scan.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_compressed_maximum_files</b>
+                    <b>original_issue</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">integer</span>
@@ -723,43 +473,31 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>Maximum number of files to extract.</div>
+                        <div>Timestamp of the date the rule was released, in milliseconds since epoch.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_compressed_maximum_levels</b>
+                    <b>patterns</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">integer</span>
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>
                     </div>
                 </td>
                 <td>
                 </td>
                 <td>
-                        <div>The maximum number of levels of compression to scan.</div>
+                        <div>Body patterns of the rule, which must be found between start and end patterns. Applicable to custom rules with template type start-end-patterns.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_compressed_maximum_size</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>Maximum size of compressed files to scan, in MB.</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>scan_type</b>
+                    <b>priority</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
@@ -767,35 +505,158 @@ Parameters
                 </td>
                 <td>
                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>real-time</li>
-                                    <li>on-demand</li>
+                                    <li>lowest</li>
+                                    <li>low</li>
+                                    <li>normal</li>
+                                    <li>high</li>
+                                    <li>highest</li>
                         </ul>
                 </td>
                 <td>
-                        <div>The type of malware scan configuration.</div>
+                        <div>Priority level of the rule. Higher priority rules are applied before lower priority rules.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>spyware_enabled</b>
+                    <b>recommendations_mode</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
+                        <span style="color: purple">string</span>
                     </div>
                 </td>
                 <td>
                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li>no</li>
-                                    <li>yes</li>
+                                    <li>enabled</li>
+                                    <li>ignored</li>
+                                    <li>unknown</li>
+                                    <li>disabled</li>
                         </ul>
                 </td>
                 <td>
-                        <div>Controls whether to enable spyware/grayware protection. Set to true to enable.</div>
+                        <div>Indicates whether recommendation scans consider the IntrusionPreventionRule. Can be set to enabled or ignored. Custom rules cannot be recommended.</div>
                 </td>
             </tr>
             <tr>
+                    <td class="elbow-placeholder"></td>
                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>schedule_id</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>ID of the schedule which defines times during which the rule is active.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>severity</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>low</li>
+                                    <li>medium</li>
+                                    <li>high</li>
+                                    <li>critical</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Severity level of the rule. Severity levels can be used as sorting criteria and affect event rankings.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>signature</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Signature of the rule. Applicable to custom rules with template type signature.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>start</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Start pattern of the rule. Applicable to custom rules with template type start-end-patterns.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>template</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>signature</li>
+                                    <li>start-end-patterns</li>
+                                    <li>custom</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Type of template for the IntrusionPreventionRule. Applicable only to custom rules.</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>type</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>custom</li>
+                                    <li>smart</li>
+                                    <li>vulnerability</li>
+                                    <li>exploit</li>
+                                    <li>hidden</li>
+                                    <li>policy</li>
+                                    <li>info</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Type of IntrusionPreventionRule.</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>state</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
@@ -805,12 +666,16 @@ Parameters
                 </td>
                 <td>
                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
-                                    <li>absent</li>
+                                    <li>merged</li>
+                                    <li>replaced</li>
+                                    <li>deleted</li>
+                                    <li>gathered</li>
                         </ul>
+                        <b>Default:</b><br/><div style="color: blue">"present"</div>
                 </td>
                 <td>
                         <div>The state the configuration should be left in</div>
+                        <div>The state <em>gathered</em> will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the <em>gathered</em> key within the result.</div>
                 </td>
             </tr>
     </table>
@@ -824,30 +689,145 @@ Examples
 
 .. code-block:: yaml
 
-    - name: Create/Config a new Anti Malware config
-      trendmicro.deepsec.deepsec_anti_malware:
-        name: test_malware
-        description: test malware config
-        scan_action_for_virus: pass
-        alert_enabled: true
-        scan_type: real-time
-        real_time_scan: read-write
-        cpu_usage: low
-        state: present
-    - name: Delete/Remove the existing Anti Malware Config
-      trendmicro.deepsec.deepsec_anti_malware:
-        state: absent
-        name: test_malware
+    # Using MERGED state
+    # -------------------
+
+    - name: Create Intrusion Prevention Rules
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+        state: merged
+        config:
+        - alert_enabled: false
+          always_include_packet_data: false
+          application_type_id: 300
+          template: signature
+          signature: test_new_signature_1
+          debug_mode_enabled: false
+          description: TEST IPR 2 DESCRIPTION
+          detect_only: false
+          event_logging_disabled: false
+          generate_event_on_packet_drop: true
+          name: TEST IPR 1
+          priority: normal
+          severity: medium
+        - alert_enabled: false
+          always_include_packet_data: false
+          application_type_id: 300
+          template: signature
+          signature: test_new_signature_2
+          debug_mode_enabled: false
+          description: TEST IPR 2 DESCRIPTION
+          detect_only: false
+          event_logging_disabled: false
+          generate_event_on_packet_drop: true
+          name: TEST IPR 2
+          priority: normal
+          severity: medium
+    - name: Modify the severity of Integrity Monitoring Rule by name
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+        state: merged
+        config:
+        - name: TEST IPR 2
+          severity: low
+    - name: Replace existing Intrusion Prevention Rules
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+        state: replaced
+        config:
+        - alert_enabled: false
+          always_include_packet_data: false
+          application_type_id: 300
+          template: signature
+          signature: test_new_signature_1
+          debug_mode_enabled: false
+          description: TEST IPR 1 REPLACE DESCRIPTION
+          detect_only: false
+          event_logging_disabled: false
+          generate_event_on_packet_drop: true
+          name: TEST IPR 1
+          priority: normal
+          severity: low
+        - alert_enabled: false
+          always_include_packet_data: false
+          application_type_id: 300
+          template: signature
+          signature: test_new_signature_1
+          debug_mode_enabled: false
+          description: TEST IPR 2 REPLACE DESCRIPTION
+          detect_only: false
+          event_logging_disabled: false
+          generate_event_on_packet_drop: true
+          name: TEST IPR 2
+          priority: normal
+          severity: low
+    - name: Gather Intrusion Prevention Rules by IPR names
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+        state: gathered
+        config:
+        - name: TEST IPR 1
+        - name: TEST IPR 2
+    - name: Gather ALL of the Intrusion Prevention Rules
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+        state: gathered
+    - name: Delete Intrusion Prevention Rules
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules:
+        state: deleted
+        config:
+        - name: TEST IPR 1
+        - name: TEST IPR 2
 
 
+
+Return Values
+-------------
+Common return values are documented `here <https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values>`_, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-"></div>
+                    <b>after</b>
+                    <a class="ansibleOptionLink" href="#return-" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                    </div>
+                </td>
+                <td>when changed</td>
+                <td>
+                            <div>The configuration as structured data after module completion.</div>
+                    <br/>
+                        <div style="font-size: smaller"><b>Sample:</b></div>
+                        <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">The configuration returned will always be in the same format of the parameters above.</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-"></div>
+                    <b>before</b>
+                    <a class="ansibleOptionLink" href="#return-" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                    </div>
+                </td>
+                <td>always</td>
+                <td>
+                            <div>The configuration as structured data prior to module invocation.</div>
+                    <br/>
+                        <div style="font-size: smaller"><b>Sample:</b></div>
+                        <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">The configuration returned will always be in the same format of the parameters above.</div>
+                </td>
+            </tr>
+    </table>
+    <br/><br/>
 
 
 Status
 ------
-
-
-- This module will be removed in a release after 2023-12-01. *[deprecated]*
-- For more information see `DEPRECATED`_.
 
 
 Authors

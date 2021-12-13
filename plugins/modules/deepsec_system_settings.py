@@ -2408,8 +2408,7 @@ def main():
                     options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_recommendation_ongoing_scans_enabled=dict(
-                    type="dict",
-                    options=dict(value=dict(type="str")),
+                    type="dict", options=dict(value=dict(type="str"))
                 ),
                 platform_setting_agent_initiated_activation_token=dict(
                     type="dict",

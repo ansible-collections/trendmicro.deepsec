@@ -148,13 +148,15 @@ class ActionModule(ActionBase):
                     temp_search_response.get(self.api_return)
                     and temp_search_response[self.api_return]
                 ):
-                    search_result.append(
-                        map_obj_to_params(
-                            temp_search_response[self.api_return][0],
-                            self.key_transform,
-                            self.api_return,
-                        )
+                    api_response = map_obj_to_params(
+                        temp_search_response[self.api_return][0],
+                        self.key_transform,
+                        self.api_return
                     )
+                    if api_response.get("logFiles"):
+                        api_response["log_files"] = self.log_files_fn(api_response)
+                        api_response.pop("logFiles")
+                    search_result.append(api_response)
         else:
             search_payload = {
                 "maxItems": 1,

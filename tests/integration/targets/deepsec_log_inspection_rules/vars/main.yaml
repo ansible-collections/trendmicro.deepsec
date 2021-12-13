@@ -3,111 +3,90 @@ merged:
   before: []
 
   after:
-    - alert_enabled: false
+    - alert_enabled: true
       alert_minimum_severity: 4
       dependency: none
       description: "log mysqld event"
       groups:
         - "test"
       level: 0
-      logFiles: any
-      destination_port_not: false
-      destination_port_type: any
-      direction: incoming
-      frame_not: false
-      frame_number: 2048
-      frame_type: ip
-      include_packet_data: false
-      log_disabled: true
-      name: test_firewallrule_1
-      priority: "0"
-      protocol: tcp
-      protocol_not: false
-      source_ipnot: false
-      source_iptype: any
-      source_macnot: false
-      source_mactype: any
-      source_port_not: false
-      source_port_type: any
-    - action: deny
-      alert_enabled: false
-      any_flags: true
-      description: "incoming firewall 2 rule description"
-      destination_ipnot: false
-      destination_iptype: any
-      destination_macnot: false
-      destination_mactype: any
-      destination_port_not: false
-      destination_port_type: any
-      direction: incoming
-      frame_not: false
-      frame_number: 2048
-      frame_type: ip
-      include_packet_data: false
-      log_disabled: false
-      name: test_firewallrule_2
-      priority: "0"
-      protocol: tcp
-      protocol_not: false
-      source_ipnot: false
-      source_iptype: any
-      source_macnot: false
-      source_mactype: any
-      source_port_not: false
-      source_port_type: any
+      log_files:
+        log_files:
+          - format: mysql-log
+            location: /var/log/mysqld.log
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for mysqld event"
+      pattern: name
+      pattern_type: string
+      rule_description: "mysqld rule description"
+      rule_id: 100001
+      sort_order: 15000
+      template: basic-rule
+    - alert_enabled: true
+      alert_minimum_severity: 5
+      dependency: none
+      description: false
+      destination_iptype: "log daemon event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: syslog
+            location: /var/log/daemon.log
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for daemon event"
+      pattern: name
+      pattern_type: string
+      rule_description: "daemon rule description"
+      rule_id: 100002
+      sort_order: 15000
+      template: basic-rule
 
 replaced:
   before:
-    - action: deny
-      alert_enabled: false
-      any_flags: true
-      description: "incoming firewall 1 rule description"
-      destination_ipnot: false
-      destination_iptype: any
-      destination_macnot: false
-      destination_mactype: any
-      destination_port_not: false
-      destination_port_type: any
-      direction: incoming
-      frame_not: false
-      frame_number: 2048
-      frame_type: ip
-      include_packet_data: false
-      log_disabled: true
-      name: test_firewallrule_1
-      priority: "0"
-      protocol: tcp
-      protocol_not: false
-      source_ipnot: false
-      source_iptype: any
-      source_macnot: false
-      source_mactype: any
-      source_port_not: false
-      source_port_type: any
+    - alert_enabled: true
+      alert_minimum_severity: 5
+      dependency: none
+      description: false
+      destination_iptype: "log daemon event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: syslog
+            location: /var/log/daemon.log
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for daemon event"
+      pattern: name
+      pattern_type: string
+      rule_description: "daemon rule description"
+      rule_id: 100002
+      sort_order: 15000
+      template: basic-rule
   after:
-    - action: deny
-      alert_enabled: false
-      any_flags: true
-      description: "outgoing firewall 1 replaced rule"
-      destination_ipnot: false
-      destination_iptype: any
-      destination_macnot: false
-      destination_mactype: any
-      destination_port_not: false
-      destination_port_type: any
-      direction: outgoing
-      frame_not: false
-      frame_number: 2048
-      frame_type: ip
-      include_packet_data: false
-      log_disabled: true
-      name: test_firewallrule_1
-      priority: "0"
-      protocol: any
-      protocol_not: false
-      source_ipnot: false
-      source_iptype: any
-      source_macnot: false
-      source_mactype: any
-      source_port_not: false
-      source_port_type: any
+    - alert_enabled: true
+      alert_minimum_severity: 5
+      dependency: none
+      description: false
+      destination_iptype: "Replaced log daemon event"
+      groups:
+        - "test"
+      level: 0
+      log_files:
+        log_files:
+          - format: syslog
+            location: /var/log/messages
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: "custom log_rule for daemon event"
+      pattern: name
+      pattern_type: string
+      rule_description: "daemon rule description"
+      rule_id: 100002
+      sort_order: 15000
+      template: basic-rule

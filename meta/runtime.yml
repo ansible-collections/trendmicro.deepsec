@@ -30,6 +30,15 @@ plugin_routing:
       redirect: trendmicro.deepsec.deepsec_hosts_info
     log_inspectionrules:
       redirect: trendmicro.deepsec.deepsec_log_inspectionrules
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    deepsec_log_inspectionrules:
+      deprecation:
+        removal_date: "2023-12-08"
+        warning_text: See the plugin documentation for more details
+    log_inspection_rules:
+      redirect: trendmicro.deepsec.deepsec_log_inspection_rules
     syslog:
       redirect: trendmicro.deepsec.deepsec_syslog
     system_settings:

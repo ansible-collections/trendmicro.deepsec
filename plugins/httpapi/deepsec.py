@@ -21,7 +21,9 @@ from ansible.module_utils.basic import to_text, to_bytes
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.errors import AnsibleAuthenticationFailure
 from ansible.module_utils.six.moves.urllib.error import HTTPError
-from ansible.plugins.httpapi import HttpApiBase
+from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import (
+    HttpApiBase,
+)
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
@@ -113,7 +115,7 @@ class HttpApi(HttpApiBase):
             # with the rest of the request from send_request()
             self.connection._auth = {"Cookie": "sID={0}".format(auth_token)}
 
-            # Have to carry this around because variuous Trend Micro Deepsecurity REST
+            # Have to carry this around because various Trend Micro Deepsecurity REST
             # API endpoints want the sID as a querystring parameter instead of honoring
             # the session Cookie
             self._auth_token = auth_token

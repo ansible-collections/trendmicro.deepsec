@@ -281,7 +281,7 @@ def map_params_to_obj(module_params):
 
 
 def check_if_log_inspection_rules_exists(deepsec_request, log_inspection_name):
-    """ The fn check if the log_inspection detect based on log_inspection name
+    """The fn check if the log_inspection detect based on log_inspection name
     :param deepsec_request: the objects from which the configuration should be read
     :param log_inspection_name: log_inspection name with which log_inspection will be searched
     in existing log_inspection configurations
@@ -305,7 +305,7 @@ def check_if_log_inspection_rules_exists(deepsec_request, log_inspection_name):
 
 
 def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
-    """ The fn calls the delete API based on the log_inspection id
+    """The fn calls the delete API based on the log_inspection id
     :param module: ansible module object
     :param deepsec_request: connection obj for TM
     :param log_inspection_id: log_inspection id for the log_inspection that's supposed to be deleted

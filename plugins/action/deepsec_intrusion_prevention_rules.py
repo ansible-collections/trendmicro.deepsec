@@ -43,8 +43,7 @@ from ansible_collections.trendmicro.deepsec.plugins.modules.deepsec_intrusion_pr
 
 
 class ActionModule(ActionBase):
-    """ action module
-    """
+    """action module"""
 
     def __init__(self, *args, **kwargs):
         super(ActionModule, self).__init__(*args, **kwargs)
@@ -126,8 +125,10 @@ class ActionModule(ActionBase):
                         }
                     ],
                 }
-                temp_search_response = self.search_for_intrusion_prevention_rules(
-                    deepsec_conn_request, search_payload
+                temp_search_response = (
+                    self.search_for_intrusion_prevention_rules(
+                        deepsec_conn_request, search_payload
+                    )
                 )
                 if (
                     temp_search_response.get("intrusionPreventionRules")
@@ -241,7 +242,10 @@ class ActionModule(ActionBase):
                             payload = map_params_to_obj(
                                 each, self.key_transform
                             )
-                            response_code, api_response = deepsec_conn_request.post(
+                            (
+                                response_code,
+                                api_response,
+                            ) = deepsec_conn_request.post(
                                 "{0}/{1}".format(self.api_object, every["id"]),
                                 data=payload,
                             )
@@ -256,7 +260,10 @@ class ActionModule(ActionBase):
                                 )
                             )
                         elif self._task.args["state"] == "replaced":
-                            response_code, api_response = deepsec_conn_request.delete(
+                            (
+                                response_code,
+                                api_response,
+                            ) = deepsec_conn_request.delete(
                                 "{0}/{1}".format(self.api_object, every["id"]),
                                 data=each,
                             )
@@ -267,7 +274,10 @@ class ActionModule(ActionBase):
                             payload = map_params_to_obj(
                                 each, self.key_transform
                             )
-                            response_code, api_response = deepsec_conn_request.post(
+                            (
+                                response_code,
+                                api_response,
+                            ) = deepsec_conn_request.post(
                                 "{0}".format(self.api_object), data=payload
                             )
                             self._check_for_response_code(
@@ -334,16 +344,18 @@ class ActionModule(ActionBase):
             or self._task.args["state"] == "replaced"
         ):
             if self._task.args.get("config"):
-                self._result[self.module_return], self._result[
-                    "changed"
-                ] = self.configure_module_api(
+                (
+                    self._result[self.module_return],
+                    self._result["changed"],
+                ) = self.configure_module_api(
                     deepsec_conn_request, self._task.args["config"]
                 )
         elif self._task.args["state"] == "deleted":
             if self._task.args.get("config"):
-                self._result[self.module_return], self._result[
-                    "changed"
-                ] = self.delete_module_api_config(
+                (
+                    self._result[self.module_return],
+                    self._result["changed"],
+                ) = self.delete_module_api_config(
                     deepsec_conn_request, self._task.args["config"]
                 )
 

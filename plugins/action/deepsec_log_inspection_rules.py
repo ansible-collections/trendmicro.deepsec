@@ -32,8 +32,7 @@ from ansible_collections.trendmicro.deepsec.plugins.modules.deepsec_log_inspecti
 
 
 class ActionModule(ActionBase):
-    """ action module
-    """
+    """action module"""
 
     def __init__(self, *args, **kwargs):
         super(ActionModule, self).__init__(*args, **kwargs)
@@ -401,16 +400,18 @@ class ActionModule(ActionBase):
             or self._task.args["state"] == "replaced"
         ):
             if self._task.args.get("config"):
-                self._result[self.module_return], self._result[
-                    "changed"
-                ] = self.configure_module_api(
+                (
+                    self._result[self.module_return],
+                    self._result["changed"],
+                ) = self.configure_module_api(
                     conn_request, self._task.args["config"]
                 )
         elif self._task.args["state"] == "deleted":
             if self._task.args.get("config"):
-                self._result[self.module_return], self._result[
-                    "changed"
-                ] = self.delete_module_api_config(
+                (
+                    self._result[self.module_return],
+                    self._result["changed"],
+                ) = self.delete_module_api_config(
                     conn_request, self._task.args["config"]
                 )
 

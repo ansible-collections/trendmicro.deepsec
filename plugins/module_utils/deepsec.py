@@ -45,7 +45,7 @@ def remove_get_keys_from_payload_dict(payload_dict, remove_key_list):
 
 
 def map_params_to_obj(module_params, key_transform):
-    """ The fn to convert the api returned params to module params
+    """The fn to convert the api returned params to module params
     :param module_params: Module params
     :param key_transform: Dict with module equivalent API params
     :rtype: A dict
@@ -65,7 +65,7 @@ def map_params_to_obj(module_params, key_transform):
 
 
 def map_obj_to_params(module_return_params, key_transform, return_param):
-    """ The fn to convert the api returned params to module params
+    """The fn to convert the api returned params to module params
     :param module_return_params: API returned response params
     :param key_transform: Module params
     :rtype: A dict
@@ -105,7 +105,7 @@ def check_if_config_exists(
     field_name="name",
     api_request="post",
 ):
-    """ The fn check if the config_name detect based on config
+    """The fn check if the config_name detect based on config
     :param deepsec_request: the objects from which the configuration should be read
     :param config_name: config_name rule with which config will be searched
     :param api: REST API for which search POST call is made
@@ -146,7 +146,7 @@ def delete_config_with_id(
     api_or_rest=True,
     handle_return=False,
 ):
-    """ The fn calls the delete API based on the config id
+    """The fn calls the delete API based on the config id
     :param deepsec_request: connection obj for TM
     :param config_id: config id for the config that's supposed to be deleted
     :param api_or_rest: Fire request for legacy or latest API call

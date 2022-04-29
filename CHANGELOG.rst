@@ -5,6 +5,20 @@ TrendMicro DeepSecurity Collection Release Notes
 .. contents:: Topics
 
 
+v2.0.0
+======
+
+Major Changes
+-------------
+
+- Minimum required ansible.netcommon version is 2.5.1.
+- Updated base plugin references to ansible.netcommon.
+
+Documentation Changes
+---------------------
+
+- Update module doc
+
 v1.2.0
 ======
 
@@ -24,6 +38,12 @@ Documentation Changes
 
 New Modules
 -----------
+
+Private
+~~~~~~~
+
+var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - deepsec_anti_malwares - Manages AntiMalware Rule resource module
 - deepsec_firewall_rules - Manages Firewall Rule resource module
@@ -70,4 +90,3 @@ New Modules
 - deepsec_firewallrules - Create a new firewall rule.
 - deepsec_hosts_info - Obtain information about one or many Hosts defined by TrendMicro Deep Security
 - deepsec_log_inspectionrules - Create a new log inspection rule.
-- deepsec_syslog - Configure or create a syslog configuration for TrendMicro Deep Security

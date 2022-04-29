@@ -20,7 +20,8 @@ releases:
     - description: Create a new firewall rule.
       name: deepsec_firewallrules
       namespace: ''
-    - description: Obtain information about one or many Hosts defined by TrendMicro Deep Security
+    - description: Obtain information about one or many Hosts defined by TrendMicro
+        Deep Security
       name: deepsec_hosts_info
       namespace: ''
     - description: Create a new log inspection rule.
@@ -82,3 +83,16 @@ releases:
       name: deepsec_log_inspection_rules
       namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
     release_date: '2021-12-13'
+  2.0.0:
+    changes:
+      doc_changes:
+      - Update module doc
+      major_changes:
+      - Minimum required ansible.netcommon version is 2.5.1.
+      - Updated base plugin references to ansible.netcommon.
+    fragments:
+    - 0-ignore.yml
+    - 1.2.0_release_prep.yaml
+    - bindep_update.yaml
+    - netcommon_ref_update.yaml
+    release_date: '2022-04-29'

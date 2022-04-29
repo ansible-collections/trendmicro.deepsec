@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_integrity_monitoring_rules
 **Manages Integrity Monitoring Rule resource module**
 
 
-Version added: 1.0.0
+Version added: 1.2.0
 
 .. contents::
    :local:

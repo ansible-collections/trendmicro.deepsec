@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_log_inspection_rules
 **Manages Log Inspection Rule resource module**
 
 
-Version added: 1.0.0
+Version added: 1.2.0
 
 .. contents::
    :local:

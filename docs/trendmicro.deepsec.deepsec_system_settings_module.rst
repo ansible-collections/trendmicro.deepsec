@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_system_settings
 **Modify the system settings for TrendMicro Deep Security.**
 
 
-Version added: 1.0.0
+Version added: 1.1.0
 
 .. contents::
    :local:
@@ -4472,7 +4472,6 @@ Parameters
                     </div>
                 </td>
                 <td>
-                        <b>Default:</b><br/><div style="color: blue">"no"</div>
                 </td>
                 <td>
                         <div>Value of a Setting.</div>

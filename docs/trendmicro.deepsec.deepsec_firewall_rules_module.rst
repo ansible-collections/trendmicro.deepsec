@@ -8,7 +8,7 @@ trendmicro.deepsec.deepsec_firewall_rules
 **Manages Firewall Rule resource module**
 
 
-Version added: 1.0.0
+Version added: 1.2.0
 
 .. contents::
    :local:

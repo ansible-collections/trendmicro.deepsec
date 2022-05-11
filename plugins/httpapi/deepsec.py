@@ -7,7 +7,7 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 author: Ansible Security Automation Team
-httpapi: deepsec
+name: deepsec
 short_description: HttpApi Plugin for Trend Micro Deep Security
 description:
 - This HttpApi plugin provides methods to connect to Trend Micro Deep Security over

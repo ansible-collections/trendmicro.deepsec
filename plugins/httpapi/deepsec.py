@@ -6,8 +6,8 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-author: Ansible Security Automation Team
-httpapi: deepsec
+author: Ansible Security Team (@ansible-security)
+name: deepsec
 short_description: HttpApi Plugin for Trend Micro Deep Security
 description:
 - This HttpApi plugin provides methods to connect to Trend Micro Deep Security over

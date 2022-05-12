@@ -209,7 +209,8 @@ class DeepSecurityRequest(object):
     def _httpapi_error_handle(self, method, uri, **kwargs):
         # FIXME - make use of handle_httperror(self, exception) where applicable
         #   https://docs.ansible.com/ansible/latest/network/dev_guide/developing_plugins_network.html#developing-plugins-httpapi
-
+        code = 99999
+        response = {}
         try:
             code, response = self.connection.send_request(
                 method, uri, **kwargs
@@ -223,7 +224,12 @@ class DeepSecurityRequest(object):
                 msg="certificate error occurred: {0}".format(e)
             )
         except ValueError as e:
-            self.module.fail_json(msg="certificate not found: {0}".format(e))
+            try:
+                self.module.fail_json(
+                    msg="certificate not found: {0}".format(e)
+                )
+            except AttributeError:
+                pass
         # This fn. will return both code and response, once all of the available modules
         # are moved to use action plugin design, as otherwise test
         # would start to complain without the implementation.

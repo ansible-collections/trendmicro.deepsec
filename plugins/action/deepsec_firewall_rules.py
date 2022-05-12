@@ -36,6 +36,7 @@ class ActionModule(ActionBase):
 
     def __init__(self, *args, **kwargs):
         super(ActionModule, self).__init__(*args, **kwargs)
+        self._supports_async = True
         self._result = None
         self.api_object = "/api/firewallrules"
         self.api_object_search = "/api/firewallrules/search"
@@ -213,6 +214,7 @@ class ActionModule(ActionBase):
         before = []
         after = []
         changed = False
+        diff = None
         # Add to the THIS list for the value which needs to be excluded
         # from HAVE params when compared to WANT param like 'ID' can be
         # part of HAVE param but may not be part of your WANT param
@@ -224,6 +226,7 @@ class ActionModule(ActionBase):
             )
             if search_by_name and search_by_name.get(self.api_return):
                 each_result = search_by_name[self.api_return]
+                every = {}
                 for every in each_result:
                     every = map_obj_to_params(
                         every, self.key_transform, self.api_return
@@ -336,6 +339,7 @@ class ActionModule(ActionBase):
                 )
             else:
                 self._result["gathered"] = conn_request.get(self.api_object)
+            self._result["changed"] = False
         elif (
             self._task.args["state"] == "merged"
             or self._task.args["state"] == "replaced"

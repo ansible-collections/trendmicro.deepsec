@@ -224,8 +224,12 @@ class DeepSecurityRequest(object):
                 msg="certificate error occurred: {0}".format(e)
             )
         except ValueError as e:
-            pass
-            # self.module.fail_json(msg="certificate not found: {0}".format(e))
+            try:
+                self.module.fail_json(
+                    msg="certificate not found: {0}".format(e)
+                )
+            except AttributeError:
+                pass
         # This fn. will return both code and response, once all of the available modules
         # are moved to use action plugin design, as otherwise test
         # would start to complain without the implementation.

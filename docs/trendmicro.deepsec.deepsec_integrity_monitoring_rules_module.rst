@@ -583,12 +583,105 @@ Examples
           - test
           severity: low
           template: registry
+
+    # RUN output:
+    # -----------
+
+    #   integrity_monitoring_rules:
+    #     after:
+    #     - alert_enabled: false
+    #       description: THIS IS TEST IMR DESCRIPTION - 1
+    #       id: 328
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 1
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - STANDARD
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - test_1
+    #       - test_2
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: medium
+    #       template: registry
+    #     - alert_enabled: false
+    #       description: THIS IS TEST IMR DESCRIPTION - 2
+    #       id: 329
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 2
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - test
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - ''
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: low
+    #       template: registry
+    #     before: []
+
     - name: Modify the severity of Integrity Monitoring Rule by name
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: merged
         config:
         - name: THIS IS TEST IMR - 2
+          description: UPDATE TEST IMR DESCRIPTION - 2
           severity: medium
+
+    # RUN output:
+    # -----------
+
+    #   integrity_monitoring_rules:
+    #     after:
+    #     - alert_enabled: false
+    #       description: UPDATE TEST IMR DESCRIPTION - 2
+    #       id: 329
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 2
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - test
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - ''
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: medium
+    #       template: registry
+    #     before:
+    #     - alert_enabled: false
+    #       description: THIS IS TEST IMR DESCRIPTION - 2
+    #       id: 329
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 2
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - test
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - ''
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: low
+    #       template: registry
+
+    # Using REPLACED state
+    # --------------------
+
     - name: Replace existing Integrity Monitoring Rule
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: replaced
@@ -602,21 +695,165 @@ Examples
           - test_4
           severity: low
           template: registry
+
+    # RUN output:
+    # -----------
+
+    #   integrity_monitoring_rules:
+    #     after:
+    #     - alert_enabled: false
+    #       description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
+    #       id: 330
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 1
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - STANDARD
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - test_3
+    #       - test_4
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: low
+    #       template: registry
+    #     before:
+    #     - alert_enabled: false
+    #       description: THIS IS TEST IMR DESCRIPTION - 1
+    #       id: 328
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 1
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - STANDARD
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - test_1
+    #       - test_2
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: medium
+    #       template: registry
+
+    # Using GATHERED state
+    # --------------------
+
     - name: Gather Integrity Monitoring Rule by IMR names
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: gathered
         config:
         - name: THIS IS TEST IMR - 1
         - name: THIS IS TEST IMR - 2
+
+    # RUN output:
+    # -----------
+
+    # gathered:
+    #   - alert_enabled: false
+    #     description: THIS IS TEST IMR DESCRIPTION - 1
+    #     id: 330
+    #     minimum_agent_version: 6.0.0.0
+    #     minimum_manager_version: 6.0.0
+    #     name: THIS IS TEST IMR - 1
+    #     real_time_monitoring_enabled: true
+    #     registry_attributes:
+    #     - STANDARD
+    #     registry_excluded_values:
+    #     - ''
+    #     registry_include_default_value: true
+    #     registry_include_sub_keys: false
+    #     registry_included_values:
+    #     - test_1
+    #     - test_3
+    #     - test_4
+    #     - test_2
+    #     registry_key_root: HKEY_CLASSES_ROOT
+    #     registry_key_value: #     severity: medium
+    #     template: registry
+    #   - alert_enabled: false
+    #     description: THIS IS TEST IMR DESCRIPTION - 2
+    #     id: 329
+    #     minimum_agent_version: 6.0.0.0
+    #     minimum_manager_version: 6.0.0
+    #     name: THIS IS TEST IMR - 2
+    #     real_time_monitoring_enabled: true
+    #     registry_attributes:
+    #     - test
+    #     registry_excluded_values:
+    #     - ''
+    #     registry_include_default_value: true
+    #     registry_include_sub_keys: false
+    #     registry_included_values:
+    #     - ''
+    #     registry_key_root: HKEY_CLASSES_ROOT
+    #     registry_key_value: #     severity: low
+    #     template: registry
+
     - name: Gather ALL of the Integrity Monitoring Rule
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: gathered
+
+    # Using DELETED state
+    # -------------------
+
     - name: Delete Integrity Monitoring Rule
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: deleted
         config:
         - name: THIS IS TEST IMR - 1
         - name: THIS IS TEST IMR - 2
+
+    # RUN output:
+    # -----------
+
+    #   integrity_monitoring_rules:
+    #     after: []
+    #     before:
+    #     - alert_enabled: false
+    #       description: THIS IS TEST IMR DESCRIPTION - 1
+    #       id: 330
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 1
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - STANDARD
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - test_1
+    #       - test_3
+    #       - test_4
+    #       - test_2
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: medium
+    #       template: registry
+    #     - alert_enabled: false
+    #       description: THIS IS TEST IMR DESCRIPTION - 2
+    #       id: 329
+    #       minimum_agent_version: 6.0.0.0
+    #       minimum_manager_version: 6.0.0
+    #       name: THIS IS TEST IMR - 2
+    #       real_time_monitoring_enabled: true
+    #       registry_attributes:
+    #       - test
+    #       registry_excluded_values:
+    #       - ''
+    #       registry_include_default_value: true
+    #       registry_include_sub_keys: false
+    #       registry_included_values:
+    #       - ''
+    #       registry_key_root: HKEY_CLASSES_ROOT
+    #       registry_key_value: #       severity: low
+    #       template: registry
 
 
 

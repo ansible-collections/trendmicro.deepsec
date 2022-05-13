@@ -203,14 +203,14 @@ EXAMPLES = """
     state: merged
     config:
     - name: custom log_rule for mysqld event
-      description: some description
+      description: MYSQLD description
       minimum_agent_version: 6.0.0.0
       type: defined
       template: basic-rule
       pattern: name
       pattern_type: string
       rule_id: 100001
-      rule_description: test rule description
+      rule_description: sqld rule description
       groups:
       - test
       alert_minimum_severity: 4
@@ -219,41 +219,146 @@ EXAMPLES = """
         log_files:
         - location: /var/log/mysqld.log
           format: mysql-log
-    - name: custom log_rule for mysqld event
-      description: some description
+    - name: custom log_rule for daemon event
+      description: DAEMON description
       minimum_agent_version: 6.0.0.0
       type: defined
       template: basic-rule
       pattern: name
       pattern_type: string
-      rule_id: 100001
-      rule_description: test rule description
+      rule_id: 100002
+      rule_description: deamon rule description
       groups:
       - test
-      alert_minimum_severity: 4
+      alert_minimum_severity: 3
       alert_enabled: true
       log_files:
         log_files:
-        - location: /var/log/mysqld.log
-          format: mysql-log
+        - location: /var/log/daemon.log
+          format: eventlog
+
+# RUN output:
+# -----------
+
+#   log_inspection_rules:
+#     after:
+#     - alert_enabled: true
+#       alert_minimum_severity: 4
+#       dependency: none
+#       description: MYSQLD description
+#       groups:
+#       - test
+#       id: 179
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: mysql-log
+#           location: /var/log/mysqld.log
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for mysqld event
+#       pattern: name
+#       pattern_type: string
+#       rule_description: sqld rule description
+#       rule_id: 100001
+#       sort_order: 15000
+#       template: basic-rule
+#     - alert_enabled: true
+#       alert_minimum_severity: 3
+#       dependency: none
+#       description: DAEMON description
+#       groups:
+#       - test
+#       id: 180
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: eventlog
+#           location: /var/log/daemon.log
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for daemon event
+#       pattern: name
+#       pattern_type: string
+#       rule_description: deamon rule description
+#       rule_id: 100002
+#       sort_order: 15000
+#       template: basic-rule
+#     before: []
+
 - name: Modify the Pattern type of Log Inspection Rule by name
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: merged
     config:
     - name: custom log_rule for mysqld event
-      description: Modified pattern type for mysqld log event
+      description: UPDATE pattern type for mysqld log event
       pattern: name
       pattern_type: regex
       log_files:
         log_files:
         - location: /var/log/messages
           format: syslog
+
+# RUN output:
+# -----------
+
+#   log_inspection_rules:
+#     after:
+#     - alert_enabled: true
+#       alert_minimum_severity: 4
+#       dependency: none
+#       description: UPDATE pattern type for mysqld log event
+#       groups:
+#       - test
+#       id: 179
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: mysql-log
+#           location: /var/log/mysqld.log
+#         - format: syslog
+#           location: /var/log/messages
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for mysqld event
+#       pattern: name
+#       pattern_type: regex
+#       rule_description: sqld rule description
+#       rule_id: 100001
+#       sort_order: 15000
+#       template: basic-rule
+#     before:
+#     - alert_enabled: true
+#       alert_minimum_severity: 4
+#       dependency: none
+#       description: MYSQLD description
+#       groups:
+#       - test
+#       id: 179
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: mysql-log
+#           location: /var/log/mysqld.log
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for mysqld event
+#       pattern: name
+#       pattern_type: string
+#       rule_description: sqld rule description
+#       rule_id: 100001
+#       sort_order: 15000
+#       template: basic-rule
+
+# Using REPLACED state
+# --------------------
+
 - name: Replace existing Log Inspection Rules
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: replaced
     config:
     - name: custom log_rule for daemon event
-      description: Replaced log daemon event
+      description: REPLACED log daemon event
       minimum_agent_version: 6.0.0.0
       type: defined
       template: basic-rule
@@ -269,21 +374,180 @@ EXAMPLES = """
         log_files:
         - location: /var/log/messages
           format: syslog
+
+# RUN output:
+# -----------
+
+#   log_inspection_rules:
+#     after:
+#     - alert_enabled: true
+#       alert_minimum_severity: 5
+#       dependency: none
+#       description: REPLACED log daemon event
+#       groups:
+#       - test
+#       id: 181
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: syslog
+#           location: /var/log/messages
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for daemon event
+#       pattern: name
+#       pattern_type: string
+#       rule_description: daemon rule description
+#       rule_id: 100003
+#       sort_order: 15000
+#       template: basic-rule
+#     before:
+#     - alert_enabled: true
+#       alert_minimum_severity: 3
+#       dependency: none
+#       description: DAEMON description
+#       groups:
+#       - test
+#       id: 180
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: eventlog
+#           location: /var/log/daemon.log
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for daemon event
+#       pattern: name
+#       pattern_type: string
+#       rule_description: deamon rule description
+#       rule_id: 100002
+#       sort_order: 15000
+#       template: basic-rule
+
+# Using GATHERED state
+# --------------------
+
 - name: Gather Log Inspection Rules by IPR names
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: gathered
     config:
     - name: custom log_rule for mysqld event
     - name: custom log_rule for daemon event
+
+# RUN output:
+# -----------
+
+# gathered:
+#   - alert_enabled: true
+#     alert_minimum_severity: 4
+#     dependency: none
+#     description: UPDATE pattern type for mysqld log event
+#     groups:
+#     - test
+#     id: 179
+#     level: 0
+#     log_files:
+#       log_files:
+#       - format: mysql-log
+#         location: /var/log/mysqld.log
+#       - format: syslog
+#         location: /var/log/messages
+#     minimum_agent_version: 6.0.0.0
+#     minimum_manager_version: 6.0.0
+#     name: custom log_rule for mysqld event
+#     pattern: name
+#     pattern_type: regex
+#     rule_description: sqld rule description
+#     rule_id: 100001
+#     sort_order: 15000
+#     template: basic-rule
+#   - alert_enabled: true
+#     alert_minimum_severity: 5
+#     dependency: none
+#     description: REPLACED log daemon event
+#     groups:
+#     - test
+#     id: 181
+#     level: 0
+#     log_files:
+#       log_files:
+#       - format: syslog
+#         location: /var/log/messages
+#     minimum_agent_version: 6.0.0.0
+#     minimum_manager_version: 6.0.0
+#     name: custom log_rule for daemon event
+#     pattern: name
+#     pattern_type: string
+#     rule_description: daemon rule description
+#     rule_id: 100003
+#     sort_order: 15000
+#     template: basic-rule
+
 - name: Gather ALL of the Log Inspection Rules
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: gathered
+
+# Using DELETED state
+# -------------------
+
 - name: Delete Log Inspection Rules
   trendmicro.deepsec.deepsec_log_inspection_rules:
     state: deleted
     config:
     - name: custom log_rule for mysqld event
     - name: custom log_rule for daemon event
+
+# RUN output:
+# -----------
+
+#   log_inspection_rules:
+#     after: []
+#     before:
+#     - alert_enabled: true
+#       alert_minimum_severity: 4
+#       dependency: none
+#       description: UPDATE pattern type for mysqld log event
+#       groups:
+#       - test
+#       id: 179
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: mysql-log
+#           location: /var/log/mysqld.log
+#         - format: syslog
+#           location: /var/log/messages
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for mysqld event
+#       pattern: name
+#       pattern_type: regex
+#       rule_description: sqld rule description
+#       rule_id: 100001
+#       sort_order: 15000
+#       template: basic-rule
+#     - alert_enabled: true
+#       alert_minimum_severity: 5
+#       dependency: none
+#       description: REPLACED log daemon event
+#       groups:
+#       - test
+#       id: 181
+#       level: 0
+#       log_files:
+#         log_files:
+#         - format: syslog
+#           location: /var/log/messages
+#       minimum_agent_version: 6.0.0.0
+#       minimum_manager_version: 6.0.0
+#       name: custom log_rule for daemon event
+#       pattern: name
+#       pattern_type: string
+#       rule_description: daemon rule description
+#       rule_id: 100003
+#       sort_order: 15000
+#       template: basic-rule
+
 """
 
 

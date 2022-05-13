@@ -1165,18 +1165,145 @@ Examples
           destination_iptype: any
           direction: incoming
           protocol: tcp
+
+    # RUN output:
+    # -----------
+
+    #   firewall_rules:
+    #     after:
+    #     - action: deny
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 1 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 148
+    #       include_packet_data: false
+    #       log_disabled: true
+    #       name: test_firewallrule_1
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+    #     - action: deny
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 2 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 149
+    #       include_packet_data: false
+    #       log_disabled: false
+    #       name: test_firewallrule_2
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+    #     before: []
+
     - name: Modify the severity of Firewall Rule by name
       trendmicro.deepsec.deepsec_firewall_rules:
         state: merged
         config:
         - name: test_firewallrule_1
           action: allow
+
+    # RUN output:
+    # -----------
+
+    #   firewall_rules:
+    #     after:
+    #     - action: allow
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 1 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 148
+    #       include_packet_data: false
+    #       log_disabled: true
+    #       name: test_firewallrule_1
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+    #     before:
+    #     - action: deny
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 1 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 148
+    #       include_packet_data: false
+    #       log_disabled: true
+    #       name: test_firewallrule_1
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+
+    # Using REPLACED state
+    # --------------------
+
     - name: Replace existing Firewall Rules
       trendmicro.deepsec.deepsec_intrusion_prevention_rules:
         state: replaced
         config:
         - name: test_firewallrule_1
-          description: outgoing firewall 1 replaced rule
+          description: outgoing firewall 1 REPLACED rule
           action: deny
           priority: 0
           source_iptype: any
@@ -1184,21 +1311,211 @@ Examples
           direction: outgoing
           protocol: any
           log_disabled: true
+
+    # RUN output:
+    # -----------
+
+    #   firewall_rules:
+    #     after:
+    #     - action: deny
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: outgoing firewall 1 REPLACED rule
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: outgoing
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 150
+    #       include_packet_data: false
+    #       log_disabled: true
+    #       name: test_firewallrule_1
+    #       priority: '0'
+    #       protocol: any
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+    #     before:
+    #     - action: allow
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 1 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 148
+    #       include_packet_data: false
+    #       log_disabled: true
+    #       name: test_firewallrule_1
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+
+    # Using GATHERED state
+    # --------------------
+
     - name: Gather Firewall Rules by FW names
       trendmicro.deepsec.deepsec_firewall_rules:
         state: gathered
         config:
         - name: test_firewallrule_1
         - name: test_firewallrule_2
+
+    # RUN output:
+    # -----------
+
+    # gathered:
+    #   - action: deny
+    #     alert_enabled: false
+    #     any_flags: true
+    #     description: incoming firewall 1 rule description
+    #     destination_ipnot: false
+    #     destination_iptype: any
+    #     destination_macnot: false
+    #     destination_mactype: any
+    #     destination_port_not: false
+    #     destination_port_type: any
+    #     direction: incoming
+    #     frame_not: false
+    #     frame_number: 2048
+    #     frame_type: ip
+    #     id: 150
+    #     include_packet_data: false
+    #     log_disabled: true
+    #     name: test_firewallrule_1
+    #     priority: '0'
+    #     protocol: tcp
+    #     protocol_not: false
+    #     source_ipnot: false
+    #     source_iptype: any
+    #     source_macnot: false
+    #     source_mactype: any
+    #     source_port_not: false
+    #     source_port_type: any
+    #   - action: deny
+    #     alert_enabled: false
+    #     any_flags: true
+    #     description: incoming firewall 2 rule description
+    #     destination_ipnot: false
+    #     destination_iptype: any
+    #     destination_macnot: false
+    #     destination_mactype: any
+    #     destination_port_not: false
+    #     destination_port_type: any
+    #     direction: incoming
+    #     frame_not: false
+    #     frame_number: 2048
+    #     frame_type: ip
+    #     id: 149
+    #     include_packet_data: false
+    #     log_disabled: false
+    #     name: test_firewallrule_2
+    #     priority: '0'
+    #     protocol: tcp
+    #     protocol_not: false
+    #     source_ipnot: false
+    #     source_iptype: any
+    #     source_macnot: false
+    #     source_mactype: any
+    #     source_port_not: false
+    #     source_port_type: any
+
     - name: Gather ALL of the Firewall Rules
       trendmicro.deepsec.deepsec_firewall_rules:
         state: gathered
+
+    # Using DELETED state
+    # -------------------
+
     - name: Delete Firewall Rules
       trendmicro.deepsec.deepsec_firewall_rules:
         state: deleted
         config:
         - name: test_firewallrule_1
         - name: test_firewallrule_2
+
+    # RUN output:
+    # -----------
+
+    #   firewall_rules:
+    #     after: []
+    #     before:
+    #     - action: deny
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 1 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 150
+    #       include_packet_data: false
+    #       log_disabled: true
+    #       name: test_firewallrule_1
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
+    #     - action: deny
+    #       alert_enabled: false
+    #       any_flags: true
+    #       description: incoming firewall 2 rule description
+    #       destination_ipnot: false
+    #       destination_iptype: any
+    #       destination_macnot: false
+    #       destination_mactype: any
+    #       destination_port_not: false
+    #       destination_port_type: any
+    #       direction: incoming
+    #       frame_not: false
+    #       frame_number: 2048
+    #       frame_type: ip
+    #       id: 149
+    #       include_packet_data: false
+    #       log_disabled: false
+    #       name: test_firewallrule_2
+    #       priority: '0'
+    #       protocol: tcp
+    #       protocol_not: false
+    #       source_ipnot: false
+    #       source_iptype: any
+    #       source_macnot: false
+    #       source_mactype: any
+    #       source_port_not: false
+    #       source_port_type: any
 
 
 

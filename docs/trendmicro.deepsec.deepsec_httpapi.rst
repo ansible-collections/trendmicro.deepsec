@@ -36,7 +36,7 @@ Status
 Authors
 ~~~~~~~
 
-- Ansible Security Automation Team
+- Ansible Security Team (@ansible-security)
 
 
 .. hint::

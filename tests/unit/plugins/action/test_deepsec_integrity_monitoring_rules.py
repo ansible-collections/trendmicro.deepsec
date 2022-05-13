@@ -24,7 +24,7 @@ import unittest
 import tempfile
 from ansible.playbook.task import Task
 from ansible.template import Templar
-from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_firewall_rules import (
+from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_integrity_monitoring_rules import (
     ActionModule,
 )
 from ansible_collections.ansible.utils.tests.unit.compat.mock import (
@@ -33,7 +33,7 @@ from ansible_collections.ansible.utils.tests.unit.compat.mock import (
 )
 
 RESPONSE_PAYLOAD = {
-    "firewall_rules": [
+    "firewallRules": [
         {
             "action": "deny",
             "priority": "0",
@@ -102,7 +102,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         # Ansible <= 2.13 looks for check_mode in play_context
         play_context.check_mode = False
         connection = patch(
-            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_firewall_rules.Connection"
+            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_integrity_monitoring_rules.Connection"
         )
         fake_loader = {}
         templar = Templar(loader=fake_loader)
@@ -114,12 +114,11 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             templar=templar,
             shared_loader_obj=None,
         )
-        self._plugin._task.action = "deepsec_firewall_rules"
-        self._plugin.api_return = "firewall_rules"
+        self._plugin._task.action = "deepsec_integrity_monitoring_rules"
         self._task_vars = {}
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_merged(self, connection):
+    def test_deepsec_integrity_monitoring_rules_merged(self, connection):
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {}
         self._plugin._connection.socket_path = (
@@ -134,13 +133,16 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self.assertTrue(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_merged_idempotent(self, connection):
+    def test_deepsec_integrity_monitoring_rules_merged_idempotent(
+        self, connection
+    ):
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
+        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "merged",
             "config": [
@@ -161,13 +163,14 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self.assertFalse(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_replaced(self, connection):
+    def test_deepsec_integrity_monitoring_rules_replaced(self, connection):
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
+        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
@@ -188,14 +191,16 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self.assertTrue(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_replaced_idempotent(self, connection):
+    def test_deepsec_integrity_monitoring_rules_replaced_idempotent(
+        self, connection
+    ):
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {
-            "firewall_rules": [
+            "firewallRules": [
                 {
                     "action": "deny",
                     "priority": "0",
@@ -227,6 +232,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                 }
             ]
         }
+        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
@@ -247,13 +253,14 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self.assertFalse(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_deleted(self, connection):
+    def test_deepsec_integrity_monitoring_rules_deleted(self, connection):
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
+        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
@@ -266,7 +273,9 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self.assertTrue(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_deleted_idempotent(self, connection):
+    def test_deepsec_integrity_monitoring_rules_deleted_idempotent(
+        self, connection
+    ):
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {}
         self._plugin._connection.socket_path = (
@@ -285,13 +294,14 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self.assertFalse(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
-    def test_deepsec_firewall_rules_gathered(self, connection):
+    def test_deepsec_integrity_monitoring_rules_gathered(self, connection):
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
+        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "gathered",
             "config": [{"name": "test_firewallrule_1"}],

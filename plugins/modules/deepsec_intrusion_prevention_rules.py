@@ -205,12 +205,96 @@ EXAMPLES = """
       name: TEST IPR 2
       priority: normal
       severity: medium
+
+# RUN output:
+# -----------
+
+#   intrusion_prevention_rules:
+#     after:
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 1 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8657
+#       name: TEST IPR 1
+#       priority: normal
+#       severity: medium
+#       signature: test_new_signature_1
+#       template: signature
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 2 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8658
+#       name: TEST IPR 2
+#       priority: normal
+#       severity: medium
+#       signature: test_new_signature_2
+#       template: signature
+#     before: []
+
 - name: Modify the severity of Integrity Monitoring Rule by name
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: merged
     config:
     - name: TEST IPR 2
+      description: UPDATE TEST IPR 2 DESCRIPTION
       severity: low
+
+# RUN output:
+# -----------
+
+#   intrusion_prevention_rules:
+#     after:
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: UPDATE TEST IPR 2 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8658
+#       name: TEST IPR 2
+#       priority: normal
+#       severity: low
+#       signature: test_new_signature_2
+#       template: signature
+#     before:
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 2 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8658
+#       name: TEST IPR 2
+#       priority: normal
+#       severity: medium
+#       signature: test_new_signature_2
+#       template: signature
+
+# Using REPLACED state
+# --------------------
+
 - name: Replace existing Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: replaced
@@ -228,34 +312,146 @@ EXAMPLES = """
       name: TEST IPR 1
       priority: normal
       severity: low
-    - alert_enabled: false
-      always_include_packet_data: false
-      application_type_id: 300
-      template: signature
-      signature: test_new_signature_1
-      debug_mode_enabled: false
-      description: TEST IPR 2 REPLACE DESCRIPTION
-      detect_only: false
-      event_logging_disabled: false
-      generate_event_on_packet_drop: true
-      name: TEST IPR 2
-      priority: normal
-      severity: low
+
+# RUN output:
+# -----------
+
+#   intrusion_prevention_rules:
+#     after:
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 1 REPLACE DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8659
+#       name: TEST IPR 1
+#       priority: normal
+#       severity: low
+#       signature: test_new_signature_1
+#       template: signature
+#     before:
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 1 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8657
+#       name: TEST IPR 1
+#       priority: normal
+#       severity: medium
+#       signature: test_new_signature_1
+#       template: signature
+
+# Using GATHERED state
+# --------------------
+
 - name: Gather Intrusion Prevention Rules by IPR names
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: gathered
     config:
     - name: TEST IPR 1
     - name: TEST IPR 2
+
+# RUN output:
+# -----------
+
+# gathered:
+#   - action: drop
+#     alert_enabled: false
+#     always_include_packet_data: false
+#     application_type_id: 300
+#     case_sensitive: false
+#     debug_mode_enabled: false
+#     description: TEST IPR 1 DESCRIPTION
+#     detect_only: false
+#     event_logging_disabled: false
+#     generate_event_on_packet_drop: true
+#     id: 8659
+#     name: TEST IPR 1
+#     priority: normal
+#     severity: medium
+#     signature: test_new_signature_1
+#     template: signature
+#   - action: drop
+#     alert_enabled: false
+#     always_include_packet_data: false
+#     application_type_id: 300
+#     case_sensitive: false
+#     debug_mode_enabled: false
+#     description: TEST IPR 2 DESCRIPTION
+#     detect_only: false
+#     event_logging_disabled: false
+#     generate_event_on_packet_drop: true
+#     id: 8658
+#     name: TEST IPR 2
+#     priority: normal
+#     severity: medium
+#     signature: test_new_signature_2
+#     template: signature
+
 - name: Gather ALL of the Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: gathered
+
+# Using DELETED state
+# -------------------
+
 - name: Delete Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: deleted
     config:
     - name: TEST IPR 1
     - name: TEST IPR 2
+
+# RUN output:
+# -----------
+
+#   intrusion_prevention_rules:
+#     after: []
+#     before:
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 1 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8659
+#       name: TEST IPR 1
+#       priority: normal
+#       severity: medium
+#       signature: test_new_signature_1
+#       template: signature
+#     - action: drop
+#       alert_enabled: false
+#       always_include_packet_data: false
+#       application_type_id: 300
+#       case_sensitive: false
+#       debug_mode_enabled: false
+#       description: TEST IPR 2 DESCRIPTION
+#       detect_only: false
+#       event_logging_disabled: false
+#       generate_event_on_packet_drop: true
+#       id: 8658
+#       name: TEST IPR 2
+#       priority: normal
+#       severity: medium
+#       signature: test_new_signature_2
+#       template: signature
+
 """
 
 

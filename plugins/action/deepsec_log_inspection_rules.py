@@ -37,6 +37,7 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         super(ActionModule, self).__init__(*args, **kwargs)
         self._result = None
+        self._supports_async = True
         self.api_object = "/api/loginspectionrules"
         self.api_object_search = "/api/loginspectionrules/search"
         self.api_return = "logInspectionRules"
@@ -382,6 +383,7 @@ class ActionModule(ActionBase):
         self._supports_check_mode = True
         self._result = super(ActionModule, self).run(tmp, task_vars)
         self._check_argspec()
+        self._result["changed"] = False
         if self._result.get("failed"):
             return self._result
         conn = Connection(self._connection.socket_path)

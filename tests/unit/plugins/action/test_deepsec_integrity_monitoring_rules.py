@@ -33,67 +33,51 @@ from ansible_collections.ansible.utils.tests.unit.compat.mock import (
 )
 
 RESPONSE_PAYLOAD = {
-    "firewallRules": [
+    "integrity_monitoring_rules": [
         {
-            "action": "deny",
-            "priority": "0",
-            "direction": "incoming",
-            "description": "incoming firewall 1 rule description",
-            "frameType": "ip",
-            "frameNumber": 2048,
-            "frameNot": False,
-            "protocol": "tcp",
-            "protocolNot": False,
-            "sourceIPType": "any",
-            "sourceIPNot": False,
-            "sourceMACType": "any",
-            "sourceMACNot": False,
-            "sourcePortType": "any",
-            "sourcePortNot": False,
-            "destinationIPType": "any",
-            "destinationIPNot": False,
-            "destinationMACType": "any",
-            "destinationMACNot": False,
-            "destinationPortType": "any",
-            "destinationPortNot": False,
-            "anyFlags": True,
-            "logDisabled": True,
-            "includePacketData": False,
-            "alertEnabled": False,
-            "ID": 146,
-            "name": "test_firewallrule_1",
+            "alert_enabled": False,
+            "description": "THIS IS TEST IMR DESCRIPTION - 1",
+            "id": "328",
+            "minimum_agent_version": "6.0.0.0",
+            "minimum_manager_version": "6.0.0",
+            "name": "THIS IS TEST IMR - 1",
+            "real_time_monitoring_enabled": True,
+            "registry_attributes": ["STANDARD"],
+            "registry_excluded_values": [""],
+            "registry_include_default_value": True,
+            "registry_include_sub_keys": False,
+            "registry_included_values": ["test_1", "test_2"],
+            "registry_key_root": "HKEY_CLASSES_ROOT",
+            "registry_key_value": "\\",
+            "severity": "medium",
+            "template": "registry",
         }
     ]
 }
 
 REQUEST_PAYLOAD = [
     {
-        "name": "test_firewallrule_1",
-        "description": "incoming firewall 1 rule description",
-        "action": "deny",
-        "priority": 0,
-        "source_iptype": "any",
-        "destination_iptype": "any",
-        "direction": "incoming",
-        "protocol": "tcp",
-        "log_disabled": True,
+        "name": "THIS IS TEST IMR - 1",
+        "alert_enabled": False,
+        "description": "THIS IS TEST IMR DESCRIPTION - 1",
+        "real_time_monitoring_enabled": True,
+        "registry_included_values": ["test_1", "test_2"],
+        "severity": "medium",
+        "template": "registry",
     },
     {
-        "name": "test_firewallrule_2",
-        "description": "incoming firewall 2 rule description",
-        "action": "deny",
-        "priority": 0,
-        "source_iptype": "any",
-        "source_ipnot": False,
-        "source_port_type": "any",
-        "destination_iptype": "any",
-        "direction": "incoming",
-        "protocol": "tcp",
+        "name": "THIS IS TEST IMR - 2",
+        "alert_enabled": False,
+        "description": "THIS IS TEST IMR DESCRIPTION - 2",
+        "real_time_monitoring_enabled": True,
+        "registry_included_values": ["test"],
+        "severity": "low",
+        "template": "registry",
     },
 ]
 
 
-class TestDeepsecFirewallRules(unittest.TestCase):
+class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
     def setUp(self):
         task = MagicMock(Task)
         # Ansible > 2.13 looks for check_mode in task
@@ -114,6 +98,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             templar=templar,
             shared_loader_obj=None,
         )
+        self._plugin.api_return = "integrity_monitoring_rules"
         self._plugin._task.action = "deepsec_integrity_monitoring_rules"
         self._task_vars = {}
 
@@ -142,20 +127,17 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "merged",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "incoming firewall 1 rule description",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "incoming",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "name": "THIS IS TEST IMR - 1",
+                    "alert_enabled": False,
+                    "description": "THIS IS TEST IMR DESCRIPTION - 1",
+                    "real_time_monitoring_enabled": True,
+                    "registry_included_values": ["test_1", "test_2"],
+                    "severity": "medium",
+                    "template": "registry",
                 }
             ],
         }
@@ -170,20 +152,17 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "outgoing",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "name": "THIS IS TEST IMR - 1",
+                    "alert_enabled": False,
+                    "description": "THIS IS REPLACED TEST IMR DESCRIPTION - 1",
+                    "real_time_monitoring_enabled": True,
+                    "registry_included_values": ["test_3", "test_4"],
+                    "severity": "low",
+                    "template": "registry",
                 }
             ],
         }
@@ -200,56 +179,43 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {
-            "firewallRules": [
+            "integrity_monitoring_rules": [
                 {
-                    "action": "deny",
-                    "priority": "0",
-                    "direction": "outgoing",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "frameType": "ip",
-                    "frameNumber": 2048,
-                    "frameNot": False,
-                    "protocol": "tcp",
-                    "protocolNot": False,
-                    "sourceIPType": "any",
-                    "sourceIPNot": False,
-                    "sourceMACType": "any",
-                    "sourceMACNot": False,
-                    "sourcePortType": "any",
-                    "sourcePortNot": False,
-                    "destinationIPType": "any",
-                    "destinationIPNot": False,
-                    "destinationMACType": "any",
-                    "destinationMACNot": False,
-                    "destinationPortType": "any",
-                    "destinationPortNot": False,
-                    "anyFlags": True,
-                    "logDisabled": True,
-                    "includePacketData": False,
-                    "alertEnabled": False,
-                    "ID": 147,
-                    "name": "test_firewallrule_1",
+                    "alert_enabled": False,
+                    "description": "THIS IS REPLACED TEST IMR DESCRIPTION - 1",
+                    "id": "328",
+                    "minimum_agent_version": "6.0.0.0",
+                    "minimum_manager_version": "6.0.0",
+                    "name": "THIS IS TEST IMR - 1",
+                    "real_time_monitoring_enabled": True,
+                    "registry_attributes": ["STANDARD"],
+                    "registry_excluded_values": [""],
+                    "registry_include_default_value": True,
+                    "registry_include_sub_keys": False,
+                    "registry_included_values": ["test_3", "test_4"],
+                    "registry_key_root": "HKEY_CLASSES_ROOT",
+                    "registry_key_value": "\\",
+                    "severity": "low",
+                    "template": "registry",
                 }
             ]
         }
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "outgoing",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "name": "THIS IS TEST IMR - 1",
+                    "alert_enabled": False,
+                    "description": "THIS IS REPLACED TEST IMR DESCRIPTION - 1",
+                    "real_time_monitoring_enabled": True,
+                    "registry_included_values": ["test_3", "test_4"],
+                    "severity": "low",
+                    "template": "registry",
                 }
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
+        print("**** RESULT *****", result)
         self.assertFalse(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
@@ -260,7 +226,6 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
@@ -286,7 +251,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             "state": "deleted",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
+                    "name": "THIS IS TEST IMR - 1",
                 }
             ],
         }
@@ -301,10 +266,10 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "gathered",
-            "config": [{"name": "test_firewallrule_1"}],
+            "config": [{"name": "THIS IS TEST IMR - 1"}],
         }
         result = self._plugin.run(task_vars=self._task_vars)
+        print("**** RESULT *****", result)
         self.assertFalse(result["changed"])

@@ -223,6 +223,7 @@ class ActionModule(ActionBase):
         before = []
         after = []
         changed = False
+        diff = None
         # Add to the THIS list for the value which needs to be excluded
         # from HAVE params when compared to WANT param like 'ID' can be
         # part of HAVE param but may not be part of your WANT param

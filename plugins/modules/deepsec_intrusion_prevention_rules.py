@@ -185,7 +185,7 @@ EXAMPLES = """
       template: signature
       signature: test_new_signature_1
       debug_mode_enabled: false
-      description: TEST IPR 2 DESCRIPTION
+      description: TEST IPR 1 DESCRIPTION
       detect_only: false
       event_logging_disabled: false
       generate_event_on_packet_drop: true

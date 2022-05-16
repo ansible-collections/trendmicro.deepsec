@@ -33,67 +33,63 @@ from ansible_collections.ansible.utils.tests.unit.compat.mock import (
 )
 
 RESPONSE_PAYLOAD = {
-    "firewallRules": [
+    "intrusion_prevention_rules": [
         {
-            "action": "deny",
-            "priority": "0",
-            "direction": "incoming",
-            "description": "incoming firewall 1 rule description",
-            "frameType": "ip",
-            "frameNumber": 2048,
-            "frameNot": False,
-            "protocol": "tcp",
-            "protocolNot": False,
-            "sourceIPType": "any",
-            "sourceIPNot": False,
-            "sourceMACType": "any",
-            "sourceMACNot": False,
-            "sourcePortType": "any",
-            "sourcePortNot": False,
-            "destinationIPType": "any",
-            "destinationIPNot": False,
-            "destinationMACType": "any",
-            "destinationMACNot": False,
-            "destinationPortType": "any",
-            "destinationPortNot": False,
-            "anyFlags": True,
-            "logDisabled": True,
-            "includePacketData": False,
-            "alertEnabled": False,
-            "ID": 146,
-            "name": "test_firewallrule_1",
+            "action": "drop",
+            "alert_enabled": False,
+            "always_include_packet_data": False,
+            "application_type_id": 300,
+            "case_sensitive": False,
+            "debug_mode_enabled": False,
+            "description": "TEST IPR 1 DESCRIPTION",
+            "detect_only": False,
+            "event_logging_disabled": False,
+            "generate_event_on_packet_drop": True,
+            "id": "8657",
+            "name": "TEST IPR 1",
+            "priority": "normal",
+            "severity": "medium",
+            "signature": "test_new_signature_1",
+            "template": "signature",
         }
     ]
 }
 
 REQUEST_PAYLOAD = [
     {
-        "name": "test_firewallrule_1",
-        "description": "incoming firewall 1 rule description",
-        "action": "deny",
-        "priority": 0,
-        "source_iptype": "any",
-        "destination_iptype": "any",
-        "direction": "incoming",
-        "protocol": "tcp",
-        "log_disabled": True,
+        "alert_enabled": False,
+        "always_include_packet_data": False,
+        "application_type_id": 300,
+        "template": "signature",
+        "signature": "test_new_signature_1",
+        "debug_mode_enabled": False,
+        "description": "TEST IPR 1 DESCRIPTION",
+        "detect_only": False,
+        "event_logging_disabled": False,
+        "generate_event_on_packet_drop": True,
+        "name": "TEST IPR 1",
+        "priority": "normal",
+        "severity": "medium",
     },
     {
-        "name": "test_firewallrule_2",
-        "description": "incoming firewall 2 rule description",
-        "action": "deny",
-        "priority": 0,
-        "source_iptype": "any",
-        "source_ipnot": False,
-        "source_port_type": "any",
-        "destination_iptype": "any",
-        "direction": "incoming",
-        "protocol": "tcp",
+        "alert_enabled": False,
+        "always_include_packet_data": False,
+        "application_type_id": 300,
+        "template": "signature",
+        "signature": "test_new_signature_2",
+        "debug_mode_enabled": False,
+        "description": "TEST IPR 2 DESCRIPTION",
+        "detect_only": False,
+        "event_logging_disabled": False,
+        "generate_event_on_packet_drop": True,
+        "name": "TEST IPR 2",
+        "priority": "normal",
+        "severity": "medium",
     },
 ]
 
 
-class TestDeepsecFirewallRules(unittest.TestCase):
+class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
     def setUp(self):
         task = MagicMock(Task)
         # Ansible > 2.13 looks for check_mode in task
@@ -115,12 +111,13 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             shared_loader_obj=None,
         )
         self._plugin._task.action = "deepsec_intrusion_prevention_rules"
+        self._plugin.api_return = "intrusion_prevention_rules"
         self._task_vars = {}
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_merged(self, connection):
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = {}
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = {}
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
@@ -140,22 +137,25 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
         self._plugin._task.args = {
             "state": "merged",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "incoming firewall 1 rule description",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "incoming",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "alert_enabled": False,
+                    "always_include_packet_data": False,
+                    "application_type_id": 300,
+                    "template": "signature",
+                    "signature": "test_new_signature_1",
+                    "debug_mode_enabled": False,
+                    "description": "TEST IPR 1 DESCRIPTION",
+                    "detect_only": False,
+                    "event_logging_disabled": False,
+                    "generate_event_on_packet_drop": True,
+                    "name": "TEST IPR 1",
+                    "priority": "normal",
+                    "severity": "medium",
                 }
             ],
         }
@@ -168,22 +168,25 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "outgoing",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "alert_enabled": False,
+                    "always_include_packet_data": False,
+                    "application_type_id": 300,
+                    "template": "signature",
+                    "signature": "test_new_signature_1",
+                    "debug_mode_enabled": False,
+                    "description": "TEST IPR 1 REPLACE DESCRIPTION",
+                    "detect_only": False,
+                    "event_logging_disabled": False,
+                    "generate_event_on_packet_drop": True,
+                    "name": "TEST IPR 1",
+                    "priority": "normal",
+                    "severity": "low",
                 }
             ],
         }
@@ -198,54 +201,46 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = {
-            "firewallRules": [
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = {
+            "intrusion_prevention_rules": [
                 {
-                    "action": "deny",
-                    "priority": "0",
-                    "direction": "outgoing",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "frameType": "ip",
-                    "frameNumber": 2048,
-                    "frameNot": False,
-                    "protocol": "tcp",
-                    "protocolNot": False,
-                    "sourceIPType": "any",
-                    "sourceIPNot": False,
-                    "sourceMACType": "any",
-                    "sourceMACNot": False,
-                    "sourcePortType": "any",
-                    "sourcePortNot": False,
-                    "destinationIPType": "any",
-                    "destinationIPNot": False,
-                    "destinationMACType": "any",
-                    "destinationMACNot": False,
-                    "destinationPortType": "any",
-                    "destinationPortNot": False,
-                    "anyFlags": True,
-                    "logDisabled": True,
-                    "includePacketData": False,
-                    "alertEnabled": False,
-                    "ID": 147,
-                    "name": "test_firewallrule_1",
+                    "action": "drop",
+                    "alert_enabled": False,
+                    "always_include_packet_data": False,
+                    "application_type_id": 300,
+                    "case_sensitive": False,
+                    "debug_mode_enabled": False,
+                    "description": "TEST IPR 1 REPLACE DESCRIPTION",
+                    "detect_only": False,
+                    "event_logging_disabled": False,
+                    "generate_event_on_packet_drop": True,
+                    "id": "8657",
+                    "name": "TEST IPR 1",
+                    "priority": "normal",
+                    "severity": "low",
+                    "signature": "test_new_signature_1",
+                    "template": "signature",
                 }
             ]
         }
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "outgoing",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "alert_enabled": False,
+                    "always_include_packet_data": False,
+                    "application_type_id": 300,
+                    "template": "signature",
+                    "signature": "test_new_signature_1",
+                    "debug_mode_enabled": False,
+                    "description": "TEST IPR 1 REPLACE DESCRIPTION",
+                    "detect_only": False,
+                    "event_logging_disabled": False,
+                    "generate_event_on_packet_drop": True,
+                    "name": "TEST IPR 1",
+                    "priority": "normal",
+                    "severity": "low",
                 }
             ],
         }
@@ -258,14 +253,13 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
+                    "name": "TEST IPR 1",
                 }
             ],
         }
@@ -276,8 +270,8 @@ class TestDeepsecFirewallRules(unittest.TestCase):
     def test_deepsec_intrusion_prevention_rules_deleted_idempotent(
         self, connection
     ):
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = {}
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = {}
         self._plugin._connection.socket_path = (
             tempfile.NamedTemporaryFile().name
         )
@@ -286,7 +280,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             "state": "deleted",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
+                    "name": "TEST IPR 1",
                 }
             ],
         }
@@ -299,12 +293,11 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             tempfile.NamedTemporaryFile().name
         )
         self._plugin._connection._shell = MagicMock()
-        self._plugin.search_for_resource_name = MagicMock()
-        self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
+        self._plugin.search_for_ipr_name = MagicMock()
+        self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
         self._plugin._task.args = {
             "state": "gathered",
-            "config": [{"name": "test_firewallrule_1"}],
+            "config": [{"name": "TEST IPR 1"}],
         }
         result = self._plugin.run(task_vars=self._task_vars)
         self.assertFalse(result["changed"])

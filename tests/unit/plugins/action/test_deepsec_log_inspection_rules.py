@@ -33,62 +33,71 @@ from ansible_collections.ansible.utils.tests.unit.compat.mock import (
 )
 
 RESPONSE_PAYLOAD = {
-    "firewallRules": [
+    "log_inspection_rules": [
         {
-            "action": "deny",
-            "priority": "0",
-            "direction": "incoming",
-            "description": "incoming firewall 1 rule description",
-            "frameType": "ip",
-            "frameNumber": 2048,
-            "frameNot": False,
-            "protocol": "tcp",
-            "protocolNot": False,
-            "sourceIPType": "any",
-            "sourceIPNot": False,
-            "sourceMACType": "any",
-            "sourceMACNot": False,
-            "sourcePortType": "any",
-            "sourcePortNot": False,
-            "destinationIPType": "any",
-            "destinationIPNot": False,
-            "destinationMACType": "any",
-            "destinationMACNot": False,
-            "destinationPortType": "any",
-            "destinationPortNot": False,
-            "anyFlags": True,
-            "logDisabled": True,
-            "includePacketData": False,
-            "alertEnabled": False,
-            "ID": 146,
-            "name": "test_firewallrule_1",
+            "alert_enabled": True,
+            "alert_minimum_severity": 4,
+            "dependency": "none",
+            "description": "MYSQLD description",
+            "groups": ["test"],
+            "id": "179",
+            "level": "0",
+            "logFiles": {
+                "logFiles": [
+                    {"location": "/var/log/mysqld.log", "format": "mysql-log"}
+                ]
+            },
+            "minimum_agent_version": "6.0.0.0",
+            "minimum_manager_version": "6.0.0",
+            "name": "custom log_rule for mysqld event",
+            "pattern": "name",
+            "pattern_type": "string",
+            "rule_description": "sqld rule description",
+            "rule_id": 100001,
+            "sort_order": "15000",
+            "template": "basic-rule",
         }
     ]
 }
 
 REQUEST_PAYLOAD = [
     {
-        "name": "test_firewallrule_1",
-        "description": "incoming firewall 1 rule description",
-        "action": "deny",
-        "priority": 0,
-        "source_iptype": "any",
-        "destination_iptype": "any",
-        "direction": "incoming",
-        "protocol": "tcp",
-        "log_disabled": True,
+        "name": "custom log_rule for mysqld event",
+        "description": "MYSQLD description",
+        "minimum_agent_version": "6.0.0.0",
+        "type": "defined",
+        "template": "basic-rule",
+        "pattern": "name",
+        "pattern_type": "string",
+        "rule_id": 100001,
+        "rule_description": "sqld rule description",
+        "groups": ["test"],
+        "alert_minimum_severity": 4,
+        "alert_enabled": True,
+        "log_files": {
+            "log_files": [
+                {"location": "/var/log/mysqld.log", "format": "mysql-log"}
+            ]
+        },
     },
     {
-        "name": "test_firewallrule_2",
-        "description": "incoming firewall 2 rule description",
-        "action": "deny",
-        "priority": 0,
-        "source_iptype": "any",
-        "source_ipnot": False,
-        "source_port_type": "any",
-        "destination_iptype": "any",
-        "direction": "incoming",
-        "protocol": "tcp",
+        "name": "custom log_rule for daemon event",
+        "description": "DAEMON description",
+        "minimum_agent_version": "6.0.0.0",
+        "type": "defined",
+        "template": "basic-rule",
+        "pattern": "name",
+        "pattern_type": "string",
+        "rule_id": 100002,
+        "rule_description": "deamon rule description",
+        "groups": ["test"],
+        "alert_minimum_severity": 3,
+        "alert_enabled": True,
+        "log_files": {
+            "log_files": [
+                {"location": "/var/log/daemon.log", "format": "eventlog"}
+            ]
+        },
     },
 ]
 
@@ -115,6 +124,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             shared_loader_obj=None,
         )
         self._plugin._task.action = "deepsec_log_inspection_rules"
+        self._plugin.api_return = "log_inspection_rules"
         self._task_vars = {}
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
@@ -140,20 +150,30 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "merged",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "incoming firewall 1 rule description",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "incoming",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "name": "custom log_rule for mysqld event",
+                    "description": "MYSQLD description",
+                    "minimum_agent_version": "6.0.0.0",
+                    "type": "defined",
+                    "template": "basic-rule",
+                    "pattern": "name",
+                    "pattern_type": "string",
+                    "rule_id": 100001,
+                    "rule_description": "sqld rule description",
+                    "groups": ["test"],
+                    "alert_minimum_severity": 4,
+                    "alert_enabled": True,
+                    "log_files": {
+                        "log_files": [
+                            {
+                                "location": "/var/log/mysqld.log",
+                                "format": "mysql-log",
+                            }
+                        ]
+                    },
                 }
             ],
         }
@@ -168,20 +188,30 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "outgoing",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "name": "custom log_rule for mysqld event",
+                    "description": "REPLACED log mysqld event",
+                    "minimum_agent_version": "6.0.0.0",
+                    "type": "defined",
+                    "template": "basic-rule",
+                    "pattern": "name",
+                    "pattern_type": "string",
+                    "rule_id": "100003",
+                    "rule_description": "mysqld rule description",
+                    "groups": ["test"],
+                    "alert_minimum_severity": 5,
+                    "alert_enabled": True,
+                    "log_files": {
+                        "log_files": [
+                            {
+                                "location": "/var/log/mysqld.log",
+                                "format": "mysql-log",
+                            }
+                        ]
+                    },
                 }
             ],
         }
@@ -198,52 +228,59 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {
-            "firewallRules": [
+            "log_inspection_rules": [
                 {
-                    "action": "deny",
-                    "priority": "0",
-                    "direction": "outgoing",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "frameType": "ip",
-                    "frameNumber": 2048,
-                    "frameNot": False,
-                    "protocol": "tcp",
-                    "protocolNot": False,
-                    "sourceIPType": "any",
-                    "sourceIPNot": False,
-                    "sourceMACType": "any",
-                    "sourceMACNot": False,
-                    "sourcePortType": "any",
-                    "sourcePortNot": False,
-                    "destinationIPType": "any",
-                    "destinationIPNot": False,
-                    "destinationMACType": "any",
-                    "destinationMACNot": False,
-                    "destinationPortType": "any",
-                    "destinationPortNot": False,
-                    "anyFlags": True,
-                    "logDisabled": True,
-                    "includePacketData": False,
-                    "alertEnabled": False,
-                    "ID": 147,
-                    "name": "test_firewallrule_1",
+                    "alert_enabled": True,
+                    "alert_minimum_severity": 3,
+                    "dependency": "none",
+                    "description": "REPLACED log daemon event",
+                    "groups": ["test"],
+                    "id": "181",
+                    "level": "0",
+                    "logFiles": {
+                        "logFiles": [
+                            {
+                                "location": "/var/log/daemon.log",
+                                "format": "eventlog",
+                            }
+                        ]
+                    },
+                    "minimum_agent_version": "6.0.0.0",
+                    "minimum_manager_version": "6.0.0",
+                    "name": "custom log_rule for daemon event",
+                    "pattern": "name",
+                    "pattern_type": "string",
+                    "rule_description": "daemon rule description",
+                    "rule_id": 100002,
+                    "sort_order": "15000",
+                    "template": "basic-rule",
                 }
             ]
         }
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "replaced",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
-                    "description": "outgoing firewall 1 replaced rule",
-                    "action": "deny",
-                    "priority": 0,
-                    "source_iptype": "any",
-                    "destination_iptype": "any",
-                    "direction": "outgoing",
-                    "protocol": "tcp",
-                    "log_disabled": True,
+                    "name": "custom log_rule for daemon event",
+                    "description": "REPLACED log daemon event",
+                    "minimum_agent_version": "6.0.0.0",
+                    "type": "defined",
+                    "template": "basic-rule",
+                    "pattern": "name",
+                    "pattern_type": "string",
+                    "rule_id": 100002,
+                    "rule_description": "daemon rule description",
+                    "groups": ["test"],
+                    "alert_minimum_severity": 3,
+                    "alert_enabled": True,
+                    "log_files": {
+                        "log_files": [
+                            {
+                                "location": "/var/log/daemon.log",
+                                "format": "eventlog",
+                            }
+                        ]
+                    },
                 }
             ],
         }
@@ -258,12 +295,11 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
+                    "name": "custom log_rule for mysqld event",
                 }
             ],
         }
@@ -282,7 +318,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             "state": "deleted",
             "config": [
                 {
-                    "name": "test_firewallrule_1",
+                    "name": "custom log_rule for mysqld event",
                 }
             ],
         }
@@ -297,10 +333,9 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
-        self._plugin.api_return = "firewallRules"
         self._plugin._task.args = {
             "state": "gathered",
-            "config": [{"name": "test_firewallrule_1"}],
+            "config": [{"name": "custom log_rule for mysqld event"}],
         }
         result = self._plugin.run(task_vars=self._task_vars)
         self.assertFalse(result["changed"])

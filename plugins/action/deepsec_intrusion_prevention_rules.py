@@ -325,7 +325,6 @@ class ActionModule(ActionBase):
         self._supports_check_mode = True
         self._result = super(ActionModule, self).run(tmp, task_vars)
         self._check_argspec()
-        self._result["changed"] = False
         if self._result.get("failed"):
             return self._result
         conn = Connection(self._connection.socket_path)
@@ -341,6 +340,7 @@ class ActionModule(ActionBase):
                 self._result["gathered"] = deepsec_conn_request.get(
                     self.api_object
                 )
+            self._result["changed"] = False
         elif (
             self._task.args["state"] == "merged"
             or self._task.args["state"] == "replaced"

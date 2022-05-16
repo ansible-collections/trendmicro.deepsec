@@ -215,7 +215,6 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
-        print("**** RESULT *****", result)
         self.assertFalse(result["changed"])
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
@@ -271,5 +270,4 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
             "config": [{"name": "THIS IS TEST IMR - 1"}],
         }
         result = self._plugin.run(task_vars=self._task_vars)
-        print("**** RESULT *****", result)
         self.assertFalse(result["changed"])

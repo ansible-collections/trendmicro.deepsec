@@ -31,23 +31,47 @@
                 - location: /var/log/messages
                   format: syslog
 
-    - assert:
+    - name: To remove ID from the before dict
+      set_fact:
+        before: "{{ before | default([]) | combine({ item.key : item.value }) }}"
+      when: "{{item.key not in ['id']}}"
+      with_dict: "{{ dict }}"
+      loop: "{{ result['log_inspection_rules']['before'] }}"
+
+    - name: To remove ID from the after dict
+      set_fact:
+        after: "{{ after | default([]) | combine({ item.key : item.value }) }}"
+      when: "{{item.key not in ['id']}}"
+      with_dict: "{{ dict }}"
+      loop: "{{ result['log_inspection_rules']['after'] }}"
+
+    - name: Assert that task was completed and generated before and after as expected
+      assert:
         that:
           - result.changed == true
-          - "{{ replaced['before'] | symmetric_difference(result['log_inspection_rules']['before']) |\
-            \ length == 2 }}"
-          - "{{ replaced['after'] | symmetric_difference(result['log_inspection_rules']['after']) |\
-            \ length == 2 }}"
+          - "{{ replaced['before'] | symmetric_difference([before]) |\
+            \ length == 0 }}"
+          - "{{ replaced['after'] | symmetric_difference([after]) |\
+            \ length == 0 }}"
 
     - name: Replaces device configuration of Log Inspection Rule with provided configuration
         (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_log_inspection_rules: *id001
 
-    - name: Assert that task was idempotent
+    - name: To remove ID from the before dict
+      set_fact:
+        before: "{{ before | default([]) | combine({ item.key : item.value }) }}"
+      when: "{{item.key not in ['id']}}"
+      with_dict: "{{ dict }}"
+      loop: "{{ result['log_inspection_rules']['before'] }}"
+
+    - name: Assert that task was idempotent and before is generated as expected
       assert:
         that:
           - result['changed'] == false
+          - "{{ replaced['after'] | symmetric_difference([before]) |\
+            \ length == 0 }}"
 
   always:
 

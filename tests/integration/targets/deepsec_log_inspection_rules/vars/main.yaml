@@ -14,8 +14,8 @@ merged:
         log_files:
           - format: mysql-log
             location: /var/log/mysqld.log
-      minimum_agent_version: 6.0.0.0
-      minimum_manager_version: 6.0.0
+      minimum_agent_version: "6.0.0.0"
+      minimum_manager_version: "6.0.0"
       name: "custom log_rule for mysqld event"
       pattern: name
       pattern_type: string
@@ -26,8 +26,7 @@ merged:
     - alert_enabled: true
       alert_minimum_severity: 5
       dependency: none
-      description: false
-      destination_iptype: "log daemon event"
+      description: "log daemon event"
       groups:
         - "test"
       level: 0
@@ -35,8 +34,8 @@ merged:
         log_files:
           - format: syslog
             location: /var/log/daemon.log
-      minimum_agent_version: 6.0.0.0
-      minimum_manager_version: 6.0.0
+      minimum_agent_version: "6.0.0.0"
+      minimum_manager_version: "6.0.0"
       name: "custom log_rule for daemon event"
       pattern: name
       pattern_type: string
@@ -49,9 +48,8 @@ replaced:
   before:
     - alert_enabled: true
       alert_minimum_severity: 5
-      dependency: none
-      description: false
-      destination_iptype: "log daemon event"
+      dependency: "none"
+      description: "log daemon event"
       groups:
         - "test"
       level: 0
@@ -59,8 +57,8 @@ replaced:
         log_files:
           - format: syslog
             location: /var/log/daemon.log
-      minimum_agent_version: 6.0.0.0
-      minimum_manager_version: 6.0.0
+      minimum_agent_version: "6.0.0.0"
+      minimum_manager_version: "6.0.0"
       name: "custom log_rule for daemon event"
       pattern: name
       pattern_type: string
@@ -71,9 +69,8 @@ replaced:
   after:
     - alert_enabled: true
       alert_minimum_severity: 5
-      dependency: none
-      description: false
-      destination_iptype: "Replaced log daemon event"
+      dependency: "none"
+      description: "Replaced log daemon event"
       groups:
         - "test"
       level: 0
@@ -81,12 +78,12 @@ replaced:
         log_files:
           - format: syslog
             location: /var/log/messages
-      minimum_agent_version: 6.0.0.0
-      minimum_manager_version: 6.0.0
+      minimum_agent_version: "6.0.0.0"
+      minimum_manager_version: "6.0.0"
       name: "custom log_rule for daemon event"
       pattern: name
       pattern_type: string
       rule_description: "daemon rule description"
-      rule_id: 100002
+      rule_id: 100003
       sort_order: 15000
       template: basic-rule

@@ -341,6 +341,9 @@ class ActionModule(ActionBase):
                         if every.get("logFiles"):
                             every["log_files"] = self.log_files_fn(every)
                             every.pop("logFiles")
+                        every = self.convert_dict_to_list(
+                            every, "log_files", "log_files"
+                        )
                         before.append(every)
                         after.append(every)
                         temp_name.append(every["name"])
@@ -348,6 +351,9 @@ class ActionModule(ActionBase):
                     if every.get("logFiles"):
                         every["log_files"] = self.log_files_fn(every)
                         every.pop("logFiles")
+                    every = self.convert_dict_to_list(
+                        every, "log_files", "log_files"
+                    )
                     before.append(every)
                     after.append(every)
             else:

@@ -2,8 +2,8 @@
 authors:
   - Ansible Security Team (https://github.com/ansible-security)
 dependencies:
-  "ansible.netcommon": ">=2.5.1"
-  "ansible.utils": '>=2.0.0'
+  - "ansible.netcommon": ">=2.5.1"
+  - "ansible.utils": '>=2.0.0'
 license_file: LICENSE
 name: deepsec
 namespace: trendmicro

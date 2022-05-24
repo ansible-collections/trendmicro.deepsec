@@ -9,4 +9,3 @@ on:
 jobs:
   unit:
     uses: ansible-network/github_actions/.github/workflows/unit.yml@main
-

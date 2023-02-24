@@ -48,6 +48,7 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         super(ActionModule, self).__init__(*args, **kwargs)
         self._result = None
+        self._supports_async = True
         self.api_object = "/api/intrusionpreventionrules"
         self.api_object_search = "/api/intrusionpreventionrules/search"
         self.api_return = "intrusionPreventionRules"
@@ -339,6 +340,7 @@ class ActionModule(ActionBase):
                 self._result["gathered"] = deepsec_conn_request.get(
                     self.api_object
                 )
+            self._result["changed"] = False
         elif (
             self._task.args["state"] == "merged"
             or self._task.args["state"] == "replaced"

@@ -50,7 +50,8 @@ releases:
   1.2.0:
     changes:
       doc_changes:
-        - To update comments to get included TM collection under Ansible (https://github.com/ansible-collections/ansible-inclusion/discussions/27#discussioncomment-1016085).
+        - To update comments to get included TM collection under Ansible
+          (https://github.com/ansible-collections/ansible-inclusion/discussions/27#discussioncomment-1016085).
       minor_changes:
         - Add AntiMalware rules resource module.
         - Add Firewall rules resource module.
@@ -70,19 +71,24 @@ releases:
     modules:
       - description: Manages AntiMalware Rule resource module
         name: deepsec_anti_malwares
-        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
+        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.
+          T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
       - description: Manages Firewall Rule resource module
         name: deepsec_firewall_rules
-        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
+        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.
+          T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
       - description: Manages Integrity Monitoring Rule resource module
         name: deepsec_integrity_monitoring_rules
-        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
+        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.
+          T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
       - description: Intrusion Prevention Rule resource module.
         name: deepsec_intrusion_prevention_rules
-        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
+        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.
+          T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
       - description: Manages Log Inspection Rule resource module
         name: deepsec_log_inspection_rules
-        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
+        namespace: private.var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.
+          T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
     release_date: "2021-12-13"
   2.0.0:
     changes:

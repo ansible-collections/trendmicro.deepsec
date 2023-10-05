@@ -25,8 +25,8 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 env:
-  NAMESPACE: cisco
-  COLLECTION_NAME: ios
+  NAMESPACE: trendmicro
+  COLLECTION_NAME: deepsec
   ANSIBLE_COLLECTIONS_PATHS: ./
 
 jobs:

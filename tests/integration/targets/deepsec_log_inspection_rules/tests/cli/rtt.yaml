@@ -1,13 +1,17 @@
 ---
-- debug:
-    msg: START deepsec_log_inspection_rules round trip integration tests on connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START deepsec_log_inspection_rules round trip integration tests on connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_lir_config.yaml
-- include_tasks: _populate_lir_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_lir_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_lir_config.yaml
 
 - block:
-
     - name: Apply the provided configuration (base config)
       register: base_config
       trendmicro.deepsec.deepsec_log_inspection_rules: &id001
@@ -79,7 +83,8 @@
                   format: syslog
         state: replaced
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ replaced['before'] | symmetric_difference(result['log_inspection_rules']['before']) |\
@@ -93,18 +98,20 @@
         config: "{{ gather_result['gathered'] }}"
         state: replaced
 
-    - debug:
+    - name: Debug task
+      ansible.builtin.debug:
         msg:
           - "{{ merged['after'] | symmetric_difference(revert['log_inspection_rules']['after']) |\
             \ length == 4 }}"
           - "{{ merged['after'] | symmetric_difference(revert['log_inspection_rules']['after']) }}"
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - revert['changed'] == true
           - "{{ merged['after'] | symmetric_difference(revert['log_inspection_rules']['after']) |\
             \ length == 4 }}"
 
   always:
-
-    - include_tasks: _remove_lir_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_lir_config.yaml

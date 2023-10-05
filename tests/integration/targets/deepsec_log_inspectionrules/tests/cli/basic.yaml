@@ -1,5 +1,7 @@
 ---
-- debug: msg="START cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
 
 - block:
     - name: Configure Log InspectionRules config
@@ -24,7 +26,8 @@
             - location: /var/log/mysqld.log
               format: mysql-log
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -32,7 +35,8 @@
       register: result
       trendmicro.deepsec.deepsec_log_inspectionrules: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -58,7 +62,8 @@
             - location: /var/log/mysqld.log
               format: mysql-log
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -68,7 +73,8 @@
         state: absent
         name: custom log_rule for mysqld event
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -78,7 +84,8 @@
         state: absent
         name: custom new log_rule for mysqld event
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -88,7 +95,8 @@
         state: absent
         name: custom log_rule for mysqld event
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
   always:
@@ -96,9 +104,12 @@
       trendmicro.deepsec.deepsec_log_inspectionrules:
         state: absent
         name: custom log_rule for mysqld event
+
     - name: teardown
       trendmicro.deepsec.deepsec_log_inspectionrules:
         state: absent
         name: custom new log_rule for mysqld event
 
-- debug: msg="END cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "END cli/basic.yaml"

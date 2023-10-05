@@ -1,14 +1,16 @@
 ---
 - debug:
-    msg: Start Deleted integration state for deepsec_log_inspection_rules ansible_connection={{ ansible_connection
+    msg:
+      Start Deleted integration state for deepsec_log_inspection_rules ansible_connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_lir_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_lir_config.yaml
 
-- include_tasks: _populate_lir_config.yaml
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_lir_config.yaml
 
 - block:
-
     - name: Delete attributes of provided configured Log Inspection Rules
       register: result
       trendmicro.deepsec.deepsec_log_inspection_rules: &id001
@@ -17,7 +19,8 @@
           - name: custom log_rule for daemon event
         state: deleted
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ merged['after'] | symmetric_difference(result['log_inspection_rules']['before']) |\
@@ -29,10 +32,10 @@
       trendmicro.deepsec.deepsec_log_inspection_rules: *id001
 
     - name: Assert that the previous delete task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
   always:
-
-    - include_tasks: _remove_lir_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_lir_config.yaml

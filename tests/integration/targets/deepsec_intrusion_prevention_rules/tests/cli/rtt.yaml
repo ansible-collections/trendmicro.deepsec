@@ -1,13 +1,17 @@
 ---
-- debug:
-    msg: START deepsec_intrusion_prevention_rules round trip integration tests on connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START deepsec_intrusion_prevention_rules round trip integration tests on connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_ipr_config.yaml
-- include_tasks: _populate_ipr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_ipr_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_ipr_config.yaml
 
 - block:
-
     - name: Apply the provided configuration (base config)
       register: base_config
       trendmicro.deepsec.deepsec_intrusion_prevention_rules: &id001
@@ -18,7 +22,7 @@
             application_type_id: 300
             can_be_assigned_alone: true
             template: signature
-            signature: test_new_signature 
+            signature: test_new_signature
             debug_mode_enabled: false
             description: TEST DESCRIPTION
             detect_only: false
@@ -32,7 +36,7 @@
             application_type_id: 300
             can_be_assigned_alone: true
             template: signature
-            signature: test_new_signature 
+            signature: test_new_signature
             debug_mode_enabled: false
             description: TEST IPR
             detect_only: false
@@ -59,7 +63,7 @@
             application_type_id: 300
             can_be_assigned_alone: true
             template: signature
-            signature: test_new_signature 
+            signature: test_new_signature
             debug_mode_enabled: false
             description: Description for Replaced state
             detect_only: false
@@ -70,7 +74,8 @@
             severity: low
         state: replaced
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ replaced['before'] | symmetric_difference(result['intrusion_prevention_rules']['before']) |\
@@ -84,12 +89,13 @@
         config: "{{ gather_result['gathered'] }}"
         state: replaced
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - revert['changed'] == true
           - "{{ merged['after'] | symmetric_difference(revert['intrusion_prevention_rules']['after']) |\
             \ length == 4 }}"
 
   always:
-
-    - include_tasks: _remove_ipr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_ipr_config.yaml

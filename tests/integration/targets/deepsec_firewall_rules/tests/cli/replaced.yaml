@@ -1,13 +1,16 @@
 ---
 - debug:
-    msg: START Replaced deepsec_firewall_rules state for integration tests on connection={{ ansible_connection
+    msg:
+      START Replaced deepsec_firewall_rules state for integration tests on connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_fwr_config.yaml
-- include_tasks: _populate_fwr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_fwr_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_fwr_config.yaml
 
 - block:
-
     - name: Replace existing Firewall Rules
       register: result
       trendmicro.deepsec.deepsec_firewall_rules: &id001
@@ -23,7 +26,8 @@
             protocol: any
             log_disabled: true
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ replaced['before'] | symmetric_difference(result['firewall_rules']['before']) |\
@@ -31,16 +35,17 @@
           - "{{ replaced['after'] | symmetric_difference(result['firewall_rules']['after']) |\
             \ length == 2 }}"
 
-    - name: Replaces device configuration of Firewall Rule with provided configuration
+    - name:
+        Replaces device configuration of Firewall Rule with provided configuration
         (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_firewall_rules: *id001
 
     - name: Assert that task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == false
 
   always:
-
-    - include_tasks: _remove_fwr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_fwr_config.yaml

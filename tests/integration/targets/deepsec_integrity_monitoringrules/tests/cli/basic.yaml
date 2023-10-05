@@ -1,5 +1,7 @@
 ---
-- debug: msg="START cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
 
 - block:
     - name: Create and Configure Integrity Monitoring Rules
@@ -25,7 +27,8 @@
             severity: low
             template: registry
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -33,7 +36,8 @@
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoringrules: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -45,7 +49,8 @@
           - name: THIS IS TEST IMR - 1
           - name: THIS IS TEST IMR - 2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - gather_result.changed == false
           - "{{ result['integrity_monitoringrules']['before'] == gather_result['gathered'] }}"
@@ -58,7 +63,8 @@
           - name: THIS IS TEST IMR - 1
           - name: THIS IS TEST IMR - 2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -66,7 +72,8 @@
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoringrules: *id002
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -76,7 +83,8 @@
         config: "{{ gather_result['gathered'] }}"
         state: present
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -84,7 +92,8 @@
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoringrules: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -96,7 +105,8 @@
           - name: THIS IS TEST IMR - 2
             severity: medium
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -104,7 +114,8 @@
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoringrules: *id003
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -116,7 +127,8 @@
           - name: THIS IS TEST IMR - 1
           - name: THIS IS TEST IMR - 2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -128,4 +140,6 @@
           - name: THIS IS TEST IMR - 1
           - name: THIS IS TEST IMR - 2
 
-- debug: msg="END cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "END cli/basic.yaml"

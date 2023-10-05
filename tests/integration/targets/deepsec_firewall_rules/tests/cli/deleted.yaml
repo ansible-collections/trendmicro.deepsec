@@ -1,14 +1,14 @@
 ---
-- debug:
-    msg: Start Deleted integration state for deepsec_firewall_rules ansible_connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      Start Deleted integration state for deepsec_firewall_rules ansible_connection={{ ansible_connection
       }}
 
 - include_tasks: _remove_fwr_config.yaml
-
 - include_tasks: _populate_fwr_config.yaml
 
 - block:
-
     - name: Delete attributes of provided configured Firewall Rules
       register: result
       trendmicro.deepsec.deepsec_firewall_rules: &id001
@@ -17,7 +17,8 @@
           - name: test_firewallrule_2
         state: deleted
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ merged['after'] | symmetric_difference(result['firewall_rules']['before']) |\
@@ -29,10 +30,9 @@
       trendmicro.deepsec.deepsec_firewall_rules: *id001
 
     - name: Assert that the previous delete task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
   always:
-
-    - include_tasks: _remove_fwr_config.yaml
+    - ansible.builtin.include_tasks: _remove_fwr_config.yaml

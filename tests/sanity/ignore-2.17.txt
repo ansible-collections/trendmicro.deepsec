@@ -1,1 +1,10 @@
 tests/unit/mock/loader.py pylint:arguments-renamed
+plugins/modules/deepsec_anti_malware.py validate-modules:import-error
+plugins/modules/deepsec_apikey.py validate-modules:import-error: Exception
+plugins/modules/deepsec_firewallrules.py validate-modules:import-error
+plugins/modules/deepsec_hosts_info.py validate-modules:import-error
+plugins/modules/deepsec_integrity_monitoringrules.py validate-modules:import-error
+plugins/modules/deepsec_intrusion_preventionrules.py validate-modules:import-error
+plugins/modules/deepsec_log_inspectionrules.py validate-modules:import-error
+plugins/modules/deepsec_syslog.py validate-modules:import-error
+plugins/modules/deepsec_system_settings.py validate-modules:import-error

@@ -1,0 +1,83 @@
+---
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START Replaced deepsec_log_inspection_rules state for integration tests on connection={{ ansible_connection
+      }}
+
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_lir_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_lir_config.yaml
+
+- block:
+    - name: Replace existing Log Inspection Rules
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules: &id001
+        state: replaced
+        config:
+          - name: custom log_rule for daemon event
+            description: Replaced log daemon event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100003
+            rule_description: daemon rule description
+            groups:
+              - test
+            alert_minimum_severity: 5
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/messages
+                  format: syslog
+
+    - name: To remove ID from the before dict
+      ansible.builtin.set_fact:
+        before: "{{ before | default([]) | combine({ item.key : item.value }) }}"
+      when: "{{item.key not in ['id']}}"
+      with_dict: "{{ dict }}"
+      loop: "{{ result['log_inspection_rules']['before'] }}"
+
+    - name: To remove ID from the after dict
+      ansible.builtin.set_fact:
+        after: "{{ after | default([]) | combine({ item.key : item.value }) }}"
+      when: "{{item.key not in ['id']}}"
+      with_dict: "{{ dict }}"
+      loop: "{{ result['log_inspection_rules']['after'] }}"
+
+    - name: Assert that task was completed and generated before and after as expected
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+          - "{{ replaced['before'] | symmetric_difference([before]) |\
+            \ length == 0 }}"
+          - "{{ replaced['after'] | symmetric_difference([after]) |\
+            \ length == 0 }}"
+
+    - name:
+        Replaces device configuration of Log Inspection Rule with provided configuration
+        (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules: *id001
+
+    - name: To remove ID from the before dict
+      ansible.builtin.set_fact:
+        before: "{{ before | default([]) | combine({ item.key : item.value }) }}"
+      when: "{{item.key not in ['id']}}"
+      with_dict: "{{ dict }}"
+      loop: "{{ result['log_inspection_rules']['before'] }}"
+
+    - name: Assert that task was idempotent and before is generated as expected
+      ansible.builtin.assert:
+        that:
+          - result['changed'] == false
+          - "{{ replaced['after'] | symmetric_difference([before]) |\
+            \ length == 0 }}"
+
+  always:
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_lir_config.yaml

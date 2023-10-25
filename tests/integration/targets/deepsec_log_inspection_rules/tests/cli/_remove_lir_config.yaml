@@ -1,0 +1,7 @@
+---
+- name: Remove already configured Log Inspection Rules Config by Name
+  trendmicro.deepsec.deepsec_log_inspection_rules:
+    state: deleted
+    config:
+      - name: custom log_rule for mysqld event
+      - name: custom log_rule for daemon event

@@ -1,0 +1,34 @@
+---
+- name: Populate Intrusion Prevention Rules for tests
+  tags: merged
+  trendmicro.deepsec.deepsec_intrusion_prevention_rules: &id001
+    state: merged
+    config:
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        can_be_assigned_alone: true
+        template: signature
+        signature: test_new_signature
+        debug_mode_enabled: false
+        description: TEST DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 1
+        priority: normal
+        severity: medium
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        can_be_assigned_alone: true
+        template: signature
+        signature: test_new_signature
+        debug_mode_enabled: false
+        description: TEST IPR
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 2
+        priority: normal
+        severity: medium

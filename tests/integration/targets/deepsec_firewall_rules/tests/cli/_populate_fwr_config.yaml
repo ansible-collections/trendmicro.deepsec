@@ -1,0 +1,25 @@
+---
+- name: Populate Firewall Rules for tests
+  tags: merged
+  trendmicro.deepsec.deepsec_firewall_rules: &id001
+    state: merged
+    config:
+      - name: test_firewallrule_1
+        description: incoming firewall 1 rule description
+        action: deny
+        priority: 0
+        source_iptype: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp
+        log_disabled: true
+      - name: test_firewallrule_2
+        description: incoming firewall 2 rule description
+        action: deny
+        priority: 0
+        source_iptype: any
+        source_ipnot: false
+        source_port_type: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp

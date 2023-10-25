@@ -1,0 +1,31 @@
+---
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START deepsec_firewall_rules gathered integration tests on connection={{ ansible_connection
+      }}
+
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_fwr_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_fwr_config.yaml
+
+- block:
+    - name: Gather the provided configuration with the exisiting running configuration
+      register: result
+      trendmicro.deepsec.deepsec_firewall_rules:
+        config:
+          - name: test_firewallrule_1
+          - name: test_firewallrule_2
+        state: gathered
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - "{{ merged['after'] | symmetric_difference(result['gathered']) |\
+            \ length == 4 }}"
+          - result['changed'] == false
+  always:
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_fwr_config.yaml

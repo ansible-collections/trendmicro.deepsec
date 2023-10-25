@@ -1,0 +1,102 @@
+---
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
+
+- block:
+    - name: Configure Firewall rules config
+      register: result
+      trendmicro.deepsec.deepsec_firewallrules: &id001
+        state: present
+        name: TEST_FIREWALLRULES_1
+        description: test firewall description
+        action: deny
+        priority: 0
+        source_iptype: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp
+        tcpflags:
+          - syn
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+
+    - name: Configure Firewall rules config (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_firewallrules: *id001
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == false
+
+    - name: Should not match for TEST_FIREWALLRULES_1
+      register: result
+      trendmicro.deepsec.deepsec_firewallrules:
+        state: present
+        name: TEST_FIREWALLRULES_2
+        description: test firewall description
+        action: deny
+        priority: 0
+        source_iptype: any
+        destination_iptype: any
+        direction: incoming
+        protocol: tcp
+        tcpflags:
+          - syn
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+
+    - name: teardown
+      register: result
+      trendmicro.deepsec.deepsec_firewallrules:
+        state: absent
+        name: TEST_FIREWALLRULES_1
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+
+    - name: teardown
+      register: results
+      trendmicro.deepsec.deepsec_firewallrules:
+        state: absent
+        name: TEST_FIREWALLRULES_2
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+
+    - name: teardown idempotency check
+      register: result
+      trendmicro.deepsec.deepsec_firewallrules:
+        state: absent
+        name: TEST_FIREWALLRULES_1
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == false
+
+  always:
+    - name: Teardown
+      trendmicro.deepsec.deepsec_firewallrules:
+        state: absent
+        name: TEST_FIREWALLRULES_1
+
+    - name: Teardown
+      trendmicro.deepsec.deepsec_firewallrules:
+        state: absent
+        name: TEST_FIREWALLRULES_2
+
+- name: Debug task
+  ansible.builtin.debug:
+    msg: "END cli/full_name_match.yaml"

@@ -1,0 +1,84 @@
+---
+merged:
+  before: []
+
+  after:
+    - alert_enabled: false
+      description: THIS IS TEST IMR DESCRIPTION - 1
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: THIS IS TEST IMR - 1
+      real_time_monitoring_enabled: true
+      registry_attributes:
+        - STANDARD
+      registry_excluded_values:
+        - ""
+      registry_include_default_value: true
+      registry_include_sub_keys: false
+      registry_included_values:
+        - test_1
+        - test_2
+      registry_key_root: HKEY_CLASSES_ROOT
+      registry_key_value: \\
+      severity: medium
+      template: registry
+    - alert_enabled: false
+      description: THIS IS TEST IMR DESCRIPTION - 2
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: THIS IS TEST IMR - 2
+      real_time_monitoring_enabled: true
+      registry_attributes:
+        - test
+      registry_excluded_values:
+        - ""
+      registry_include_default_value: true
+      registry_include_sub_keys: false
+      registry_included_values:
+        - ""
+      registry_key_root: HKEY_CLASSES_ROOT
+      registry_key_value: \\
+      severity: low
+      template: registry
+
+replaced:
+  before:
+    - alert_enabled: false
+      description: THIS IS TEST IMR DESCRIPTION - 1
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: THIS IS TEST IMR - 1
+      real_time_monitoring_enabled: true
+      registry_attributes:
+        - STANDARD
+      registry_excluded_values:
+        - ""
+      registry_include_default_value: true
+      registry_include_sub_keys: false
+      registry_included_values:
+        - test_1
+        - test_2
+      registry_key_root: HKEY_CLASSES_ROOT
+      registry_key_value: \\
+      severity: medium
+      template: registry
+  after:
+    - alert_enabled: false
+      description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
+      minimum_agent_version: 6.0.0.0
+      minimum_manager_version: 6.0.0
+      name: THIS IS TEST IMR - 1
+      real_time_monitoring_enabled: true
+      registry_attributes:
+        - STANDARD
+      registry_excluded_values:
+        - ""
+      registry_include_default_value: true
+      registry_include_sub_keys: false
+      registry_included_values:
+        - test_3
+        - test_4
+      registry_key_root: HKEY_CLASSES_ROOT
+      registry_key_value: \\
+      severity: low
+      template: registry

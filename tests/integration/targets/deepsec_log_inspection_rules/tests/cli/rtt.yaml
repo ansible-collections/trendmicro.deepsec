@@ -1,0 +1,117 @@
+---
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START deepsec_log_inspection_rules round trip integration tests on connection={{ ansible_connection
+      }}
+
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_lir_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_lir_config.yaml
+
+- block:
+    - name: Apply the provided configuration (base config)
+      register: base_config
+      trendmicro.deepsec.deepsec_log_inspection_rules: &id001
+        state: merged
+        config:
+          - name: custom log_rule for mysqld event
+            description: log mysqld event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100001
+            rule_description: mysqld rule description
+            groups:
+              - test
+            alert_minimum_severity: 4
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/mysqld.log
+                  format: mysql-log
+          - name: custom log_rule for daemon event
+            description: log daemon event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100002
+            rule_description: daemon rule description
+            groups:
+              - test
+            alert_minimum_severity: 5
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/daemon.log
+                  format: syslog
+
+    - name: Gather TM Log Inspection Rules facts
+      register: gather_result
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        config:
+          - name: custom log_rule for mysqld event
+          - name: custom log_rule for daemon event
+        state: gathered
+
+    - name: Apply the configuration which need to be reverted
+      register: result
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        config:
+          - name: custom log_rule for daemon event
+            description: Replaced log daemon event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100003
+            rule_description: daemon rule description
+            groups:
+              - test
+            alert_minimum_severity: 5
+            alert_enabled: true
+            log_files:
+              log_files:
+                - location: /var/log/messages
+                  format: syslog
+        state: replaced
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+          - "{{ replaced['before'] | symmetric_difference(result['log_inspection_rules']['before']) |\
+            \ length == 2 }}"
+          - "{{ replaced['after'] | symmetric_difference(result['log_inspection_rules']['after']) |\
+            \ length == 2 }}"
+
+    - name: Revert back to base config using facts round trip
+      register: revert
+      trendmicro.deepsec.deepsec_log_inspection_rules:
+        config: "{{ gather_result['gathered'] }}"
+        state: replaced
+
+    - name: Debug task
+      ansible.builtin.debug:
+        msg:
+          - "{{ merged['after'] | symmetric_difference(revert['log_inspection_rules']['after']) |\
+            \ length == 4 }}"
+          - "{{ merged['after'] | symmetric_difference(revert['log_inspection_rules']['after']) }}"
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - revert['changed'] == true
+          - "{{ merged['after'] | symmetric_difference(revert['log_inspection_rules']['after']) |\
+            \ length == 4 }}"
+
+  always:
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_lir_config.yaml

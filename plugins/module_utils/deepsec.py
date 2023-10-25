@@ -7,13 +7,15 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from ansible.module_utils.urls import CertificateError
-from ansible.module_utils.six.moves.urllib.parse import urlencode, quote_plus
+try:
+    from ssl import CertificateError
+except ImportError:
+    from backports.ssl_match_hostname import CertificateError
+
 from ansible.module_utils.connection import ConnectionError
-from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.module_utils.connection import Connection
 from ansible.module_utils._text import to_text
-import json
+from ansible.module_utils.six import iteritems
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
@@ -39,10 +41,75 @@ def find_dict_in_list(some_list, key, value):
     return None
 
 
+def remove_get_keys_from_payload_dict(payload_dict, remove_key_list):
+    for each_key in remove_key_list:
+        if each_key in payload_dict:
+            payload_dict.pop(each_key)
+    return payload_dict
+
+
+def map_params_to_obj(module_params, key_transform):
+    """The fn to convert the api returned params to module params
+    :param module_params: Module params
+    :param key_transform: Dict with module equivalent API params
+    :rtype: A dict
+    :returns: dict with module prams transformed having API expected params
+    """
+    obj = {}
+    for k, v in iteritems(key_transform):
+        if k in module_params and (
+            module_params.get(k)
+            or module_params.get(k) == 0
+            or module_params.get(k) is False
+        ):
+            obj[v] = module_params.pop(k)
+    if module_params:
+        obj.update(module_params)
+    return obj
+
+
+def map_obj_to_params(module_return_params, key_transform, return_param):
+    """The fn to convert the api returned params to module params
+    :param module_return_params: API returned response params
+    :param key_transform: Module params
+    :rtype: A dict
+    :returns: dict with api returned value to module param value
+    """
+    temp = {}
+    if module_return_params.get(return_param):
+        temp[return_param] = []
+        for each in module_return_params[return_param]:
+            api_temp = {}
+            for k, v in iteritems(key_transform):
+                if v in each and (
+                    each.get(v) or each.get(v) == 0 or each.get(v) is False
+                ):
+                    api_temp[k] = each.pop(v)
+            if each:
+                api_temp.update(each)
+            temp[return_param].append(api_temp)
+    else:
+        for k, v in iteritems(key_transform):
+            if v in module_return_params and (
+                module_return_params.get(v)
+                or module_return_params.get(v) == 0
+                or module_return_params.get(v) is False
+            ):
+                temp[k] = module_return_params.pop(v)
+        if module_return_params:
+            temp.update(module_return_params)
+    return temp
+
+
 def check_if_config_exists(
-    deepsec_request, config_name, api, api_search_result, field_name="name"
+    deepsec_request,
+    config_name,
+    api,
+    api_search_result,
+    field_name="name",
+    api_request="post",
 ):
-    """ The fn check if the config_name detect based on config
+    """The fn check if the config_name detect based on config
     :param deepsec_request: the objects from which the configuration should be read
     :param config_name: config_name rule with which config will be searched
     :param api: REST API for which search POST call is made
@@ -61,43 +128,79 @@ def check_if_config_exists(
     temp_criteria["stringValue"] = config_name
     search_dict["searchCriteria"].append(temp_criteria)
 
-    search_result = deepsec_request.post(
-        "/api/{0}/search".format(api), data=search_dict
-    )
+    if api_request == "get":
+        search_result = deepsec_request.get(
+            "/api/{0}/{1}".format(api, config_name)
+        )
+    else:
+        search_result = deepsec_request.post(
+            "/api/{0}/search".format(api), data=search_dict
+        )
     if search_result.get(api_search_result):
         return search_result[api_search_result][0]
     return search_result
 
 
 def delete_config_with_id(
-    module, deepsec_request, api, config_id, api_var, api_or_rest=True
+    module,
+    deepsec_request,
+    api,
+    config_id,
+    api_var,
+    api_or_rest=True,
+    handle_return=False,
 ):
-    """ The fn calls the delete API based on the config id
-    :param module: ansible module object
+    """The fn calls the delete API based on the config id
     :param deepsec_request: connection obj for TM
     :param config_id: config id for the config that's supposed to be deleted
-    :param api_var: api_var for the response statement
     :param api_or_rest: Fire request for legacy or latest API call
     value has dict as its value
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
     if api_or_rest:
-        deepsec_request.delete("/api/{0}/{1}".format(api, config_id))
+        delete_return = deepsec_request.delete(
+            "/api/{0}/{1}".format(api, config_id)
+        )
     else:
-        deepsec_request.delete("/rest/{0}/{1}".format(api, config_id))
-    module.exit_json(
-        msg="{0} with id: {1} deleted successfully!".format(
-            api_var, config_id
-        ),
-        changed=True,
-    )
+        delete_return = deepsec_request.delete(
+            "/rest/{0}/{1}".format(api, config_id)
+        )
+    if handle_return:
+        module.exit_json(
+            msg="{0} with id: {1} deleted successfully!".format(
+                api_var, config_id
+            ),
+            changed=True,
+        )
+    else:
+        return delete_return
 
 
 class DeepSecurityRequest(object):
-    def __init__(self, module, headers=None, not_rest_data_keys=None):
+    def __init__(
+        self,
+        module=None,
+        connection=None,
+        headers=None,
+        not_rest_data_keys=None,
+        task_vars=None,
+    ):
         self.module = module
-        self.connection = Connection(self.module._socket_path)
+        if module:
+            # This will be removed, once all of the available modules
+            # are moved to use action plugin design, as otherwise test
+            # would start to complain without the implementation.
+            self.connection = Connection(self.module._socket_path)
+        elif connection:
+            self.connection = connection
+            try:
+                self.connection.load_platform_plugins(
+                    "trendmicro.deepsec.deepsec"
+                )
+                self.connection.set_options(var_options=task_vars)
+            except ConnectionError:
+                raise
         # This allows us to exclude specific argspec keys from being included by
         # the rest data that don't follow the deepsec_* naming convention
         if not_rest_data_keys:
@@ -110,7 +213,8 @@ class DeepSecurityRequest(object):
     def _httpapi_error_handle(self, method, uri, **kwargs):
         # FIXME - make use of handle_httperror(self, exception) where applicable
         #   https://docs.ansible.com/ansible/latest/network/dev_guide/developing_plugins_network.html#developing-plugins-httpapi
-
+        code = 99999
+        response = {}
         try:
             code, response = self.connection.send_request(
                 method, uri, **kwargs
@@ -124,9 +228,19 @@ class DeepSecurityRequest(object):
                 msg="certificate error occurred: {0}".format(e)
             )
         except ValueError as e:
-            self.module.fail_json(msg="certificate not found: {0}".format(e))
-
-        return response
+            try:
+                self.module.fail_json(
+                    msg="certificate not found: {0}".format(e)
+                )
+            except AttributeError:
+                pass
+        # This fn. will return both code and response, once all of the available modules
+        # are moved to use action plugin design, as otherwise test
+        # would start to complain without the implementation.
+        if self.module:
+            return response
+        else:
+            return code, response
 
     def get(self, url, **kwargs):
         return self._httpapi_error_handle("GET", url, **kwargs)

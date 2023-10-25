@@ -1,0 +1,57 @@
+---
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START Replaced deepsec_intrusion_prevention_rules state for integration tests on connection={{ ansible_connection
+      }}
+
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_ipr_config.yaml
+
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _populate_ipr_config.yaml
+
+- block:
+    - name: Replace existing Intrusion Prevention Rule
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules: &id001
+        state: replaced
+        config:
+          - alert_enabled: true
+            always_include_packet_data: false
+            application_type_id: 300
+            can_be_assigned_alone: true
+            template: signature
+            signature: test_new_signature
+            debug_mode_enabled: false
+            description: Description for Replaced state
+            detect_only: false
+            event_logging_disabled: false
+            generate_event_on_packet_drop: true
+            name: TEST IPR 2
+            priority: normal
+            severity: low
+
+    - name: Assert task
+      ansible.builtin.assert:
+        that:
+          - result.changed == true
+          - "{{ replaced['before'] | symmetric_difference(result['intrusion_prevention_rules']['before']) |\
+            \ length == 2 }}"
+          - "{{ replaced['after'] | symmetric_difference(result['intrusion_prevention_rules']['after']) |\
+            \ length == 2 }}"
+
+    - name:
+        Replaces device configuration of listed interfaces with provided configuration
+        (IDEMPOTENT)
+      register: result
+      trendmicro.deepsec.deepsec_intrusion_prevention_rules: *id001
+
+    - name: Assert that task was idempotent
+      ansible.builtin.assert:
+        that:
+          - result['changed'] == false
+
+  always:
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_ipr_config.yaml

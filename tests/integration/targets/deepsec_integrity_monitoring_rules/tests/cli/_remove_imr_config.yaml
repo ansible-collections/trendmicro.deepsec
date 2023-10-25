@@ -1,0 +1,7 @@
+---
+- name: Remove already configured IMR Config by Name
+  trendmicro.deepsec.deepsec_integrity_monitoring_rules:
+    state: deleted
+    config:
+      - name: THIS IS TEST IMR - 1
+      - name: THIS IS TEST IMR - 2

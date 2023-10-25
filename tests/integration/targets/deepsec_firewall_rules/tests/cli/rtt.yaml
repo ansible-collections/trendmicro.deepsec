@@ -1,13 +1,17 @@
 ---
-- debug:
-    msg: START deepsec_firewall_rules round trip integration tests on connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START deepsec_firewall_rules round trip integration tests on connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_fwr_config.yaml
-- include_tasks: _populate_fwr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_fwr_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_fwr_config.yaml
 
 - block:
-
     - name: Apply the provided configuration (base config)
       register: base_config
       trendmicro.deepsec.deepsec_firewall_rules: &id001
@@ -56,7 +60,8 @@
             log_disabled: true
         state: replaced
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ replaced['before'] | symmetric_difference(result['firewall_rules']['before']) |\
@@ -70,18 +75,20 @@
         config: "{{ gather_result['gathered'] }}"
         state: replaced
 
-    - debug:
+    - name: Debug task
+      ansible.builtin.debug:
         msg:
           - "{{ merged['after'] | symmetric_difference(revert['firewall_rules']['after']) |\
             \ length == 4 }}"
           - "{{ merged['after'] | symmetric_difference(revert['firewall_rules']['after']) }}"
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - revert['changed'] == true
           - "{{ merged['after'] | symmetric_difference(revert['firewall_rules']['after']) |\
             \ length == 4 }}"
 
   always:
-
-    - include_tasks: _remove_fwr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_fwr_config.yaml

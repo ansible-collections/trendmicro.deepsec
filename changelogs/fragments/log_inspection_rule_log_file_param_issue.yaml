@@ -1,3 +1,3 @@
 ---
 bugfixes:
-- To fix the Log inspection rules module bug, where log_files param was not parsed as expected in idempotent play output.
+  - To fix the Log inspection rules module bug, where log_files param was not parsed as expected in idempotent play output.

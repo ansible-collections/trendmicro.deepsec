@@ -1,12 +1,12 @@
 ---
-- debug:
-    msg: START Merged deepsec_intrusion_prevention_rules state for integration tests on connection={{
-      ansible_connection }}
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: START Merged deepsec_intrusion_prevention_rules state for integration tests on connection={{ ansible_connection }}
 
-- include_tasks: _remove_ipr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_ipr_config.yaml
 
 - block:
-
     - name: Merge and Create new Intrusion Prevention Rules
       tags: merged
       register: result
@@ -18,7 +18,7 @@
             application_type_id: 300
             can_be_assigned_alone: true
             template: signature
-            signature: test_new_signature 
+            signature: test_new_signature
             debug_mode_enabled: false
             description: TEST DESCRIPTION
             detect_only: false
@@ -32,7 +32,7 @@
             application_type_id: 300
             can_be_assigned_alone: true
             template: signature
-            signature: test_new_signature 
+            signature: test_new_signature
             debug_mode_enabled: false
             description: TEST IPR
             detect_only: false
@@ -43,14 +43,14 @@
             severity: medium
 
     - name: Assert that task reports change and after dict is correctly generated
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == true
           - "{{ merged['after'] | symmetric_difference(result['intrusion_prevention_rules']['after']) |\
             \ length == 4 }}"
 
     - name: Assert that before dicts are correctly generated
-      assert:
+      ansible.builtin.assert:
         that:
           - merged['before'] == result['intrusion_prevention_rules']['before']
 
@@ -59,10 +59,10 @@
       trendmicro.deepsec.deepsec_intrusion_prevention_rules: *id001
 
     - name: Assert that the previous task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == false
 
   always:
-
-    - include_tasks: _remove_ipr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_ipr_config.yaml

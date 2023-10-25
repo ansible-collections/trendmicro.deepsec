@@ -1,13 +1,17 @@
 ---
-- debug:
-    msg: START Replaced deepsec_intrusion_prevention_rules state for integration tests on connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START Replaced deepsec_intrusion_prevention_rules state for integration tests on connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_ipr_config.yaml
-- include_tasks: _populate_ipr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_ipr_config.yaml
+
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _populate_ipr_config.yaml
 
 - block:
-
     - name: Replace existing Intrusion Prevention Rule
       register: result
       trendmicro.deepsec.deepsec_intrusion_prevention_rules: &id001
@@ -18,7 +22,7 @@
             application_type_id: 300
             can_be_assigned_alone: true
             template: signature
-            signature: test_new_signature 
+            signature: test_new_signature
             debug_mode_enabled: false
             description: Description for Replaced state
             detect_only: false
@@ -28,7 +32,8 @@
             priority: normal
             severity: low
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ replaced['before'] | symmetric_difference(result['intrusion_prevention_rules']['before']) |\
@@ -36,16 +41,17 @@
           - "{{ replaced['after'] | symmetric_difference(result['intrusion_prevention_rules']['after']) |\
             \ length == 2 }}"
 
-    - name: Replaces device configuration of listed interfaces with provided configuration
+    - name:
+        Replaces device configuration of listed interfaces with provided configuration
         (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_intrusion_prevention_rules: *id001
 
     - name: Assert that task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == false
 
   always:
-
-    - include_tasks: _remove_ipr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_ipr_config.yaml

@@ -1,5 +1,7 @@
 ---
-- debug: msg="START cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
 
 - block:
     - name: Configure Firewall rules config
@@ -17,7 +19,8 @@
         tcpflags:
           - syn
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -25,7 +28,8 @@
       register: result
       trendmicro.deepsec.deepsec_firewallrules: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -44,7 +48,8 @@
         tcpflags:
           - syn
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -54,7 +59,8 @@
         state: absent
         name: TEST_FIREWALLRULES_1
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -64,7 +70,8 @@
         state: absent
         name: TEST_FIREWALLRULES_2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -74,18 +81,22 @@
         state: absent
         name: TEST_FIREWALLRULES_1
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
   always:
-    - name: teardown
+    - name: Teardown
       trendmicro.deepsec.deepsec_firewallrules:
         state: absent
         name: TEST_FIREWALLRULES_1
-    - name: teardown
+
+    - name: Teardown
       trendmicro.deepsec.deepsec_firewallrules:
         state: absent
         name: TEST_FIREWALLRULES_2
 
-- debug: msg="END cli/full_name_match.yaml"
+- name: Debug task
+  ansible.builtin.debug:
+    msg: "END cli/full_name_match.yaml"

@@ -7,7 +7,11 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from ansible.module_utils.urls import CertificateError
+try:
+    from ssl import CertificateError
+except ImportError:
+    from backports.ssl_match_hostname import CertificateError
+
 from ansible.module_utils.connection import ConnectionError
 from ansible.module_utils.connection import Connection
 from ansible.module_utils._text import to_text

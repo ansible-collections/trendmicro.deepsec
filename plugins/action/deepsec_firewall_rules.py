@@ -254,7 +254,7 @@ class ActionModule(ActionBase):
                                 each, self.key_transform
                             )
                             response_code, api_response = conn_request.post(
-                                "{0}/{1}".format(self.api_object, every["id"]),
+                                "{0}/{1}".format(self.api_object, every.get("id")),
                                 data=payload,
                             )
                             self._check_for_response_code(
@@ -269,7 +269,7 @@ class ActionModule(ActionBase):
                             )
                         elif self._task.args["state"] == "replaced":
                             response_code, api_response = conn_request.delete(
-                                "{0}/{1}".format(self.api_object, every["id"]),
+                                "{0}/{1}".format(self.api_object, every.get("id")),
                                 data=each,
                             )
                             self._check_for_response_code(

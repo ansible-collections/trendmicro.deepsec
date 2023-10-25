@@ -1,5 +1,7 @@
 ---
-- debug: msg="START cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
 
 - block:
     - name: Create a API key by name
@@ -18,7 +20,8 @@
             role_id: 1
             locale: en-US
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -26,7 +29,8 @@
       register: result
       trendmicro.deepsec.deepsec_apikey: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -38,12 +42,13 @@
           - key_name: test_apiKeys_1
           - key_name: test_apiKeys_2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - gather_result.changed == false
           - "{{ result['config']['api_keys'] == gather_result['gathered']['api_keys'] }}"
 
-    - name: teardown
+    - name: Teardown
       register: result
       trendmicro.deepsec.deepsec_apikey:
         state: absent
@@ -51,11 +56,12 @@
           - key_name: test_apiKeys_1
           - key_name: test_apiKeys_2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
-    - name: teardown idempotency check
+    - name: Teardown idempotency check
       register: result
       trendmicro.deepsec.deepsec_apikey:
         state: absent
@@ -63,15 +69,18 @@
           - key_name: test_apiKeys_1
           - key_name: test_apiKeys_2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
   always:
-    - name: teardown test_apiKeys
+    - name: Teardown test_apiKeys
       trendmicro.deepsec.deepsec_apikey:
         state: absent
         api_keys:
           - key_name: test_apiKeys_1
           - key_name: test_apiKeys_2
 
-- debug: msg="END cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "END cli/basic.yaml"

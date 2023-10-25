@@ -1,12 +1,14 @@
 ---
-- debug:
-    msg: START Merged deepsec_firewall_rules state for integration tests on connection={{
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START Merged deepsec_firewall_rules state for integration tests on connection={{
       ansible_connection }}
 
-- include_tasks: _remove_fwr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_fwr_config.yaml
 
 - block:
-
     - name: Merge and Create new Firewall Rules
       tags: merged
       register: result
@@ -34,14 +36,14 @@
             protocol: tcp
 
     - name: Assert that task reports change and after dict is correctly generated
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == true
           - "{{ merged['after'] | symmetric_difference(result['firewall_rules']['after']) |\
             \ length == 4 }}"
 
     - name: Assert that before dicts are correctly generated
-      assert:
+      ansible.builtin.assert:
         that:
           - merged['before'] == result['firewall_rules']['before']
 
@@ -50,10 +52,10 @@
       trendmicro.deepsec.deepsec_firewall_rules: *id001
 
     - name: Assert that the previous task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == false
 
   always:
-
-    - include_tasks: _remove_fwr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_fwr_config.yaml

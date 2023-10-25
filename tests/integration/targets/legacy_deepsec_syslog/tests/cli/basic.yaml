@@ -1,5 +1,7 @@
 ---
-- debug: msg="START cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
 
 - block:
     - name: Configure syslog config
@@ -15,7 +17,8 @@
         transport: udp
         description: Syslog Api request from Ansible
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -23,7 +26,8 @@
       register: result
       trendmicro.deepsec.deepsec_syslog: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -40,7 +44,8 @@
         transport: udp
         description: Syslog Api request from Ansible
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -50,7 +55,8 @@
         state: absent
         name: TEST_SYSLOG_1
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -60,7 +66,8 @@
         state: absent
         name: TEST_SYSLOG_2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -70,7 +77,8 @@
         state: absent
         name: TEST_SYSLOG_1
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
   always:
@@ -83,4 +91,6 @@
         state: absent
         name: TEST_SYSLOG_2
 
-- debug: msg="END cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "END cli/basic.yaml"

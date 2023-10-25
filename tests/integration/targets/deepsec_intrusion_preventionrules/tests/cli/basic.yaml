@@ -1,5 +1,7 @@
 ---
-- debug: msg="START cli/basic.yaml"
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg: "START cli/basic.yaml"
 
 - block:
     - name: Create Intrusion Prevention Rules
@@ -36,7 +38,8 @@
             priority: normal
             severity: medium
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
@@ -44,7 +47,8 @@
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules: *id001
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
@@ -56,12 +60,13 @@
           - name: TEST IPR 1
           - name: TEST IPR 2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - gather_result.changed == false
           - "{{ result['intrusion_preventionrules']['before'] == gather_result['gathered'] }}"
 
-    - name: teardown
+    - name: Teardown
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules: &id002
         state: absent
@@ -69,37 +74,41 @@
           - name: TEST IPR 1
           - name: TEST IPR 2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
 
-    - name: teardown idempotency check (IDEMPOTENT)
+    - name: Teardown idempotency check (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules: *id002
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
-    
+
     - name: Apply the gathered Intrusion prevention rules for verifying RTT
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         config: "{{ gather_result['gathered'] }}"
         state: present
-    
-    - assert:
+
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
-    
+
     - name: Apply the gathered Intrusion prevention rules for verifying RTT (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules: *id001
-    
-    - assert:
+
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
-    - name: teardown
+    - name: Teardown
       register: result
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         state: absent
@@ -107,10 +116,10 @@
           - name: TEST IPR 1
           - name: TEST IPR 2
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
-
 
   always:
     - name: ALWAYS teardown/reset Intrusion prevention rules
@@ -120,4 +129,6 @@
           - name: TEST IPR 1
           - name: TEST IPR 2
 
-- debug: msg="END cli/basic.yaml"
+- name: Debug task
+  ansible.builtin.debug:
+    msg: "END cli/basic.yaml"

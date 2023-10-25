@@ -1,14 +1,17 @@
 ---
-- debug:
-    msg: Start Deleted integration state for deepsec_intrusion_prevention_rules ansible_connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      Start Deleted integration state for deepsec_intrusion_prevention_rules ansible_connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_ipr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_ipr_config.yaml
 
-- include_tasks: _populate_ipr_config.yaml
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_ipr_config.yaml
 
 - block:
-
     - name: Delete attributes of provided configured IPRs
       register: result
       trendmicro.deepsec.deepsec_intrusion_prevention_rules: &id001
@@ -17,7 +20,8 @@
           - name: TEST IPR 2
         state: deleted
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ merged['after'] | symmetric_difference(result['intrusion_prevention_rules']['before']) |\
@@ -29,10 +33,10 @@
       trendmicro.deepsec.deepsec_intrusion_prevention_rules: *id001
 
     - name: Assert that the previous delete task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result.changed == false
 
   always:
-
-    - include_tasks: _remove_ipr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_ipr_config.yaml

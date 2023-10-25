@@ -1,13 +1,17 @@
 ---
-- debug:
-    msg: START Replaced deepsec_integrity_monitoring_rules state for integration tests on connection={{ ansible_connection
+- name: Debug Statement
+  ansible.builtin.debug:
+    msg:
+      START Replaced deepsec_integrity_monitoring_rules state for integration tests on connection={{ ansible_connection
       }}
 
-- include_tasks: _remove_imr_config.yaml
-- include_tasks: _populate_imr_config.yaml
+- name: Remove config pre test runs
+  ansible.builtin.include_tasks: _remove_imr_config.yaml
+
+- name: Populate config pre test runs
+  ansible.builtin.include_tasks: _populate_imr_config.yaml
 
 - block:
-
     - name: Replace existing Integrity Monitoring Rules
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoring_rules: &id001
@@ -23,7 +27,8 @@
             severity: low
             template: registry
 
-    - assert:
+    - name: Assert task
+      ansible.builtin.assert:
         that:
           - result.changed == true
           - "{{ replaced['before'] | symmetric_difference(result['integrity_monitoring_rules']['before']) |\
@@ -31,16 +36,17 @@
           - "{{ replaced['after'] | symmetric_difference(result['integrity_monitoring_rules']['after']) |\
             \ length == 2 }}"
 
-    - name: Replaces device configuration of listed interfaces with provided configuration
+    - name:
+        Replaces device configuration of listed interfaces with provided configuration
         (IDEMPOTENT)
       register: result
       trendmicro.deepsec.deepsec_integrity_monitoring_rules: *id001
 
     - name: Assert that task was idempotent
-      assert:
+      ansible.builtin.assert:
         that:
           - result['changed'] == false
 
   always:
-
-    - include_tasks: _remove_imr_config.yaml
+    - name: Post test runs
+      ansible.builtin.include_tasks: _remove_imr_config.yaml

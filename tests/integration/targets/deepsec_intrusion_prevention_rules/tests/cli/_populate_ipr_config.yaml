@@ -9,7 +9,7 @@
         application_type_id: 300
         can_be_assigned_alone: true
         template: signature
-        signature: test_new_signature 
+        signature: test_new_signature
         debug_mode_enabled: false
         description: TEST DESCRIPTION
         detect_only: false
@@ -23,7 +23,7 @@
         application_type_id: 300
         can_be_assigned_alone: true
         template: signature
-        signature: test_new_signature 
+        signature: test_new_signature
         debug_mode_enabled: false
         description: TEST IPR
         detect_only: false

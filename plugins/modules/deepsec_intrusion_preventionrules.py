@@ -13,12 +13,12 @@ DOCUMENTATION = """
 module: deepsec_intrusion_preventionrules
 short_description: Create a new intrusion prevention rule.
 description:
-- This module creates a new intrusion preventin rul under TrendMicro Deep Security.
+  - This module creates a new intrusion preventin rul under TrendMicro Deep Security.
 version_added: 1.0.0
 deprecated:
   alternative: deepsec_intrusion_prevention_rules
   why: Newer and updated modules released with more functionality
-  removed_at_date: '2023-12-01'
+  removed_at_date: "2023-12-01"
 options:
   config:
     description: Intrusion prevention rules config
@@ -27,204 +27,208 @@ options:
     suboptions:
       name:
         description:
-        - Name of the IntrusionPreventionRule.
-        - Searchable as String.
+          - Name of the IntrusionPreventionRule.
+          - Searchable as String.
         type: str
       description:
         description:
-        - Description of the IntrusionPreventionRule.
-        - Searchable as String.
+          - Description of the IntrusionPreventionRule.
+          - Searchable as String.
         type: str
       minimum_agent_version:
         description:
-        - Version of the Deep Security agent or appliance required to support the
-          rule.
-        - Searchable as String.
+          - Version of the Deep Security agent or appliance required to support the
+            rule.
+          - Searchable as String.
         type: str
       application_type_id:
         description:
-        - ID of the application type for the IntrusionPreventionRule.
-        - Searchable as Numeric.
+          - ID of the application type for the IntrusionPreventionRule.
+          - Searchable as Numeric.
         type: int
       priority:
         description:
-        - Priority level of the rule. Higher priority rules are applied before lower
-          priority rules.
-        - Searchable as Choice.
+          - Priority level of the rule. Higher priority rules are applied before lower
+            priority rules.
+          - Searchable as Choice.
         choices: [lowest, low, normal, high, highest]
         type: str
       severity:
         description:
-        - Severity level of the rule. Severity levels can be used as sorting criteria
-          and affect event rankings.
-        - Searchable as Choice.
+          - Severity level of the rule. Severity levels can be used as sorting criteria
+            and affect event rankings.
+          - Searchable as Choice.
         choices: [low, medium, high, critical]
         type: str
       detect_only:
-        description: In detect mode, the rule creates an event log and does not interfere
+        description:
+          In detect mode, the rule creates an event log and does not interfere
           with traffic.
         type: bool
       event_logging_disabled:
         description:
-        - Enable to prevent event logs from being created when the rule is triggered.
-        - Not available if detect only is true.
-        - Searchable as Boolean.
+          - Enable to prevent event logs from being created when the rule is triggered.
+          - Not available if detect only is true.
+          - Searchable as Boolean.
         type: bool
       generate_event_on_packet_drop:
         description:
-        - Generate an event every time a packet is dropped for the rule.
-        - Not available if event logging disabled is true.
-        - Searchable as Boolean.
+          - Generate an event every time a packet is dropped for the rule.
+          - Not available if event logging disabled is true.
+          - Searchable as Boolean.
         type: bool
       always_include_packet_data:
         description:
-        - Enabled to include package data in the event logs.
-        - Not available if event logging disabled is true.
-        - Searchable as Boolean.
+          - Enabled to include package data in the event logs.
+          - Not available if event logging disabled is true.
+          - Searchable as Boolean.
         type: bool
       debug_mode_enabled:
         description:
-        - Enable to log additional packets preceeding and following the packet that
-          the rule detected.
-        - Not available if event logging disabled is true.
-        - Searchable as Boolean.
+          - Enable to log additional packets preceeding and following the packet that
+            the rule detected.
+          - Not available if event logging disabled is true.
+          - Searchable as Boolean.
         type: bool
       type:
         description:
-        - Type of IntrusionPreventionRule.
-        - Searchable as Choice.
+          - Type of IntrusionPreventionRule.
+          - Searchable as Choice.
         choices: [custom, smart, vulnerability, exploit, hidden, policy, info]
         type: str
       original_issue:
         description:
-        - Timestamp of the date the rule was released, in milliseconds since epoch.
-        - Searchable as Date.
+          - Timestamp of the date the rule was released, in milliseconds since epoch.
+          - Searchable as Date.
         type: int
       last_updated:
         description:
-        - Timestamp of the last rule modification, in milliseconds since epoch.
-        - Searchable as Date.
+          - Timestamp of the last rule modification, in milliseconds since epoch.
+          - Searchable as Date.
         type: int
       template:
-        description: Type of template for the IntrusionPreventionRule. Applicable
+        description:
+          Type of template for the IntrusionPreventionRule. Applicable
           only to custom rules.
         choices: [signature, start-end-patterns, custom]
         type: str
       signature:
-        description: Signature of the rule. Applicable to custom rules with template
+        description:
+          Signature of the rule. Applicable to custom rules with template
           type signature.
         type: str
       start:
-        description: Start pattern of the rule. Applicable to custom rules with template
+        description:
+          Start pattern of the rule. Applicable to custom rules with template
           type start-end-patterns.
         type: str
       patterns:
         description:
-        - Body patterns of the rule, which must be found between start and end patterns.
-        - Applicable to custom rules with template type start-end-patterns.
+          - Body patterns of the rule, which must be found between start and end patterns.
+          - Applicable to custom rules with template type start-end-patterns.
         type: list
         elements: str
       end:
-        description: End pattern of the rule. Applicable to custom rules with template
+        description:
+          End pattern of the rule. Applicable to custom rules with template
           type start-end-patterns.
         type: str
       case_sensitive:
         description:
-        - Enable to make signatures and patterns case sensitive.
-        - Applicable to custom rules with template type signature or start-end-patterns.
+          - Enable to make signatures and patterns case sensitive.
+          - Applicable to custom rules with template type signature or start-end-patterns.
         type: bool
       condition:
         description:
-        - Condition to determine if the rule is triggered.
-        - Applicable to custom rules with template type start-end-patterns.
+          - Condition to determine if the rule is triggered.
+          - Applicable to custom rules with template type start-end-patterns.
         choices: [all, any, none]
         type: str
       action:
         description:
-        - Action to apply if the rule is triggered.
-        - Applicable to custom rules with template type signature or start-end-patterns.
+          - Action to apply if the rule is triggered.
+          - Applicable to custom rules with template type signature or start-end-patterns.
         choices: [drop, log-only]
         type: str
       custom_xml:
         description:
-        - The custom XML used to define the rule.
-        - Applicable to custom rules with template type custom.
+          - The custom XML used to define the rule.
+          - Applicable to custom rules with template type custom.
         type: str
       alert_enabled:
         description:
-        - Enable to raise an alert when the rule logs an event.
-        - Searchable as Boolean.
+          - Enable to raise an alert when the rule logs an event.
+          - Searchable as Boolean.
         type: bool
       schedule_id:
         description:
-        - ID of the schedule which defines times during which the rule is active.
-        - Searchable as Numeric.
+          - ID of the schedule which defines times during which the rule is active.
+          - Searchable as Numeric.
         type: int
       context_id:
         description:
-        - ID of the context in which the rule is applied.
-        - Searchable as Numeric.
+          - ID of the context in which the rule is applied.
+          - Searchable as Numeric.
         type: int
       recommendations_mode:
         description:
-        - Indicates whether recommendation scans consider the IntrusionPreventionRule.
-        - Can be set to enabled or ignored. Custom rules cannot be recommended.
-        - Searchable as Choice.
+          - Indicates whether recommendation scans consider the IntrusionPreventionRule.
+          - Can be set to enabled or ignored. Custom rules cannot be recommended.
+          - Searchable as Choice.
         choices: [enabled, ignored, unknown, disabled]
         type: str
       depends_on_rule_ids:
         description:
-        - IDs of intrusion prevention rules the rule depends on, which will be automatically
-          assigned if this rule is assigned.
+          - IDs of intrusion prevention rules the rule depends on, which will be automatically
+            assigned if this rule is assigned.
         type: list
         elements: int
       cvss_score:
         description:
-        - A measure of the severity of the vulnerability according the National Vulnerability
-          Database.
-        - Searchable as String or as Numeric.
+          - A measure of the severity of the vulnerability according the National Vulnerability
+            Database.
+          - Searchable as String or as Numeric.
         type: str
       cve:
         description:
-        - List of CVEs associated with the IntrusionPreventionRule.
-        - Searchable as String.
+          - List of CVEs associated with the IntrusionPreventionRule.
+          - Searchable as String.
         type: list
         elements: str
       id:
         description:
-        - ID for the Intrusion prevention rule.
-        - Applicaple only with GET call
-        - Not applicaple param with Create/Modify POST call
+          - ID for the Intrusion prevention rule.
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
         type: int
       identifier:
         description:
-        - Identifier for the Intrusion prevention rule.
-        - Applicaple only with GET call
-        - Not applicaple param with Create/Modify POST call
+          - Identifier for the Intrusion prevention rule.
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
         type: str
       can_be_assigned_alone:
         description:
-        - Intrusion prevention rule can be assigned by self.
-        - Applicaple only with GET call
-        - Not applicaple param with Create/Modify POST call
+          - Intrusion prevention rule can be assigned by self.
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
         type: bool
   state:
     description:
-    - The state the configuration should be left in
-    - The state I(gathered) will get the module API configuration from the device
-      and transform it into structured data in the format as per the module argspec
-      and the value is returned in the I(gathered) key within the result.
+      - The state the configuration should be left in
+      - The state I(gathered) will get the module API configuration from the device
+        and transform it into structured data in the format as per the module argspec
+        and the value is returned in the I(gathered) key within the result.
     type: str
     choices:
-    - present
-    - absent
-    - gathered
+      - present
+      - absent
+      - gathered
     default: present
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
 EXAMPLES = """
-
 # Using PRESENT state
 # -------------------
 
@@ -232,53 +236,57 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: present
     config:
-    - alert_enabled: false
-      always_include_packet_data: false
-      application_type_id: 300
-      template: signature
-      signature: test_new_signature_1
-      debug_mode_enabled: false
-      description: TEST IPR 2 DESCRIPTION
-      detect_only: false
-      event_logging_disabled: false
-      generate_event_on_packet_drop: true
-      name: TEST IPR 1
-      priority: normal
-      severity: medium
-    - alert_enabled: false
-      always_include_packet_data: false
-      application_type_id: 300
-      template: signature
-      signature: test_new_signature_2
-      debug_mode_enabled: false
-      description: TEST IPR 2 DESCRIPTION
-      detect_only: false
-      event_logging_disabled: false
-      generate_event_on_packet_drop: true
-      name: TEST IPR 2
-      priority: normal
-      severity: medium
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_1
+        debug_mode_enabled: false
+        description: TEST IPR 2 DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 1
+        priority: normal
+        severity: medium
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_2
+        debug_mode_enabled: false
+        description: TEST IPR 2 DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 2
+        priority: normal
+        severity: medium
+
 - name: Modify the severity of Integrity Monitoring Rule by name
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: present
     config:
-    - name: TEST IPR 2
-      severity: low
+      - name: TEST IPR 2
+        severity: low
+
 - name: Gather Intrusion Prevention Rules by IPR names
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: gathered
     config:
-    - name: TEST IPR 1
-    - name: TEST IPR 2
+      - name: TEST IPR 1
+      - name: TEST IPR 2
+
 - name: Gather ALL of the Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: gathered
+
 - name: Delete Intrusion Prevention Rules
   trendmicro.deepsec.deepsec_intrusion_preventionrules:
     state: absent
     config:
-    - name: TEST IPR 1
-    - name: TEST IPR 2
+      - name: TEST IPR 1
+      - name: TEST IPR 2
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -341,13 +349,9 @@ def display_gathered_result(module, deepsec_request):
     if module.params.get("config"):
         return_config["config"] = []
         for each in module.params.get("config"):
-            search_result = search_for_ipr_by_name(
-                deepsec_request, each["name"]
-            )
+            search_result = search_for_ipr_by_name(deepsec_request, each["name"])
             return_config["config"].extend(
-                map_obj_to_params(search_result, key_transform, api_return)[
-                    api_return
-                ]
+                map_obj_to_params(search_result, key_transform, api_return)[api_return]
             )
     else:
         search_result = search_for_intrusion_prevention_rules(deepsec_request)
@@ -357,9 +361,7 @@ def display_gathered_result(module, deepsec_request):
     module.exit_json(gathered=return_config["config"], changed=False)
 
 
-def search_for_intrusion_prevention_rules(
-    deepsec_api_request, search_payload=None
-):
+def search_for_intrusion_prevention_rules(deepsec_api_request, search_payload=None):
     search_for_intrusion_prevention_rules = deepsec_api_request.post(
         api_object_search, data=search_payload
     )
@@ -373,9 +375,7 @@ def reset_module_api_config(module, deepsec_request):
         after = []
         changed = False
         for each in module.params["config"]:
-            search_by_name = search_for_ipr_by_name(
-                deepsec_request, each["name"]
-            )
+            search_by_name = search_for_ipr_by_name(deepsec_request, each["name"])
             if search_by_name.get(api_return):
                 every = map_obj_to_params(
                     search_by_name[api_return][0], key_transform, api_return
@@ -391,9 +391,7 @@ def reset_module_api_config(module, deepsec_request):
                 changed = True
                 if api_request:
                     after.append(
-                        map_obj_to_params(
-                            api_request, key_transform, api_return
-                        )
+                        map_obj_to_params(api_request, key_transform, api_return)
                     )
         if changed:
             config.update({"before": before, "after": after})
@@ -417,9 +415,7 @@ def configure_module_api(argspec, module, deepsec_request):
         ]
         temp_name = []
         for each in module.params["config"]:
-            search_by_name = search_for_ipr_by_name(
-                deepsec_request, each["name"]
-            )
+            search_by_name = search_for_ipr_by_name(deepsec_request, each["name"])
             if search_by_name.get(api_return):
                 each_result = search_by_name[api_return]
                 for every in each_result:
@@ -436,9 +432,7 @@ def configure_module_api(argspec, module, deepsec_request):
                         before.append(every)
                         # Check for actual modification and if present fire
                         # the request over that IPR ID
-                        each = utils.remove_empties(
-                            utils.dict_merge(every, each)
-                        )
+                        each = utils.remove_empties(utils.dict_merge(every, each))
                         each = remove_get_keys_from_payload_dict(
                             each, remove_from_diff_compare
                         )
@@ -454,9 +448,7 @@ def configure_module_api(argspec, module, deepsec_request):
                         elif api_request.get("message"):
                             module.fail_json(msg=api_request["message"])
                         after.append(
-                            map_obj_to_params(
-                                api_request, key_transform, api_return
-                            )
+                            map_obj_to_params(api_request, key_transform, api_return)
                         )
                     else:
                         before.append(every)
@@ -465,9 +457,7 @@ def configure_module_api(argspec, module, deepsec_request):
                     before.append(every)
             else:
                 changed = True
-                each = remove_get_keys_from_payload_dict(
-                    each, get_supported_keys
-                )
+                each = remove_get_keys_from_payload_dict(each, get_supported_keys)
                 utils.validate_config(argspec, {"config": [each]})
                 payload = map_params_to_obj(each, key_transform)
                 api_request = deepsec_request.post(
@@ -477,15 +467,12 @@ def configure_module_api(argspec, module, deepsec_request):
                     module.fail_json(msg=api_request["errors"])
                 elif api_request.get("message"):
                     module.fail_json(msg=api_request["message"])
-                after.append(
-                    map_obj_to_params(api_request, key_transform, api_return)
-                )
+                after.append(map_obj_to_params(api_request, key_transform, api_return))
         config.update({"before": before, "after": after})
         module.exit_json(intrusion_preventionrules=config, changed=changed)
 
 
 def main():
-
     ipr_spec = {
         "name": dict(type="str"),
         "description": dict(type="str"),
@@ -494,9 +481,7 @@ def main():
         "priority": dict(
             type="str", choices=["lowest", "low", "normal", "high", "highest"]
         ),
-        "severity": dict(
-            type="str", choices=["low", "medium", "high", "critical"]
-        ),
+        "severity": dict(type="str", choices=["low", "medium", "high", "critical"]),
         "detect_only": dict(type="bool"),
         "event_logging_disabled": dict(type="bool"),
         "generate_event_on_packet_drop": dict(type="bool"),
@@ -542,9 +527,7 @@ def main():
     }
 
     argspec = dict(
-        state=dict(
-            choices=["present", "absent", "gathered"], default="present"
-        ),
+        state=dict(choices=["present", "absent", "gathered"], default="present"),
         config=dict(type="list", elements="dict", options=ipr_spec),
     )
 

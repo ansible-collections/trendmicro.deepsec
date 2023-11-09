@@ -11,16 +11,17 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 module: deepsec_hosts_info
-short_description: Obtain information about one or many Hosts defined by TrendMicro
+short_description:
+  Obtain information about one or many Hosts defined by TrendMicro
   Deep Security
 description:
-- This module obtains information about Hosts defined by TrendMicro Deep Security
+  - This module obtains information about Hosts defined by TrendMicro Deep Security
 version_added: 1.0.0
 author: Ansible Security Automation Team (@maxamillion) <https://github.com/ansible-security>
 options:
   id:
     description:
-    - Obtain only information of the Rule with provided ID
+      - Obtain only information of the Rule with provided ID
     required: false
     type: int
 """
@@ -40,7 +41,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
 
 
 def main():
-
     argspec = dict(id=dict(required=False, type="int"))
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -48,9 +48,7 @@ def main():
     deepsec_request = DeepSecurityRequest(module)
 
     if module.params["id"]:
-        hosts = deepsec_request.get(
-            "/rest/hosts/{0}".format(module.params["id"])
-        )
+        hosts = deepsec_request.get("/rest/hosts/{0}".format(module.params["id"]))
     else:
         hosts = deepsec_request.get("/rest/hosts")
 

@@ -10,7 +10,7 @@ DOCUMENTATION = """
 module: deepsec_intrusion_prevention_rules
 short_description: Intrusion Prevention Rule resource module.
 description:
-- This module creates a new intrusion preventin rul under TrendMicro Deep Security.
+  - This module creates a new intrusion preventin rul under TrendMicro Deep Security.
 version_added: 1.2.0
 options:
   config:
@@ -25,40 +25,48 @@ options:
         description: Description of the IntrusionPreventionRule.
         type: str
       minimum_agent_version:
-        description: Version of the Deep Security agent or appliance required to support
+        description:
+          Version of the Deep Security agent or appliance required to support
           the rule.
         type: str
       application_type_id:
         description: ID of the application type for the IntrusionPreventionRule.
         type: int
       priority:
-        description: Priority level of the rule. Higher priority rules are applied
+        description:
+          Priority level of the rule. Higher priority rules are applied
           before lower priority rules.
         choices: [lowest, low, normal, high, highest]
         type: str
       severity:
-        description: Severity level of the rule. Severity levels can be used as sorting
+        description:
+          Severity level of the rule. Severity levels can be used as sorting
           criteria and affect event rankings.
         choices: [low, medium, high, critical]
         type: str
       detect_only:
-        description: In detect mode, the rule creates an event log and does not interfere
+        description:
+          In detect mode, the rule creates an event log and does not interfere
           with traffic.
         type: bool
       event_logging_disabled:
-        description: Enable to prevent event logs from being created when the rule
+        description:
+          Enable to prevent event logs from being created when the rule
           is triggered. Not available if detect only is true.
         type: bool
       generate_event_on_packet_drop:
-        description: Generate an event every time a packet is dropped for the rule.
+        description:
+          Generate an event every time a packet is dropped for the rule.
           Not available if event logging disabled is true.
         type: bool
       always_include_packet_data:
-        description: Enabled to include package data in the event logs. Not available
+        description:
+          Enabled to include package data in the event logs. Not available
           if event logging disabled is true.
         type: bool
       debug_mode_enabled:
-        description: Enable to log additional packets preceeding and following the
+        description:
+          Enable to log additional packets preceeding and following the
           packet that the rule detected. Not available if event logging disabled is
           true.
         type: bool
@@ -67,75 +75,90 @@ options:
         choices: [custom, smart, vulnerability, exploit, hidden, policy, info]
         type: str
       original_issue:
-        description: Timestamp of the date the rule was released, in milliseconds
+        description:
+          Timestamp of the date the rule was released, in milliseconds
           since epoch.
         type: int
       last_updated:
-        description: Timestamp of the last rule modification, in milliseconds since
+        description:
+          Timestamp of the last rule modification, in milliseconds since
           epoch.
         type: int
       template:
-        description: Type of template for the IntrusionPreventionRule. Applicable
+        description:
+          Type of template for the IntrusionPreventionRule. Applicable
           only to custom rules.
         choices: [signature, start-end-patterns, custom]
         type: str
       signature:
-        description: Signature of the rule. Applicable to custom rules with template
+        description:
+          Signature of the rule. Applicable to custom rules with template
           type signature.
         type: str
       start:
-        description: Start pattern of the rule. Applicable to custom rules with template
+        description:
+          Start pattern of the rule. Applicable to custom rules with template
           type start-end-patterns.
         type: str
       patterns:
-        description: Body patterns of the rule, which must be found between start
+        description:
+          Body patterns of the rule, which must be found between start
           and end patterns. Applicable to custom rules with template type start-end-patterns.
         type: list
         elements: str
       end:
-        description: End pattern of the rule. Applicable to custom rules with template
+        description:
+          End pattern of the rule. Applicable to custom rules with template
           type start-end-patterns.
         type: str
       case_sensitive:
-        description: Enable to make signatures and patterns case sensitive. Applicable
+        description:
+          Enable to make signatures and patterns case sensitive. Applicable
           to custom rules with template type signature or start-end-patterns.
         type: bool
       condition:
-        description: Condition to determine if the rule is triggered. Applicable to
+        description:
+          Condition to determine if the rule is triggered. Applicable to
           custom rules with template type start-end-patterns.
         choices: [all, any, none]
         type: str
       action:
-        description: Action to apply if the rule is triggered. Applicable to custom
+        description:
+          Action to apply if the rule is triggered. Applicable to custom
           rules with template type signature or start-end-patterns.
         choices: [drop, log-only]
         type: str
       custom_xml:
-        description: The custom XML used to define the rule. Applicable to custom
+        description:
+          The custom XML used to define the rule. Applicable to custom
           rules with template type custom.
         type: str
       alert_enabled:
         description: Enable to raise an alert when the rule logs an event.
         type: bool
       schedule_id:
-        description: ID of the schedule which defines times during which the rule
+        description:
+          ID of the schedule which defines times during which the rule
           is active.
         type: int
       context_id:
         description: ID of the context in which the rule is applied.
         type: int
       recommendations_mode:
-        description: Indicates whether recommendation scans consider the IntrusionPreventionRule.
+        description:
+          Indicates whether recommendation scans consider the IntrusionPreventionRule.
           Can be set to enabled or ignored. Custom rules cannot be recommended.
         choices: [enabled, ignored, unknown, disabled]
         type: str
       depends_on_rule_ids:
-        description: IDs of intrusion prevention rules the rule depends on, which
+        description:
+          IDs of intrusion prevention rules the rule depends on, which
           will be automatically assigned if this rule is assigned.
         type: list
         elements: int
       cvss_score:
-        description: A measure of the severity of the vulnerability according the
+        description:
+          A measure of the severity of the vulnerability according the
           National Vulnerability Database.
         type: str
       cve:
@@ -143,35 +166,37 @@ options:
         type: list
         elements: str
       id:
-        description: ID for the Intrusion prevention rule. Applicaple only with GET
+        description:
+          ID for the Intrusion prevention rule. Applicaple only with GET
           call Not applicaple param with Create/Modify POST call
         type: int
       identifier:
-        description: Identifier for the Intrusion prevention rule. Applicaple only
+        description:
+          Identifier for the Intrusion prevention rule. Applicaple only
           with GET call. Not applicaple param with Create/Modify POST call
         type: str
       can_be_assigned_alone:
-        description: Intrusion prevention rule can be assigned by self. Applicaple
+        description:
+          Intrusion prevention rule can be assigned by self. Applicaple
           only with GET call. Not applicaple param with Create/Modify POST call
         type: bool
   state:
     description:
-    - The state the configuration should be left in
-    - The state I(gathered) will get the module API configuration from the device
-      and transform it into structured data in the format as per the module argspec
-      and the value is returned in the I(gathered) key within the result.
+      - The state the configuration should be left in
+      - The state I(gathered) will get the module API configuration from the device
+        and transform it into structured data in the format as per the module argspec
+        and the value is returned in the I(gathered) key within the result.
     type: str
     choices:
-    - merged
-    - replaced
-    - deleted
-    - gathered
+      - merged
+      - replaced
+      - deleted
+      - gathered
     default: present
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
 EXAMPLES = """
-
 # Using MERGED state
 # -------------------
 
@@ -179,32 +204,32 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: merged
     config:
-    - alert_enabled: false
-      always_include_packet_data: false
-      application_type_id: 300
-      template: signature
-      signature: test_new_signature_1
-      debug_mode_enabled: false
-      description: TEST IPR 1 DESCRIPTION
-      detect_only: false
-      event_logging_disabled: false
-      generate_event_on_packet_drop: true
-      name: TEST IPR 1
-      priority: normal
-      severity: medium
-    - alert_enabled: false
-      always_include_packet_data: false
-      application_type_id: 300
-      template: signature
-      signature: test_new_signature_2
-      debug_mode_enabled: false
-      description: TEST IPR 2 DESCRIPTION
-      detect_only: false
-      event_logging_disabled: false
-      generate_event_on_packet_drop: true
-      name: TEST IPR 2
-      priority: normal
-      severity: medium
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_1
+        debug_mode_enabled: false
+        description: TEST IPR 1 DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 1
+        priority: normal
+        severity: medium
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_2
+        debug_mode_enabled: false
+        description: TEST IPR 2 DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 2
+        priority: normal
+        severity: medium
 
 # RUN output:
 # -----------
@@ -249,9 +274,9 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: merged
     config:
-    - name: TEST IPR 2
-      description: UPDATE TEST IPR 2 DESCRIPTION
-      severity: low
+      - name: TEST IPR 2
+        description: UPDATE TEST IPR 2 DESCRIPTION
+        severity: low
 
 # RUN output:
 # -----------
@@ -299,19 +324,19 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: replaced
     config:
-    - alert_enabled: false
-      always_include_packet_data: false
-      application_type_id: 300
-      template: signature
-      signature: test_new_signature_1
-      debug_mode_enabled: false
-      description: TEST IPR 1 REPLACE DESCRIPTION
-      detect_only: false
-      event_logging_disabled: false
-      generate_event_on_packet_drop: true
-      name: TEST IPR 1
-      priority: normal
-      severity: low
+      - alert_enabled: false
+        always_include_packet_data: false
+        application_type_id: 300
+        template: signature
+        signature: test_new_signature_1
+        debug_mode_enabled: false
+        description: TEST IPR 1 REPLACE DESCRIPTION
+        detect_only: false
+        event_logging_disabled: false
+        generate_event_on_packet_drop: true
+        name: TEST IPR 1
+        priority: normal
+        severity: low
 
 # RUN output:
 # -----------
@@ -359,8 +384,8 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: gathered
     config:
-    - name: TEST IPR 1
-    - name: TEST IPR 2
+      - name: TEST IPR 1
+      - name: TEST IPR 2
 
 # RUN output:
 # -----------
@@ -410,9 +435,8 @@ EXAMPLES = """
   trendmicro.deepsec.deepsec_intrusion_prevention_rules:
     state: deleted
     config:
-    - name: TEST IPR 1
-    - name: TEST IPR 2
-
+      - name: TEST IPR 1
+      - name: TEST IPR 2
 # RUN output:
 # -----------
 
@@ -451,7 +475,6 @@ EXAMPLES = """
 #       severity: medium
 #       signature: test_new_signature_2
 #       template: signature
-
 """
 
 
@@ -466,5 +489,4 @@ after:
   returned: when changed
   type: list
   sample: The configuration returned will always be in the same format of the parameters above.
-
 """

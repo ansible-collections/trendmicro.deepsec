@@ -25,12 +25,12 @@ DOCUMENTATION = """
 module: deepsec_log_inspectionrules
 short_description: Create a new log inspection rule.
 description:
-- This module creates a new log inspection rule under TrendMicro Deep Security.
+  - This module creates a new log inspection rule under TrendMicro Deep Security.
 version_added: 1.0.0
 deprecated:
   alternative: deepsec_log_inspection_rules
   why: Newer and updated modules released with more functionality
-  removed_at_date: '2023-12-01'
+  removed_at_date: "2023-12-01"
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>
 options:
   name:
@@ -38,7 +38,8 @@ options:
     required: true
     type: str
   description:
-    description: Description of the LogInspectionRule that appears in search results,
+    description:
+      Description of the LogInspectionRule that appears in search results,
       and on the General tab in the Deep Security Manager user interface.
     type: str
   minimum_agent_version:
@@ -48,19 +49,23 @@ options:
     description: Minimumn Deep Security Manager version required by the LogInspectionRule.
     type: str
   type:
-    description: Type of the LogInspectionRule. The value 'Defined' is used for LogInspectionRules
+    description:
+      Type of the LogInspectionRule. The value 'Defined' is used for LogInspectionRules
       provided by Trend Micro.
     type: str
   original_issue:
-    description: Creation timestamp of the LogInspectionRule, measured in milliseconds
+    description:
+      Creation timestamp of the LogInspectionRule, measured in milliseconds
       since epoch.
     type: int
   last_updated:
-    description: Update timestamp of the LogInspectionRule, measured in milliseconds
+    description:
+      Update timestamp of the LogInspectionRule, measured in milliseconds
       since epoch.
     type: int
   identifier:
-    description: Indentifier of the LogInspectionRule used in the Deep Security Manager
+    description:
+      Indentifier of the LogInspectionRule used in the Deep Security Manager
       user interface.
     type: str
   template:
@@ -68,60 +73,72 @@ options:
     choices: [basic-rule, custom]
     type: str
   rule_id:
-    description: ID of the LogInspectionRule sent to the Deep Security Agent. The
+    description:
+      ID of the LogInspectionRule sent to the Deep Security Agent. The
       values 100000 - 109999 are reserved for user-definded rules.
     type: int
   level:
-    description: Log level of the LogInspectionRule indicates severity of attack.
+    description:
+      Log level of the LogInspectionRule indicates severity of attack.
       Level 0 is the least severe and will not log an event. Level 15 is the most
       severe.
     type: int
   groups:
-    description: Groups that the LogInspectionRule is assigned to, separated by commas.
+    description:
+      Groups that the LogInspectionRule is assigned to, separated by commas.
       Useful when dependency is used as it's possible to create a LogInspectionRule
       that fires when another LogInspectionRule belonging to a specific group fires.
     type: list
     elements: str
   rule_description:
-    description: Description of the LogInspectionRule that appears on events and the
+    description:
+      Description of the LogInspectionRule that appears on events and the
       Content tab in the Deep Security Manager user interface. Alternatively, you
       can configure this by inserting a description in 'rule_xml'.
     type: str
   pattern:
-    description: Regular expression pattern the LogInspectionRule will look for in
+    description:
+      Regular expression pattern the LogInspectionRule will look for in
       the logs. The rule will be triggered on a match. Open Source HIDS SEcurity (OSSEC)
       regular expression syntax is supported, see http://www.ossec.net/docs/syntax/regex.html.
     type: str
   pattern_type:
-    description: Pattern the LogInspectionRule will look for in the logs. The string
+    description:
+      Pattern the LogInspectionRule will look for in the logs. The string
       matching pattern is faster than the regex pattern.
     choices: [string, regex]
     type: str
   dependency:
-    description: Indicates if a dependant rule or dependency group is set or not.
+    description:
+      Indicates if a dependant rule or dependency group is set or not.
       If set, the LogInspectionRule will only log an event if the dependency is triggered.
       Available for user-defined rules.
     choices: [none, rule, group]
     type: str
   dependency_rule_id:
-    description: If dependency is configured, the ID of the rule that this rule is
+    description:
+      If dependency is configured, the ID of the rule that this rule is
       dependant on. Ignored if the rule is from Trend Micro, which uses dependsOnRuleIDs
       instead.
     type: int
   dependency_group:
-    description: If dependency is configured, the dependancy groups that this rule
+    description:
+      If dependency is configured, the dependancy groups that this rule
       is dependant on.
     type: str
   frequency:
-    description: Number of times the dependant rule has to match within a specific
+    description:
+      Number of times the dependant rule has to match within a specific
       time frame before the rule is triggered.
     type: int
   time_frame:
-    description: Time period for the frequency of LogInspectionRule triggers that
+    description:
+      Time period for the frequency of LogInspectionRule triggers that
       will generate an event, in seconds.
     type: int
   rule_xml:
-    description: LogInspectionRule in an XML format. For information on the XML format,
+    description:
+      LogInspectionRule in an XML format. For information on the XML format,
       see http://ossec-docs.readthedocs.io/en/latest/syntax/head_rules.html
     type: str
   log_files:
@@ -137,48 +154,68 @@ options:
             description: File path of the log file.
             type: str
           format:
-            description: Structure of the data in the log file. The application that
+            description:
+              Structure of the data in the log file. The application that
               generates the log file defines the structure of the data.
-            choices: [syslog, snort-full, snort-fast, apache, iis, squid, nmapg, mysql-log,
-              postgresql-log, dbj-multilog, eventlog, single-line-text-log]
+            choices:
+              [
+                syslog,
+                snort-full,
+                snort-fast,
+                apache,
+                iis,
+                squid,
+                nmapg,
+                mysql-log,
+                postgresql-log,
+                dbj-multilog,
+                eventlog,
+                single-line-text-log,
+              ]
             type: str
   alert_enabled:
-    description: Controls whether to raise an alert when a LogInspectionRule logs
+    description:
+      Controls whether to raise an alert when a LogInspectionRule logs
       an event. Use true to raise an alert.
     type: bool
   alert_minimum_severity:
-    description: Severity level that will trigger an alert. Ignored unless ruleXML
+    description:
+      Severity level that will trigger an alert. Ignored unless ruleXML
       contains multiple rules with different severities, and so you must indicate
       which severity level to use.
     type: int
   recommendations_mode:
-    description: Indicates whether recommendation scans consider the LogInspectionRule.
+    description:
+      Indicates whether recommendation scans consider the LogInspectionRule.
       Can be set to enabled or ignored. Custom rules cannot be recommended.
     choices: [enabled, ignored, unknown, disabled]
     type: str
   sort_order:
-    description: Order in which LogInspectionRules are sent to the Deep Security Agent.
+    description:
+      Order in which LogInspectionRules are sent to the Deep Security Agent.
       Log inspeciton rules are sent in ascending order. Valid values are between 10000
       and 20000.
     type: int
   can_be_assigned_alone:
-    description: Indicates whether this LogInspectionRule can be allocated without
+    description:
+      Indicates whether this LogInspectionRule can be allocated without
       allocating any additional LogInspectionRules. Ignored if the rule is user-defined,
       which uses dependency instead.
     type: bool
   depends_onrule_id:
-    description: IDs of LogInspectionRules, separated by commas, that are required
+    description:
+      IDs of LogInspectionRules, separated by commas, that are required
       by this rule. Ignored if the rule is user-defined which uses dependency_rule_id
       or dependency_group instead.
     type: list
     elements: str
   state:
     description:
-    - The state the configuration should be left in
+      - The state the configuration should be left in
     type: str
     choices:
-    - present
-    - absent
+      - present
+      - absent
     default: present
 """
 
@@ -196,13 +233,14 @@ EXAMPLES = """
     rule_id: 100001
     rule_description: test rule description
     groups:
-    - test
+      - test
     alert_minimum_severity: 4
     alert_enabled: true
     log_files:
       log_files:
-      - location: /var/log/mysqld.log
-        format: mysql-log
+        - location: /var/log/mysqld.log
+          format: mysql-log
+
 - name: Delete/Remove the existing log inspection rule
   trendmicro.deepsec.deepsec_log_inspectionrules:
     state: absent
@@ -313,9 +351,7 @@ def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
     :rtype: A dict
     :returns: Based on API response this fn. exits with appropriate msg
     """
-    deepsec_request.delete(
-        "/api/loginspectionrules/{0}".format(log_inspection_id)
-    )
+    deepsec_request.delete("/api/loginspectionrules/{0}".format(log_inspection_id))
     module.exit_json(
         msg=" with id: {0} deleted successfully!".format(log_inspection_id),
         changed=True,
@@ -323,7 +359,6 @@ def delete_log_inspection_with_id(module, deepsec_request, log_inspection_id):
 
 
 def main():
-
     log_files_spec_list = {
         "location": dict(type="str"),
         "format": dict(
@@ -346,9 +381,7 @@ def main():
     }
 
     log_files_spec = {
-        "log_files": dict(
-            type="list", elements="dict", options=log_files_spec_list
-        )
+        "log_files": dict(type="list", elements="dict", options=log_files_spec_list)
     }
 
     argspec = dict(
@@ -425,9 +458,7 @@ def main():
         elif log_inspection_rules.get("message"):
             module.fail_json(msg=log_inspection_rules["message"])
         else:
-            module.exit_json(
-                log_inspection_rules=log_inspection_rules, changed=True
-            )
+            module.exit_json(log_inspection_rules=log_inspection_rules, changed=True)
     module.exit_json(changed=False)
 
 

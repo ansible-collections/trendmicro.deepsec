@@ -13,7 +13,7 @@ DOCUMENTATION = """
 module: deepsec_system_settings
 short_description: Modify the system settings for TrendMicro Deep Security.
 description:
-- This module modifies system settings under TrendMicro Deep Security.
+  - This module modifies system settings under TrendMicro Deep Security.
 version_added: "1.1.0"
 options:
   config:
@@ -25,23 +25,25 @@ options:
         type: list
         elements: str
       platform_setting_saml_identity_provider_certificate_expiry_warning_daysr:
-        description: platform setting saml identity provider certificate expiry warning
+        description:
+          platform setting saml identity provider certificate expiry warning
           days
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: '30'
+            default: "30"
       platform_setting_update_agent_security_on_missing_deep_security_manager_enabled:
-        description: platform setting update agent security on missing deep security
+        description:
+          platform setting update agent security on missing deep security
           manager enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_ddan_manual_source_server_url:
         description: platform setting ddan manual source server url
         type: dict
@@ -56,16 +58,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '4119'
+            default: "4119"
       platform_setting_smart_protection_feedback_threat_detections_threshold:
-        description: platform setting smart protection feedback threat detections
+        description:
+          platform setting smart protection feedback threat detections
           threshold
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: '10'
+            default: "10"
       platform_setting_primary_tenant_allow_tenant_run_port_scan_enabled:
         description: platform setting primary tenant allow tenant run port scan enabled
         type: dict
@@ -73,7 +76,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       intrusion_prevention_setting_event_rank_severity_filter_medium:
         description: intrusion prevention setting event rank severity filter medium
         type: dict
@@ -81,9 +84,10 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '25'
+            default: "25"
       firewall_setting_intranet_connectivity_test_expected_content_regex:
-        description: firewall setting intranet connectivity test expected content
+        description:
+          firewall setting intranet connectivity test expected content
           regex
         type: dict
         suboptions:
@@ -97,9 +101,10 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_tenant_auto_revoke_impersonation_by_primary_tenant_timeout:
-        description: platform setting tenant auto revoke impersonation by primary
+        description:
+          platform setting tenant auto revoke impersonation by primary
           tenant timeout
         type: dict
         suboptions:
@@ -108,23 +113,25 @@ options:
             type: str
             default: 4 Hours
       web_reputation_setting_event_rank_risk_blocked_by_administrator_rank:
-        description: web reputation setting event rank risk blocked by administrator
+        description:
+          web reputation setting event rank risk blocked by administrator
           rank
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       platform_setting_primary_tenant_lock_and_hide_tenant_storage_tab_enabled:
-        description: platform setting primary tenant lock and hide tenant storage
+        description:
+          platform setting primary tenant lock and hide tenant storage
           tab enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       anti_malware_setting_event_email_recipients:
         description: anti malware setting event email recipients
         type: dict
@@ -133,14 +140,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_primary_tenant_allow_tenant_use_default_relay_group_enabled:
-        description: platform setting primary tenant allow tenant use default relay
+        description:
+          platform setting primary tenant allow tenant use default relay
           group enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_http_strict_transport_enabled:
         description: platform setting http strict transport enabled
         type: dict
@@ -148,7 +156,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       firewall_setting_intranet_connectivity_test_url:
         description: firewall setting intranet connectivity test url
         type: dict
@@ -163,16 +171,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_tenant_use_default_relay_group_from_primary_tenant_enabled:
-        description: platform setting tenant use default relay group from primary
+        description:
+          platform setting tenant use default relay group from primary
           tenant enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_exported_diagnostic_package_locale:
         description: platform setting exported diagnostic package locale
         type: dict
@@ -188,7 +197,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       platform_setting_update_imported_software_auto_download_enabled:
         description: platform setting update imported software auto download enabled
         type: dict
@@ -196,7 +205,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_demo_mode_enabled:
         description: platform setting demo mode enabled
         type: dict
@@ -204,7 +213,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_user_enforce_terms_and_conditions_message:
         description: platform setting user enforce terms and conditions message
         type: dict
@@ -234,14 +243,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_agent_initiated_activation_reactivate_cloned_enabled:
-        description: platform setting agent initiated activation reactivate cloned
+        description:
+          platform setting agent initiated activation reactivate cloned
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_managed_detect_response_server_url:
         description: platform setting managed detect response server url
         type: dict
@@ -250,14 +260,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_primary_tenant_share_managed_detect_responses_enabled:
-        description: platform setting primary tenant share managed detect responses
+        description:
+          platform setting primary tenant share managed detect responses
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_saml_service_provider_certificate:
         description: platform setting saml service provider certificate
         type: dict
@@ -272,7 +283,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '0'
+            default: "0"
       platform_setting_smtp_start_tls_enabled:
         description: platform setting smtp start tls enabled
         type: dict
@@ -280,7 +291,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_user_password_require_letters_and_numbers_enabled:
         description: platform setting user password require letters and numbers enabled
         type: dict
@@ -288,16 +299,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_primary_tenant_allow_tenant_synchronize_ldap_directories_enabled:
-        description: platform setting primary tenant allow tenant synchronize ldap
+        description:
+          platform setting primary tenant allow tenant synchronize ldap
           directories enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_load_balancer_relay_port:
         description: platform setting load balancer relay port
         type: dict
@@ -305,7 +317,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '4122'
+            default: "4122"
       platform_setting_managed_detect_response_enabled:
         description: platform setting managed detect response enabled
         type: dict
@@ -313,7 +325,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_update_rules_policy_auto_apply_enabled:
         description: platform setting update rules policy auto apply enabled
         type: dict
@@ -321,16 +333,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_primary_tenant_allow_tenant_configure_forgot_password_enabled:
-        description: platform setting primary tenant allow tenant configure forgot
+        description:
+          platform setting primary tenant allow tenant configure forgot
           password enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_user_password_require_not_same_as_username_enabled:
         description: platform setting user password require not same as username enabled
         type: dict
@@ -338,7 +351,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       log_inspection_setting_event_rank_severity_medium:
         description: log inspection setting event rank severity medium
         type: dict
@@ -346,7 +359,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '25'
+            default: "25"
       anti_malware_setting_retain_event_duration:
         description: anti malware setting retain event duration
         type: dict
@@ -356,14 +369,15 @@ options:
             type: str
             default: 7 Days
       platform_setting_update_agent_security_contact_primary_source_on_missing_relay_enabled:
-        description: platform setting update agent security contact primary source
+        description:
+          platform setting update agent security contact primary source
           on missing relay enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       firewall_setting_event_rank_severity_log_only:
         description: firewall setting event rank severity log only
         type: dict
@@ -371,16 +385,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '1'
+            default: "1"
       platform_setting_primary_tenant_lock_and_hide_tenant_data_privacy_option_enabled:
-        description: platform setting primary tenant lock and hide tenant data privacy
+        description:
+          platform setting primary tenant lock and hide tenant data privacy
           option enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       application_control_setting_retain_event_duration:
         description: application control setting retain event duration
         type: dict
@@ -396,7 +411,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_saml_service_provider_private_key:
         description: platform setting saml service provider private key
         type: dict
@@ -411,7 +426,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_system_event_forwarding_snmp_port:
         description: platform setting system event forwarding snmp port
         type: dict
@@ -419,7 +434,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '162'
+            default: "162"
       firewall_setting_event_rank_severity_deny:
         description: firewall setting event rank severity deny
         type: dict
@@ -427,7 +442,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       intrusion_prevention_setting_event_rank_severity_filter_low:
         description: intrusion prevention setting event rank severity filter low
         type: dict
@@ -435,16 +450,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '1'
+            default: "1"
       platform_setting_primary_tenant_allow_tenant_control_impersonation_enabled:
-        description: platform setting primary tenant allow tenant control impersonation
+        description:
+          platform setting primary tenant allow tenant control impersonation
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_recommendation_cpu_usage_level:
         description: platform setting recommendation cpu usage level
         type: dict
@@ -481,7 +497,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       log_inspection_setting_retain_event_duration:
         description: log inspection setting retain event duration
         type: dict
@@ -491,14 +507,15 @@ options:
             type: str
             default: 7 Days
       platform_setting_tenant_auto_revoke_impersonation_by_primary_tenant_enabled:
-        description: platform setting tenant auto revoke impersonation by primary
+        description:
+          platform setting tenant auto revoke impersonation by primary
           tenant enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       anti_malware_setting_event_email_body_template:
         description: anti malware setting event email body template
         type: dict
@@ -513,9 +530,10 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '10'
+            default: "10"
       platform_setting_connected_threat_defense_control_manager_source_option:
-        description: platform setting connected threat defense control manager source
+        description:
+          platform setting connected threat defense control manager source
           option
         type: dict
         suboptions:
@@ -530,16 +548,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_update_agent_software_use_download_center_on_missing_deep_security_manager_enabled:
-        description: platform setting update agent software use download center on
+        description:
+          platform setting update agent software use download center on
           missing deep security manager enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_recommendation_ongoing_scans_enabled:
         description: platform setting recommendation ongoing scans enabled
         type: dict
@@ -561,7 +580,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '8'
+            default: "8"
       platform_setting_primary_tenant_allow_tenant_database_state:
         description: platform setting primary tenant allow tenant database state
         type: dict
@@ -569,7 +588,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '10'
+            default: "10"
       platform_setting_aws_manager_identity_use_instance_role_enabled:
         description: platform setting aws manager identity use instance role enabled
         type: dict
@@ -577,7 +596,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_content_security_policy:
         description: platform setting content security policy
         type: dict
@@ -592,7 +611,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_alert_agent_update_pending_threshold:
         description: platform setting alert agent update pending threshold
         type: dict
@@ -608,7 +627,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_update_appliance_default_agent_version:
         description: platform setting update appliance default agent version
         type: dict
@@ -623,7 +642,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_smtp_bounce_email_address:
         description: platform setting smtp bounce email address
         type: dict
@@ -632,14 +651,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_update_relay_security_support_agent_9and_earlier_enabled:
-        description: platform setting update relay security support agent and earlier
+        description:
+          platform setting update relay security support agent and earlier
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_managed_detect_response_proxy_id:
         description: platform setting managed detect response proxy id
         type: dict
@@ -661,7 +681,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_load_balancer_relay_address:
         description: platform setting load balancer relay address
         type: dict
@@ -692,14 +712,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_connected_threat_defense_control_manager_use_proxy_enabled:
-        description: platform setting connected threat defense control manager use
+        description:
+          platform setting connected threat defense control manager use
           proxy enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_user_enforce_terms_and_conditions_enabled:
         description: platform setting user enforce terms and conditions enabled
         type: dict
@@ -707,7 +728,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_aws_manager_identity_access_key:
         description: platform setting aws manager identity access key
         type: dict
@@ -716,7 +737,8 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_connected_threat_defense_control_manager_proxy_id:
-        description: platform setting connected threat defense control manager proxy
+        description:
+          platform setting connected threat defense control manager proxy
           id
         type: dict
         suboptions:
@@ -724,16 +746,18 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_tenant_allow_impersonation_by_primary_tenant_enabled:
-        description: platform setting tenant allow impersonation by primary tenant
+        description:
+          platform setting tenant allow impersonation by primary tenant
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_connected_threat_defense_control_manager_manual_source_server_url:
-        description: platform setting connected threat defense control manager manual
+        description:
+          platform setting connected threat defense control manager manual
           source server url
         type: dict
         suboptions:
@@ -747,7 +771,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_trend_micro_xdr_identity_provider_api_url:
         description: platform setting trend micro xdr identity provider api url
         type: dict
@@ -756,14 +780,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_smart_protection_feedback_for_suspicious_file_enabled:
-        description: platform setting smart protection feedback for suspicious file
+        description:
+          platform setting smart protection feedback for suspicious file
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_primary_tenant_allow_tenant_configure_snmp_enabled:
         description: platform setting primary tenant allow tenant configure snmp enabled
         type: dict
@@ -771,7 +796,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_smart_protection_feedback_industry_type:
         description: platform setting smart protection feedback industry type
         type: dict
@@ -803,7 +828,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '25'
+            default: "25"
       platform_setting_proxy_manager_cloud_proxy_id:
         description: platform setting proxy manager cloud proxy id
         type: dict
@@ -812,14 +837,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_update_relay_security_all_regions_patterns_download_enabled:
-        description: platform setting update relay security all regions patterns download
+        description:
+          platform setting update relay security all regions patterns download
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_ddan_submission_enabled:
         description: platform setting ddan submission enabled
         type: dict
@@ -827,7 +853,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       web_reputation_setting_event_rank_risk_suspicious:
         description: web reputation setting event rank risk suspicious
         type: dict
@@ -835,7 +861,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '25'
+            default: "25"
       integrity_monitoring_setting_event_rank_severity_critical:
         description: integrity monitoring setting event rank severity critical
         type: dict
@@ -843,7 +869,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       platform_setting_smtp_from_email_address:
         description: platform setting smtp from email address
         type: dict
@@ -858,7 +884,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '0'
+            default: "0"
       platform_setting_event_forwarding_sns_topic_arn:
         description: platform setting event forwarding sns topic arn
         type: dict
@@ -867,7 +893,8 @@ options:
             description: Value of a Setting.
             type: str
       firewall_setting_internet_connectivity_test_expected_content_regex:
-        description: firewall setting internet connectivity test expected content
+        description:
+          firewall setting internet connectivity test expected content
           regex
         type: dict
         suboptions:
@@ -875,7 +902,8 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_connected_threat_defense_control_manager_manual_source_api_key:
-        description: platform setting connected threat defense control manager manual
+        description:
+          platform setting connected threat defense control manager manual
           source api key
         type: dict
         suboptions:
@@ -898,14 +926,15 @@ options:
             type: str
             default: Trend Micro ActiveUpdate Server
       platform_setting_primary_tenant_share_connected_threat_defenses_enabled:
-        description: platform setting primary tenant share connected threat defenses
+        description:
+          platform setting primary tenant share connected threat defenses
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       web_reputation_setting_event_rank_risk_dangerous:
         description: web reputation setting event rank risk dangerous
         type: dict
@@ -913,7 +942,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       platform_setting_load_balancer_heartbeat_port:
         description: platform setting load balancer heartbeat port
         type: dict
@@ -921,7 +950,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '4120'
+            default: "4120"
       platform_setting_user_hide_unlicensed_modules_enabled:
         description: platform setting user hide unlicensed modules enabled
         type: dict
@@ -929,7 +958,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_capture_encrypted_traffic_enabled:
         description: platform setting capture encrypted traffic enabled
         type: dict
@@ -937,7 +966,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_retain_system_event_duration:
         description: platform setting retain system event duration
         type: dict
@@ -961,7 +990,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       integrity_monitoring_setting_retain_event_duration:
         description: integrity monitoring setting retain event duration
         type: dict
@@ -971,14 +1000,15 @@ options:
             type: str
             default: 7 Days
       platform_setting_primary_tenant_allow_tenant_use_scheduled_run_script_task_enabled:
-        description: platform setting primary tenant allow tenant use scheduled run
+        description:
+          platform setting primary tenant allow tenant use scheduled run
           script task enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       log_inspection_setting_event_rank_severity_critical:
         description: log inspection setting event rank severity critical
         type: dict
@@ -986,16 +1016,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       platform_setting_primary_tenant_lock_and_hide_tenant_smtp_tab_enabled:
-        description: platform setting primary tenant lock and hide tenant smtp tab
+        description:
+          platform setting primary tenant lock and hide tenant smtp tab
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_ddan_proxy_id:
         description: platform setting ddan proxy id
         type: dict
@@ -1025,7 +1056,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_linux_upgrade_on_activation_enabled:
         description: platform setting linux upgrade on activation enabled
         type: dict
@@ -1033,7 +1064,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_trend_micro_xdr_enabled:
         description: platform setting trend micro xdr enabled
         type: dict
@@ -1041,7 +1072,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_active_sessions_max_exceeded_action:
         description: platform setting active sessions max exceeded action
         type: dict
@@ -1057,7 +1088,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       log_inspection_setting_event_rank_severity_high:
         description: log inspection setting event rank severity high
         type: dict
@@ -1065,7 +1096,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '50'
+            default: "50"
       platform_setting_smtp_requires_authentication_enabled:
         description: platform setting smtp requires authentication enabled
         type: dict
@@ -1073,7 +1104,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_active_sessions_max:
         description: platform setting active sessions max
         type: dict
@@ -1081,7 +1112,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '10'
+            default: "10"
       platform_setting_aws_external_id_retrieval_enabled:
         description: platform setting aws external id retrieval enabled
         type: dict
@@ -1089,7 +1120,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       log_inspection_setting_event_rank_severity_low:
         description: log inspection setting event rank severity low
         type: dict
@@ -1097,7 +1128,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '1'
+            default: "1"
       platform_setting_azure_sso_certificate:
         description: platform setting azure sso certificate
         type: dict
@@ -1119,7 +1150,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       firewall_setting_internet_connectivity_test_interval:
         description: firewall setting internet connectivity test interval
         type: dict
@@ -1144,14 +1175,15 @@ options:
             type: str
             default: Manually select a Deep Discovery Analyzer server
       platform_setting_connected_threat_defense_control_manager_suspicious_object_list_comparison_enabled:
-        description: platform setting connected threat defense control manager suspicious
+        description:
+          platform setting connected threat defense control manager suspicious
           object list comparison enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_exported_file_character_encoding:
         description: platform setting exported file character encoding
         type: dict
@@ -1184,14 +1216,15 @@ options:
             type: str
             default: 13 Weeks
       platform_setting_primary_tenant_allow_tenant_run_computer_discovery_enabled:
-        description: platform setting primary tenant allow tenant run computer discovery
+        description:
+          platform setting primary tenant allow tenant run computer discovery
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_smart_protection_feedback_interval:
         description: platform setting smart protection feedback interval
         type: dict
@@ -1199,7 +1232,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '5'
+            default: "5"
       platform_setting_system_event_forwarding_snmp_address:
         description: platform setting system event forwarding snmp address
         type: dict
@@ -1221,7 +1254,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_smtp_password:
         description: platform setting smtp password
         type: dict
@@ -1251,7 +1284,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '25'
+            default: "25"
       platform_setting_managed_detect_response_use_proxy_enabled:
         description: platform setting managed detect response use proxy enabled
         type: dict
@@ -1259,7 +1292,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_event_forwarding_sns_secret_key:
         description: platform setting event forwarding sns secret key
         type: dict
@@ -1288,7 +1321,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '50'
+            default: "50"
       platform_setting_api_status_monitoring_enabled:
         description: platform setting api status monitoring enabled
         type: dict
@@ -1296,7 +1329,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_sign_in_page_message:
         description: platform setting sign in page message
         type: dict
@@ -1311,7 +1344,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_user_sign_in_attempts_allowed_number:
         description: platform setting user sign in attempts allowed number
         type: dict
@@ -1319,7 +1352,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '5'
+            default: "5"
       platform_setting_ddan_use_proxy_enabled:
         description: platform setting ddan use proxy enabled
         type: dict
@@ -1327,7 +1360,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_agent_initiated_activation_enabled:
         description: platform setting agent initiated activation enabled
         type: dict
@@ -1337,14 +1370,15 @@ options:
             type: str
             default: For any computers
       platform_setting_primary_tenant_allow_tenant_configure_remember_me_option_enabled:
-        description: platform setting primary tenant allow tenant configure remember
+        description:
+          platform setting primary tenant allow tenant configure remember
           me option enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_smart_protection_feedback_bandwidth_max_kbytes:
         description: platform setting smart protection feedback bandwidth max kbytes
         type: dict
@@ -1352,7 +1386,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '32'
+            default: "32"
       firewall_setting_event_rank_severity_packet_rejection:
         description: firewall setting event rank severity packet rejection
         type: dict
@@ -1360,7 +1394,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '50'
+            default: "50"
       platform_setting_proxy_manager_update_proxy_id:
         description: platform setting proxy manager update proxy id
         type: dict
@@ -1369,14 +1403,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_managed_detect_response_use_primary_tenant_settings_enabled:
-        description: platform setting managed detect response use primary tenant settings
+        description:
+          platform setting managed detect response use primary tenant settings
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_event_forwarding_sns_access_key:
         description: platform setting event forwarding sns access key
         type: dict
@@ -1385,32 +1420,35 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_agent_initiated_activation_specify_hostname_enabled:
-        description: platform setting agent initiated activation specify hostname
+        description:
+          platform setting agent initiated activation specify hostname
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_primary_tenant_allow_tenant_sync_with_cloud_account_enabled:
-        description: platform setting primary tenant allow tenant sync with cloud
+        description:
+          platform setting primary tenant allow tenant sync with cloud
           account enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_connected_threat_defenses_use_primary_tenant_server_settings_enabled:
-        description: platform setting connected threat defenses use primary tenant
+        description:
+          platform setting connected threat defenses use primary tenant
           server settings enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_inactive_agent_cleanup_duration:
         description: platform setting inactive agent cleanup duration
         type: dict
@@ -1420,7 +1458,8 @@ options:
             type: str
             default: 1 Month
       platform_setting_agent_initiated_activation_duplicate_hostname_mode:
-        description: platform setting agent initiated activation duplicate hostname
+        description:
+          platform setting agent initiated activation duplicate hostname
           mode
         type: dict
         suboptions:
@@ -1435,7 +1474,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '1'
+            default: "1"
       platform_setting_user_enforce_terms_and_conditions_title:
         description: platform setting user enforce terms and conditions title
         type: dict
@@ -1444,14 +1483,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_primary_tenant_allow_tenant_add_vmware_vcenter_enabled:
-        description: platform setting primary tenant allow tenant add vmware vcenter
+        description:
+          platform setting primary tenant allow tenant add vmware vcenter
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_new_tenant_download_security_update_enabled:
         description: platform setting new tenant download security update enabled
         type: dict
@@ -1459,9 +1499,10 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_tenant_protection_usage_monitoring_computer_id_3:
-        description: platform setting tenant protection usage monitoring computer
+        description:
+          platform setting tenant protection usage monitoring computer
           id 3
         type: dict
         suboptions:
@@ -1470,16 +1511,18 @@ options:
             type: str
             default: Platform
       platform_setting_agent_initiated_activation_reactivate_unknown_enabled:
-        description: platform setting agent initiated activation reactivate unknown
+        description:
+          platform setting agent initiated activation reactivate unknown
           enabled
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_tenant_protection_usage_monitoring_computer_id_2:
-        description: platform setting tenant protection usage monitoring computer
+        description:
+          platform setting tenant protection usage monitoring computer
           id 2
         type: dict
         suboptions:
@@ -1495,7 +1538,8 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_tenant_protection_usage_monitoring_computer_id_1:
-        description: platform setting tenant protection usage monitoring computer
+        description:
+          platform setting tenant protection usage monitoring computer
           id 1
         type: dict
         suboptions:
@@ -1517,7 +1561,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '5'
+            default: "5"
       application_control_setting_serve_rulesets_from_relays_enabled:
         description: application control setting serve rulesets from relays enabled
         type: dict
@@ -1525,7 +1569,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       integrity_monitoring_setting_event_rank_severity_high:
         description: integrity monitoring setting event rank severity high
         type: dict
@@ -1533,16 +1577,17 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '50'
+            default: "50"
       platform_setting_saml_retain_inactive_external_administrators_duration:
-        description: platform setting saml retain inactive external administrators
+        description:
+          platform setting saml retain inactive external administrators
           duration
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: '365'
+            default: "365"
       intrusion_prevention_setting_retain_event_duration:
         description: intrusion prevention setting retain event duration
         type: dict
@@ -1558,7 +1603,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'true'
+            default: "true"
       platform_setting_saml_service_provider_name:
         description: platform setting saml service provider name
         type: dict
@@ -1574,14 +1619,15 @@ options:
             description: Value of a Setting.
             type: str
       platform_setting_saml_service_provider_certificate_expiry_warning_days:
-        description: platform setting saml service provider certificate expiry warning
+        description:
+          platform setting saml service provider certificate expiry warning
           days
         type: dict
         suboptions:
           value:
             description: Value of a Setting.
             type: str
-            default: '30'
+            default: "30"
       platform_setting_proxy_agent_update_proxy_id:
         description: platform setting proxy agent update proxy id
         type: dict
@@ -1596,7 +1642,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: 'false'
+            default: "false"
       platform_setting_ddan_manual_source_api_key:
         description: platform setting ddan manual source api key
         type: dict
@@ -1618,7 +1664,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '100'
+            default: "100"
       intrusion_prevention_setting_event_rank_severity_filter_high:
         description: intrusion prevention setting event rank severity filter high
         type: dict
@@ -1626,7 +1672,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '50'
+            default: "50"
       platform_setting_trend_micro_xdr_api_key:
         description: platform setting trend micro xdr api key
         type: dict
@@ -1641,7 +1687,7 @@ options:
           value:
             description: Value of a Setting.
             type: str
-            default: '1'
+            default: "1"
       platform_setting_trend_micro_xdr_company_id:
         description: platform setting trend micro xdr company id
         type: dict
@@ -1651,9 +1697,9 @@ options:
             type: str
       platform_setting_allow_packet_data_capture_in_network_events:
         description:
-        - platform setting that allows packet data capture in network_events
-        - Applicaple only with GET call
-        - Not applicaple param with Create/Modify POST call
+          - platform setting that allows packet data capture in network_events
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
         type: dict
         suboptions:
           value:
@@ -1661,9 +1707,9 @@ options:
             type: str
       platform_setting_dsm_as_xbc_agent_feature_enabled:
         description:
-        - platform setting dsm as xbc agent feature enabled
-        - Applicaple only with GET call
-        - Not applicaple param with Create/Modify POST call
+          - platform setting dsm as xbc agent feature enabled
+          - Applicaple only with GET call
+          - Not applicaple param with Create/Modify POST call
         type: dict
         suboptions:
           value:
@@ -1671,21 +1717,20 @@ options:
             type: bool
   state:
     description:
-    - The state the configuration should be left in
-    - The state I(gathered) will get the module API configuration from the device
-      and transform it into structured data in the format as per the module argspec
-      and the value is returned in the I(gathered) key within the result.
+      - The state the configuration should be left in
+      - The state I(gathered) will get the module API configuration from the device
+        and transform it into structured data in the format as per the module argspec
+        and the value is returned in the I(gathered) key within the result.
     type: str
     choices:
-    - present
-    - absent
-    - gathered
+      - present
+      - absent
+      - gathered
     default: present
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>"
 """
 
 EXAMPLES = """
-
 - name: Apply the input config to System Settings config
   trendmicro.deepsec.deepsec_system_settings:
     state: present
@@ -1701,9 +1746,9 @@ EXAMPLES = """
     state: absent
     config:
       name:
-      - platform_setting_syslog_config_id
-      - platform_setting_http_strict_transport_enabled
-      - platform_setting_demo_mode_enabled
+        - platform_setting_syslog_config_id
+        - platform_setting_http_strict_transport_enabled
+        - platform_setting_demo_mode_enabled
 
 # Play Run:
 # =========
@@ -1738,9 +1783,9 @@ EXAMPLES = """
     state: gathered
     config:
       name:
-      - platform_setting_syslog_config_id
-      - platform_setting_http_strict_transport_enabled
-      - platform_setting_demo_mode_enabled
+        - platform_setting_syslog_config_id
+        - platform_setting_http_strict_transport_enabled
+        - platform_setting_demo_mode_enabled
 
 # Play Run:
 # =========
@@ -2003,12 +2048,16 @@ def display_gathered_result(argspec, module, deepsec_request):
     if module.params.get("config") and module.params.get("config").get("name"):
         return_get = {}
         for each in module.params["config"]["name"]:
-            return_val = deepsec_request.get(api_object + "/{0}".format(key_transform[each]))
+            return_val = deepsec_request.get(
+                api_object + "/{0}".format(key_transform[each])
+            )
             return_get.update({each: return_val})
         return_config["config"] = return_get
     else:
         return_get = deepsec_request.get(api_object)
-        return_config["config"] = map_obj_to_params(return_get, key_transform, api_return)
+        return_config["config"] = map_obj_to_params(
+            return_get, key_transform, api_return
+        )
     utils.validate_config(argspec, return_config)
     module.exit_json(gathered=return_config, changed=False)
 
@@ -2074,11 +2123,14 @@ def configure_module_api(argspec, module, deepsec_request):
             before.update({k: search_result[system_setting_name]})
             if (
                 system_setting_name in search_result
-                and search_result[system_setting_name]["value"].lower() != str(v["value"]).lower()
+                and search_result[system_setting_name]["value"].lower()
+                != str(v["value"]).lower()
             ):
                 changed = True
                 if v["value"] == "True" or v["value"] == "False":
-                    temp_config.update({system_setting_name: {"value": v["value"].lower()}})
+                    temp_config.update(
+                        {system_setting_name: {"value": v["value"].lower()}}
+                    )
                 else:
                     temp_config.update({system_setting_name: v})
                 after.update({k: v})
@@ -2886,7 +2938,9 @@ def main():
                 ),
                 platform_setting_tenant_protection_usage_monitoring_computer_id_2=dict(
                     type="dict",
-                    options=dict(value=dict(type="str", default="Last Used IP Address")),
+                    options=dict(
+                        value=dict(type="str", default="Last Used IP Address")
+                    ),
                 ),
                 platform_setting_agent_initiated_activation_policy_id=dict(
                     type="dict",
@@ -2983,11 +3037,17 @@ def main():
     module.params = utils.remove_empties(module.params)
 
     if module.params["state"] == "gathered":
-        display_gathered_result(argspec=argspec, module=module, deepsec_request=deepsec_request)
+        display_gathered_result(
+            argspec=argspec, module=module, deepsec_request=deepsec_request
+        )
     elif module.params["state"] == "absent":
-        reset_module_api_config(argspec=argspec, module=module, deepsec_request=deepsec_request)
+        reset_module_api_config(
+            argspec=argspec, module=module, deepsec_request=deepsec_request
+        )
     elif module.params["state"] == "present":
-        configure_module_api(argspec=argspec, module=module, deepsec_request=deepsec_request)
+        configure_module_api(
+            argspec=argspec, module=module, deepsec_request=deepsec_request
+        )
 
 
 if __name__ == "__main__":

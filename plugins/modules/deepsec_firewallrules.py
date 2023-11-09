@@ -17,7 +17,7 @@ version_added: 1.0.0
 deprecated:
   alternative: deepsec_firewall_rules
   why: Newer and updated modules released with more functionality
-  removed_at_date: '2023-12-01'
+  removed_at_date: "2023-12-01"
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>
 options:
   name:
@@ -31,14 +31,14 @@ options:
     description: Action of the packet filter.
     type: str
     choices:
-    - log-only
-    - allow
-    - deny
-    - force-allow
-    - bypass
+      - log-only
+      - allow
+      - deny
+      - force-allow
+      - bypass
   priority:
     description: Priority of the packet filter.
-    choices: ['0', '1', '2', '3', '4']
+    choices: ["0", "1", "2", "3", "4"]
     type: str
   direction:
     description: Packet direction.
@@ -52,19 +52,35 @@ options:
     description: Ethernet frame number. Only required for FrameType 'other'.
     type: int
   frame_not:
-    description: Controls if the frame setting should be inverted. Set to true to
+    description:
+      Controls if the frame setting should be inverted. Set to true to
       invert.
     type: bool
   protocol:
     description: Protocol.
-    choices: [any, icmp, igmp, ggp, tcp, pup, udp, idp, nd, raw, tcp-udp, icmpv6,
-      other]
+    choices:
+      [
+        any,
+        icmp,
+        igmp,
+        ggp,
+        tcp,
+        pup,
+        udp,
+        idp,
+        nd,
+        raw,
+        tcp-udp,
+        icmpv6,
+        other,
+      ]
     type: str
   protocol_number:
     description: Two-byte protocol number.
     type: int
   protocol_not:
-    description: Controls if the protocol setting should be inverted. Set to true
+    description:
+      Controls if the protocol setting should be inverted. Set to true
       to invert.
     type: bool
   source_iptype:
@@ -78,11 +94,13 @@ options:
     description: Source IP mask. Only applies to source IP type 'masked-ip'.
     type: str
   source_iprange_from:
-    description: The first value for a range of source IP addresses. Only applies
+    description:
+      The first value for a range of source IP addresses. Only applies
       to source IP type 'range'.
     type: str
   source_iprange_to:
-    description: The last value for a range of source IP addresses. Only applies to
+    description:
+      The last value for a range of source IP addresses. Only applies to
       source IP type 'range'.
     type: str
   source_ipmultiple:
@@ -93,7 +111,8 @@ options:
     description: ID of source IP list. Only applies to source IP type 'ip-list'.
     type: int
   source_ipnot:
-    description: Controls if the source IP setting should be inverted. Set to true
+    description:
+      Controls if the source IP setting should be inverted. Set to true
       to invert.
     type: bool
   source_mactype:
@@ -111,7 +130,8 @@ options:
     description: ID of MAC address list. Only applies to MAC type 'mac-list'.
     type: int
   source_macnot:
-    description: Controls if the source MAC setting should be inverted. Set to true
+    description:
+      Controls if the source MAC setting should be inverted. Set to true
       to invert.
     type: bool
   source_port_type:
@@ -119,7 +139,8 @@ options:
     choices: [any, multiple, port-list]
     type: str
   source_port_multiple:
-    description: List of comma-delimited source ports. Only applies to source type
+    description:
+      List of comma-delimited source ports. Only applies to source type
       'multiple'.
     type: list
     elements: str
@@ -127,7 +148,8 @@ options:
     description: ID of source port list. Only applies to source type 'port-list'.
     type: int
   source_port_not:
-    description: Controls if the source MAC setting should be inverted. Set to true
+    description:
+      Controls if the source MAC setting should be inverted. Set to true
       to invert.
     type: bool
   destination_iptype:
@@ -135,22 +157,26 @@ options:
     choices: [any, masked-ip, range, ip-list, single, multiple]
     type: str
   destination_ipvalue:
-    description: Destination IP. Only applies to destination IP type 'masked-ip' or
+    description:
+      Destination IP. Only applies to destination IP type 'masked-ip' or
       'single'.
     type: str
   destination_ipmask:
     description: Destination IP mask. Only applies to destination IP type 'masked-ip'.
     type: str
   destination_iprange_from:
-    description: The first value for a range of destination IP addresses. Only applies
+    description:
+      The first value for a range of destination IP addresses. Only applies
       to estination IP type 'range'.
     type: str
   destination_iprange_to:
-    description: The last value for a range of destination IP addresses. Only applies
+    description:
+      The last value for a range of destination IP addresses. Only applies
       to destination IP type 'range'.
     type: str
   destination_ipmultiple:
-    description: List of comma-delimited destination IP addresses. Only applies to
+    description:
+      List of comma-delimited destination IP addresses. Only applies to
       destination IP type 'multiple'.
     type: list
     elements: str
@@ -158,7 +184,8 @@ options:
     description: ID of destination IP list. Only applies to destination IP type 'ip-list'.
     type: int
   destination_ipnot:
-    description: Controls if the destination IP setting should be inverted. Set to
+    description:
+      Controls if the destination IP setting should be inverted. Set to
       true to invert.
     type: bool
   destination_mactype:
@@ -176,7 +203,8 @@ options:
     description: ID of MAC address list. Only applies to MAC type 'mac-list'.
     type: int
   destination_macnot:
-    description: Controls if the destination MAC setting should be inverted. Set to
+    description:
+      Controls if the destination MAC setting should be inverted. Set to
       true to invert.
     type: bool
   destination_port_type:
@@ -184,7 +212,8 @@ options:
     choices: [any, multiple, port-list]
     type: str
   destination_port_multiple:
-    description: List of comma-delimited destination ports. Only applies to destination
+    description:
+      List of comma-delimited destination ports. Only applies to destination
       type 'multiple'.
     type: list
     elements: str
@@ -192,14 +221,16 @@ options:
     description: ID of destination port list. Only applies to destination type 'port-list'.
     type: int
   destination_port_not:
-    description: Controls if the destination port setting should be inverted. Set
+    description:
+      Controls if the destination port setting should be inverted. Set
       to true to invert.
     type: bool
   any_flags:
     description: True if any flags are used.
     type: bool
   log_disabled:
-    description: Controls if logging for this filter is disabled. Only applies to
+    description:
+      Controls if logging for this filter is disabled. Only applies to
       filter action 'log-only' or 'deny'.
     type: bool
   include_packet_data:
@@ -230,11 +261,11 @@ options:
     type: bool
   state:
     description:
-    - The state the configuration should be left in
+      - The state the configuration should be left in
     type: str
     choices:
-    - present
-    - absent
+      - present
+      - absent
     default: present
 """
 
@@ -251,7 +282,7 @@ EXAMPLES = """
     direction: incoming
     protocol: tcp
     tcpflags:
-    - syn
+      - syn
 
 - name: Delete/Remove the existing Firewall rule Config
   trendmicro.deepsec.deepsec_firewallrules:
@@ -408,9 +439,7 @@ def main():
         source_macmultiple=dict(type="list", elements="str"),
         source_maclist_id=dict(type="int"),
         source_macnot=dict(type="bool"),
-        source_port_type=dict(
-            type="str", choices=["any", "multiple", "port-list"]
-        ),
+        source_port_type=dict(type="str", choices=["any", "multiple", "port-list"]),
         source_port_multiple=dict(type="list", elements="str"),
         source_port_list_id=dict(type="int"),
         source_port_not=dict(type="bool"),
@@ -472,10 +501,7 @@ def main():
         deepsec_request, want["name"], api_object.split("/")[2], api_return
     )
 
-    if (
-        "ID" in search_existing_firewallrules
-        and module.params["state"] == "absent"
-    ):
+    if "ID" in search_existing_firewallrules and module.params["state"] == "absent":
         delete_config_with_id(
             module,
             deepsec_request,
@@ -485,18 +511,13 @@ def main():
             handle_return=True,
         )
     elif (
-        "ID" not in search_existing_firewallrules
-        and module.params["state"] == "absent"
+        "ID" not in search_existing_firewallrules and module.params["state"] == "absent"
     ):
         module.exit_json(changed=False)
     else:
-        firewallrules = deepsec_request.post(
-            "{0}".format(api_object), data=want
-        )
+        firewallrules = deepsec_request.post("{0}".format(api_object), data=want)
         if "ID" in search_existing_firewallrules:
-            module.exit_json(
-                firewallrules=search_existing_firewallrules, changed=False
-            )
+            module.exit_json(firewallrules=search_existing_firewallrules, changed=False)
         elif firewallrules.get("message"):
             module.fail_json(msg=firewallrules["message"])
         else:

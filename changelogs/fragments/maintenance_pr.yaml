@@ -1,4 +1,0 @@
----
-trivial:
-  - Add github action and enable precommit.
-  - Fix lint issues.

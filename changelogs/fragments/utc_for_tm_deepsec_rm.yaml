@@ -1,3 +1,0 @@
----
-minor_changes:
-  - To add unit test case for deepsec_integrity_monitoring_rules, deepsec_intrusion_prevention_rules, and deepsec_log_inspection_rules module

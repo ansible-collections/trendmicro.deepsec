@@ -5,6 +5,27 @@ TrendMicro DeepSecurity Collection Release Notes
 .. contents:: Topics
 
 
+v2.1.0
+======
+
+Minor Changes
+-------------
+
+- To add unit test case for deepsec_anti_malwares module
+- To add unit test case for deepsec_firewall_rules module
+- To add unit test case for deepsec_integrity_monitoring_rules, deepsec_intrusion_prevention_rules, and deepsec_log_inspection_rules module
+
+Bugfixes
+--------
+
+- To fix the Log inspection rules module bug, where log_files param was not parsed as expected in idempotent play output.
+
+Documentation Changes
+---------------------
+
+- Lint documentation and examples.
+- To add run output to the docs of all of the existing TM deepsec resource modules.
+
 v2.0.0
 ======
 
@@ -38,12 +59,6 @@ Documentation Changes
 
 New Modules
 -----------
-
-Private
-~~~~~~~
-
-var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn.T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - deepsec_anti_malwares - Manages AntiMalware Rule resource module
 - deepsec_firewall_rules - Manages Firewall Rule resource module

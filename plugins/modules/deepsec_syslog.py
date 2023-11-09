@@ -11,118 +11,119 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 module: deepsec_syslog
-short_description: Configure or create a syslog configuration for TrendMicro Deep
+short_description:
+  Configure or create a syslog configuration for TrendMicro Deep
   Security
 description:
-- Configure or create a syslog configuration for TrendMicro Deep Security
+  - Configure or create a syslog configuration for TrendMicro Deep Security
 version_added: 1.0.0
 author: Ansible Security Automation Team (@justjais) <https://github.com/ansible-security>
 options:
   name:
     description:
-    - The name for this syslog configuration.
+      - The name for this syslog configuration.
     type: str
   id:
     description:
-    - The ID of the syslog configuration (when editing an existing configuration).
+      - The ID of the syslog configuration (when editing an existing configuration).
     type: str
   description:
     description:
-    - The description for this syslog configuration.
+      - The description for this syslog configuration.
     type: str
   server:
     description:
-    - The destination server for syslog messages.
+      - The destination server for syslog messages.
     type: str
   port:
     description:
-    - The destination port for syslog messages.
+      - The destination port for syslog messages.
     type: int
     default: 514
   transport:
     description:
-    - The transport to use when sending syslog messages.
+      - The transport to use when sending syslog messages.
     type: str
     choices:
-    - udp
-    - tcp
-    - tls
+      - udp
+      - tcp
+      - tls
     default: udp
   event_format:
     description:
-    - The event format to use when sending syslog messages.
+      - The event format to use when sending syslog messages.
     type: str
     choices:
-    - standard
-    - cef
-    - leef
+      - standard
+      - cef
+      - leef
     default: cef
   facility:
     description:
-    - The facility value to send with each syslog message.
+      - The facility value to send with each syslog message.
     type: str
     choices:
-    - kernel
-    - user
-    - mail
-    - daemon
-    - authorization
-    - syslog
-    - printer
-    - news
-    - uucp
-    - clock
-    - authpriv
-    - ftp
-    - ntp
-    - log-audit
-    - log-alert
-    - cron
-    - local0
-    - local1
-    - local2
-    - local3
-    - local4
-    - local5
-    - local6
-    - local7
+      - kernel
+      - user
+      - mail
+      - daemon
+      - authorization
+      - syslog
+      - printer
+      - news
+      - uucp
+      - clock
+      - authpriv
+      - ftp
+      - ntp
+      - log-audit
+      - log-alert
+      - cron
+      - local0
+      - local1
+      - local2
+      - local3
+      - local4
+      - local5
+      - local6
+      - local7
     default: local0
   private_key:
     description:
-    - The private key the Deep Security Manager will use when it contacts the syslog
-      server over TLS.
-    - The private key must be an RSA key in PEM-encoded PKCS#1 or PKCS#8 format.
-    - To prevent accidental disclosure of the private key, the Deep Security Manager
-      will not return this value; therefore Ansible does not have access to it and
-      it can only be used to set the private key.
+      - The private key the Deep Security Manager will use when it contacts the syslog
+        server over TLS.
+      - The private key must be an RSA key in PEM-encoded PKCS#1 or PKCS#8 format.
+      - To prevent accidental disclosure of the private key, the Deep Security Manager
+        will not return this value; therefore Ansible does not have access to it and
+        it can only be used to set the private key.
     type: str
   certificate_chain:
     description:
-    - The identity certificate chain the Deep Security Manager will use when it contacts
-      the syslog server over TLS.
-    - The identity certificate must be the first certificate in the list, followed
-      by the certificate for the issuing certificate authority (if any) and continuing
-      up the issuer chain.
-    - The root certificate authority's certificate does not need to be included.
-    - Each element in the list will be an unencrypted PEM-encoded certificate.
+      - The identity certificate chain the Deep Security Manager will use when it contacts
+        the syslog server over TLS.
+      - The identity certificate must be the first certificate in the list, followed
+        by the certificate for the issuing certificate authority (if any) and continuing
+        up the issuer chain.
+      - The root certificate authority's certificate does not need to be included.
+      - Each element in the list will be an unencrypted PEM-encoded certificate.
     type: list
     elements: str
   direct:
     description:
-    - The "direct delivery from agent to syslog server" flag
+      - The "direct delivery from agent to syslog server" flag
     type: bool
     default: false
   state:
     description:
-    - The state the configuration should be left in
-    - The state I(gathered) will make a get call to the module API and transform it
-      into structured data in the format as per the resource module argspec and the
-      value is returned in the I(gathered) key within the result.
+      - The state the configuration should be left in
+      - The state I(gathered) will make a get call to the module API and transform it
+        into structured data in the format as per the resource module argspec and the
+        value is returned in the I(gathered) key within the result.
     type: str
     choices:
-    - present
-    - absent
-    - gathered
+      - present
+      - absent
+      - gathered
     default: present
 """
 
@@ -218,17 +219,13 @@ def map_params_to_obj(module_params):
 
 def main():
     argspec = dict(
-        state=dict(
-            choices=["present", "absent", "gathered"], default="present"
-        ),
+        state=dict(choices=["present", "absent", "gathered"], default="present"),
         id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
         server=dict(type="str"),
         port=dict(type="int", default=514),
-        transport=dict(
-            type="str", choices=["udp", "tcp", "tls"], default="udp"
-        ),
+        transport=dict(type="str", choices=["udp", "tcp", "tls"], default="udp"),
         event_format=dict(
             type="str", choices=["standard", "cef", "leef"], default="cef"
         ),
@@ -285,10 +282,7 @@ def main():
         module, deepsec_request, want["name"], api_object, api_get_return
     )
 
-    if (
-        "ID" in search_existing_syslog_config
-        and module.params["state"] == "absent"
-    ):
+    if "ID" in search_existing_syslog_config and module.params["state"] == "absent":
         delete_config_with_id(
             module,
             deepsec_request,
@@ -299,20 +293,15 @@ def main():
             handle_return=True,
         )
     elif (
-        "ID" not in search_existing_syslog_config
-        and module.params["state"] == "absent"
+        "ID" not in search_existing_syslog_config and module.params["state"] == "absent"
     ):
         module.exit_json(changed=False)
     else:
         # create legacy API request body for creating Syslog-Configurations
         want = {api_create_obj: {api_return: want}}
-        syslog_config = deepsec_request.post(
-            "{0}".format(api_object), data=want
-        )
+        syslog_config = deepsec_request.post("{0}".format(api_object), data=want)
         if "ID" in search_existing_syslog_config:
-            module.exit_json(
-                syslog_config=search_existing_syslog_config, changed=False
-            )
+            module.exit_json(syslog_config=search_existing_syslog_config, changed=False)
         elif syslog_config.get("message"):
             module.fail_json(msg=syslog_config["message"])
         else:

@@ -9,18 +9,14 @@ name: deepsec
 namespace: trendmicro
 description: Ansible Security Collection for Trend Micro Deep Security
 readme: README.md
-# The URL of the originating SCM repository
 repository: https://github.com/ansible-collections/trendmicro.deepsec
-# The URL to any online docs
 documentation: https://github.com/ansible-collections/trendmicro.deepsec
-# The URL to the homepage of the collection/project
 homepage: https://github.com/ansible-collections/trendmicro.deepsec
-# The URL to the collection issue tracker
 issues: https://github.com/ansible-collections/trendmicro.deepsec/issues
 tags:
   - trendmicro
   - deepsec
   - security
   - endpoint
-version: "2.0.0"
+version: "2.1.0"
 build_ignore: []

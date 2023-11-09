@@ -60,12 +60,6 @@ Documentation Changes
 New Modules
 -----------
 
-Private
-~~~~~~~
-
-var.folders._0.m716s5gx1g3d5j1dw_s2w1ph0000gn. T.antsibull-changeloghfeb6_9p.collections.ansible_collections.trendmicro.deepsec.plugins.modules
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 - deepsec_anti_malwares - Manages AntiMalware Rule resource module
 - deepsec_firewall_rules - Manages Firewall Rule resource module
 - deepsec_integrity_monitoring_rules - Manages Integrity Monitoring Rule resource module

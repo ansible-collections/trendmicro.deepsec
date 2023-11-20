@@ -654,40 +654,40 @@ Examples
       trendmicro.deepsec.deepsec_log_inspection_rules:
         state: merged
         config:
-        - name: custom log_rule for mysqld event
-          description: MYSQLD description
-          minimum_agent_version: 6.0.0.0
-          type: defined
-          template: basic-rule
-          pattern: name
-          pattern_type: string
-          rule_id: 100001
-          rule_description: sqld rule description
-          groups:
-          - test
-          alert_minimum_severity: 4
-          alert_enabled: true
-          log_files:
+          - name: custom log_rule for mysqld event
+            description: MYSQLD description
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100001
+            rule_description: sqld rule description
+            groups:
+              - test
+            alert_minimum_severity: 4
+            alert_enabled: true
             log_files:
-            - location: /var/log/mysqld.log
-              format: mysql-log
-        - name: custom log_rule for daemon event
-          description: DAEMON description
-          minimum_agent_version: 6.0.0.0
-          type: defined
-          template: basic-rule
-          pattern: name
-          pattern_type: string
-          rule_id: 100002
-          rule_description: deamon rule description
-          groups:
-          - test
-          alert_minimum_severity: 3
-          alert_enabled: true
-          log_files:
+              log_files:
+                - location: /var/log/mysqld.log
+                  format: mysql-log
+          - name: custom log_rule for daemon event
+            description: DAEMON description
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100002
+            rule_description: deamon rule description
+            groups:
+              - test
+            alert_minimum_severity: 3
+            alert_enabled: true
             log_files:
-            - location: /var/log/daemon.log
-              format: eventlog
+              log_files:
+                - location: /var/log/daemon.log
+                  format: eventlog
 
     # RUN output:
     # -----------
@@ -742,14 +742,14 @@ Examples
       trendmicro.deepsec.deepsec_log_inspection_rules:
         state: merged
         config:
-        - name: custom log_rule for mysqld event
-          description: UPDATE pattern type for mysqld log event
-          pattern: name
-          pattern_type: regex
-          log_files:
+          - name: custom log_rule for mysqld event
+            description: UPDATE pattern type for mysqld log event
+            pattern: name
+            pattern_type: regex
             log_files:
-            - location: /var/log/messages
-              format: syslog
+              log_files:
+                - location: /var/log/messages
+                  format: syslog
 
     # RUN output:
     # -----------
@@ -809,23 +809,23 @@ Examples
       trendmicro.deepsec.deepsec_log_inspection_rules:
         state: replaced
         config:
-        - name: custom log_rule for daemon event
-          description: REPLACED log daemon event
-          minimum_agent_version: 6.0.0.0
-          type: defined
-          template: basic-rule
-          pattern: name
-          pattern_type: string
-          rule_id: 100003
-          rule_description: daemon rule description
-          groups:
-          - test
-          alert_minimum_severity: 5
-          alert_enabled: true
-          log_files:
+          - name: custom log_rule for daemon event
+            description: REPLACED log daemon event
+            minimum_agent_version: 6.0.0.0
+            type: defined
+            template: basic-rule
+            pattern: name
+            pattern_type: string
+            rule_id: 100003
+            rule_description: daemon rule description
+            groups:
+              - test
+            alert_minimum_severity: 5
+            alert_enabled: true
             log_files:
-            - location: /var/log/messages
-              format: syslog
+              log_files:
+                - location: /var/log/messages
+                  format: syslog
 
     # RUN output:
     # -----------
@@ -883,8 +883,8 @@ Examples
       trendmicro.deepsec.deepsec_log_inspection_rules:
         state: gathered
         config:
-        - name: custom log_rule for mysqld event
-        - name: custom log_rule for daemon event
+          - name: custom log_rule for mysqld event
+          - name: custom log_rule for daemon event
 
     # RUN output:
     # -----------
@@ -946,9 +946,8 @@ Examples
       trendmicro.deepsec.deepsec_log_inspection_rules:
         state: deleted
         config:
-        - name: custom log_rule for mysqld event
-        - name: custom log_rule for daemon event
-
+          - name: custom log_rule for mysqld event
+          - name: custom log_rule for daemon event
     # RUN output:
     # -----------
 

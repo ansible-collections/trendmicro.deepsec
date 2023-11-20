@@ -18,19 +18,20 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-import unittest
 import tempfile
+import unittest
+
 from ansible.playbook.task import Task
 from ansible.template import Templar
+from ansible_collections.ansible.utils.tests.unit.compat.mock import MagicMock, patch
+
 from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_integrity_monitoring_rules import (
     ActionModule,
 )
-from ansible_collections.ansible.utils.tests.unit.compat.mock import (
-    MagicMock,
-    patch,
-)
+
 
 RESPONSE_PAYLOAD = {
     "integrity_monitoring_rules": [
@@ -51,8 +52,8 @@ RESPONSE_PAYLOAD = {
             "registry_key_value": "\\",
             "severity": "medium",
             "template": "registry",
-        }
-    ]
+        },
+    ],
 }
 
 REQUEST_PAYLOAD = [
@@ -86,7 +87,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
         # Ansible <= 2.13 looks for check_mode in play_context
         play_context.check_mode = False
         connection = patch(
-            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_integrity_monitoring_rules.Connection"
+            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_integrity_monitoring_rules.Connection",
         )
         fake_loader = {}
         templar = Templar(loader=fake_loader)
@@ -106,9 +107,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
     def test_deepsec_integrity_monitoring_rules_merged(self, connection):
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {}
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin._task.args = {
             "state": "merged",
@@ -119,11 +118,10 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_integrity_monitoring_rules_merged_idempotent(
-        self, connection
+        self,
+        connection,
     ):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
@@ -138,7 +136,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
                     "registry_included_values": ["test_1", "test_2"],
                     "severity": "medium",
                     "template": "registry",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -146,9 +144,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_integrity_monitoring_rules_replaced(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
@@ -163,7 +159,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
                     "registry_included_values": ["test_3", "test_4"],
                     "severity": "low",
                     "template": "registry",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -171,11 +167,10 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_integrity_monitoring_rules_replaced_idempotent(
-        self, connection
+        self,
+        connection,
     ):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {
@@ -197,8 +192,8 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
                     "registry_key_value": "\\",
                     "severity": "low",
                     "template": "registry",
-                }
-            ]
+                },
+            ],
         }
         self._plugin._task.args = {
             "state": "replaced",
@@ -211,7 +206,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
                     "registry_included_values": ["test_3", "test_4"],
                     "severity": "low",
                     "template": "registry",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -219,9 +214,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_integrity_monitoring_rules_deleted(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
@@ -230,7 +223,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
             "config": [
                 {
                     "name": "test_firewallrule_1",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -238,20 +231,19 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_integrity_monitoring_rules_deleted_idempotent(
-        self, connection
+        self,
+        connection,
     ):
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {}
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
                 {
                     "name": "THIS IS TEST IMR - 1",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -259,9 +251,7 @@ class TestDeepsecIntegrityMonitoringRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_integrity_monitoring_rules_gathered(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD

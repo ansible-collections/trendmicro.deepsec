@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 
@@ -1809,15 +1810,14 @@ EXAMPLES = """
     state: gathered
 """
 
-from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.six import iteritems
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import utils
+
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     delete_config_with_id,
     map_obj_to_params,
-)
-from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
-    utils,
 )
 
 
@@ -2049,14 +2049,16 @@ def display_gathered_result(argspec, module, deepsec_request):
         return_get = {}
         for each in module.params["config"]["name"]:
             return_val = deepsec_request.get(
-                api_object + "/{0}".format(key_transform[each])
+                api_object + "/{0}".format(key_transform[each]),
             )
             return_get.update({each: return_val})
         return_config["config"] = return_get
     else:
         return_get = deepsec_request.get(api_object)
         return_config["config"] = map_obj_to_params(
-            return_get, key_transform, api_return
+            return_get,
+            key_transform,
+            api_return,
         )
     utils.validate_config(argspec, return_config)
     module.exit_json(gathered=return_config, changed=False)
@@ -2123,13 +2125,12 @@ def configure_module_api(argspec, module, deepsec_request):
             before.update({k: search_result[system_setting_name]})
             if (
                 system_setting_name in search_result
-                and search_result[system_setting_name]["value"].lower()
-                != str(v["value"]).lower()
+                and search_result[system_setting_name]["value"].lower() != str(v["value"]).lower()
             ):
                 changed = True
                 if v["value"] == "True" or v["value"] == "False":
                     temp_config.update(
-                        {system_setting_name: {"value": v["value"].lower()}}
+                        {system_setting_name: {"value": v["value"].lower()}},
                     )
                 else:
                     temp_config.update({system_setting_name: v})
@@ -2167,10 +2168,12 @@ def main():
                     options=dict(value=dict(type="str", default="30")),
                 ),
                 platform_setting_allow_packet_data_capture_in_network_events=dict(
-                    type="dict", options=dict(value=dict(type="str"))
+                    type="dict",
+                    options=dict(value=dict(type="str")),
                 ),
                 platform_setting_dsm_as_xbc_agent_feature_enabled=dict(
-                    type="dict", options=dict(value=dict(type="bool"))
+                    type="dict",
+                    options=dict(value=dict(type="bool")),
                 ),
                 platform_setting_update_agent_security_on_missing_deep_security_manager_enabled=dict(
                     type="dict",
@@ -2423,7 +2426,7 @@ def main():
                         value=dict(
                             type="str",
                             default="Manually select an Apex Central server",
-                        )
+                        ),
                     ),
                 ),
                 anti_malware_setting_event_email_enabled=dict(
@@ -2435,7 +2438,8 @@ def main():
                     options=dict(value=dict(type="str", default="false")),
                 ),
                 platform_setting_recommendation_ongoing_scans_enabled=dict(
-                    type="dict", options=dict(value=dict(type="str"))
+                    type="dict",
+                    options=dict(value=dict(type="str")),
                 ),
                 platform_setting_agent_initiated_activation_token=dict(
                     type="dict",
@@ -2625,7 +2629,7 @@ def main():
                         value=dict(
                             type="str",
                             default="Trend Micro ActiveUpdate Server",
-                        )
+                        ),
                     ),
                 ),
                 platform_setting_primary_tenant_share_connected_threat_defenses_enabled=dict(
@@ -2755,7 +2759,7 @@ def main():
                         value=dict(
                             type="str",
                             default="Manually select a Deep Discovery Analyzer server",
-                        )
+                        ),
                     ),
                 ),
                 platform_setting_connected_threat_defense_control_manager_suspicious_object_list_comparison_enabled=dict(
@@ -2909,7 +2913,7 @@ def main():
                         value=dict(
                             type="str",
                             default="Re-activate the existing Computer",
-                        )
+                        ),
                     ),
                 ),
                 platform_setting_vmware_nsx_manager_node=dict(
@@ -2939,7 +2943,7 @@ def main():
                 platform_setting_tenant_protection_usage_monitoring_computer_id_2=dict(
                     type="dict",
                     options=dict(
-                        value=dict(type="str", default="Last Used IP Address")
+                        value=dict(type="str", default="Last Used IP Address"),
                     ),
                 ),
                 platform_setting_agent_initiated_activation_policy_id=dict(
@@ -3038,15 +3042,21 @@ def main():
 
     if module.params["state"] == "gathered":
         display_gathered_result(
-            argspec=argspec, module=module, deepsec_request=deepsec_request
+            argspec=argspec,
+            module=module,
+            deepsec_request=deepsec_request,
         )
     elif module.params["state"] == "absent":
         reset_module_api_config(
-            argspec=argspec, module=module, deepsec_request=deepsec_request
+            argspec=argspec,
+            module=module,
+            deepsec_request=deepsec_request,
         )
     elif module.params["state"] == "present":
         configure_module_api(
-            argspec=argspec, module=module, deepsec_request=deepsec_request
+            argspec=argspec,
+            module=module,
+            deepsec_request=deepsec_request,
         )
 
 

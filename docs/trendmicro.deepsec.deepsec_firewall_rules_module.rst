@@ -1146,25 +1146,25 @@ Examples
       trendmicro.deepsec.deepsec_firewall_rules:
         state: merged
         config:
-        - name: test_firewallrule_1
-          description: incoming firewall 1 rule description
-          action: deny
-          priority: 0
-          source_iptype: any
-          destination_iptype: any
-          direction: incoming
-          protocol: tcp
-          log_disabled: true
-        - name: test_firewallrule_2
-          description: incoming firewall 2 rule description
-          action: deny
-          priority: 0
-          source_iptype: any
-          source_ipnot: false
-          source_port_type: any
-          destination_iptype: any
-          direction: incoming
-          protocol: tcp
+          - name: test_firewallrule_1
+            description: incoming firewall 1 rule description
+            action: deny
+            priority: 0
+            source_iptype: any
+            destination_iptype: any
+            direction: incoming
+            protocol: tcp
+            log_disabled: true
+          - name: test_firewallrule_2
+            description: incoming firewall 2 rule description
+            action: deny
+            priority: 0
+            source_iptype: any
+            source_ipnot: false
+            source_port_type: any
+            destination_iptype: any
+            direction: incoming
+            protocol: tcp
 
     # RUN output:
     # -----------
@@ -1231,8 +1231,8 @@ Examples
       trendmicro.deepsec.deepsec_firewall_rules:
         state: merged
         config:
-        - name: test_firewallrule_1
-          action: allow
+          - name: test_firewallrule_1
+            action: allow
 
     # RUN output:
     # -----------
@@ -1302,15 +1302,15 @@ Examples
       trendmicro.deepsec.deepsec_intrusion_prevention_rules:
         state: replaced
         config:
-        - name: test_firewallrule_1
-          description: outgoing firewall 1 REPLACED rule
-          action: deny
-          priority: 0
-          source_iptype: any
-          destination_iptype: any
-          direction: outgoing
-          protocol: any
-          log_disabled: true
+          - name: test_firewallrule_1
+            description: outgoing firewall 1 REPLACED rule
+            action: deny
+            priority: 0
+            source_iptype: any
+            destination_iptype: any
+            direction: outgoing
+            protocol: any
+            log_disabled: true
 
     # RUN output:
     # -----------
@@ -1380,8 +1380,8 @@ Examples
       trendmicro.deepsec.deepsec_firewall_rules:
         state: gathered
         config:
-        - name: test_firewallrule_1
-        - name: test_firewallrule_2
+          - name: test_firewallrule_1
+          - name: test_firewallrule_2
 
     # RUN output:
     # -----------
@@ -1453,9 +1453,8 @@ Examples
       trendmicro.deepsec.deepsec_firewall_rules:
         state: deleted
         config:
-        - name: test_firewallrule_1
-        - name: test_firewallrule_2
-
+          - name: test_firewallrule_1
+          - name: test_firewallrule_2
     # RUN output:
     # -----------
 

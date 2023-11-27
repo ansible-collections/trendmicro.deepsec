@@ -1059,7 +1059,7 @@ Examples
         direction: incoming
         protocol: tcp
         tcpflags:
-        - syn
+          - syn
 
     - name: Delete/Remove the existing Firewall rule Config
       trendmicro.deepsec.deepsec_firewallrules:

@@ -18,19 +18,20 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-import unittest
 import tempfile
+import unittest
+
 from ansible.playbook.task import Task
 from ansible.template import Templar
+from ansible_collections.ansible.utils.tests.unit.compat.mock import MagicMock, patch
+
 from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_firewall_rules import (
     ActionModule,
 )
-from ansible_collections.ansible.utils.tests.unit.compat.mock import (
-    MagicMock,
-    patch,
-)
+
 
 RESPONSE_PAYLOAD = {
     "firewall_rules": [
@@ -62,8 +63,8 @@ RESPONSE_PAYLOAD = {
             "alertEnabled": False,
             "ID": 146,
             "name": "test_firewallrule_1",
-        }
-    ]
+        },
+    ],
 }
 
 REQUEST_PAYLOAD = [
@@ -102,7 +103,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         # Ansible <= 2.13 looks for check_mode in play_context
         play_context.check_mode = False
         connection = patch(
-            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_firewall_rules.Connection"
+            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_firewall_rules.Connection",
         )
         fake_loader = {}
         templar = Templar(loader=fake_loader)
@@ -150,7 +151,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                     "direction": "incoming",
                     "protocol": "tcp",
                     "log_disabled": True,
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -205,7 +206,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                     "direction": "outgoing",
                     "protocol": "tcp",
                     "log_disabled": True,
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -246,8 +247,8 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                     "alertEnabled": False,
                     "ID": 147,
                     "name": "test_firewallrule_1",
-                }
-            ]
+                },
+            ],
         }
         self._plugin._task.args = {
             "state": "replaced",
@@ -262,7 +263,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                     "direction": "outgoing",
                     "protocol": "tcp",
                     "log_disabled": True,
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -279,7 +280,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             "config": [
                 {
                     "name": "test_firewallrule_1",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -296,7 +297,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             "config": [
                 {
                     "name": "test_firewallrule_1",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)

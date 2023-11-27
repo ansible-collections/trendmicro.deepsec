@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 
@@ -35,9 +36,8 @@ EXAMPLES = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
-    DeepSecurityRequest,
-)
+
+from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import DeepSecurityRequest
 
 
 def main():

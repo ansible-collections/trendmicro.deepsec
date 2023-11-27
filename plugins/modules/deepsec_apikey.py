@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -143,16 +144,16 @@ EXAMPLES = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import utils
+
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     check_if_config_exists,
     delete_config_with_id,
-    map_params_to_obj,
     map_obj_to_params,
+    map_params_to_obj,
 )
-from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
-    utils,
-)
+
 
 key_transform = {
     "key_name": "keyName",
@@ -188,7 +189,9 @@ def display_gathered_result(argspec, module, deepsec_request):
                 request_api = "{0}/{1}".format(api_object, search_by_id["id"])
                 get_key_by_id = deepsec_request.get("{0}".format(request_api))
                 get_key_by_id = map_obj_to_params(
-                    get_key_by_id, key_transform, api_return
+                    get_key_by_id,
+                    key_transform,
+                    api_return,
                 )
                 return_val["api_keys"].append(get_key_by_id)
             if get_key_by_id.get("message"):
@@ -197,7 +200,9 @@ def display_gathered_result(argspec, module, deepsec_request):
         return_get = deepsec_request.post(api_get_object)
         if return_get:
             return_val["api_keys"] = map_obj_to_params(
-                return_get, key_transform, api_return
+                return_get,
+                key_transform,
+                api_return,
             )[api_return]
 
     utils.validate_config(argspec, return_val)
@@ -231,15 +236,19 @@ def delete_module_api_config(argspec, module, deepsec_request):
                     api_return,
                 )
                 if delete_return.get("message"):
-                    error_msg = "Delete for ApiKey with key_name: {0}, failed with error: {1}".format(
-                        key_name, delete_return["message"]
+                    error_msg = (
+                        "Delete for ApiKey with key_name: {0}, failed with error: {1}".format(
+                            key_name,
+                            delete_return["message"],
+                        )
                     )
                     module.fail_json(msg=error_msg)
                 deleted_key.append(key_name)
         if deleted_key:
             module.exit_json(
                 msg="{0} with name: {1} deleted successfully!".format(
-                    api_return, deleted_key
+                    api_return,
+                    deleted_key,
                 ),
                 changed=True,
             )
@@ -256,12 +265,14 @@ def configure_module_api(argspec, module, deepsec_request):
             want = map_params_to_obj(each, key_transform)
             if not each.get("current"):
                 search_existing_apikey = search_for_pre_existing_key(
-                    want, deepsec_request
+                    want,
+                    deepsec_request,
                 )
             if each.get("current") or each.get("secret_key"):
                 if each.get("current"):
                     api_key = deepsec_request.post(
-                        "{0}".format(api_secretkey_current_object), data=want
+                        "{0}".format(api_secretkey_current_object),
+                        data=want,
                     )
                 elif "id" in search_existing_apikey:
                     id = search_existing_apikey["id"]
@@ -323,15 +334,21 @@ def main():
 
     if module.params["state"] == "gathered":
         display_gathered_result(
-            argspec=argspec, module=module, deepsec_request=deepsec_request
+            argspec=argspec,
+            module=module,
+            deepsec_request=deepsec_request,
         )
     elif module.params["state"] == "absent":
         delete_module_api_config(
-            argspec=argspec, module=module, deepsec_request=deepsec_request
+            argspec=argspec,
+            module=module,
+            deepsec_request=deepsec_request,
         )
     elif module.params["state"] == "present":
         configure_module_api(
-            argspec=argspec, module=module, deepsec_request=deepsec_request
+            argspec=argspec,
+            module=module,
+            deepsec_request=deepsec_request,
         )
 
 

@@ -736,53 +736,57 @@ Examples
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         state: present
         config:
-        - alert_enabled: false
-          always_include_packet_data: false
-          application_type_id: 300
-          template: signature
-          signature: test_new_signature_1
-          debug_mode_enabled: false
-          description: TEST IPR 2 DESCRIPTION
-          detect_only: false
-          event_logging_disabled: false
-          generate_event_on_packet_drop: true
-          name: TEST IPR 1
-          priority: normal
-          severity: medium
-        - alert_enabled: false
-          always_include_packet_data: false
-          application_type_id: 300
-          template: signature
-          signature: test_new_signature_2
-          debug_mode_enabled: false
-          description: TEST IPR 2 DESCRIPTION
-          detect_only: false
-          event_logging_disabled: false
-          generate_event_on_packet_drop: true
-          name: TEST IPR 2
-          priority: normal
-          severity: medium
+          - alert_enabled: false
+            always_include_packet_data: false
+            application_type_id: 300
+            template: signature
+            signature: test_new_signature_1
+            debug_mode_enabled: false
+            description: TEST IPR 2 DESCRIPTION
+            detect_only: false
+            event_logging_disabled: false
+            generate_event_on_packet_drop: true
+            name: TEST IPR 1
+            priority: normal
+            severity: medium
+          - alert_enabled: false
+            always_include_packet_data: false
+            application_type_id: 300
+            template: signature
+            signature: test_new_signature_2
+            debug_mode_enabled: false
+            description: TEST IPR 2 DESCRIPTION
+            detect_only: false
+            event_logging_disabled: false
+            generate_event_on_packet_drop: true
+            name: TEST IPR 2
+            priority: normal
+            severity: medium
+
     - name: Modify the severity of Integrity Monitoring Rule by name
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         state: present
         config:
-        - name: TEST IPR 2
-          severity: low
+          - name: TEST IPR 2
+            severity: low
+
     - name: Gather Intrusion Prevention Rules by IPR names
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         state: gathered
         config:
-        - name: TEST IPR 1
-        - name: TEST IPR 2
+          - name: TEST IPR 1
+          - name: TEST IPR 2
+
     - name: Gather ALL of the Intrusion Prevention Rules
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         state: gathered
+
     - name: Delete Intrusion Prevention Rules
       trendmicro.deepsec.deepsec_intrusion_preventionrules:
         state: absent
         config:
-        - name: TEST IPR 1
-        - name: TEST IPR 2
+          - name: TEST IPR 1
+          - name: TEST IPR 2
 
 
 

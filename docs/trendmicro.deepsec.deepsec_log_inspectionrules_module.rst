@@ -600,13 +600,14 @@ Examples
         rule_id: 100001
         rule_description: test rule description
         groups:
-        - test
+          - test
         alert_minimum_severity: 4
         alert_enabled: true
         log_files:
           log_files:
-          - location: /var/log/mysqld.log
-            format: mysql-log
+            - location: /var/log/mysqld.log
+              format: mysql-log
+
     - name: Delete/Remove the existing log inspection rule
       trendmicro.deepsec.deepsec_log_inspectionrules:
         state: absent

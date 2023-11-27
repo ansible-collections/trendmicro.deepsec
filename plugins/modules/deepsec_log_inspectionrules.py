@@ -18,6 +18,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 
@@ -247,16 +248,16 @@ EXAMPLES = """
     name: custom log_rule for mysqld event
 """
 
-from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.six import iteritems
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
+    remove_empties,
+)
 
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     check_if_config_exists,
     delete_config_with_id,
-)
-from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
-    remove_empties,
 )
 
 
@@ -335,7 +336,8 @@ def check_if_log_inspection_rules_exists(deepsec_request, log_inspection_name):
     search_dict["searchCriteria"].append(temp_criteria)
 
     search_result = deepsec_request.post(
-        "/api/loginspectionrules/search", data=search_dict
+        "/api/loginspectionrules/search",
+        data=search_dict,
     )
     if search_result.get("logInspectionRules"):
         return search_result[""][0]
@@ -381,7 +383,7 @@ def main():
     }
 
     log_files_spec = {
-        "log_files": dict(type="list", elements="dict", options=log_files_spec_list)
+        "log_files": dict(type="list", elements="dict", options=log_files_spec_list),
     }
 
     argspec = dict(
@@ -411,7 +413,8 @@ def main():
         alert_enabled=dict(type="bool"),
         alert_minimum_severity=dict(type="int"),
         recommendations_mode=dict(
-            type="str", choices=["enabled", "ignored", "unknown", "disabled"]
+            type="str",
+            choices=["enabled", "ignored", "unknown", "disabled"],
         ),
         sort_order=dict(type="int"),
         can_be_assigned_alone=dict(type="bool"),
@@ -429,10 +432,7 @@ def main():
         "logInspectionRules",
     )
 
-    if (
-        "ID" in search_existing_log_inspection_rules
-        and module.params["state"] == "absent"
-    ):
+    if "ID" in search_existing_log_inspection_rules and module.params["state"] == "absent":
         delete_config_with_id(
             module,
             deepsec_request,
@@ -441,14 +441,12 @@ def main():
             "logInspectionRules",
             handle_return=True,
         )
-    elif (
-        "ID" not in search_existing_log_inspection_rules
-        and module.params["state"] == "absent"
-    ):
+    elif "ID" not in search_existing_log_inspection_rules and module.params["state"] == "absent":
         module.exit_json(changed=False)
     else:
         log_inspection_rules = deepsec_request.post(
-            "/api/loginspectionrules", data=want
+            "/api/loginspectionrules",
+            data=want,
         )
         if "ID" in search_existing_log_inspection_rules:
             module.exit_json(

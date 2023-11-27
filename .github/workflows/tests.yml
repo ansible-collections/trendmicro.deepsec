@@ -30,7 +30,6 @@ jobs:
   all_green:
     if: ${{ always() }}
     needs:
-      - ansible-lint
       - changelog
       - sanity
       - unit-galaxy

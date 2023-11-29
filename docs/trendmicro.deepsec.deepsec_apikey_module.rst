@@ -345,31 +345,31 @@ Examples
       trendmicro.deepsec.deepsec_apikey:
         state: present
         api_keys:
-        - key_name: admin_apiKeys
-          description: test API keys 1
-          active: true
-          role_id: 1
-          locale: en-US
-        - key_name: auditor_apiKeys
-          description: test API keys 2
-          active: true
-          role_id: 2
-          locale: en-US
+          - key_name: admin_apiKeys
+            description: test API keys 1
+            active: true
+            role_id: 1
+            locale: en-US
+          - key_name: auditor_apiKeys
+            description: test API keys 2
+            active: true
+            role_id: 2
+            locale: en-US
     - name: Generate Secret key for current API key
       trendmicro.deepsec.deepsec_apikey:
         state: present
         api_keys:
-        - current: true
+          - current: true
     - name: Generate Secret key for specified API key
       trendmicro.deepsec.deepsec_apikey:
         state: present
         api_keys:
-        - key_name: admin_apiKeys
-          secret_key: test_secret
+          - key_name: admin_apiKeys
+            secret_key: test_secret
     - name: Get the API keys by Name
       trendmicro.deepsec.deepsec_apikey:
         api_keys:
-        - key_name: admin_apiKeys
+          - key_name: admin_apiKeys
         state: gathered
     - name: Get all the API keys
       trendmicro.deepsec.deepsec_apikey:

@@ -6,16 +6,17 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 try:
     from ssl import CertificateError
 except ImportError:
     from backports.ssl_match_hostname import CertificateError
 
-from ansible.module_utils.connection import ConnectionError
-from ansible.module_utils.connection import Connection
 from ansible.module_utils._text import to_text
+from ansible.module_utils.connection import Connection, ConnectionError
 from ansible.module_utils.six import iteritems
+
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
@@ -58,9 +59,7 @@ def map_params_to_obj(module_params, key_transform):
     obj = {}
     for k, v in iteritems(key_transform):
         if k in module_params and (
-            module_params.get(k)
-            or module_params.get(k) == 0
-            or module_params.get(k) is False
+            module_params.get(k) or module_params.get(k) == 0 or module_params.get(k) is False
         ):
             obj[v] = module_params.pop(k)
     if module_params:
@@ -81,9 +80,7 @@ def map_obj_to_params(module_return_params, key_transform, return_param):
         for each in module_return_params[return_param]:
             api_temp = {}
             for k, v in iteritems(key_transform):
-                if v in each and (
-                    each.get(v) or each.get(v) == 0 or each.get(v) is False
-                ):
+                if v in each and (each.get(v) or each.get(v) == 0 or each.get(v) is False):
                     api_temp[k] = each.pop(v)
             if each:
                 api_temp.update(each)
@@ -130,11 +127,12 @@ def check_if_config_exists(
 
     if api_request == "get":
         search_result = deepsec_request.get(
-            "/api/{0}/{1}".format(api, config_name)
+            "/api/{0}/{1}".format(api, config_name),
         )
     else:
         search_result = deepsec_request.post(
-            "/api/{0}/search".format(api), data=search_dict
+            "/api/{0}/search".format(api),
+            data=search_dict,
         )
     if search_result.get(api_search_result):
         return search_result[api_search_result][0]
@@ -160,16 +158,17 @@ def delete_config_with_id(
     """
     if api_or_rest:
         delete_return = deepsec_request.delete(
-            "/api/{0}/{1}".format(api, config_id)
+            "/api/{0}/{1}".format(api, config_id),
         )
     else:
         delete_return = deepsec_request.delete(
-            "/rest/{0}/{1}".format(api, config_id)
+            "/rest/{0}/{1}".format(api, config_id),
         )
     if handle_return:
         module.exit_json(
             msg="{0} with id: {1} deleted successfully!".format(
-                api_var, config_id
+                api_var,
+                config_id,
             ),
             changed=True,
         )
@@ -196,7 +195,7 @@ class DeepSecurityRequest(object):
             self.connection = connection
             try:
                 self.connection.load_platform_plugins(
-                    "trendmicro.deepsec.deepsec"
+                    "trendmicro.deepsec.deepsec",
                 )
                 self.connection.set_options(var_options=task_vars)
             except ConnectionError:
@@ -217,20 +216,22 @@ class DeepSecurityRequest(object):
         response = {}
         try:
             code, response = self.connection.send_request(
-                method, uri, **kwargs
+                method,
+                uri,
+                **kwargs,
             )
         except ConnectionError as e:
             self.module.fail_json(
-                msg="connection error occurred: {0}".format(e)
+                msg="connection error occurred: {0}".format(e),
             )
         except CertificateError as e:
             self.module.fail_json(
-                msg="certificate error occurred: {0}".format(e)
+                msg="certificate error occurred: {0}".format(e),
             )
         except ValueError as e:
             try:
                 self.module.fail_json(
-                    msg="certificate not found: {0}".format(e)
+                    msg="certificate not found: {0}".format(e),
                 )
             except AttributeError:
                 pass

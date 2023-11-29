@@ -566,23 +566,23 @@ Examples
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: merged
         config:
-        - name: THIS IS TEST IMR - 1
-          alert_enabled: false
-          description: THIS IS TEST IMR DESCRIPTION - 1
-          real_time_monitoring_enabled: true
-          registry_included_values:
-          - test_1
-          - test_2
-          severity: medium
-          template: registry
-        - name: THIS IS TEST IMR - 2
-          alert_enabled: false
-          description: THIS IS TEST IMR DESCRIPTION - 2
-          real_time_monitoring_enabled: true
-          registry_attributes:
-          - test
-          severity: low
-          template: registry
+          - name: THIS IS TEST IMR - 1
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 1
+            real_time_monitoring_enabled: true
+            registry_included_values:
+              - test_1
+              - test_2
+            severity: medium
+            template: registry
+          - name: THIS IS TEST IMR - 2
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 2
+            real_time_monitoring_enabled: true
+            registry_attributes:
+              - test
+            severity: low
+            template: registry
 
     # RUN output:
     # -----------
@@ -632,9 +632,9 @@ Examples
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: merged
         config:
-        - name: THIS IS TEST IMR - 2
-          description: UPDATE TEST IMR DESCRIPTION - 2
-          severity: medium
+          - name: THIS IS TEST IMR - 2
+            description: UPDATE TEST IMR DESCRIPTION - 2
+            severity: medium
 
     # RUN output:
     # -----------
@@ -686,15 +686,15 @@ Examples
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: replaced
         config:
-        - name: THIS IS TEST IMR - 1
-          alert_enabled: false
-          description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
-          real_time_monitoring_enabled: true
-          registry_included_values:
-          - test_3
-          - test_4
-          severity: low
-          template: registry
+          - name: THIS IS TEST IMR - 1
+            alert_enabled: false
+            description: THIS IS REPLACED TEST IMR DESCRIPTION - 1
+            real_time_monitoring_enabled: true
+            registry_included_values:
+              - test_3
+              - test_4
+            severity: low
+            template: registry
 
     # RUN output:
     # -----------
@@ -748,8 +748,8 @@ Examples
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: gathered
         config:
-        - name: THIS IS TEST IMR - 1
-        - name: THIS IS TEST IMR - 2
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
 
     # RUN output:
     # -----------
@@ -806,9 +806,8 @@ Examples
       trendmicro.deepsec.deepsec_integrity_monitoring_rules:
         state: deleted
         config:
-        - name: THIS IS TEST IMR - 1
-        - name: THIS IS TEST IMR - 2
-
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
     # RUN output:
     # -----------
 

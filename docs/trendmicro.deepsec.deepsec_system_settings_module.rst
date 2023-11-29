@@ -7303,9 +7303,9 @@ Examples
         state: absent
         config:
           name:
-          - platform_setting_syslog_config_id
-          - platform_setting_http_strict_transport_enabled
-          - platform_setting_demo_mode_enabled
+            - platform_setting_syslog_config_id
+            - platform_setting_http_strict_transport_enabled
+            - platform_setting_demo_mode_enabled
 
     # Play Run:
     # =========
@@ -7340,9 +7340,9 @@ Examples
         state: gathered
         config:
           name:
-          - platform_setting_syslog_config_id
-          - platform_setting_http_strict_transport_enabled
-          - platform_setting_demo_mode_enabled
+            - platform_setting_syslog_config_id
+            - platform_setting_http_strict_transport_enabled
+            - platform_setting_demo_mode_enabled
 
     # Play Run:
     # =========

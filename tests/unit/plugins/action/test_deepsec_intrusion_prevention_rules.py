@@ -18,19 +18,20 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-import unittest
 import tempfile
+import unittest
+
 from ansible.playbook.task import Task
 from ansible.template import Templar
+from ansible_collections.ansible.utils.tests.unit.compat.mock import MagicMock, patch
+
 from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_intrusion_prevention_rules import (
     ActionModule,
 )
-from ansible_collections.ansible.utils.tests.unit.compat.mock import (
-    MagicMock,
-    patch,
-)
+
 
 RESPONSE_PAYLOAD = {
     "intrusion_prevention_rules": [
@@ -51,8 +52,8 @@ RESPONSE_PAYLOAD = {
             "severity": "medium",
             "signature": "test_new_signature_1",
             "template": "signature",
-        }
-    ]
+        },
+    ],
 }
 
 REQUEST_PAYLOAD = [
@@ -98,7 +99,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
         # Ansible <= 2.13 looks for check_mode in play_context
         play_context.check_mode = False
         connection = patch(
-            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_intrusion_prevention_rules.Connection"
+            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_intrusion_prevention_rules.Connection",
         )
         fake_loader = {}
         templar = Templar(loader=fake_loader)
@@ -118,9 +119,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
     def test_deepsec_intrusion_prevention_rules_merged(self, connection):
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = {}
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin._task.args = {
             "state": "merged",
@@ -131,11 +130,10 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_merged_idempotent(
-        self, connection
+        self,
+        connection,
     ):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
@@ -156,7 +154,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
                     "name": "TEST IPR 1",
                     "priority": "normal",
                     "severity": "medium",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -164,9 +162,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_replaced(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
@@ -187,7 +183,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
                     "name": "TEST IPR 1",
                     "priority": "normal",
                     "severity": "low",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -195,11 +191,10 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_replaced_idempotent(
-        self, connection
+        self,
+        connection,
     ):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = {
@@ -221,8 +216,8 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
                     "severity": "low",
                     "signature": "test_new_signature_1",
                     "template": "signature",
-                }
-            ]
+                },
+            ],
         }
         self._plugin._task.args = {
             "state": "replaced",
@@ -241,7 +236,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
                     "name": "TEST IPR 1",
                     "priority": "normal",
                     "severity": "low",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -249,9 +244,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_deleted(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD
@@ -260,7 +253,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
             "config": [
                 {
                     "name": "TEST IPR 1",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -268,20 +261,19 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_deleted_idempotent(
-        self, connection
+        self,
+        connection,
     ):
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = {}
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
                 {
                     "name": "TEST IPR 1",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -289,9 +281,7 @@ class TestDeepsecIntrusionPreventionRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_intrusion_prevention_rules_gathered(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_ipr_name = MagicMock()
         self._plugin.search_for_ipr_name.return_value = RESPONSE_PAYLOAD

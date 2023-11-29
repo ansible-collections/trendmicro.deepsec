@@ -8,23 +8,22 @@ The module file for deepsec_firewall_rules
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-from ansible.plugins.action import ActionBase
 from ansible.errors import AnsibleActionFail
 from ansible.module_utils.connection import Connection
-
-from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
-    utils,
+from ansible.plugins.action import ActionBase
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import utils
+from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+    AnsibleArgSpecValidator,
 )
+
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     map_obj_to_params,
     map_params_to_obj,
     remove_get_keys_from_payload_dict,
-)
-from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-    AnsibleArgSpecValidator,
 )
 from ansible_collections.trendmicro.deepsec.plugins.modules.deepsec_firewall_rules import (
     DOCUMENTATION,
@@ -112,19 +111,22 @@ class ActionModule(ActionBase):
             if response.get("errors"):
                 raise AnsibleActionFail(
                     "Request failed with HTTPerror code: {0}, and with a response: {1}".format(
-                        response_code, response["errors"]
-                    )
+                        response_code,
+                        response["errors"],
+                    ),
                 )
             elif response.get("message"):
                 raise AnsibleActionFail(
                     "Request failed with HTTPerror code: {0}, and with a response: {1}".format(
-                        response_code, response["message"]
-                    )
+                        response_code,
+                        response["message"],
+                    ),
                 )
 
     def search_for_existing_rules(self, conn_request, search_payload=None):
         code, resource_response = conn_request.post(
-            self.api_object_search, data=search_payload
+            self.api_object_search,
+            data=search_payload,
         )
         self._check_for_response_code(code, resource_response)
         return resource_response
@@ -140,11 +142,12 @@ class ActionModule(ActionBase):
                             "fieldName": "name",
                             "stringTest": "equal",
                             "stringValue": each["name"],
-                        }
+                        },
                     ],
                 }
                 temp_search_response = self.search_for_existing_rules(
-                    conn_request, search_payload
+                    conn_request,
+                    search_payload,
                 )
                 if (
                     temp_search_response.get("firewallRules")
@@ -155,7 +158,7 @@ class ActionModule(ActionBase):
                             temp_search_response["firewallRules"][0],
                             self.key_transform,
                             self.api_return,
-                        )
+                        ),
                     )
         else:
             search_payload = {
@@ -165,11 +168,12 @@ class ActionModule(ActionBase):
                         "fieldName": "name",
                         "stringTest": "equal",
                         "stringValue": search_resource_by_names,
-                    }
+                    },
                 ],
             }
             search_result = self.search_for_existing_rules(
-                conn_request, search_payload
+                conn_request,
+                search_payload,
             )
 
         return search_result
@@ -181,7 +185,8 @@ class ActionModule(ActionBase):
         changed = False
         for each in module_config_params:
             search_by_name = self.search_for_resource_name(
-                conn_request, each["name"]
+                conn_request,
+                each["name"],
             )
             if search_by_name.get(self.api_return):
                 every = map_obj_to_params(
@@ -191,7 +196,8 @@ class ActionModule(ActionBase):
                 )
                 before.append(every)
                 response_code, api_response = conn_request.delete(
-                    "{0}/{1}".format(self.api_object, every["id"]), data=each
+                    "{0}/{1}".format(self.api_object, every["id"]),
+                    data=each,
                 )
                 self._check_for_response_code(response_code, api_response)
 
@@ -199,8 +205,10 @@ class ActionModule(ActionBase):
                 if api_response:
                     after.append(
                         map_obj_to_params(
-                            api_response, self.key_transform, self.api_return
-                        )
+                            api_response,
+                            self.key_transform,
+                            self.api_return,
+                        ),
                     )
         if changed:
             config.update({"before": before, "after": after})
@@ -222,21 +230,25 @@ class ActionModule(ActionBase):
         temp_name = []
         for each in module_config_params:
             search_by_name = self.search_for_resource_name(
-                conn_request, each["name"]
+                conn_request,
+                each["name"],
             )
             if search_by_name and search_by_name.get(self.api_return):
                 each_result = search_by_name[self.api_return]
                 every = {}
                 for every in each_result:
                     every = map_obj_to_params(
-                        every, self.key_transform, self.api_return
+                        every,
+                        self.key_transform,
+                        self.api_return,
                     )
                     if every["name"] == each["name"]:
                         each = utils.remove_empties(each)
                         diff = utils.dict_diff(every, each)
                 if diff:
                     diff = remove_get_keys_from_payload_dict(
-                        diff, remove_from_diff_compare
+                        diff,
+                        remove_from_diff_compare,
                     )
                     if diff:
                         before.append(every)
@@ -244,28 +256,31 @@ class ActionModule(ActionBase):
                             # Check for actual modification and if present fire
                             # the request over that integrity_monitoring_rules ID
                             each = utils.remove_empties(
-                                utils.dict_merge(every, each)
+                                utils.dict_merge(every, each),
                             )
                             each = remove_get_keys_from_payload_dict(
-                                each, remove_from_diff_compare
+                                each,
+                                remove_from_diff_compare,
                             )
                             changed = True
                             payload = map_params_to_obj(
-                                each, self.key_transform
+                                each,
+                                self.key_transform,
                             )
                             response_code, api_response = conn_request.post(
                                 "{0}/{1}".format(self.api_object, every.get("id")),
                                 data=payload,
                             )
                             self._check_for_response_code(
-                                response_code, api_response
+                                response_code,
+                                api_response,
                             )
                             after.append(
                                 map_obj_to_params(
                                     api_response,
                                     self.key_transform,
                                     self.api_return,
-                                )
+                                ),
                             )
                         elif self._task.args["state"] == "replaced":
                             response_code, api_response = conn_request.delete(
@@ -273,24 +288,28 @@ class ActionModule(ActionBase):
                                 data=each,
                             )
                             self._check_for_response_code(
-                                response_code, api_response
+                                response_code,
+                                api_response,
                             )
                             changed = True
                             payload = map_params_to_obj(
-                                each, self.key_transform
+                                each,
+                                self.key_transform,
                             )
                             response_code, api_response = conn_request.post(
-                                "{0}".format(self.api_object), data=payload
+                                "{0}".format(self.api_object),
+                                data=payload,
                             )
                             self._check_for_response_code(
-                                response_code, api_response
+                                response_code,
+                                api_response,
                             )
                             after.append(
                                 map_obj_to_params(
                                     api_response,
                                     self.key_transform,
                                     self.api_return,
-                                )
+                                ),
                             )
                     else:
                         before.append(every)
@@ -303,18 +322,22 @@ class ActionModule(ActionBase):
                 changed = True
                 each = utils.remove_empties(each)
                 each = remove_get_keys_from_payload_dict(
-                    each, get_supported_keys
+                    each,
+                    get_supported_keys,
                 )
                 payload = map_params_to_obj(each, self.key_transform)
                 code, api_response = conn_request.post(
-                    "{0}".format(self.api_object), data=payload
+                    "{0}".format(self.api_object),
+                    data=payload,
                 )
                 self._check_for_response_code(code, api_response)
                 after.extend(before)
                 after.append(
                     map_obj_to_params(
-                        api_response, self.key_transform, self.api_return
-                    )
+                        api_response,
+                        self.key_transform,
+                        self.api_return,
+                    ),
                 )
         if not changed:
             after = []
@@ -330,26 +353,26 @@ class ActionModule(ActionBase):
             return self._result
         conn = Connection(self._connection.socket_path)
         conn_request = DeepSecurityRequest(
-            connection=conn, task_vars=task_vars
+            connection=conn,
+            task_vars=task_vars,
         )
         if self._task.args["state"] == "gathered":
             if self._task.args.get("config"):
                 self._result["gathered"] = self.search_for_resource_name(
-                    conn_request, self._task.args["config"]
+                    conn_request,
+                    self._task.args["config"],
                 )
             else:
                 self._result["gathered"] = conn_request.get(self.api_object)
             self._result["changed"] = False
-        elif (
-            self._task.args["state"] == "merged"
-            or self._task.args["state"] == "replaced"
-        ):
+        elif self._task.args["state"] == "merged" or self._task.args["state"] == "replaced":
             if self._task.args.get("config"):
                 (
                     self._result[self.module_return],
                     self._result["changed"],
                 ) = self.configure_module_api(
-                    conn_request, self._task.args["config"]
+                    conn_request,
+                    self._task.args["config"],
                 )
         elif self._task.args["state"] == "deleted":
             if self._task.args.get("config"):
@@ -357,7 +380,8 @@ class ActionModule(ActionBase):
                     self._result[self.module_return],
                     self._result["changed"],
                 ) = self.delete_module_api_config(
-                    conn_request, self._task.args["config"]
+                    conn_request,
+                    self._task.args["config"],
                 )
 
         return self._result

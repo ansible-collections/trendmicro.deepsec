@@ -571,44 +571,48 @@ Examples
       trendmicro.deepsec.deepsec_integrity_monitoringrules:
         state: present
         config:
-        - name: THIS IS TEST IMR - 1
-          alert_enabled: false
-          description: THIS IS TEST IMR DESCRIPTION - 1
-          real_time_monitoring_enabled: true
-          registry_included_values:
-          - test_1
-          - test_2
-          severity: medium
-          template: registry
-        - name: THIS IS TEST IMR - 2
-          alert_enabled: false
-          description: THIS IS TEST IMR DESCRIPTION - 2
-          real_time_monitoring_enabled: true
-          registry_attributes:
-          - test
-          severity: low
-          template: registry
+          - name: THIS IS TEST IMR - 1
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 1
+            real_time_monitoring_enabled: true
+            registry_included_values:
+              - test_1
+              - test_2
+            severity: medium
+            template: registry
+          - name: THIS IS TEST IMR - 2
+            alert_enabled: false
+            description: THIS IS TEST IMR DESCRIPTION - 2
+            real_time_monitoring_enabled: true
+            registry_attributes:
+              - test
+            severity: low
+            template: registry
+
     - name: Modify the severity of Integrity Monitoring Rule by name
       trendmicro.deepsec.deepsec_integrity_monitoringrules:
         state: present
         config:
-        - name: THIS IS TEST IMR - 2
-          severity: medium
+          - name: THIS IS TEST IMR - 2
+            severity: medium
+
     - name: Gather Integrity Monitoring Rules by IMR names
       trendmicro.deepsec.deepsec_integrity_monitoringrules:
         state: gathered
         config:
-        - name: THIS IS TEST IMR - 1
-        - name: THIS IS TEST IMR - 2
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
+
     - name: Gather ALL of the Integrity Monitoring Rules
       trendmicro.deepsec.deepsec_integrity_monitoringrules:
         state: gathered
+
     - name: Delete existing Integrity Monitoring Rules
       trendmicro.deepsec.deepsec_integrity_monitoringrules:
         state: absent
         config:
-        - name: THIS IS TEST IMR - 1
-        - name: THIS IS TEST IMR - 2
+          - name: THIS IS TEST IMR - 1
+          - name: THIS IS TEST IMR - 2
 
 
 

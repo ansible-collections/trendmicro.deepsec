@@ -18,19 +18,20 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-import unittest
 import tempfile
+import unittest
+
 from ansible.playbook.task import Task
 from ansible.template import Templar
+from ansible_collections.ansible.utils.tests.unit.compat.mock import MagicMock, patch
+
 from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_log_inspection_rules import (
     ActionModule,
 )
-from ansible_collections.ansible.utils.tests.unit.compat.mock import (
-    MagicMock,
-    patch,
-)
+
 
 RESPONSE_PAYLOAD = {
     "log_inspection_rules": [
@@ -44,8 +45,8 @@ RESPONSE_PAYLOAD = {
             "level": "0",
             "logFiles": {
                 "logFiles": [
-                    {"location": "/var/log/mysqld.log", "format": "mysql-log"}
-                ]
+                    {"location": "/var/log/mysqld.log", "format": "mysql-log"},
+                ],
             },
             "minimum_agent_version": "6.0.0.0",
             "minimum_manager_version": "6.0.0",
@@ -56,8 +57,8 @@ RESPONSE_PAYLOAD = {
             "rule_id": 100001,
             "sort_order": "15000",
             "template": "basic-rule",
-        }
-    ]
+        },
+    ],
 }
 
 REQUEST_PAYLOAD = [
@@ -76,8 +77,8 @@ REQUEST_PAYLOAD = [
         "alert_enabled": True,
         "log_files": {
             "log_files": [
-                {"location": "/var/log/mysqld.log", "format": "mysql-log"}
-            ]
+                {"location": "/var/log/mysqld.log", "format": "mysql-log"},
+            ],
         },
     },
     {
@@ -95,8 +96,8 @@ REQUEST_PAYLOAD = [
         "alert_enabled": True,
         "log_files": {
             "log_files": [
-                {"location": "/var/log/daemon.log", "format": "eventlog"}
-            ]
+                {"location": "/var/log/daemon.log", "format": "eventlog"},
+            ],
         },
     },
 ]
@@ -111,7 +112,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
         # Ansible <= 2.13 looks for check_mode in play_context
         play_context.check_mode = False
         connection = patch(
-            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_log_inspection_rules.Connection"
+            "ansible_collections.trendmicro.deepsec.plugins.action.deepsec_log_inspection_rules.Connection",
         )
         fake_loader = {}
         templar = Templar(loader=fake_loader)
@@ -131,9 +132,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
     def test_deepsec_log_inspection_rules_merged(self, connection):
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {}
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin._task.args = {
             "state": "merged",
@@ -144,9 +143,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_log_inspection_rules_merged_idempotent(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
@@ -171,10 +168,10 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                             {
                                 "location": "/var/log/mysqld.log",
                                 "format": "mysql-log",
-                            }
-                        ]
+                            },
+                        ],
                     },
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -182,9 +179,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_log_inspection_rules_replaced(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
@@ -209,10 +204,10 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                             {
                                 "location": "/var/log/mysqld.log",
                                 "format": "mysql-log",
-                            }
-                        ]
+                            },
+                        ],
                     },
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -220,11 +215,10 @@ class TestDeepsecFirewallRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_log_inspection_rules_replaced_idempotent(
-        self, connection
+        self,
+        connection,
     ):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {
@@ -242,8 +236,8 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                             {
                                 "location": "/var/log/daemon.log",
                                 "format": "eventlog",
-                            }
-                        ]
+                            },
+                        ],
                     },
                     "minimum_agent_version": "6.0.0.0",
                     "minimum_manager_version": "6.0.0",
@@ -254,8 +248,8 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                     "rule_id": 100002,
                     "sort_order": "15000",
                     "template": "basic-rule",
-                }
-            ]
+                },
+            ],
         }
         self._plugin._task.args = {
             "state": "replaced",
@@ -278,10 +272,10 @@ class TestDeepsecFirewallRules(unittest.TestCase):
                             {
                                 "location": "/var/log/daemon.log",
                                 "format": "eventlog",
-                            }
-                        ]
+                            },
+                        ],
                     },
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -289,9 +283,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_log_inspection_rules_deleted(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD
@@ -300,7 +292,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
             "config": [
                 {
                     "name": "custom log_rule for mysqld event",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -310,16 +302,14 @@ class TestDeepsecFirewallRules(unittest.TestCase):
     def test_deepsec_log_inspection_rules_deleted_idempotent(self, connection):
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = {}
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin._task.args = {
             "state": "deleted",
             "config": [
                 {
                     "name": "custom log_rule for mysqld event",
-                }
+                },
             ],
         }
         result = self._plugin.run(task_vars=self._task_vars)
@@ -327,9 +317,7 @@ class TestDeepsecFirewallRules(unittest.TestCase):
 
     @patch("ansible.module_utils.connection.Connection.__rpc__")
     def test_deepsec_log_inspection_rules_gathered(self, connection):
-        self._plugin._connection.socket_path = (
-            tempfile.NamedTemporaryFile().name
-        )
+        self._plugin._connection.socket_path = tempfile.NamedTemporaryFile().name
         self._plugin._connection._shell = MagicMock()
         self._plugin.search_for_resource_name = MagicMock()
         self._plugin.search_for_resource_name.return_value = RESPONSE_PAYLOAD

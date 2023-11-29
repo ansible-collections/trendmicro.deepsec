@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 
@@ -145,19 +146,24 @@ EXAMPLES = """
     name: TEST_SYSLOG
 """
 
-from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
-    DeepSecurityRequest,
-    delete_config_with_id,
-)
+from ansible.module_utils.six import iteritems
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
 
+from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
+    DeepSecurityRequest,
+    delete_config_with_id,
+)
+
 
 def check_if_syslog_config_exists(
-    module, deepsec_request, config_name, api_object, api_return
+    module,
+    deepsec_request,
+    config_name,
+    api_object,
+    api_return,
 ):
     # parse syslog  get output and search for want syslog name
     syslog_response = deepsec_request.get(api_object)
@@ -171,17 +177,13 @@ def check_if_syslog_config_exists(
                 "privateKey": "private_key",
                 "certificateChain": "certificate_chain",
             }
-            for each in syslog_response["ListSyslogConfigurationsResponse"][
-                "syslogConfigurations"
-            ]:
+            for each in syslog_response["ListSyslogConfigurationsResponse"]["syslogConfigurations"]:
                 sorted(each)
                 for k, v in iteritems(key_transform):
                     if k in each:
                         each[v] = each[k]
                         each.pop(k)
-        return syslog_response["ListSyslogConfigurationsResponse"][
-            "syslogConfigurations"
-        ]
+        return syslog_response["ListSyslogConfigurationsResponse"]["syslogConfigurations"]
     for k in syslog_response.values():
         for each in k.get(api_return):
             if each.get("name") == config_name:
@@ -227,7 +229,9 @@ def main():
         port=dict(type="int", default=514),
         transport=dict(type="str", choices=["udp", "tcp", "tls"], default="udp"),
         event_format=dict(
-            type="str", choices=["standard", "cef", "leef"], default="cef"
+            type="str",
+            choices=["standard", "cef", "leef"],
+            default="cef",
         ),
         facility=dict(
             type="str",
@@ -273,13 +277,21 @@ def main():
     # Get the configured Syslog config when state is gathered
     if module.params["state"] == "gathered":
         result = check_if_syslog_config_exists(
-            module, deepsec_request, None, api_object, api_get_return
+            module,
+            deepsec_request,
+            None,
+            api_object,
+            api_get_return,
         )
         module.exit_json(gathered=result, changed=False)
     want = map_params_to_obj(remove_empties(module.params))
     # Search for existing syslog config via Get call
     search_existing_syslog_config = check_if_syslog_config_exists(
-        module, deepsec_request, want["name"], api_object, api_get_return
+        module,
+        deepsec_request,
+        want["name"],
+        api_object,
+        api_get_return,
     )
 
     if "ID" in search_existing_syslog_config and module.params["state"] == "absent":
@@ -292,9 +304,7 @@ def main():
             False,
             handle_return=True,
         )
-    elif (
-        "ID" not in search_existing_syslog_config and module.params["state"] == "absent"
-    ):
+    elif "ID" not in search_existing_syslog_config and module.params["state"] == "absent":
         module.exit_json(changed=False)
     else:
         # create legacy API request body for creating Syslog-Configurations

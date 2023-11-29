@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 
@@ -290,16 +291,18 @@ EXAMPLES = """
     name: test_firewallrule config
 """
 
-from ansible.module_utils.six import iteritems
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.six import iteritems
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
+    remove_empties,
+)
+
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
     DeepSecurityRequest,
     check_if_config_exists,
     delete_config_with_id,
 )
-from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
-    remove_empties,
-)
+
 
 key_transform = {
     "id": "ID",
@@ -433,7 +436,8 @@ def main():
         source_iplist_id=dict(type="int"),
         source_ipnot=dict(type="bool"),
         source_mactype=dict(
-            type="str", choices=["any", "single", "mac-list", "multiple"]
+            type="str",
+            choices=["any", "single", "mac-list", "multiple"],
         ),
         source_macvalue=dict(type="str"),
         source_macmultiple=dict(type="list", elements="str"),
@@ -462,14 +466,16 @@ def main():
         destination_iplist_id=dict(type="int"),
         destination_ipnot=dict(type="bool"),
         destination_mactype=dict(
-            type="str", choices=["any", "single", "mac-list", "multiple"]
+            type="str",
+            choices=["any", "single", "mac-list", "multiple"],
         ),
         destination_macvalue=dict(type="str"),
         destination_macmultiple=dict(type="list", elements="str"),
         destination_maclist_id=dict(type="int"),
         destination_macnot=dict(type="bool"),
         destination_port_type=dict(
-            type="str", choices=["any", "multiple", "port-list"]
+            type="str",
+            choices=["any", "multiple", "port-list"],
         ),
         destination_port_multiple=dict(type="list", elements="str"),
         destination_port_list_id=dict(type="int"),
@@ -498,7 +504,10 @@ def main():
     want = map_params_to_obj(remove_empties(module.params))
     # Search for existing firewall rules config via Get call
     search_existing_firewallrules = check_if_config_exists(
-        deepsec_request, want["name"], api_object.split("/")[2], api_return
+        deepsec_request,
+        want["name"],
+        api_object.split("/")[2],
+        api_return,
     )
 
     if "ID" in search_existing_firewallrules and module.params["state"] == "absent":
@@ -510,9 +519,7 @@ def main():
             api_return,
             handle_return=True,
         )
-    elif (
-        "ID" not in search_existing_firewallrules and module.params["state"] == "absent"
-    ):
+    elif "ID" not in search_existing_firewallrules and module.params["state"] == "absent":
         module.exit_json(changed=False)
     else:
         firewallrules = deepsec_request.post("{0}".format(api_object), data=want)

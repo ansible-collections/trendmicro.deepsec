@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -17,13 +18,12 @@ version_added: 1.0.0
 
 import json
 
-from ansible.module_utils.basic import to_text, to_bytes
-from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.errors import AnsibleAuthenticationFailure
+from ansible.module_utils.basic import to_bytes, to_text
 from ansible.module_utils.six.moves.urllib.error import HTTPError
-from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import (
-    HttpApiBase,
-)
+from ansible.module_utils.six.moves.urllib.parse import urlencode
+from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import HttpApiBase
+
 
 BASE_HEADERS = {
     "Content-Type": "application/json",
@@ -78,8 +78,7 @@ class HttpApi(HttpApiBase):
     def _display_request(self, request_method):
         self.connection.queue_message(
             "vvvv",
-            "Deep Security REST: %s %s"
-            % (request_method, self.connection._url),
+            "Deep Security REST: %s %s" % (request_method, self.connection._url),
         )
 
     def _get_response_value(self, response_data):
@@ -98,7 +97,7 @@ class HttpApi(HttpApiBase):
             "dsCredentials": {
                 "password": to_text(password),
                 "userName": to_text(username),
-            }
+            },
         }
 
         code, auth_token = self.send_request("POST", login_path, data=data)
@@ -106,8 +105,8 @@ class HttpApi(HttpApiBase):
             if code >= 400 and isinstance(auth_token, dict):
                 raise AnsibleAuthenticationFailure(
                     message="{0} Failed to acquire login token.".format(
-                        auth_token["error"].get("message")
-                    )
+                        auth_token["error"].get("message"),
+                    ),
                 )
             # This is still sent as an HTTP header, so we can set our connection's _auth
             # variable manually. If the token is returned to the device in another way,
@@ -121,15 +120,14 @@ class HttpApi(HttpApiBase):
             self._auth_token = auth_token
         except KeyError:
             raise AnsibleAuthenticationFailure(
-                message="Failed to acquire login token."
+                message="Failed to acquire login token.",
             )
 
     def logout(self):
         if self.connection._auth is not None:
             self.send_request(
                 "DELETE",
-                LOGOUT_BY_ID
-                + "{0}".format(self.connection._auth["Cookie"].split("=")[-1]),
+                LOGOUT_BY_ID + "{0}".format(self.connection._auth["Cookie"].split("=")[-1]),
             )
 
             # Clean up tokens

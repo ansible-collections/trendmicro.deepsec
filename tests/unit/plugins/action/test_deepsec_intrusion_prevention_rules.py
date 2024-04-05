@@ -24,9 +24,10 @@ __metaclass__ = type
 import tempfile
 import unittest
 
+from unittest.mock import MagicMock, patch
+
 from ansible.playbook.task import Task
 from ansible.template import Templar
-from unittest.mock import MagicMock, patch
 
 from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_intrusion_prevention_rules import (
     ActionModule,

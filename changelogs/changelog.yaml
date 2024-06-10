@@ -16,19 +16,19 @@ releases:
     modules:
       - description: Create a new antimalware under TrendMicro Deep Security Policy
         name: deepsec_anti_malware
-        namespace: ""
+        namespace: ''
       - description: Create a new firewall rule.
         name: deepsec_firewallrules
-        namespace: ""
+        namespace: ''
       - description:
           Obtain information about one or many Hosts defined by TrendMicro
           Deep Security
         name: deepsec_hosts_info
-        namespace: ""
+        namespace: ''
       - description: Create a new log inspection rule.
         name: deepsec_log_inspectionrules
-        namespace: ""
-    release_date: "2021-06-23"
+        namespace: ''
+    release_date: '2021-06-23'
   1.1.0:
     changes:
       minor_changes:
@@ -40,11 +40,11 @@ releases:
     modules:
       - description: Create a new and manage API Keys.
         name: deepsec_apikey
-        namespace: ""
+        namespace: ''
       - description: Modify the system settings for TrendMicro Deep Security.
         name: deepsec_system_settings
-        namespace: ""
-    release_date: "2021-06-24"
+        namespace: ''
+    release_date: '2021-06-24'
   1.2.0:
     changes:
       doc_changes:
@@ -68,20 +68,20 @@ releases:
     modules:
       - description: Manages AntiMalware Rule resource module
         name: deepsec_anti_malwares
-        namespace: ""
+        namespace: ''
       - description: Manages Firewall Rule resource module
         name: deepsec_firewall_rules
-        namespace: ""
+        namespace: ''
       - description: Manages Integrity Monitoring Rule resource module
         name: deepsec_integrity_monitoring_rules
-        namespace: ""
+        namespace: ''
       - description: Intrusion Prevention Rule resource module.
         name: deepsec_intrusion_prevention_rules
-        namespace: ""
+        namespace: ''
       - description: Manages Log Inspection Rule resource module
         name: deepsec_log_inspection_rules
-        namespace: ""
-    release_date: "2021-12-13"
+        namespace: ''
+    release_date: '2021-12-13'
   2.0.0:
     changes:
       doc_changes:
@@ -94,7 +94,7 @@ releases:
       - 1.2.0_release_prep.yaml
       - bindep_update.yaml
       - netcommon_ref_update.yaml
-    release_date: "2022-04-29"
+    release_date: '2022-04-29'
   2.1.0:
     changes:
       bugfixes:
@@ -116,7 +116,7 @@ releases:
       - utc_deepsec_anti_malwares.yaml
       - utc_deepsec_firewall_rules.yaml
       - utc_for_tm_deepsec_rm.yaml
-    release_date: "2023-11-09"
+    release_date: '2023-11-09'
   3.0.0:
     changes:
       major_changes:
@@ -128,18 +128,16 @@ releases:
         ansible-core<2.14 is `v2.1.0`.
     fragments:
       - major_300.yml
-    release_date: "2023-11-30"
+    release_date: '2023-11-30'
   4.0.0:
     changes:
       major_changes:
         - Bumping `requires_ansible` to `>=2.15.0`, since previous ansible-core versions
           are EoL now.
       release_summary:
-        "Starting from this release, the minimum `ansible-core` version
+        'Starting from this release, the minimum `ansible-core` version
         this collection requires is `2.15.0`. The last known version compatible with
-        ansible-core<2.15 is v3.0.0.
-
-        "
+        ansible-core<2.15 is v3.0.0.'
     fragments:
       - ming_215.yaml
-    release_date: "2024-06-10"
+    release_date: '2024-06-10'

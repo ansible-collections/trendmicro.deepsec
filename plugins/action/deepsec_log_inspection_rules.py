@@ -13,7 +13,6 @@ __metaclass__ = type
 
 from ansible.errors import AnsibleActionFail
 from ansible.module_utils.connection import Connection
-from ansible.module_utils.six import iteritems
 from ansible.plugins.action import ActionBase
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import utils
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
@@ -88,7 +87,7 @@ class ActionModule(ActionBase):
     def convert_dict_to_list(self, params, key, sub_key):
         if isinstance(params[key][sub_key], dict):
             temp = []
-            for k, v in iteritems(params[key][sub_key]):
+            for k, v in params[key][sub_key].items():
                 temp.append(v)
             params[key][sub_key] = temp
         return params

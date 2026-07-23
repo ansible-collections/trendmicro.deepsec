@@ -15,7 +15,6 @@ except ImportError:
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.connection import Connection, ConnectionError
-from ansible.module_utils.six import iteritems
 
 
 BASE_HEADERS = {
@@ -57,7 +56,7 @@ def map_params_to_obj(module_params, key_transform):
     :returns: dict with module prams transformed having API expected params
     """
     obj = {}
-    for k, v in iteritems(key_transform):
+    for k, v in key_transform.items():
         if k in module_params and (
             module_params.get(k) or module_params.get(k) == 0 or module_params.get(k) is False
         ):
@@ -79,14 +78,14 @@ def map_obj_to_params(module_return_params, key_transform, return_param):
         temp[return_param] = []
         for each in module_return_params[return_param]:
             api_temp = {}
-            for k, v in iteritems(key_transform):
+            for k, v in key_transform.items():
                 if v in each and (each.get(v) or each.get(v) == 0 or each.get(v) is False):
                     api_temp[k] = each.pop(v)
             if each:
                 api_temp.update(each)
             temp[return_param].append(api_temp)
     else:
-        for k, v in iteritems(key_transform):
+        for k, v in key_transform.items():
             if v in module_return_params and (
                 module_return_params.get(v)
                 or module_return_params.get(v) == 0

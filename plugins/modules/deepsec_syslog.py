@@ -147,7 +147,6 @@ EXAMPLES = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six import iteritems
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
@@ -179,7 +178,7 @@ def check_if_syslog_config_exists(
             }
             for each in syslog_response["ListSyslogConfigurationsResponse"]["syslogConfigurations"]:
                 sorted(each)
-                for k, v in iteritems(key_transform):
+                for k, v in key_transform.items():
                     if k in each:
                         each[v] = each[k]
                         each.pop(k)

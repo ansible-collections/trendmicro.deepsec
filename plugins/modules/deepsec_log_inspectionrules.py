@@ -249,7 +249,6 @@ EXAMPLES = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six import iteritems
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     remove_empties,
 )
@@ -312,7 +311,7 @@ def map_params_to_obj(module_params):
         obj["frequency"] = module_params.get("frequency")
     if module_params.get("log_files"):
         obj["logFiles"] = log_files_fn(module_params)
-    for k, v in iteritems(key_transform):
+    for k, v in key_transform.items():
         if module_params.get(k):
             obj[v] = module_params.get(k)
 

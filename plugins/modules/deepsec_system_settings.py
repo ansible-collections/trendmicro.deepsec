@@ -1811,7 +1811,6 @@ EXAMPLES = """
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six import iteritems
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import utils
 
 from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import (
@@ -2120,7 +2119,7 @@ def configure_module_api(argspec, module, deepsec_request):
         changed = False
         search_result = search_for_system_settings_default(deepsec_request)
         temp_config = {}
-        for k, v in iteritems(module.params["config"]):
+        for k, v in module.params["config"].items():
             system_setting_name = key_transform[k]
             before.update({k: search_result[system_setting_name]})
             if (
@@ -2136,7 +2135,7 @@ def configure_module_api(argspec, module, deepsec_request):
                     temp_config.update({system_setting_name: v})
                 after.update({k: v})
         if len(temp_config) == 1:
-            for k, v in iteritems(temp_config):
+            for k, v in temp_config.items():
                 api_key = deepsec_request.post("{0}/{1}".format(api_object, k), data=v)
                 if api_key.get("errors"):
                     module.fail_json(msg=api_key["errors"])

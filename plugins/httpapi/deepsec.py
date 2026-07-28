@@ -18,10 +18,11 @@ version_added: 1.0.0
 
 import json
 
+from urllib.error import HTTPError
+from urllib.parse import urlencode
+
 from ansible.errors import AnsibleAuthenticationFailure
 from ansible.module_utils.basic import to_bytes, to_text
-from ansible.module_utils.six.moves.urllib.error import HTTPError
-from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import HttpApiBase
 
 

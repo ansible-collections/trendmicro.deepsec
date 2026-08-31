@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -153,7 +152,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     map_obj_to_params,
     map_params_to_obj,
 )
-
 
 key_transform = {
     "key_name": "keyName",

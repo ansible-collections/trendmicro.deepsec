@@ -3,7 +3,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -23,7 +22,6 @@ from ansible.module_utils.basic import to_bytes, to_text
 from ansible.module_utils.six.moves.urllib.error import HTTPError
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import HttpApiBase
-
 
 BASE_HEADERS = {
     "Content-Type": "application/json",

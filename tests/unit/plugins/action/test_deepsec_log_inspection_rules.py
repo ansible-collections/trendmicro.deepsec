@@ -18,7 +18,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 import tempfile
@@ -32,7 +31,6 @@ from ansible.template import Templar
 from ansible_collections.trendmicro.deepsec.plugins.action.deepsec_log_inspection_rules import (
     ActionModule,
 )
-
 
 RESPONSE_PAYLOAD = {
     "log_inspection_rules": [

@@ -8,7 +8,6 @@ The module file for deepsec_integrity_monitoring_rules
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 from ansible.errors import AnsibleActionFail

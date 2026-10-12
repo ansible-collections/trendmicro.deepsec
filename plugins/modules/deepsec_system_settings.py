@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 
@@ -1819,7 +1818,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     delete_config_with_id,
     map_obj_to_params,
 )
-
 
 key_transform = {
     "platform_setting_saml_identity_provider_certificate_expiry_warning_daysr": "platformSettingSamlIdentityProviderCertificateExpiryWarningDays",

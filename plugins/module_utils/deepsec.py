@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 try:
     from ssl import CertificateError
@@ -16,7 +15,6 @@ except ImportError:
 from ansible.module_utils._text import to_text
 from ansible.module_utils.connection import Connection, ConnectionError
 from ansible.module_utils.six import iteritems
-
 
 BASE_HEADERS = {
     "Content-Type": "application/json",

@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 
@@ -269,7 +268,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     map_params_to_obj,
     remove_get_keys_from_payload_dict,
 )
-
 
 key_transform = {
     "id": "ID",

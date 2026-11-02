@@ -18,7 +18,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-
 __metaclass__ = type
 
 
@@ -259,7 +258,6 @@ from ansible_collections.trendmicro.deepsec.plugins.module_utils.deepsec import 
     check_if_config_exists,
     delete_config_with_id,
 )
-
 
 key_transform = {
     "minimum_agent_version": "minimumAgentVersion",
